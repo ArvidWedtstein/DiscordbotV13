@@ -1,12 +1,13 @@
-import languageSchema from '../schemas/languageSchema';
+import languageSchema from './schemas/languageSchema';
 import lang, { translations } from './lang.json';
-import Discord from 'discord.js';
+import client from './Client'
+import Discord, { Client } from 'discord.js';
 
 const guildLanguages: any = {}
 const listoflang: any = translations;
 //Update Languages
-export async function loadLanguages (client: any) {
-    for (const guild of client.guilds.cache) {
+export async function loadLanguages (client: Client) {
+    for (const guild of client?.guilds.cache) {
         const guildId = guild[0]
         const result = await languageSchema.findOne({
             guildId: guildId

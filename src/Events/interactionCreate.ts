@@ -3,12 +3,11 @@ import Client from '../Client';
 import { Message } from 'discord.js';
 
 export const event: Event = {
-    name: "messageCreate",
+    name: "interactionCreate",
     run: (client: Client, message: Message) => {
         if (
             message.author.bot ||
-            !message.guild ||
-            !message.content.startsWith(client.config.prefix)
+            !message.guild
         ) return;
 
         const args = message.content

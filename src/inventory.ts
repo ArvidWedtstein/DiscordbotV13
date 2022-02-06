@@ -1,5 +1,5 @@
 const items = require('./items');
-const inventorySchema = require('../schemas/inventorySchema')
+const inventorySchema = require('./schemas/inventorySchema')
 
 const itemsCache = {}
 

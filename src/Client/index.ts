@@ -4,6 +4,7 @@ import path from 'path';
 import { readdirSync } from 'fs';
 import { Command, SlashCommand, Event, Config } from '../Interfaces';
 import * as dotenv from 'dotenv';
+import * as gradient from 'gradient-string';
 dotenv.config();
 
 class ExtendedClient extends Client {
@@ -34,10 +35,11 @@ class ExtendedClient extends Client {
             "useUnifiedTopology": true
         }
         await mongoose.connect(this.config.mongoURI, options).then(async () => {
-            console.log("Connected to MongoDB")
+           console.log(`Connected to ${gradient.fruit('Database')}`)
         }).catch((err) => {
             console.error('App starting error:', err.stack);
         });
+
 
         /* Commands */
         const commandPath = path.join(__dirname, "..", "Commands");
@@ -61,7 +63,7 @@ class ExtendedClient extends Client {
         readdirSync(eventPath).forEach(async (file) => {
             const { event } = await import(`${eventPath}/${file}`);
             this.events.set(event.name, event);
-            console.log(event);
+            console.log(`Name: ${gradient.mind(event.name)}`);
             this.on(event.name, event.run.bind(null, this));
         })
     }

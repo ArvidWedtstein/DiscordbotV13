@@ -1,7 +1,7 @@
 import { Command } from '../../Interfaces';
 import { Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Client, CommandInteraction, Message } from 'discord.js';
 import * as inv from '../../inventory';
-import inventorySchema from '../../../schemas/inventorySchema';
+import inventorySchema from '../../schemas/inventorySchema';
 import language from '../../language';
 import itemlist from '../../items.json';
 
