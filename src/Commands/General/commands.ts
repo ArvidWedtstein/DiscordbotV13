@@ -10,9 +10,13 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild } = message
         const guildId = guild?.id;
-        const cmdstate: any = [];
+        let txt = 'Commands:\n\n'
         client.commands.forEach((c) => {
+            if (c.ownerOnly) return;
+            if (c.hidden) return;
             console.log(c)
+            txt += `**Command** | **Description**\n`
+            txt += `${c.name}: ${c.description}\n`
         })
         // this.client.registry.groups.forEach((e) => {
         //     e.commands.forEach((c) => {
@@ -25,12 +29,6 @@ export const command: Command = {
         //         }
         //     })
         // })
-
-        let txt = 'Commands:\n\n'
-        for (let command in cmdstate) {
-            txt += `**Command** | **Is Enabled**\n`
-            txt += `${cmdstate[command].name}: ${cmdstate[command].state}\n`
-        }
 
         await message.reply(txt)
     }

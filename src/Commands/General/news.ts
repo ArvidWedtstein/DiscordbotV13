@@ -1,0 +1,42 @@
+import { Command } from '../../Interfaces';
+import { Settings } from '../../settings';
+import language from '../../language';
+import { addCoins, setCoins, getCoins, getColor } from '../../economy';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+export const command: Command = {
+    name: "news",
+    description: "write a newspost",
+    aliases: ["nyhet"],
+    run: async(client, message, args) => {
+        console.log('news')
+        // message.delete()
+        const { guild } = message
+        const guildId = guild?.id
+
+
+        // const targetChannel = message.mentions.channels.first();
+        const targetChannel = message.channel;
+        if (!targetChannel) {
+            console.log('no channel found')
+            message.reply(`${await language(guild, 'CHANNEL')}`)
+            return
+        }
+        
+
+        // Removes channel mention
+        // args.shift();
+        try {
+            // Get JSON data
+            const json = JSON.parse(args.join(' '))
+            console.log(json)
+            // const { text = ''} = json
+            console.log(json)
+            targetChannel.send({content: "test", embeds: [json]});
+            if (targetChannel.type === 'GUILD_NEWS') {
+                message.crosspost()
+            }
+        } catch(error:any) {
+            message.reply(`${await language(guild, 'JSON_INVALID')} ${error.message}`)
+        }
+    }
+}
