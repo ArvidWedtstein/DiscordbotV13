@@ -52,15 +52,12 @@ export const event: Event = {
                 }
             }
         }
-        const args = message.content
-            .slice(client.config.prefix.length)
-            .trim()
-            .split(/ + /g);
+        const args: any = message.content.slice(client.config.prefix.length).trim().split(" ");
         
-        const cmd = args.shift()?.toLowerCase();
+        const cmd = args.shift().toLowerCase();
         if (!cmd) return
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
-        // validatePermissions(command?.permissions || []);
+        if (command?.disabled) return
         console.log(command)
         if (command?.permissions) {
             command?.permissions.forEach((p) => {

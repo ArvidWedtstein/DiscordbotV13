@@ -20,5 +20,5 @@ const inventorySchema = new mongoose.Schema({
     },
     //slots: reqNumber
 })
-
-export default mongoose.model('inventory', inventorySchema)
+const name: string = 'inventory'
+export default mongoose.models[name] || mongoose.model(name, inventorySchema)

@@ -12,5 +12,6 @@ export interface Command {
     permissions?: PermissionString[];
     ownerOnly?: boolean;
     hidden?: boolean;
+    disabled?: boolean;
     run: Run;
 }
