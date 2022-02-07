@@ -57,8 +57,8 @@ export const event: Event = {
         const cmd = args.shift().toLowerCase();
         if (!cmd) return
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
+        if (!command) return
         if (command?.disabled) return
-        console.log(command)
         if (command?.permissions) {
             command?.permissions.forEach((p) => {
                 if (!message.member?.permissions.toArray().includes(p)) return

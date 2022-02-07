@@ -10,7 +10,10 @@ export const command: Command = {
     name: "afk",
     run: async(client, message, args) => {
         const reason = args.join(' ') || "No Reason";
-        afk.set(message.author.id, [Date.now(), reason])
+        setTimeout(() => {
+            afk.set(message.author.id, [Date.now(), reason])
+        }, 1000)
+        
 
         message.reply(`You are now afk \`${reason}\``)
     }
