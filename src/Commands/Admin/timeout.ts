@@ -6,7 +6,7 @@ import { addCoins, setCoins, getCoins, getColor } from '../../economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
-    name: "ping",
+    name: "timeout",
     run: async(client, message, args) => {
         const embed = new MessageEmbed()
             .setAuthor({name: `Ping is currently ${client.ws.ping.toString()}`, iconURL: client.user?.displayAvatarURL()})

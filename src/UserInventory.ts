@@ -1,10 +1,9 @@
 const items = require('./items');
-const inventorySchema = require('./schemas/inventorySchema')
+import inventorySchema from './schemas/inventorySchema';
 
 const itemsCache = {}
 
 const inventoryslotsCache = {}
-module.exports = (client: any) => {}
 export async function addItem (guildId: any, userId: any, itemname: any, amount: any) {
     const item = {
         name: itemname,
@@ -31,7 +30,7 @@ export async function addItem (guildId: any, userId: any, itemname: any, amount:
     return
             
 }
-export async function removeItem (guildId: any, userId: any, itemname: any, itemicon: any, amount: any) {
+export const removeItem = (async (guildId: any, userId: any, itemname: any, itemicon: any, amount: any) => {
     //console.log('Running findOneAndUpdate(item)')
     const item = {
         name: itemname
@@ -60,8 +59,8 @@ export async function removeItem (guildId: any, userId: any, itemname: any, item
         } 
     }
     return 
-}
-export async function giveItem (guildId: any, userId2: any, itemname: any, amount: any, authorId: any) {
+})
+export const giveItem = (async (guildId: any, userId2: any, itemname: any, amount: any, authorId: any) => {
     //console.log('Running findOneAndUpdate(item)')
     const item = {
         name: itemname
@@ -120,8 +119,8 @@ export async function giveItem (guildId: any, userId2: any, itemname: any, amoun
         } 
     }
     return 
-}
-export async function getItems (guildId?: any, userId?: string) {
+})
+export const getItems = (async (guildId: any, userId: any) => {
     // const cachedValue = itemsCache[`${guildId}-${userId}`];
     const cachedValue = ""
     if (cachedValue) {
@@ -153,4 +152,4 @@ export async function getItems (guildId?: any, userId?: string) {
     
     return items
     
-}
+})

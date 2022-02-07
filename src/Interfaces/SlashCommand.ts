@@ -1,13 +1,13 @@
 import Client from '../Client';
-import { CommandInteraction, Message } from 'discord.js';
+import { CommandInteraction, Interaction, Message, ApplicationCommandType } from 'discord.js';
 
 interface Run {
-    (client: Client, interation: CommandInteraction, args: string[]): any;
+    (client: Client, interaction: CommandInteraction): any;
 }
 
 export interface SlashCommand {
     name: string;
     description?: string;
-    aliases?: string[];
+    type?: ApplicationCommandType;
     run: Run;
 }

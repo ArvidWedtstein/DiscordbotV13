@@ -4,7 +4,8 @@ import { SlashCommand } from '../../Interfaces';
 export const slashCommand: SlashCommand = {
     name: "ping",
     description: "ping",
-    run: async (client, interaction, args) => {
+    type: "CHAT_INPUT",
+    run: async (client, interaction) => {
         new SlashCommandBuilder()
         .setName("ping")
         .setDescription("ping")

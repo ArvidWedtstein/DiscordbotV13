@@ -1,6 +1,6 @@
 import { Command } from '../../Interfaces';
 import { Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Client, CommandInteraction, Message } from 'discord.js';
-import * as inv from '../../inventory';
+import { getItems, giveItem, addItem, removeItem } from '../../UserInventory';
 import inventorySchema from '../../schemas/inventorySchema';
 import language from '../../language';
 import itemlist from '../../items.json';
@@ -8,7 +8,7 @@ import itemlist from '../../items.json';
 export const command: Command = {
     name: "inventory",
     run: async(client, message, args) => {
-        const date1 = Date.now();
+      const date1 = Date.now();
       let count: {[k: string]: any} = {};
       const target = message.mentions.users.first() || message.author;
       const { guild } = message
@@ -17,8 +17,8 @@ export const command: Command = {
 
       // Command Stats Counter
       //cmdUse(guildId, 'inventory')
-      
-      const items: any = await inv.getItems(guildId, userId);
+
+      const items: any = await getItems(guildId, userId);
       function capitalizeFirstLetter(string: string) {
           return string.charAt(0).toUpperCase() + string.slice(1);
       }
@@ -41,7 +41,6 @@ export const command: Command = {
         for (const item of items) {
             let { name, icon } = item
             itemarray.push(name)
-
         }
         itemarray.forEach(function(i) { 
           count[i] = (count[i]||0) + 1
@@ -50,7 +49,6 @@ export const command: Command = {
           console.log(count)
           txt = `${client.emojis.cache.find((e: { id: any; }) => e.id === listofitems[key].name)} ${capitalizeFirstLetter(key)} (${count[key]}x)\n`
           itemtxt += txt
-         listofitems   
         }
       }
 
@@ -59,8 +57,8 @@ export const command: Command = {
       }
       let embed = new MessageEmbed()
       .setColor('#ff4300')
-      .setAuthor(`${target.username}'s ${language(guild, 'INVENTORY_TITLE')}`, `${target.displayAvatarURL()}`)
-      .addField(`Item${itemarray.length === 1 ? '' : 's'}: `, itemtxt)
+      .setAuthor({name: `${target.username}'s ${await language(guild, 'INVENTORY_TITLE')}`, iconURL: target.displayAvatarURL()})
+      .addField(`Item${itemarray.length === 1 ? '' : 's'}: `, `${itemtxt}.`)
       
       let messageEmbed = await message.channel.send({ embeds: [embed]});
       emptyarray(itemarray);

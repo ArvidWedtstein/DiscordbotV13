@@ -1,22 +1,17 @@
 
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const reqString = {
     type: String,
     required: true,
 }
-const reqNumber = {
-    type: Number,
-    required: true,
-    default: 15
-}
 const item = {
     name: '',
     icon: '',
     amount: 1
-}
+};
 
-const inventorySchema = mongoose.Schema({
+const inventorySchema = new mongoose.Schema({
     guildId: reqString,
     userId: reqString,
     items: {

@@ -9,7 +9,7 @@ dotenv.config();
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
-    public slashCommands: Collection<string, Command> = new Collection();
+    public slashCommands: Collection<string, SlashCommand> = new Collection();
     public events: Collection<string, Event> = new Collection();
     public aliases: Collection<string, Command> = new Collection();
     public config: Config = {token: process.env.CLIENT_TOKEN, mongoURI: process.env.REMOTE_MONGODB, prefix: process.env.PREFIX};
@@ -65,6 +65,24 @@ class ExtendedClient extends Client {
             this.events.set(event.name, event);
             console.log(`Name: ${gradient.mind(event.name)}`);
             this.on(event.name, event.run.bind(null, this));
+        })
+
+
+        /* SlashCommands */
+        const slashCommandPath = path.join(__dirname, "..", "SlashCommands");
+        readdirSync(slashCommandPath).forEach((dir) => {
+            const commands = readdirSync(`${slashCommandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
+
+            for (const file of commands) {
+                const { slashCommand } = require(`${slashCommandPath}/${dir}/${file}`);
+                this.slashCommands.set(slashCommand.name, slashCommand);
+
+                // if (command.aliases?.length !== 0 && command.aliases) {
+                //     command.aliases.forEach((alias: any) => {
+                //         this.aliases.set(alias, command);
+                //     })
+                // }
+            }
         })
     }
 }

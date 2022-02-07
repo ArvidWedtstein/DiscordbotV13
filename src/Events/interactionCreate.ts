@@ -1,23 +1,26 @@
-import { Event, Command} from '../Interfaces';
+import { Event, Command, SlashCommand} from '../Interfaces';
 import Client from '../Client';
-import { Message } from 'discord.js';
+import { Interaction, Message, CommandInteraction } from 'discord.js';
 
 export const event: Event = {
     name: "interactionCreate",
-    run: (client: Client, message: Message) => {
+    run: async (client: Client, interaction) => {
         if (
-            message.author.bot ||
-            !message.guild
+            interaction.user.bot ||
+            !interaction.guild
         ) return;
-
-        const args = message.content
-            .slice(client.config.prefix.length)
-            .trim()
-            .split(/ + /g);
-        
-        const cmd = args.shift()?.toLowerCase();
-        if (!cmd) return;
-        const command = client.commands.get(cmd) || client.aliases.get(cmd);
-        if (command) (command as Command).run(client, message, args);
+        if (interaction.isCommand()) {
+    
+            const cmd = interaction.commandName
+            if (!cmd) return;
+            const command = client.slashCommands.get(cmd)
+            if (command) (command as SlashCommand).run(client, interaction);
+        };
+        if (interaction.isButton()) return
+        if (interaction.isContextMenu()) {
+            await interaction.deferReply({ ephemeral: false });
+            const command = client.slashCommands.get(interaction.commandName);
+            if (command) command.run(client, interaction);
+        }
     }
 }
