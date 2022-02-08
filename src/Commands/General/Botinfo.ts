@@ -17,7 +17,7 @@ export const command: Command = {
         let hours = Math.floor(totalSeconds / 3600);
         totalSeconds %= 3600;
         let minutes = Math.floor(totalSeconds / 60);
-        let uptimestring = days + `d, ${hours}h, ${minutes}m`;
+        let uptimestring = `${days}d, ${hours}h, ${minutes}m`;
 
 
         let commandsize = commands.size;
