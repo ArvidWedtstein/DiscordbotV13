@@ -1,18 +1,31 @@
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, ApplicationCommandOption } from 'discord.js';
 import mongoose, { connect, mongo } from 'mongoose';
 import path from 'path';
 import { readdirSync } from 'fs';
 import { Command, SlashCommand, Event, Config } from '../Interfaces';
 import * as dotenv from 'dotenv';
 import * as gradient from 'gradient-string';
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { REST } from '@discordjs/rest';
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
+import { Routes } from 'discord-api-types/v9';
+
 dotenv.config();
+
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
     public slashCommands: Collection<string, SlashCommand> = new Collection();
     public events: Collection<string, Event> = new Collection();
     public aliases: Collection<string, Command> = new Collection();
-    public config: Config = {token: process.env.CLIENT_TOKEN, mongoURI: process.env.REMOTE_MONGODB, prefix: process.env.PREFIX};
+    public config: Config = {
+        token: process.env.CLIENT_TOKEN, 
+        mongoURI: process.env.REMOTE_MONGODB, 
+        prefix: process.env.PREFIX,
+        botEmbedHex: "#ff4300",
+        testServer: "916799218092486686",
+        invite: "https://discord.com/api/oauth2/authorize?client_id=923144434982465537&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize%3Fclient_id%3D923144434982465537%26permissions%3D1644936822007%26scope%3Dbot%2520applications.commands&response_type=code&scope=bot%20applications.entitlements%20applications.store.update%20applications.builds.read%20applications.commands%20applications.builds.upload%20messages.read%20guilds.join"
+    };
     public constructor() {
         super({ 
             intents: [
@@ -48,6 +61,8 @@ class ExtendedClient extends Client {
 
             for (const file of commands) {
                 const { command } = require(`${commandPath}/${dir}/${file}`);
+                Object.assign(command, {group: dir})
+
                 this.commands.set(command.name, command);
 
                 if (command.aliases?.length !== 0 && command.aliases) {
@@ -69,21 +84,85 @@ class ExtendedClient extends Client {
 
 
         /* SlashCommands */
+        const rest = new REST({ version: '9' }).setToken(this.config.token || process.env.CLIENT_TOKEN);
         const slashCommandPath = path.join(__dirname, "..", "SlashCommands");
+        const testcmds: any = []
+        const globalcmds: any = []
         readdirSync(slashCommandPath).forEach((dir) => {
             const commands = readdirSync(`${slashCommandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
 
             for (const file of commands) {
                 const { slashCommand } = require(`${slashCommandPath}/${dir}/${file}`);
+                var commandtypes = [
+                    'CHAT_INPUT',
+                    'USER',
+                    'MESSAGE'
+                ]
+                var commandoptiontypes = [
+                    "SUB_COMMAND",
+                    "SUB_COMMAND_GROUP",
+                    "STRING",
+                    "INTEGER",
+                    "BOOLEAN",
+                    "USER",
+                    "CHANNEL",
+                    "ROLE",
+                    "MENTIONABLE",
+                    "NUMBER"
+                ]
+                var cmd: any = slashCommand;
                 this.slashCommands.set(slashCommand.name, slashCommand);
 
-                // if (command.aliases?.length !== 0 && command.aliases) {
-                //     command.aliases.forEach((alias: any) => {
-                //         this.aliases.set(alias, command);
-                //     })
-                // }
+                cmd.type = commandtypes.indexOf(slashCommand.type)+1;
+                if (cmd.options) {
+                    cmd.options.forEach((option: any) => {
+                        if (option.options) {
+                            option.options.forEach((option2: any) => {
+
+                                option2.type = commandoptiontypes.indexOf(option2.type)+1
+                            })
+                        }
+                        option.type = commandoptiontypes.indexOf(option.type)+1
+                    })
+                }
+
+                if (slashCommand.testOnly) {
+                    testcmds.push(cmd);
+                } else if (slashCommand.testOnly && slashCommand.testOnly == false) {
+                    globalcmds.push(cmd)
+                }
+                
+                
             }
-        })
+        });
+        (async () => {
+            try {
+                console.log('Started refreshing application (/) commands.');
+        
+                await rest.put(
+                    Routes.applicationGuildCommands(this.user?.id || '923144434982465537', this.config.testServer),
+                    { body: testcmds }
+                )
+                console.log('Successfully reloaded application (/) commands.');
+            } catch (error) {
+                console.error(error);
+            }
+        })();
+        if (globalcmds.length > 0) {
+            (async () => {
+                try {
+                    console.log('Started refreshing global (/) commands.', this.application?.id);
+            
+                    await rest.put(
+                        Routes.applicationCommands(this.application?.id || ''),
+                        { body: globalcmds }
+                    )
+                    console.log('Successfully reloaded global (/) commands.');
+                } catch (error) {
+                    console.error(error);
+                }
+            })();
+        }
     }
 }
 

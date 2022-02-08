@@ -11,6 +11,7 @@ export const event: Event = {
             !message.content.startsWith(client.config.prefix)
         ) return;
 
+
         const validatePermissions = (permissions: string[]) => {
             const validPermissions = [
                 'CREATE_INSTANT_INVITE',

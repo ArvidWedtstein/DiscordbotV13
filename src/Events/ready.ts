@@ -10,6 +10,6 @@ export const event: Event = {
         loadLanguages(client);
         const arrayOfSlashCommands: any = [];
 
-        await client.guilds.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
+        await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
     }
 }

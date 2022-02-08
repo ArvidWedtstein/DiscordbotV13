@@ -10,7 +10,7 @@ export const command: Command = {
     run: async(client, message, args) => {
         const embed = new MessageEmbed()
             .setAuthor({name: `Ping is currently ${client.ws.ping.toString()}`, iconURL: client.user?.displayAvatarURL()})
-            .setFooter(`Requested by ${message.author.tag}`)
+            .setFooter({ text: `Requested by ${message.author.tag}`})
             .setTimestamp()
         message.channel.send({embeds: [embed]});
     }
