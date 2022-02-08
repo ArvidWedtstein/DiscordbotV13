@@ -1,5 +1,5 @@
-import profileSchema from './schemas/profileSchema';
-import Client from './Client';
+import profileSchema from '../schemas/profileSchema';
+import Client from '../Client';
 import { ColorResolvable } from 'discord.js';
 const coinsCache: any = {}
 

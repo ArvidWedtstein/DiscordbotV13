@@ -1,6 +1,6 @@
 import { Event } from '../Interfaces';
 import * as gradient from 'gradient-string';
-import { loadLanguages } from '../language';
+import { loadLanguages } from '../Functions/language';
 
 export const event: Event = {
     name: "ready",

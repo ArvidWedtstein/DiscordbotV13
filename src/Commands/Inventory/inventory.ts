@@ -1,8 +1,8 @@
 import { Command } from '../../Interfaces';
 import { Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Client, CommandInteraction, Message } from 'discord.js';
-import { getItems, giveItem, addItem, removeItem } from '../../UserInventory';
+import { getItems, giveItem, addItem, removeItem } from '../../Functions/UserInventory';
 import inventorySchema from '../../schemas/inventorySchema';
-import language from '../../language';
+import language from '../../Functions/language';
 import itemlist from '../../items.json';
 
 export const command: Command = {

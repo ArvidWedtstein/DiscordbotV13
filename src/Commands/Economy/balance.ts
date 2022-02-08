@@ -1,7 +1,7 @@
 import { ColorResolvable, MessageEmbed } from 'discord.js';
 import { Command } from '../../Interfaces';
-import language from '../../language';
-import { addCoins, setCoins, getCoins, getColor } from '../../economy';
+import language from '../../Functions/language';
+import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 export const command: Command = {
     name: "balance",
     aliases: ["bal"],

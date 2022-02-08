@@ -1,5 +1,5 @@
-const items = require('./items');
-import inventorySchema from './schemas/inventorySchema';
+import items from '../items.json'
+import inventorySchema from '../schemas/inventorySchema';
 
 const itemsCache = {}
 
