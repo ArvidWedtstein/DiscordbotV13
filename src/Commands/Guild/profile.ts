@@ -8,6 +8,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import messageCountSchema from '../../schemas/messageCountSchema';
 import profileSchema from '../../schemas/profileSchema';
 import { addXP, getXP, getLevel } from '../../Functions/Level';
+import moment from 'moment';
 export const command: Command = {
     name: "profile",
     run: async(client, message, args) => {
@@ -59,7 +60,7 @@ export const command: Command = {
             birthday = 'Unknown'
         } else {
             birthday = birthdayresult.birthday;
-            joinedDate = user?.joinedAt;
+            joinedDate = moment(user?.joinedAt).fromNow()
         }
         let warntxt = '';
         const results = await profileSchema.findOne({
@@ -83,7 +84,7 @@ export const command: Command = {
 
         let presencegame: any = user?.presence.activities.length ? user?.presence.activities.filter( (x: any) => x.type === "PLAYING") : null;
         let presence = `${presencegame && presencegame.length ? presencegame[0].name : 'None'}`
-        let presencelength = user?.presence.status;
+        // let presencelength = user?.presence.status;
 
 
         if (presence.includes('Skyrim')) {
@@ -98,7 +99,8 @@ export const command: Command = {
         // Calculate xp to next level with some random math
         xptonextlevel = (userlevel / 10) * (userlevel / 10) * 210;
         let color = await getColor(guildId, userId);
-        const badge = user.flags.toArray();
+
+        const badge = user.flags;
         let badges = ''
         if (badge) {
             for (let i = 0; i < badge.length; i++) {
@@ -114,18 +116,18 @@ export const command: Command = {
         
         let embed = new Discord.MessageEmbed()
             .setColor(color)
-            .setAuthor({name: `${user.username}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true})}`})
+            .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true})}`})
             //.addField('Joined Discord: ', user.createdAt)
         if (birthday) embed.addField('Birthday🎂: ', birthday, true)
-        if (Coins) embed.addField(`ErlingCoin${Coins === 1 ? '' : 's'}${erlingcoin}: `, Coins)
-        if (userlevel) embed.addField('Level:', userlevel, true)
-        if (xp) embed.addField('XP: ', xp.toString(), true)
+        if (Coins) embed.addField(`ErlingCoin${Coins === 1 ? '' : 's'}${erlingcoin}: `, `\`${Coins}\`.`)
+        if (userlevel && userlevel != null) embed.addField('Level:', `\`${userlevel}\``, true)
+        if (xp) embed.addField('XP: ', `\`${xp.toString()}\``, true)
         if (xptonextlevel) embed.addField('XP To Next Level: ', (xptonextlevel - xp).toString(), true)
-        if (messages) embed.addField("Messages Sent: ", messages)
+        if (messages) embed.addField("Messages Sent: ", `\`${messages}\`.`)
         if (badges) embed.addField("Badges: ", `${badges}`)
         if (presence) embed.addField("Game: ", `${presence}`)
         if (warntxt) embed.addField("Warns: ", warntxt)
-        if (joinedDate) embed.addField("Has been in this server for: ", joinedDate)
+        if (joinedDate) embed.addField("Joined this server: ", `${joinedDate}.`)
         
         
         //.addField("Roles" , rolemap)
