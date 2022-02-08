@@ -1,9 +1,9 @@
 import { Event } from '../Interfaces';
 import * as gradient from 'gradient-string';
-import language, { loadLanguages } from '../language';
+import language, { loadLanguages } from '../Functions/language';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Guild, GuildMember } from 'discord.js';
 import profileSchema from '../schemas/profileSchema';
-import { Settingsguild } from '../settings';
+import { Settingsguild } from '../Functions/settings';
 export const event: Event = {
     name: "guildMemberAdd",
     run: async (client, member: GuildMember) => {

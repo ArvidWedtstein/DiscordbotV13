@@ -1,6 +1,6 @@
-import languageSchema from './schemas/languageSchema';
-import lang, { translations } from './lang.json';
-import client from './Client'
+import languageSchema from '../schemas/languageSchema';
+import lang, { translations } from '../lang.json';
+import client from '../Client'
 import Discord, { Client } from 'discord.js';
 
 const guildLanguages: any = {}

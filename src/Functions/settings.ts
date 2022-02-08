@@ -1,10 +1,10 @@
-const settingsSchema = require('./schemas/settingsSchema')
-const language = require('./language')
+import settingsSchema from "../schemas/settingsSchema";
+import language from "./language";
 
 
 export const Settings = (async (message: any, category: string) => {
     const { guild } = message
-    const guildId = guild.id
+    const guildId = guild?.id
     let result = await settingsSchema.findOne({
         guildId
     })

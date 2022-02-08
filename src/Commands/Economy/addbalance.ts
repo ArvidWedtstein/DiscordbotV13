@@ -1,7 +1,7 @@
 import { Command } from '../../Interfaces';
-import { Settings } from '../../settings';
-import language from '../../language';
-import { addCoins, setCoins, getCoins, getColor } from '../../economy';
+import { Settings } from '../../Functions/settings';
+import language from '../../Functions/language';
+import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 
 export const command: Command = {
     name: "addbalance",
