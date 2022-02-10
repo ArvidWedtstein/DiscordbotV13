@@ -67,22 +67,28 @@ export const slashCommand: SlashCommand = {
                 let member = interaction.guild?.members.cache.find(mem => mem.id === interaction.targetId)
                 switch (button.customId) {
                     case 'mute1': 
-                        member?.timeout(60 * 1000) // 1 min
+                        member?.disableCommunicationUntil(Date.now() + (60 * 1000))
+                        // member?.timeout(60 * 1000) // 1 min
                         break;
                     case 'mute2':
-                        member?.timeout(300 * 1000) // 5min
+                        member?.disableCommunicationUntil(Date.now() + (300 * 1000))
+                        // member?.timeout(300 * 1000) // 5min
                         break;
                     case 'mute3':
-                        member?.timeout(600 * 1000) // 10 min
+                        member?.disableCommunicationUntil(Date.now() + (600 * 1000))
+                        // member?.timeout(600 * 1000) // 10 min
                         break;
                     case 'mute4':
-                        member?.timeout(3600 * 1000) // 1 hour
+                        member?.disableCommunicationUntil(Date.now() + (3600 * 1000))
+                        // member?.timeout(3600 * 1000) // 1 hour
                         break;
                     case 'mute5':
-                        member?.timeout( 86400 * 1000) // 1 day
+                        member?.disableCommunicationUntil(Date.now() + (86400 * 1000))
+                        // member?.timeout( 86400 * 1000) // 1 day
                         break;
                     case 'mute6':
-                        member?.timeout(604800 * 1000) // 1 week
+                        member?.disableCommunicationUntil(Date.now() + (604800 * 1000))
+                        // member?.timeout(604800 * 1000) // 1 week
                         break;
                 } 
             });

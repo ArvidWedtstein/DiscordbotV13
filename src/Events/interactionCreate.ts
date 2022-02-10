@@ -41,7 +41,19 @@ export const event: Event = {
                 'MANAGE_NICKNAMES',
                 'MANAGE_ROLES',
                 'MANAGE_WEBHOOKS',
-                'MANAGE_EMOJIS',
+                'MANAGE_EMOJIS_AND_STICKERS',
+                'USE_APPLICATION_COMMANDS',
+                'REQUEST_TO_SPEAK',
+                'MANAGE_EVENTS',
+                'MANAGE_THREADS',
+                'USE_PUBLIC_THREADS',
+                'USE_PRIVATE_THREADS',
+                'CREATE_PUBLIC_THREADS',
+                'CREATE_PRIVATE_THREADS',
+                'USE_EXTERNAL_STICKERS',
+                'SEND_MESSAGES_IN_THREADS',
+                'START_EMBEDDED_ACTIVITIES',
+                'MODERATE_MEMBERS'
             ]
         
             for (const permission of permissions) {

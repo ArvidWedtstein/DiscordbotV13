@@ -16,4 +16,5 @@ export interface SlashCommand {
     testOnly?: boolean;
     options?: ApplicationCommandOption[];
     run: Run;
+    
 }

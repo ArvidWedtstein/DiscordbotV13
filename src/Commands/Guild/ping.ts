@@ -9,7 +9,6 @@ export const command: Command = {
     name: "ping",
     description: "check my ping",
     aliases: ["memeping"],
-    group: __dirname,
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],

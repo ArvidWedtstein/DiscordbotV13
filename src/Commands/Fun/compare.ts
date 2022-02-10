@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, User, GuildMember } from 'discord.js';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, User, GuildMember, GuildListMembersOptions } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 
@@ -19,8 +19,7 @@ export const command: Command = {
     examples: ["compare @user"],
     
     run: async(client, message, args) => {
-        const author: User = message.author;
-
+        const author: GuildMember|undefined = message.member || message.guild?.members.cache.get(message.author.id);
         if (!message.mentions.users.first()) return temporaryMessage(message.channel, `${await language(message.guild, 'BAN_NOUSERSPECIFIED')}`, 5);
         const mention = message.mentions.users.first();
         const { guild } = message;
@@ -28,7 +27,7 @@ export const command: Command = {
 
         const member: GuildMember|undefined = guild?.members.cache.find(m => m.id === mention?.id)
         const guildId = guild?.id;
-        const userId = author.id;
+        const userId = author?.user.id;
         const resultUser = await profileSchema.findOne({
             userId,
             guildId
@@ -39,12 +38,31 @@ export const command: Command = {
         })
         console.log(resultUser)
         console.log(resultUser2)
+        
         const embed = new MessageEmbed()
-            .setTitle(`${author.tag} vs ${member?.user.tag}`)
+            .setTitle(`${author?.user.username} vs ${member?.user.username}`)
             .setAuthor({name: `Ping is currently ${client.ws.ping.toString()}`, iconURL: client.user?.displayAvatarURL()})
             .setFooter({ text: `Requested by ${message.author.tag}`})
             .addFields(
-                {name: "test", value: "trst"}
+                // {name: "**Level**", value: `${author.username}: \`\`\`css\n${resultUser.level}\`\`\`\n${member?.user.username}: \`\`\`fix\n${resultUser2.level}\`\`\``}
+                {name: `**${author?.user.username}**`, value: 
+                    `Level: \`${resultUser.level}\`
+                    Coins: \`${resultUser.coins}\`
+                    XP: \`${resultUser.xp}\`
+                    Bannable: \`${author?.bannable}\`
+                    Moderatable: \`${author?.moderatable}\`
+                    Premium: \`${author?.premiumSince}\`
+                    Highest Role: \`${author?.roles.highest.name}\`
+                `, inline: true},
+                {name: `**${member?.user.username}**`, value: 
+                    `Level: \`${resultUser2.level}\`
+                    Coins: \`${resultUser2.coins}\`
+                    XP: \`${resultUser2.xp}\`
+                    Bannable: \`${member?.bannable}\`
+                    Moderatable: \`${member?.moderatable}\`
+                    Premium: \`${member?.premiumSince}\`
+                    Highest Role: \`${member?.roles.highest.name}\`
+                `, inline: true}
             )
             .setTimestamp()
         message.channel.send({embeds: [embed]});

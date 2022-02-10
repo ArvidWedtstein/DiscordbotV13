@@ -68,6 +68,7 @@ class ExtendedClient extends Client {
                 const { command } = require(`${commandPath}/${dir}/${file}`);
                 Object.assign(command, {group: dir})
 
+
                 this.commands.set(command.name, command);
 
                 if (command.aliases?.length !== 0 && command.aliases) {
