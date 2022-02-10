@@ -1,6 +1,8 @@
 import { Event, Command} from '../Interfaces';
 import Client from '../Client';
 import { Message } from 'discord.js';
+import temporaryMessage from '../Functions/temporary-message';
+import language from '../Functions/language';
 
 export const event: Event = {
     name: "messageCreate",
@@ -58,17 +60,22 @@ export const event: Event = {
         const cmd = args.shift().toLowerCase();
         if (!cmd) return
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
+
         if (!command) return
         if (command?.disabled) return
-        if (command?.permissions) {
-            command?.permissions.forEach((p) => {
-                if (!message.member?.permissions.toArray().includes(p)) return
+
+
+        if (command?.UserPermissions) {
+            command?.UserPermissions.forEach(async (p) => {
+                if (!message.member?.permissions.toArray().includes(p)) return temporaryMessage(message.channel, `${await language(message.guild, 'PERMISSION_ERROR')}`);
+            })
+        }
+        if (command?.ClientPermissions) {
+            command?.ClientPermissions.forEach(async (p) => {
+                if (!message.guild?.me?.permissions.toArray().includes(p)) return temporaryMessage(message.channel, `${await language(message.guild, 'CLIENTPERMISSION_ERROR')}`);
             })
         }
         
         if (command) (command as Command).run(client, message, args);
-
-
-        
     }
 }

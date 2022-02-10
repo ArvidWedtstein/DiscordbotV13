@@ -72,7 +72,7 @@ export const event: Event = {
                 validatePermissions(interaction.guild.me?.permissions.toArray());
                 
                 command?.ClientPermissions.forEach(async (perm) => {
-                    if (!interaction.guild?.me?.permissions.has(perm)) return temporaryMessage(interaction.channel, `${await language(interaction.guild, 'CLIENTPERMISSION_ERROR')}`);;
+                    if (!interaction.guild?.me?.permissions.has(perm)) return temporaryMessage(interaction.channel, `${await language(interaction.guild, 'CLIENTPERMISSION_ERROR')}`);
                 })
             }
             if (command) (command as SlashCommand).run(client, interaction);

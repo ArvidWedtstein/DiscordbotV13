@@ -7,6 +7,15 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "ping",
+    description: "check my ping",
+    aliases: ["memeping"],
+    group: __dirname,
+    hidden: false,
+    UserPermissions: ["SEND_MESSAGES"],
+    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    ownerOnly: false,
+    examples: ["ping"],
+    
     run: async(client, message, args) => {
         const embed = new MessageEmbed()
             .setAuthor({name: `Ping is currently ${client.ws.ping.toString()}`, iconURL: client.user?.displayAvatarURL()})

@@ -46,7 +46,7 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
     )
     let userlevels = []
     if (guildId == '524951977243836417') {
-        const levels = fs.readFileSync(`../cmds/userlevels.json`).toString();
+        const levels = fs.readFileSync(`../userlevels.json`).toString();
         userlevels = JSON.parse(levels); //now it an object
     }
     

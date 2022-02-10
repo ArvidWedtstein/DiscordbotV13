@@ -249,8 +249,8 @@
             "norwegian": "Ingen grunn oppgitt"
         },
         "BAN_NOUSERSPECIFIED": {
-            "english": "please specify someone to ban",
-            "german": "bitte geben Sie jemanden an, der verbannt werden soll",
+            "english": "please specify someone",
+            "german": "bitte geben Sie jemanden an",
             "norwegian": "vennligst oppgi en bruker"
         },
         "NICK_FAILED": {

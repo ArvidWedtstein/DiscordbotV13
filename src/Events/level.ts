@@ -14,7 +14,7 @@ export const event: Event = {
         if (author.id == '787324889634963486') return;
         
         if (!guild) return;
-        
+        return;
         /*if (xps >= 100) {
             message.author.send('You have reached maximum xp per minute.')
             setTimeout(function() {
@@ -32,9 +32,9 @@ export const event: Event = {
 
 
         // Checks if last message is same as sendt message. Prevents spam of the same message to earn xp.
-        if (messagecache == message.content) return
+        // if (messagecache == message.content) return
 
-        addXP(guild.id, author?.id, 8, message)
-        messagecache = message.content;
+        // addXP(guild?.id, author?.id, 8, message)
+        // messagecache = message.content;
     }
 }

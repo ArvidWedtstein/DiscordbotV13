@@ -7,6 +7,8 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "howgay",
+    description: "check the true gayness of your homie",
+    group: __dirname,
     run: async(client, message, args) => {
         console.log(args)
         // message.delete()
