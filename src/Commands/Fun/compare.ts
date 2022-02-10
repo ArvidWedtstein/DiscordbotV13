@@ -40,11 +40,13 @@ export const command: Command = {
         console.log(resultUser)
         console.log(resultUser2)
         const embed = new MessageEmbed()
-            .setTitle(`${author.tag} vs ${member?.user.tag}`)
+            .setTitle(`${author.username} vs ${member?.user.username}`)
             .setAuthor({name: `Ping is currently ${client.ws.ping.toString()}`, iconURL: client.user?.displayAvatarURL()})
             .setFooter({ text: `Requested by ${message.author.tag}`})
             .addFields(
-                {name: "test", value: "trst"}
+                // {name: "**Level**", value: `${author.username}: \`\`\`css\n${resultUser.level}\`\`\`\n${member?.user.username}: \`\`\`fix\n${resultUser2.level}\`\`\``}
+                {name: `**${author.username}**`, value: `Level: \`${resultUser.level}\`\nCoins: \`${resultUser.coins}\``, inline: true},
+                {name: `**${member?.user.username}**`, value: `Level: \`${resultUser2.level}\`\nCoins: \`${resultUser2.coins}\``, inline: true}
             )
             .setTimestamp()
         message.channel.send({embeds: [embed]});
