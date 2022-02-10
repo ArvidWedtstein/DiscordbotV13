@@ -23,6 +23,10 @@ const profileSchema = new mongoose.Schema({
         type: String,
         default: '1/1',
     },
+    brawlhalla: {
+        type: Boolean,
+        default: false
+    },
     joinedDate: {
         type: Date,
         required: false

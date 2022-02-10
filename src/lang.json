@@ -25,6 +25,11 @@
             "norwegian": "Du har ikke gitt meg tillatelse til å bruke denne kommandoen",
             "french": "Vous n'êtes pas autorisé à exécuter cette commande"
         },
+        "ROLE_NOTFOUND": {
+            "english": "No role found",
+            "german": "Keine rolle gefunden",
+            "norwegian": "Fant ingen rolle"
+        },
         "BALANCE_TITLE": {
             "english": "Bank Account",
             "german": "Vermögen",

@@ -9,7 +9,7 @@ import settingsSchema from '../../schemas/settingsSchema';
 
 export const command: Command = {
     name: "kick",
-    permissions: ["KICK_MEMBERS"],
+    UserPermissions: ["KICK_MEMBERS"],
     run: async(client, message, args) => {
         const { guild } = message
         if (!guild) return;
@@ -34,9 +34,6 @@ export const command: Command = {
                     reason = reason.slice(0, 1021) + '...';
                 }
 
-
-
-                
                 //console.log(target.username + ' kick');
                 
                 

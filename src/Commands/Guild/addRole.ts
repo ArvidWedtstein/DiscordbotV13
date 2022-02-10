@@ -23,26 +23,42 @@ export const command: Command = {
 
         const member: GuildMember|undefined = guild?.members.cache.find(m => m.id === mention?.id)
         const roles: any[] = []
-        const guildRoles = guild.roles.cache;
-        console.log('proooooooooooomise')
-        guildRoles.forEach((r) => {
-            console.log(r.name)
-        })
+        const guildRoles = await guild.roles.cache
+            .sort((a, b) => b.position - a.position)
+            .map(r => roles.push({label: r.name, description: r.id, value: r.id}))
+            .join(",");
         
 
         const roleSelect = new MessageActionRow()
             .addComponents(
                 new MessageSelectMenu() 
-                    .setCustomId('roles')
+                    .setCustomId('rolesSelect')
+                    .setPlaceholder('Select role')
                     .setMaxValues(1)
                     .setMinValues(1)
-                    .addOptions(roles),
+                    .addOptions(roles.splice(0, 25))
             )
         const embed = new MessageEmbed()
             .setAuthor({name: `Choose role for ${member?.user.username}`, iconURL: member?.user.displayAvatarURL()})
-            .setTitle(`ds`)
-            .setFooter({ text: `Eggseecuted by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
+            .setFooter({ text: `Executed by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({embeds: [embed]});
+        message.channel.send({embeds: [embed], components: [roleSelect]});
+
+        client.on("interactionCreate", async (button) => {
+            if (!button.isSelectMenu()) return;
+            
+            if (button.customId != 'rolesSelect') return;
+            await button.deferUpdate();
+            
+            if (button.member?.user.id != message.author.id) return;
+            
+
+            const chosenrole = guild.roles.cache.find((r) => r.id === button.values[0])
+            if (!chosenrole) return button.reply(`${await language(guild, 'ROLE_NOTFOUND')}`);
+            member?.roles.add(chosenrole, 'yEs')
+            setTimeout(() => {
+                roleSelect.components[0].setDisabled(true)
+            }, 60 * 1000)
+        });
     }
 }

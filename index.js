@@ -29,6 +29,7 @@ const client = new Client({
         type: "WATCHING",
         url: "https://twitch.tv/brawlhalla"
       },
+      butt
     ],
   },
   owner: "DrunkGerman#7117"
