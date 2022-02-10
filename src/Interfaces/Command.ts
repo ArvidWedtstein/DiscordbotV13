@@ -9,9 +9,11 @@ export interface Command {
     name: string;
     description?: string;
     aliases?: string[];
-    permissions?: PermissionString[];
+    UserPermissions?: PermissionString[];
+    ClientPermissions?: PermissionString[];
     ownerOnly?: boolean;
     hidden?: boolean;
     disabled?: boolean;
+    examples?: string[];
     run: Run;
 }

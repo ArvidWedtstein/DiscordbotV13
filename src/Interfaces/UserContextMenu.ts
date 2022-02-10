@@ -1,12 +1,12 @@
 import Client from '../Client';
-import { CommandInteraction, Interaction, Message, ApplicationCommandType, ApplicationCommandOption, ApplicationCommandOptionType, PermissionString } from 'discord.js';
+import { CommandInteraction, Interaction, Message, ApplicationCommandType, ApplicationCommandOption, PermissionString } from 'discord.js';
 
 
 interface Run {
     (client: Client, interaction: Interaction): any;
 }
 
-export interface SlashCommand {
+export interface UserContextMenu {
     name: string;
     description?: string;
     group?: string;
@@ -14,6 +14,5 @@ export interface SlashCommand {
     permissions?: PermissionString[];
     type?: ApplicationCommandType;
     testOnly?: boolean;
-    options?: ApplicationCommandOption[];
     run: Run;
 }

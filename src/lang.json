@@ -19,6 +19,12 @@
             "norwegian": "Du har ikke tillatelse til å bruke denne kommandoen",
             "french": "Vous n'êtes pas autorisé à exécuter cette commande"
         },
+        "CLIENTPERMISSION_ERROR": {
+            "english": "I do not have permission to run this command",
+            "german": "Ich habe keine erlaubnis um diesen befehl auszuführen",
+            "norwegian": "Du har ikke gitt meg tillatelse til å bruke denne kommandoen",
+            "french": "Vous n'êtes pas autorisé à exécuter cette commande"
+        },
         "BALANCE_TITLE": {
             "english": "Bank Account",
             "german": "Vermögen",

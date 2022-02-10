@@ -1,9 +1,12 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, ContextMenuInteraction, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { SlashCommand } from '../../Interfaces';
+import messageCountSchema from "../../schemas/messageCountSchema";
 export const slashCommand: SlashCommand = {
     name: "mute",
     type: "USER",
+    permissions: ['KICK_MEMBERS', 'MUTE_MEMBERS'],
+    ClientPermissions: ['MUTE_MEMBERS', 'KICK_MEMBERS'],
     testOnly: true,
     run: async (client, interaction) => {
         // if (!interaction.isCommand()) return

@@ -5,6 +5,7 @@ export const slashCommand: SlashCommand = {
     name: "getavatar",
     // description: "getavatar",
     type: "USER",
+    permissions: ["ADMINISTRATOR"],
     // options: [
     //     {
     //         name: "test",

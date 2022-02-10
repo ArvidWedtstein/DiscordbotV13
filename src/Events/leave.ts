@@ -23,6 +23,7 @@ export const event: Event = {
             if (!channel) {
                 return
             }
+            if (!channel.viewable || !channel.isText()) return
             channel.send(`${language(guild, 'LEAVE')} ${member.user.tag}`)
         
         }
