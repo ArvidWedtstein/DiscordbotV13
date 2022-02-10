@@ -24,10 +24,10 @@ export const command: Command = {
         const member: GuildMember|undefined = guild?.members.cache.find(m => m.id === mention?.id)
         const roles: any[] = []
         const guildRoles = guild.roles.cache;
-        // console.log('proooooooooooomise')
-        // guildRoles.forEach((r) => {
-        //     console.log(r.name)
-        // })
+        console.log('proooooooooooomise')
+        guildRoles.forEach((r) => {
+            console.log(r.name)
+        })
         
 
         const roleSelect = new MessageActionRow()
