@@ -13,51 +13,6 @@ export const command: Command = {
         const { guild } = message
         const guildId = guild?.id
         const d = new Date()
-        const dateformat = (d: any) => {
-            let dformat = [
-                d.getDate(),
-                d.getMonth()+1,
-                d.getFullYear()
-            ].join('/');
-            return dformat
-        }
-
-        const monthdays: any = {
-            1: '31',
-            2: '28',
-            3: '31',
-            4: '30',
-            5: '31',
-            6: '30',
-            7: '31',
-            8: '31',
-            9: '30',
-            10: '31',
-            11: '30',
-            12: '31'
-        }
-
-        const days = monthdays[d.getMonth()+1]
-        let monthtxt = ''
-        for (let i = 1; i < days; i++) {
-            monthtxt += i;
-            monthtxt += '-'
-            if (i == 7) {
-                monthtxt += '\n'
-            } else if (i == 14) {
-                monthtxt += '\n'
-            } else if (i == 21) {
-                monthtxt += '\n'
-            } else if (i == 28) {
-                monthtxt += '\n'
-            }
-        }
-
-
-
-
-
-        
         const toggle = new MessageButton()
             .setLabel(`${await language(guild, 'TIMEPLAN_SWITCH')}`)
             .setStyle(3)

@@ -4,6 +4,7 @@ const reqString = {
     type: String,
     required: true,
 }
+
 const profileSchema = new mongoose.Schema({ 
     guildId: reqString,
     userId: reqString,
