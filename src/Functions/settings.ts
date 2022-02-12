@@ -1,8 +1,8 @@
+import { Message } from "discord.js";
 import settingsSchema from "../schemas/settingsSchema";
 import language from "./language";
 
-
-export const Settings = (async (message: any, category: string) => {
+export const Settings = (async (message: Message, category: string) => {
     const { guild } = message
     const guildId = guild?.id
     let result = await settingsSchema.findOne({
