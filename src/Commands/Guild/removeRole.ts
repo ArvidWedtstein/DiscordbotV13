@@ -5,13 +5,13 @@ import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildMember, MessageSelectMenu } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
+import { lang } from 'moment';
 export const command: Command = {
     name: "removerole",
-    description: "add a role to a user",
+    description: "remove a users role",
     aliases: ["adduserrole"],
-    group: __dirname,
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
+    UserPermissions: ["SEND_MESSAGES", 'MANAGE_ROLES'],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
     examples: ["addrole @user @role"],
@@ -20,27 +20,43 @@ export const command: Command = {
         const mention = message.mentions.users.first();
         const { guild } = message;
         if (!guild?.available) return;
-
+        const roles: any[] = [];
         const member: GuildMember|undefined = guild?.members.cache.find(m => m.id === mention?.id)
-        const guildRoles = guild.roles.cache;
-        guildRoles.forEach((r) => {
-            console.log(r.name)
-        })
-        
+        if (!member) return message.reply(await language(guild, 'VALID_USER'))
+        const guildRoles = await member?.roles.cache
+            .sort((a, b) => b.position - a.position)
+            .map(r => roles.push({label: r.name, description: r.id, value: r.id}))
+            .join(",");
 
         const roleSelect = new MessageActionRow()
             .addComponents(
                 new MessageSelectMenu() 
-                    .setCustomId('roles')
+                    .setCustomId('rolesRemove')
                     .setMaxValues(1)
                     .setMinValues(1)
-                    .addOptions(),
+                    .setOptions(roles.splice(0, 25))
             )
         const embed = new MessageEmbed()
-            .setAuthor({name: `Choose role for ${member?.user.username}`, iconURL: member?.user.displayAvatarURL()})
-            .setTitle(`ds`)
-            .setFooter({ text: `Eggseecuted by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
+            .setAuthor({name: `Choose role for ${member?.user.tag}`, iconURL: member?.user.displayAvatarURL()})
+            .setFooter({ text: `Eggsecuted by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({embeds: [embed]});
+        message.channel.send({embeds: [embed], components: [roleSelect]});
+
+        client.on("interactionCreate", async (button) => {
+            if (!button.isSelectMenu()) return;
+            
+            if (button.customId != 'rolesRemove') return;
+            await button.deferUpdate();
+            
+            if (button.member?.user.id != message.author.id) return;
+            
+
+            const chosenrole = guild.roles.cache.find((r) => r.id === button.values[0])
+            if (!chosenrole) return button.reply(`${await language(guild, 'ROLE_NOTFOUND')}`);
+            member?.roles.remove(chosenrole, 'yEs')
+            setTimeout(() => {
+                roleSelect.components[0].setDisabled(true)
+            }, 60 * 1000)
+        });
     }
 }

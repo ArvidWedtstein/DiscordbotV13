@@ -4,19 +4,23 @@ import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import settingsSchema from '../../schemas/settingsSchema';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildEmoji } from 'discord.js';
+import emojiCharacters from '../../Functions/emojiCharacters';
+import icon from '../../Functions/icon';
+import boticons from '../../Functions/boticons';
+
 export const command: Command = {
     name: "settings",
     description: "settings",
     run: async(client, message, args) => {
-        const { guild } =  message
+        const { guild, channel, author, mentions } = message
         function capitalizeFirstLetter(string: string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
         
         const guildId = guild?.id
         message.delete()
-        
+        let emojicharacters: any = emojiCharacters
         
         const desc: any = {
             1: `${await language(guild, 'EMOTE_SYSTEM')}`,
@@ -28,30 +32,42 @@ export const command: Command = {
             7: `${await language(guild, 'WELCOME_SYSTEM')}`
         }
         let page = 0;
-        // const settingicon = icons(guild, 'settings');
-        const settingicon = "🤣";
-        // const off = boticons(this.client, 'off');
-        const off = "🤣";
-        // const on = boticons(this.client, 'on');
-        const on = "🤣";
-        // const sign = boticons(this.client, 'sign')
-        const sign = "🤣"
-        // let msg = `${emojicharacters['0-3']} ${sign} This page\n
-        // ${emojicharacters['1-3']} ${sign} Emote ${language(guild, 'SETTINGS')}\n
-        // ${emojicharacters['2-3']} ${sign} Economy ${language(guild, 'SETTINGS')}\n
-        // ${emojicharacters['3-3']} ${sign} Swearfilter ${language(guild, 'SETTINGS')}\n
-        // ${emojicharacters['4-3']} ${sign} Ticket ${language(guild, 'SETTINGS')}\n
-        // ${emojicharacters['5-3']} ${sign} Moderation ${language(guild, 'SETTINGS')}\n
-        // ${emojicharacters['6-3']} ${sign} Antijoin ${language(guild, 'SETTINGS')}\n
-        // ${emojicharacters['7-3']} ${sign} Welcome Message ${language(guild, 'SETTINGS')}`
-        let msg = `🤣 ${sign} This page\n
-        🤣 ${sign} Emote ${await language(guild, 'SETTINGS')}\n
-        🤣 ${sign} Economy ${await language(guild, 'SETTINGS')}\n
-        🤣 ${sign} Swearfilter ${await language(guild, 'SETTINGS')}\n
-        🤣 ${sign} Ticket ${await language(guild, 'SETTINGS')}\n
-        🤣 ${sign} Moderation ${await language(guild, 'SETTINGS')}\n
-        🤣 ${sign} Antijoin ${await language(guild, 'SETTINGS')}\n
-        🤣 ${sign} Welcome Message ${await language(guild, 'SETTINGS')}`
+        const settingicon = icon(client, guild, 'settings');
+        const off = boticons(client, 'off');
+        const on = boticons(client, 'on');
+        const sign = boticons(client, 'sign');
+
+        const settingsLangtxt = await language(guild, 'SETTINGS');
+        // let msg = `${emojiCharacters['0-3']} ${sign} This page\n
+        // ${emojiCharacters['1-3']} ${sign} Emote ${settingsLangtxt}\n
+        // ${emojiCharacters['2-3']} ${sign} Economy ${settingsLangtxt}\n
+        // ${emojiCharacters['3-3']} ${sign} Swearfilter ${settingsLangtxt}\n
+        // ${emojiCharacters['4-3']} ${sign} Ticket ${settingsLangtxt}\n
+        // ${emojiCharacters['5-3']} ${sign} Moderation ${settingsLangtxt}\n
+        // ${emojiCharacters['6-3']} ${sign} Antijoin ${settingsLangtxt}\n
+        // ${emojiCharacters['7-3']} ${sign} Welcome Message ${settingsLangtxt}`
+
+        let SettingsCategories: any = [];
+        client.commands.forEach((cmd) => {
+            SettingsCategories.push(cmd)
+        })
+
+        function uniqBy(a: any, key: any) {
+            return [
+                ...new Map(
+                    a.map((x: any) => [key[x], x])
+                ).keys()
+            ]
+        }
+        SettingsCategories = SettingsCategories.filter((v: any,i:any,a: any)=>a.findIndex((t: any)=>(t.group===v.group))===i)
+        console.log(SettingsCategories)
+        const SettingsList = []
+        for (let i = 0; i < SettingsCategories.length; i++) {
+            let str: any = `${i}-3`
+            SettingsList.push({name: `${emojicharacters[str]} ${sign}`, value: `\`\`\`fix\n${SettingsCategories[i].group}\`\`\``})
+        }
+
+        
 
         /*const offbutton = new MessageButton()
             .setStyle('red')
@@ -63,37 +79,41 @@ export const command: Command = {
             .setLabel('On')
             .setEmoji(`${on.id}`)
             .setID('on')*/
-        let embed2: any = {
-            type: 'rich',
-            title: "test"
-        }
+
         let embed = new Discord.MessageEmbed()
             .setColor("FUCHSIA")
-            .setTitle(`${capitalizeFirstLetter(await language(guild, 'SETTINGS'))}`)
-            .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${msg}`)
-            .setFooter(`${await language(guild, 'HELP_PAGE')} - ${page}/7`)
-        let messageEmbed = await message.channel.send({embeds: [embed]});
-        await message.channel.send({embeds: [embed2]})
-        messageEmbed.react('🤣');
-        messageEmbed.react('😁');
-        /*for (let i = 0; i < 6; i++) {
-            messageEmbed.react(nmb[i])
-        }*/
-        async function updateEmbed(color: any, category: string, emojis: any = [], toggleemoji: any, pageint: number) {
+            .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(await settingsLangtxt)}${emojiCharacters['archright']}`)
+            .addFields(SettingsList)
+            // .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${msg}`)
+            .setFooter({text: `${await language(guild, 'HELP_PAGE')} - ${page}/7`})
+        let messageEmbed = await message.channel.send({embeds: [embed]})
+ 
+        const left: any = icon(client, guild, 'chevronleft');
+        const right: any = icon(client, guild, 'chevronright');
+        if (!left || !right) return console.log('no emoji found');
+        try {
+			await messageEmbed.react(left);
+            await messageEmbed.react(right);
+		} catch (error) {
+			console.error('One of the emojis failed to react:', error);
+		}
+        
+
+        const updateEmbed = (async (color: any, category: string, emojis: any = [], toggleemoji: any, pageint: number) => {
             let embed2 = new Discord.MessageEmbed()
                 .setColor(color)
                 .setTitle(`${capitalizeFirstLetter(category)} system ${await language(guild, 'SETTINGS')} ${toggleemoji}`)
                 .setDescription(`${await language(guild, 'SETTINGS_REACT')} ${capitalizeFirstLetter(category)} system\n__${desc[pageint]}__`)
-                .setFooter(`${await language(guild, 'HELP_PAGE')} - ${pageint}/7`)
+                .setFooter({text: `${await language(guild, 'HELP_PAGE')} - ${pageint}/7`})
             let messageEmbeds = await messageEmbed.edit({embeds: [embed2]});
             
             //messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
             
             
-            for (let i = 0; i < emojis.length; i++) {
-                messageEmbed.react(emojis[i]);
-            }
-        }
+            emojis.forEach(async (emoji: any) => {
+                messageEmbed.react(emoji);
+            })
+        })
 
         client.on('messageReactionAdd', async (reaction: any, user: any) => {
             if (reaction.message.partial) await reaction.message.fetch();

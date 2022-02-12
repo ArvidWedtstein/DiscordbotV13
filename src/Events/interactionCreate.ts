@@ -55,7 +55,7 @@ export const event: Event = {
                 'START_EMBEDDED_ACTIVITIES',
                 'MODERATE_MEMBERS'
             ]
-        
+            
             for (const permission of permissions) {
                 if (!validPermissions.includes(permission)) {
                     throw new Error(`Unknown permission node "${permission}"`)

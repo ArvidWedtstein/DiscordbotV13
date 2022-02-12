@@ -10,7 +10,12 @@ export const command: Command = {
     description: "info bout bot",
     run: async(client, message, args) => {
         const { guild } = message
-        const { uptime, user, commands }: any = client;
+        const { uptime, user, commands, guilds }: any = client;
+        let commandsize = commands.size;
+        let guildsize = 0
+        client.guilds.cache.each(() => {
+            guildsize += 1;
+        })
         let totalSeconds = (uptime / 1000);
         let days = Math.floor(totalSeconds / 86400);
         totalSeconds %= 86400;
@@ -20,7 +25,6 @@ export const command: Command = {
         let uptimestring = `${days}d, ${hours}h, ${minutes}m`;
 
 
-        let commandsize = commands.size;
         
         const embed = new MessageEmbed()
             .setAuthor({ name: `${user.tag}`, iconURL: `${user.displayAvatarURL()}` })
@@ -33,6 +37,7 @@ export const command: Command = {
                 { name: 'Uptime', value: `\`${uptimestring}\``, inline: true },
                 { name: 'Prefix', value: `\`${client.config.prefix}\``, inline: true },
                 { name: 'Commands Loaded:', value: `\`${commandsize}\``, inline: true },
+                { name: 'Currently in:', value: `\`${guildsize}\` servers`, inline: true },
             )
         message.channel.send({ embeds: [embed] });
     }

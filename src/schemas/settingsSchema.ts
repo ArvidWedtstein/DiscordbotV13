@@ -45,6 +45,10 @@ const settingsSchema = new mongoose.Schema({
     serverlog: {
         type: String,
         required: false
+    },
+    commands: {
+        type: Object,
+        required: false
     }
 })
 export default mongoose.model('settings', settingsSchema)

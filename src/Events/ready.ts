@@ -2,6 +2,8 @@ import { Event } from '../Interfaces';
 import * as gradient from 'gradient-string';
 import { loadLanguages } from '../Functions/language';
 import { brawlhalla } from '../Functions/brawlhalla';
+import { loadColors } from '../Functions/icon';
+
 export const event: Event = {
     name: "ready",
     run: async (client) => {
@@ -9,6 +11,9 @@ export const event: Event = {
         /* Init Language */
         loadLanguages(client);
         const arrayOfSlashCommands: any = [];
+
+        // Load Icon Colors
+        loadColors(client);
 
 
         brawlhalla(client);
