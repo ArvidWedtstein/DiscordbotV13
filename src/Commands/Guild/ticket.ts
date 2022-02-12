@@ -54,8 +54,8 @@ export const command: Command = {
                 .setColor('#ff0000')
                 .setTitle(`${await language(guild, 'TICKET_ISSUE')}:`)
                 .setDescription(helpText)
-                .setAuthor(message.author.username, message.author.displayAvatarURL())
-                .setFooter(`${await language(guild, 'TICKET_UNSOLVED')} ${d.toLocaleTimeString()}`)
+                .setAuthor({ name: `${author?.username}`, iconURL: message.author.displayAvatarURL()} )
+                .setFooter({ text: `${await language(guild, 'TICKET_UNSOLVED')} ${d.toLocaleTimeString()}`})
             let messageEmbed = await channel?.send({ embeds: [embed]}).then((message: any) => {
                 message.react(check);
     

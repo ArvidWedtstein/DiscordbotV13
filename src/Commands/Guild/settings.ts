@@ -80,7 +80,7 @@ export const command: Command = {
             .setEmoji(`${on.id}`)
             .setID('on')*/
 
-        let embed = new Discord.MessageEmbed()
+        let embed = new MessageEmbed()
             .setColor("FUCHSIA")
             .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(await settingsLangtxt)}${emojiCharacters['archright']}`)
             .addFields(SettingsList)
@@ -386,8 +386,8 @@ export const command: Command = {
                         embed = new Discord.MessageEmbed()
                             .setColor("#00ff00")
                             .setTitle(`${capitalizeFirstLetter(await language(guild, 'SETTINGS'))}`)
-                            .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${msg}`)
-                            .setFooter(`${await language(guild, 'HELP_PAGE')} - ${page}/7`)
+                            .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${desc}`)
+                            .setFooter({ text: `${await language(guild, 'HELP_PAGE')} - ${page}/7` })
                         await messageEmbed.edit({embeds: [embed]});
                         
                         messageEmbed.react('🤣')
