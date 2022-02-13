@@ -18,17 +18,6 @@ export const command: Command = {
             txt += `**Command** | **Description**\n`
             txt += `${c.name}: ${c.description}\n`
         })
-        // this.client.registry.groups.forEach((e) => {
-        //     e.commands.forEach((c) => {
-        //         if (c.hidden) return
-        //         if (c.ownerOnly) return
-        //         if (c.guarded) {
-        //             cmdstate.push({name: c.name, state: `${c.isEnabledIn(guild)} ${boticons(this.client, 'secure')}`})
-        //         } else {
-        //             cmdstate.push({name: c.name, state: `${c.isEnabledIn(guild)}`})
-        //         }
-        //     })
-        // })
 
         await message.reply(txt)
     }

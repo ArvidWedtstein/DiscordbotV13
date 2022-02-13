@@ -7,4 +7,5 @@ export interface Config {
     botEmbedHex: any;
     testServer: string;
     invite?: string;
+    owner?: string;
 }

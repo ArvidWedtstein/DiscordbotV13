@@ -17,25 +17,25 @@ export const command: Command = {
     examples: ["presence @user"],
     
     run: async(client, message, args) => {
-        const { guild, mentions, author } = message;
+        const { guild, mentions, author, member, channel } = message;
         const mention = mentions.users.first();
-        const member: GuildMember|undefined = guild?.members.cache.find(m => m.id === mention?.id)
+        const usermember: GuildMember|any = guild?.members.cache.find(m => m.id === mention?.id) || member;
         const presence: EmbedFieldData[] = [];
-        if (!member?.presence?.activities) presence.push({name: "none", value: Date.now().toString()})
-        member?.presence?.activities.forEach((act) => {
+        if (!usermember?.presence?.activities) presence.push({name: "none", value: Date.now().toString()})
+        usermember?.presence?.activities.forEach((act: any) => {
             presence.push({name: `${act.type.toLowerCase()} ${act.name}`, value: `\`\`\`autohotkey\n${act.details ? `Song: ${act.details}` : ``}\n${act.state ? `Artist: '${act.state}'` : ``}\n${act.assets ? `Album: [${act.assets.largeText}]` : ``}\n${moment(act.createdTimestamp).fromNow()}\`\`\``})
             presence.push({name: `\u200b`, value: `\u200b`})
         })
         const embed = new MessageEmbed()
-            .setAuthor({name: `${member?.user.username}'s Presence`, iconURL: member?.displayAvatarURL()})
+            .setAuthor({name: `${usermember?.user.username}'s Presence`, iconURL: member?.displayAvatarURL()})
             .addFields(presence)
             .setFooter({ text: `Requested by ${author.tag}`})
             .setTimestamp(Date.now())
-        const img = member?.presence?.activities.find((img) => img.assets?.largeImageURL());
-        const img2 = member?.presence?.activities.find((img) => img.assets?.largeImageURL());
-        if (img || img2) embed.setImage(member?.presence?.activities[0].assets?.largeImageURL() || member?.presence?.activities[0].assets?.smallImageURL() || '');
-        message.channel.send({embeds: [embed]});
-        client.user?.setActivity({type: "LISTENING", name: "to yooouuu", url: member?.presence?.activities[0].assets?.largeImageURL() || ''})
+        const img = usermember?.presence?.activities.find((img: any) => img.assets?.largeImageURL());
+        const img2 = usermember?.presence?.activities.find((img: any) => img.assets?.largeImageURL());
+        if (img || img2) embed.setImage(usermember?.presence?.activities[0].assets?.largeImageURL() || usermember?.presence?.activities[0].assets?.smallImageURL() || '');
+        channel.send({embeds: [embed]});
+        client.user?.setActivity({type: "LISTENING", name: "to yooouuu", url: usermember?.presence?.activities[0].assets?.largeImageURL() || ''})
 
         // https://gist.github.com/matthewzring/9f7bbfd102003963f9be7dbcf7d40e51
     }
