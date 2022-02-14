@@ -124,12 +124,13 @@ export const command: Command = {
 
                     return
                 }
-                const cats: any = {
-                    emotes: result.emotes,
-                    money: result.money,
+                const categories: any = {
+                    moderation: result.moderation,
                     ticket: result.ticket,
                     swearfilter: result.swearfilter,
-                    moderation: result.moderation,
+                    emotes: result.emotes,
+                    money: result.money,
+                    currency: result.currency,
                     antijoin: result.antijoin,
                     welcome: result.welcome
                 }
@@ -158,36 +159,26 @@ export const command: Command = {
                     await reaction.users.remove(user?.id);
                     if (page == 1) {
                         updateEmbed('#00ff00', 'Emote', emojis, off, page)
-                        cats.emotes = false;
+                        categories.emotes = false;
                     } else if (page == 2) {
                         updateEmbed("#ff0000", 'Economy', emojis, off, page)
-                        cats.money = false;
+                        categories.money = false;
                     } else if (page == 3) {
                         updateEmbed("#ff0000", 'Swearfilter', emojis, off, page)
-                        cats.swearfilter = false;
+                        categories.swearfilter = false;
                     } else if (page == 4) {
                         updateEmbed("#ff0000", 'Ticket', emojis, off, page)
-                        cats.ticket = false;
+                        categories.ticket = false;
                     } else if (page == 5) {
                         updateEmbed("#ff0000", 'Moderation', emojis, off, page)
-                        cats.moderation = false;
+                        categories.moderation = false;
                     } else if (page == 6) {
                         updateEmbed("#ff0000", 'Antijoin', emojis, off, page)
-                        cats.antijoin = false
+                        categories.antijoin = false
                     } else if (page == 7) {
                         updateEmbed("#ff0000", 'Welcome', emojis, off, page)
-                        cats.welcome = false
+                        categories.welcome = false
                     } 
-                    const resultfalse = await settingsSchema.findOneAndUpdate(
-                        {
-                            guildId,
-                        }, {
-                            guildId,
-                            cats
-                        }, {
-                            upsert: true
-                        }
-                    )
                 } else if (reaction.emoji.id == on) { // if setting got turned on
                     emojis = [left, right, off]
                     //emojis = [falseEmoji]
@@ -195,50 +186,37 @@ export const command: Command = {
                     
                     if (page == 1) {
                         updateEmbed("#00ff00", 'Emote', emojis, on, page)
-                        cats.emotes = true
+                        categories.emotes = true
                     } else if (page == 2) {
                         updateEmbed("#00ff00", 'Economy', emojis, on, page)
-                        cats.money = true
+                        categories.money = true
                     } else if (page == 3) {
                         updateEmbed("#00ff00", 'Swearfilter', emojis, on, page)
-                        cats.swearfilter = true
+                        categories.swearfilter = true
                     } else if (page == 4) {
                         updateEmbed("#00ff00", 'Ticket', emojis, on, page)
-                        cats.ticket = true
+                        categories.ticket = true
                     } else if (page == 5) {
                         updateEmbed("#00ff00", 'Moderation', emojis, on, page)
-                        cats.moderation = true
+                        categories.moderation = true
                     } else if (page == 6) {
                         updateEmbed("#00ff00", 'Antijoin', emojis, on, page)
-                        cats.antijoin = true
+                        categories.antijoin = true
                     } else if (page == 7) {
                         updateEmbed("#00ff00", 'Welcome', emojis, on, page)
-                        cats.welcome = true
+                        categories.welcome = true
                     }
-                    const resultfalse = await settingsSchema.findOneAndUpdate(
-                        {
-                            guildId,
-                        }, {
-                            guildId,
-                            cats
-                        }, {
-                            upsert: true
-                        }
-                    )
                 }
-                result = await settingsSchema.findOne({
-                    guildId
-                })
-                const categories: any = {
-                    moderation: result.moderation,
-                    ticket: result.ticket,
-                    swearfilter: result.swearfilter,
-                    emotes: result.emotes,
-                    money: result.money,
-                    currency: result.currency,
-                    antijoin: result.antijoin,
-                    welcome: result.welcome
-                }
+                const resultfalsetrue = await settingsSchema.findOneAndUpdate(
+                    {
+                        guildId,
+                    }, {
+                        guildId,
+                        categories
+                    }, {
+                        upsert: true
+                    }
+                )
                 let category = ''
                 
                 switch (page) { // Update embed for each page.
@@ -248,7 +226,7 @@ export const command: Command = {
                             .setColor("#00ff00")
                             .setTitle(`${capitalizeFirstLetter(await language(guild, 'SETTINGS'))}`)
                             .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${desc}`)
-                            .setFooter({ text: `${await language(guild, 'HELP_PAGE')} - ${page}/7` })
+                            .setFooter({ text: `${await language(guild, 'HELP_PAGE')} - ${page}/${categories.length}` })
                         await messageEmbed.edit({embeds: [embed]});
                         
                         // messageEmbed.react(left)
