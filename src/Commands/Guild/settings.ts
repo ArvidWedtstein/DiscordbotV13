@@ -69,7 +69,6 @@ export const command: Command = {
             .setColor("FUCHSIA")
             .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(await settingsLangtxt)}${emojiCharacters['archright']}`)
             .addFields(SettingsList)
-            // .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${msg}`)
             .setFooter({text: `${await language(guild, 'HELP_PAGE')} - ${page}/7`})
         let messageEmbed = await channel.send({embeds: [embed]})
  
@@ -93,8 +92,7 @@ export const command: Command = {
             let messageEmbeds = await messageEmbed.edit({embeds: [embed2]});
             
             //messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
-            
-            
+
             emojis.forEach(async (emoji: any) => {
                 messageEmbed.react(emoji);
             })
@@ -112,12 +110,13 @@ export const command: Command = {
             let emojis = []
             if (reaction.message.channel.id == message.channel.id) {
                 if (reaction.message.id != messageEmbed.id) return
+
+
                 let result = await settingsSchema.findOne({
                     guildId
                 })
 
                 if (!result) {
-                    //console.log('new settings schema')
                     result = await new settingsSchema({
                         guildId
                     }).save()
@@ -136,14 +135,12 @@ export const command: Command = {
                 }
                 // messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
                 await reaction.users.remove(user.id);
-                // if (reaction.emoji.id == icons(guild, 'chevronleft')) {
                 if (reaction.emoji.id == left) {
                     if (page == 0) {     
-                        page = 7
+                        page = SettingsList.length
                     } else {
                         page -= 1
                     }
-                // } else if (reaction.emoji.id == icons(guild, 'chevronright')) {
                 } else if (reaction.emoji.id == right) {
                     if (page == 7) {
                         page = 0

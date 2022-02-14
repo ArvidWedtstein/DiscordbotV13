@@ -91,7 +91,7 @@ export const event: Event = {
         };
         if (interaction.isButton()) return
         if (interaction.isContextMenu() || interaction.isUserContextMenu()) {
-            await interaction.deferReply({ ephemeral: true });
+            await interaction.deferReply({ ephemeral: false });
             console.log(client.slashCommands.get(interaction.commandName))
             const command = client.slashCommands.get(interaction.commandName);
             if (command?.permissions) {
