@@ -16,13 +16,10 @@ export const command: Command = {
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["help"],
+    examples: ["help <cmd>"],
     
     run: async(client, message, args) => {
         const cmd: any = []
-        const cmddetails: any = []
-        const cmddescription: any = []
-        const cmdexamples = [];
         const { guild, author, channel, member } = message
         const guildId = guild?.id
         const userId = author.id;
@@ -33,25 +30,26 @@ export const command: Command = {
         }
         let embedcolor: any = await getColor(guildId, userId);
 
+        // Get commands
+        client.commands.forEach((c) => {
+            cmd.push({ 
+                name: c.name, 
+                description: c.description,
+                group: c.group,
+                aliases: c.aliases,
+                examples: c.examples,
+                permissions: c.UserPermissions,
+                hidden: c.hidden
+            });
+        })
         // if user specified a specific command
         if (args[0]) {
-            client.commands.forEach((c) => {
-                if (!c.hidden) {
-                    cmd.push({ 
-                        name: c.name, 
-                        description: c.description,
-                        examples: c.examples
-                    });
-                }
+            let chosencmd = cmd.find((c: any) => c.name === args[0])
+            if (!chosencmd) return temporaryMessage(channel, `command could not be found`, 5);
+            let embed = new MessageEmbed({
+                title: `${getEmoji("help")} ${await language(guild, 'HELP_TITLE')} - ${chosencmd.name}`,
+                description: `${chosencmd.details ? chosencmd.details : chosencmd.description}`
             })
-            if (!cmd.find((cd: any) => cd.name === args[0])) return
-            let embed = new MessageEmbed()
-                .setTitle(`${getEmoji("help")} ${await language(guild, 'HELP_TITLE')} - ${cmd[cmd.indexOf(args[0])]}`)
-                if (!cmddetails[cmd.indexOf(args[0])]) {
-                    embed.setDescription(`${cmddescription[cmd.indexOf(args[0])]}`)
-                } else {
-                    embed.setDescription(`${cmddetails[cmd.indexOf(args[0])]}`)
-                }
                 
             let messageEmbed = channel.send({ embeds: [embed] });
             return

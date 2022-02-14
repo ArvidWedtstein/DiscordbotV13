@@ -16,7 +16,7 @@ export const command: Command = {
         const embed = new MessageEmbed()
         .setTitle("Mute")
         .setDescription(`${user.username} was given a **${length}** timeout for **${reason}**`)
-        .setFooter("Today at ")
+        .setFooter({ text: "Today at " })
         .setTimestamp()
         message.reply({embeds: [embed]})
     }
