@@ -7,10 +7,10 @@ import { EmbedType } from 'discord-api-types';
 import moment from 'moment';
 
 export const brawlhalla = (async (client: Client) => {
-    
+
     const twitch = new TwitchAPI({
-        client_id: 'jbx4jhn5qfd8u1uamqp7sqgmspu7ao',
-        client_secret: 'p9sjqd4jtqvudqcmx5pqn5ornvggrh'
+        client_id: process.env.TWITCH_CLIENT_ID || '',
+        client_secret: process.env.TWITCH_CLIENT_SECRET || ''
     })
     let IsLiveMemory = false
     const run = async function Run() {

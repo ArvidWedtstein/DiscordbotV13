@@ -8,6 +8,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "ping",
     description: "check my ping",
+    details: "Check the ping of this bot.",
     aliases: ["memeping"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],

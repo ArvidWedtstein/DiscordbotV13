@@ -38,27 +38,12 @@ export const command: Command = {
         const sign = boticons(client, 'sign');
 
         const settingsLangtxt = await language(guild, 'SETTINGS');
-        // let msg = `${emojiCharacters['0-3']} ${sign} This page\n
-        // ${emojiCharacters['1-3']} ${sign} Emote ${settingsLangtxt}\n
-        // ${emojiCharacters['2-3']} ${sign} Economy ${settingsLangtxt}\n
-        // ${emojiCharacters['3-3']} ${sign} Swearfilter ${settingsLangtxt}\n
-        // ${emojiCharacters['4-3']} ${sign} Ticket ${settingsLangtxt}\n
-        // ${emojiCharacters['5-3']} ${sign} Moderation ${settingsLangtxt}\n
-        // ${emojiCharacters['6-3']} ${sign} Antijoin ${settingsLangtxt}\n
-        // ${emojiCharacters['7-3']} ${sign} Welcome Message ${settingsLangtxt}`
 
         let SettingsCategories: any = [];
         client.commands.forEach((cmd) => {
             SettingsCategories.push(cmd)
         })
 
-        function uniqBy(a: any, key: any) {
-            return [
-                ...new Map(
-                    a.map((x: any) => [key[x], x])
-                ).keys()
-            ]
-        }
         SettingsCategories = SettingsCategories.filter((v: any,i:any,a: any)=>a.findIndex((t: any)=>(t.group===v.group))===i)
         console.log(SettingsCategories)
         const SettingsList = []
@@ -86,7 +71,7 @@ export const command: Command = {
             .addFields(SettingsList)
             // .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${msg}`)
             .setFooter({text: `${await language(guild, 'HELP_PAGE')} - ${page}/7`})
-        let messageEmbed = await message.channel.send({embeds: [embed]})
+        let messageEmbed = await channel.send({embeds: [embed]})
  
         const left: any = icon(client, guild, 'chevronleft');
         const right: any = icon(client, guild, 'chevronright');
@@ -139,231 +124,107 @@ export const command: Command = {
 
                     return
                 }
-                messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                const cats: any = {
+                    emotes: result.emotes,
+                    money: result.money,
+                    ticket: result.ticket,
+                    swearfilter: result.swearfilter,
+                    moderation: result.moderation,
+                    antijoin: result.antijoin,
+                    welcome: result.welcome
+                }
+                // messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                await reaction.users.remove(user.id);
                 // if (reaction.emoji.id == icons(guild, 'chevronleft')) {
-                if (reaction.emoji.id == '🤣') {
+                if (reaction.emoji.id == left) {
                     if (page == 0) {     
                         page = 7
                     } else {
                         page -= 1
                     }
                 // } else if (reaction.emoji.id == icons(guild, 'chevronright')) {
-                } else if (reaction.emoji.id == '😁') {
+                } else if (reaction.emoji.id == right) {
                     if (page == 7) {
                         page = 0
                     } else {
                         page += 1
                     }
-                } else if (reaction.emoji.id == off) {
-                    emojis = ['🤣', '😁', on]
+                } else if (reaction.emoji.id == off) { // if setting got turned off
+                    emojis = [left, right, on]
                     //emojis = [trueEmoji]
                     //await reaction.message.reactions.valueOf(off).delete()
                     //reaction.message.reactions.resolve(off).users.remove(this.client.id)
                     
-                    await reaction.users.remove(client.user?.id);
+                    await reaction.users.remove(user?.id);
                     if (page == 1) {
                         updateEmbed('#00ff00', 'Emote', emojis, off, page)
-                        const resultfalse = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    emotes: false
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.emotes = false;
                     } else if (page == 2) {
                         updateEmbed("#ff0000", 'Economy', emojis, off, page)
-                        const resultfalse = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    money: false
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.money = false;
                     } else if (page == 3) {
                         updateEmbed("#ff0000", 'Swearfilter', emojis, off, page)
-                        const resultfalse = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    swearfilter: false
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.swearfilter = false;
                     } else if (page == 4) {
                         updateEmbed("#ff0000", 'Ticket', emojis, off, page)
-                        const resultfalse = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    ticket: false
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.ticket = false;
                     } else if (page == 5) {
                         updateEmbed("#ff0000", 'Moderation', emojis, off, page)
-                        const resultfalse = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    moderation: false
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.moderation = false;
                     } else if (page == 6) {
                         updateEmbed("#ff0000", 'Antijoin', emojis, off, page)
-                        const resultfalse = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    antijoin: false
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.antijoin = false
                     } else if (page == 7) {
                         updateEmbed("#ff0000", 'Welcome', emojis, off, page)
-                        const resultfalse = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    welcome: false
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
-                    }
-                } else if (reaction.emoji.id == on) {
-                    emojis = ['🤣', '😁', off]
+                        cats.welcome = false
+                    } 
+                    const resultfalse = await settingsSchema.findOneAndUpdate(
+                        {
+                            guildId,
+                        }, {
+                            guildId,
+                            cats
+                        }, {
+                            upsert: true
+                        }
+                    )
+                } else if (reaction.emoji.id == on) { // if setting got turned on
+                    emojis = [left, right, off]
                     //emojis = [falseEmoji]
-                    await reaction.users.remove(client.user?.id);
+                    await reaction.users.remove(user?.id);
                     
                     if (page == 1) {
                         updateEmbed("#00ff00", 'Emote', emojis, on, page)
-                        const resulttrue = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    emotes: true
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.emotes = true
                     } else if (page == 2) {
                         updateEmbed("#00ff00", 'Economy', emojis, on, page)
-                        const resulttrue = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    money: true
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.money = true
                     } else if (page == 3) {
                         updateEmbed("#00ff00", 'Swearfilter', emojis, on, page)
-                        const resulttrue = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    swearfilter: true
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.swearfilter = true
                     } else if (page == 4) {
                         updateEmbed("#00ff00", 'Ticket', emojis, on, page)
-                        const resulttrue = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    ticket: true
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.ticket = true
                     } else if (page == 5) {
                         updateEmbed("#00ff00", 'Moderation', emojis, on, page)
-                        const resulttrue = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    moderation: true
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.moderation = true
                     } else if (page == 6) {
                         updateEmbed("#00ff00", 'Antijoin', emojis, on, page)
-                        const resulttrue = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    antijoin: true
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.antijoin = true
                     } else if (page == 7) {
                         updateEmbed("#00ff00", 'Welcome', emojis, on, page)
-                        const resulttrue = await settingsSchema.findOneAndUpdate(
-                            {
-                                guildId,
-                            }, {
-                                guildId,
-                                $set: { 
-                                    welcome: true
-                                }
-                            }, {
-                                upsert: true
-                            }
-                        )
+                        cats.welcome = true
                     }
+                    const resultfalse = await settingsSchema.findOneAndUpdate(
+                        {
+                            guildId,
+                        }, {
+                            guildId,
+                            cats
+                        }, {
+                            upsert: true
+                        }
+                    )
                 }
                 result = await settingsSchema.findOne({
                     guildId
@@ -380,9 +241,9 @@ export const command: Command = {
                 }
                 let category = ''
                 
-                switch (page) {
+                switch (page) { // Update embed for each page.
                     case 0:
-                        messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                        await reaction.users.remove(user?.id);
                         embed = new Discord.MessageEmbed()
                             .setColor("#00ff00")
                             .setTitle(`${capitalizeFirstLetter(await language(guild, 'SETTINGS'))}`)
@@ -390,8 +251,8 @@ export const command: Command = {
                             .setFooter({ text: `${await language(guild, 'HELP_PAGE')} - ${page}/7` })
                         await messageEmbed.edit({embeds: [embed]});
                         
-                        messageEmbed.react('🤣')
-                        messageEmbed.react('😁')
+                        // messageEmbed.react(left)
+                        // messageEmbed.react(right)
                         //await reaction.users.remove(user.id);
                         //reaction.message.reactions.valueOf(2).delete()
                         break;
@@ -421,11 +282,11 @@ export const command: Command = {
                     if (category == key) {
                         if (categories[key] == true) {
                             // emojis = [icons(guild, 'chevronleft'), icons(guild, 'chevronright'), off]
-                            emojis = ['🤣', '😁', off]
+                            emojis = [off]
                             updateEmbed("#00ff00", `${category}`, emojis, on, page)
                         } else if (categories[key] == false) {
                             // emojis = [icons(guild, 'chevronleft'), icons(guild, 'chevronright'), on]
-                            emojis = ['🤣', '😁', on]
+                            emojis = [on]
                             updateEmbed("#ff0000", `${category}`, emojis, off, page)
                         }
                         await reaction.users.remove(user.id);
