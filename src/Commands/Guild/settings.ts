@@ -226,7 +226,7 @@ export const command: Command = {
                             .setColor("#00ff00")
                             .setTitle(`${capitalizeFirstLetter(await language(guild, 'SETTINGS'))}`)
                             .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${desc}`)
-                            .setFooter({ text: `${await language(guild, 'HELP_PAGE')} - ${page}/${categories.length}` })
+                            .setFooter({ text: `${await language(guild, 'HELP_PAGE')} - ${page}/${categories.length + 1}` })
                         await messageEmbed.edit({embeds: [embed]});
                         
                         // messageEmbed.react(left)
