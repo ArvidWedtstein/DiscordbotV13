@@ -25,18 +25,16 @@ export class PageEmbed {
         this.pages = pages
         this.currentPage = 0;
     }
-    async post(message: Message) {
+    async post(message: Message, toggleIcons?: any[]) {
+        
         this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`}
         let reactions = this.pages[this.currentPage].reactions;
         const msg = message.channel.send({embeds: [this.pages[this.currentPage]]}).then(async (m) => {
             if (await Object.values(reactions).length > 0) {
                 for (let i = 0; i < Object.values(reactions).length; i++) {
                     let emoji: any = Object.values(reactions)[i];
-                    console.log(emoji.name)
-                    if (typeof emoji != typeof GuildEmoji) return
                     m.react(emoji)
                 }
-
                 const filter = (reaction: any, user: any) => {
                     return user.id === message.author.id
                 }
@@ -47,7 +45,7 @@ export class PageEmbed {
                 })
 
                 collector.on('collect', async (reaction, reactionCollector) => {
-                    if (await Object.values(reactions).some((e: any) => e.id === reaction.emoji.id)) return;
+                    if (!Object.values(reactions).some((e: any) => e.id === reaction.emoji.id)) return;
 
                     reaction.users.remove(message.author.id);
                     
@@ -62,6 +60,18 @@ export class PageEmbed {
                         this.currentPage += 1;
                         this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`}
                         m.edit({embeds: [this.pages[this.currentPage]]})
+                    }
+                    if (this.pages[this.currentPage].settings != null && toggleIcons) {
+                        for (let i = 0; i < toggleIcons.length; i++) {
+                            let emoji: any = toggleIcons[i];
+                            m.react(emoji)
+                        }
+                    } else if (toggleIcons) {
+                        for (let i = 0; i < toggleIcons.length; i++) {
+                            let emoji: any = toggleIcons[i];
+                            let client: any = reaction.client.user
+                            reaction.message.reactions.resolve(emoji).users.remove(client);
+                        }
                     }
                 })
             }

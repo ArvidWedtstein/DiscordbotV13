@@ -19,27 +19,33 @@ export const command: Command = {
             return await icon(client, guild, emojiName)
         }
         // Embed Class Test
+        const off = await boticons(client, 'off');
+        const on = await boticons(client, 'on');
         const testemojileft = await getEmoji("chevronleft")
         const testemojiright = await getEmoji("chevronright")
 
         const pages = [
             {
-                title: "test1",
+                title: "Home",
                 reactions: {
                     left: testemojileft,
                     right: testemojiright
-                }
+                },
             },
             {
                 title: "test2",
                 reactions: {
                     left: testemojileft,
                     right: testemojiright
+                },
+                settings: {
+                    type: 'WELCOME_SYSTEM'
                 }
             }
         ]
-        const t = new PageEmbed(pages)
-        await t.post(message)
+        const toggleIcons: any[] = [on, off];
+        const t = new PageEmbed(pages);
+        await t.post(message, toggleIcons)
 
         function capitalizeFirstLetter(string: string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -60,8 +66,7 @@ export const command: Command = {
         }
         let page = 0;
         const settingicon = icon(client, guild, 'settings');
-        const off = boticons(client, 'off');
-        const on = boticons(client, 'on');
+        
         const sign = boticons(client, 'sign');
 
         const settingsLangtxt = await language(guild, 'SETTINGS');
