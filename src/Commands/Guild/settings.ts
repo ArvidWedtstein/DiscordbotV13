@@ -8,12 +8,21 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import emojiCharacters from '../../Functions/emojiCharacters';
 import icon from '../../Functions/icon';
 import boticons from '../../Functions/boticons';
+import { PageEmbed } from '../../Functions/PageEmbed';
 
 export const command: Command = {
     name: "settings",
     description: "settings",
     run: async(client, message, args) => {
         const { guild, channel, author, mentions } = message
+        const getEmoji = (emojiName: any) => {
+            return icon(client, guild, emojiName)
+        }
+        // Embed Class Test
+        // const emoji = getEmoji("help")
+        // const page = new PageEmbed({title: "test", author: {name: `${author.username}`, iconURL: ""}})
+        // page.post(channel, [emoji])
+
         function capitalizeFirstLetter(string: string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
