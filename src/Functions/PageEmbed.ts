@@ -12,68 +12,59 @@ import {
     DMChannel, 
     NewsChannel, 
     ThreadChannel, 
-    ReactionEmoji
+    ReactionEmoji,
+    Message
 } from "discord.js";
+import internal from "stream";
 
 export class PageEmbed {
-    public title?: string;
-    public description?: string;
-    public fields?: EmbedFieldData[];
-    public author?: EmbedAuthorData;
-    public footer?: EmbedFooterData;
-    public image?: MessageEmbedImage;
-    public thumbnail?: MessageEmbedThumbnail;
-    public color?: ColorResolvable;
-    public embed: MessageEmbed;
-    // constructor(
-    //     channel: DMChannel | PartialDMChannel | NewsChannel | TextChannel | ThreadChannel,
-    //     title?: string, 
-    //     description?: string, 
-    //     fields?: EmbedFieldData[], 
-    //     author?: EmbedAuthorData, 
-    //     footer?: EmbedFooterData,
-    //     image?: MessageEmbedImage,
-    //     thumbnail?: MessageEmbedThumbnail,
-    //     color?: ColorResolvable,
-    //     reactions?: GuildEmoji[],
-    // ) 
-    constructor({
-        title = "",
-        description = "",
-        fields = [],
-        image = undefined,
-        thumbnail = undefined,
-        color = undefined,
-        author = {name: "", iconURL: ""},
-        footer = {text: "", iconURL: ""}
-    })
+    public pages: any[];
+    private currentPage: number;
+    constructor(pages: any[])
     {
-        this.title = title;
-        this.description = description;
-        this.fields = fields;
-        this.author = author;
-        this.footer = footer;
-        this.image = image;
-        this.thumbnail = thumbnail;
-        this.color = color;
-        this.embed = new MessageEmbed({
-            title: title,
-            description: description,
-            fields: fields,
-            author: author,
-            footer: footer,
-            image: image,
-            thumbnail: thumbnail,
-            color: color
-        });
+        this.pages = pages
+        this.currentPage = 0;
     }
-    post(channel: DMChannel | PartialDMChannel | NewsChannel | TextChannel | ThreadChannel, reactions?: GuildEmoji[]) {
-        const msg = channel.send({embeds: [this.embed]}).then(async (m) => {
-            if (reactions && reactions?.length > 0) {
-                reactions?.forEach(async(emoji) => {
-                    m.react(emoji);
+    async post(message: Message) {
+        this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`}
+        let reactions = this.pages[this.currentPage].reactions;
+        const msg = message.channel.send({embeds: [this.pages[this.currentPage]]}).then(async (m) => {
+            if (await Object.values(reactions).length > 0) {
+                for (let i = 0; i < Object.values(reactions).length; i++) {
+                    let emoji: any = Object.values(reactions)[i];
+                    console.log(emoji.name)
+                    if (typeof emoji != typeof GuildEmoji) return
+                    m.react(emoji)
+                }
+
+                const filter = (reaction: any, user: any) => {
+                    return user.id === message.author.id
+                }
+                const collector = m.createReactionCollector({
+                    filter,
+                    max: 10000,
+                    time: 1000 * 60
+                })
+
+                collector.on('collect', async (reaction, reactionCollector) => {
+                    if (await Object.values(reactions).some((e: any) => e.id === reaction.emoji.id)) return;
+
+                    reaction.users.remove(message.author.id);
+                    
+                    if (reaction.emoji.id === this.pages[this.currentPage].reactions["left"].id) { // page left
+                        if (this.currentPage <= 0) this.currentPage = this.pages.length-1
+                        this.currentPage -= 1;
+                        this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`}
+                        m.edit({embeds: [this.pages[this.currentPage]]})
+                    }
+                    if (reaction.emoji.id === this.pages[this.currentPage].reactions["right"].id) { // page right
+                        if (this.currentPage >= this.pages.length-1) this.currentPage = -1
+                        this.currentPage += 1;
+                        this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`}
+                        m.edit({embeds: [this.pages[this.currentPage]]})
+                    }
                 })
             }
-        })        
+        })     
     }
 }

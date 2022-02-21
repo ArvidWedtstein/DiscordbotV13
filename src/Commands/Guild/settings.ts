@@ -15,13 +15,31 @@ export const command: Command = {
     description: "settings",
     run: async(client, message, args) => {
         const { guild, channel, author, mentions } = message
-        const getEmoji = (emojiName: any) => {
-            return icon(client, guild, emojiName)
+        const getEmoji = async (emojiName: any) => {
+            return await icon(client, guild, emojiName)
         }
         // Embed Class Test
-        // const emoji = getEmoji("help")
-        // const page = new PageEmbed({title: "test", author: {name: `${author.username}`, iconURL: ""}})
-        // page.post(channel, [emoji])
+        const testemojileft = await getEmoji("chevronleft")
+        const testemojiright = await getEmoji("chevronright")
+
+        const pages = [
+            {
+                title: "test1",
+                reactions: {
+                    left: testemojileft,
+                    right: testemojiright
+                }
+            },
+            {
+                title: "test2",
+                reactions: {
+                    left: testemojileft,
+                    right: testemojiright
+                }
+            }
+        ]
+        const t = new PageEmbed(pages)
+        await t.post(message)
 
         function capitalizeFirstLetter(string: string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
