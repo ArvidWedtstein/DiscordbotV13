@@ -39,7 +39,7 @@ export const command: Command = {
                     right: testemojiright
                 },
                 settings: {
-                    type: 'WELCOME_SYSTEM'
+                    type: 'welcome'
                 }
             }
         ]
