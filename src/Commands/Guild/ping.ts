@@ -17,7 +17,7 @@ export const command: Command = {
     examples: ["ping"],
     
     run: async(client, message, args) => {
-        const { guild, channel, author } = message;
+        const { guild, channel, author, member, mentions } = message;
         const embed = new MessageEmbed()
             .setAuthor({name: `Ping is currently ${client.ws.ping.toString()}`, iconURL: client.user?.displayAvatarURL()})
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })

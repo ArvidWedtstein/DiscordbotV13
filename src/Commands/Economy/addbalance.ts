@@ -7,6 +7,7 @@ export const command: Command = {
     name: "addbalance",
     description: "add balance to a user",
     aliases: ["addbal"],
+    UserPermissions: ['BAN_MEMBERS'],
     run: async(client, message, args) => {
         const { guild } = message
         const guildId = guild?.id
