@@ -5,23 +5,28 @@ import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
+import axios from 'axios';
 export const command: Command = {
-    name: "ping",
-    description: "check my ping",
+    name: "meme",
+    description: "get a random meme",
     details: "Check the ping of this bot.",
-    aliases: ["memeping"],
+    aliases: ["memez"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["ping"],
+    examples: ["meme"],
     
     run: async(client, message, args) => {
-        const { guild, channel, author } = message;
+        const { author, channel } = message;
+        const meme = await axios.get('https://meme-api.herokuapp.com/gimme')
+        const { postLink, subreddit, title, url, nsfw, spoiler, author: memeauthor, ups, preview } = meme.data;
         const embed = new MessageEmbed()
-            .setAuthor({name: `Ping is currently ${client.ws.ping.toString()}`, iconURL: client.user?.displayAvatarURL()})
+            .setAuthor({name: `Author: ${memeauthor} | Subreddit: ${subreddit}`, iconURL: preview[0]})
+            .setTitle(`${title}`)
+            .setImage(`${url}`)
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({embeds: [embed]});
+        channel.send({ embeds: [embed] });
     }
 }

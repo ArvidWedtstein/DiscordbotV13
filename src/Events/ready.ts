@@ -3,6 +3,7 @@ import * as gradient from 'gradient-string';
 import { loadLanguages } from '../Functions/language';
 import { brawlhalla } from '../Functions/brawlhalla';
 import { loadColors } from '../Functions/icon';
+import birthday from '../Functions/birthday';
 
 export const event: Event = {
     name: "ready",
@@ -15,7 +16,10 @@ export const event: Event = {
         // Load Icon Colors
         loadColors(client);
 
+        // Check for birthdays
+        birthday(client);
 
+        // Check for brawlhalla stream
         brawlhalla(client);
         await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
     }

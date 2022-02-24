@@ -38,7 +38,8 @@ class ExtendedClient extends Client {
                 Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
                 Intents.FLAGS.GUILD_SCHEDULED_EVENTS,
                 Intents.FLAGS.GUILD_INVITES,
-                Intents.FLAGS.GUILD_INTEGRATIONS
+                Intents.FLAGS.GUILD_INTEGRATIONS,
+                Intents.FLAGS.GUILD_MESSAGE_TYPING
             ],
             messageCacheLifetime: 200,
             messageSweepInterval: 180,
@@ -67,7 +68,6 @@ class ExtendedClient extends Client {
             for (const file of commands) {
                 const { command } = require(`${commandPath}/${dir}/${file}`);
                 Object.assign(command, {group: dir})
-
 
                 this.commands.set(command.name, command);
 
