@@ -25,7 +25,6 @@ export const command: Command = {
         const guildId = guild?.id
         const userId = author.id;
 
-        
 
         const getEmoji = (emojiName: any) => {
             return icon(client, guild, emojiName)
