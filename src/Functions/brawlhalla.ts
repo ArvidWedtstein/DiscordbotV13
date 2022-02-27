@@ -5,20 +5,27 @@ import { MessageButton, MessageEmbed } from 'discord.js';
 import profileSchema from '../schemas/profileSchema';
 import { EmbedType } from 'discord-api-types';
 import moment from 'moment';
-
+import gradient from 'gradient-string';
+import { Stream } from 'stream';
 export const brawlhalla = (async (client: Client) => {
-
+    let lastStream: any = {
+        id: "",
+        started_at: ""
+    }
     const twitch = new TwitchAPI({
         client_id: process.env.TWITCH_CLIENT_ID || '',
         client_secret: process.env.TWITCH_CLIENT_SECRET || ''
     })
     let IsLiveMemory = false
-    const run = async function Run() {
+    
+    const Run = (async () => {
         try {
             await twitch.getStreams({ channel: "brawlhalla" }).then(async data => {
                 const r = data.data[0];
                 if (r !== undefined) {
+                    if (r.id === lastStream.id) return
                     if (r.type === "live") {
+                        console.log(gradient.cristal(`Checking for brawlhalla stream`))
                         if (twitchloop) {
                             // open('https://www.twitch.tv/brawlhalla');
                             IsLiveMemory = true;
@@ -26,9 +33,7 @@ export const brawlhalla = (async (client: Client) => {
                             const result = await profileSchema.find({
                                 brawlhalla: true
                             })
-
-                            console.log(result)
-                            console.log(r)
+                            lastStream = r;
                             let embed = new MessageEmbed()
                                 .setTitle(`${r.title}`)
                                 .setAuthor({ name: `Brawlhalla is now streaming live!`})
@@ -53,12 +58,12 @@ export const brawlhalla = (async (client: Client) => {
                 } else {
                     IsLiveMemory = false;
                 }
-                
             })
         } catch (err) {
             console.error(err);
         };
         
-    }
-    setInterval(run, 60 * 1000);
+    })
+    Run()
+    setInterval(Run, 5 * (60 * 1000));
 })

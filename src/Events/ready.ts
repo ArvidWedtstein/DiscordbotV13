@@ -21,6 +21,7 @@ export const event: Event = {
 
         // Check for brawlhalla stream
         brawlhalla(client);
+        
         await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
     }
 }
