@@ -55,7 +55,7 @@ export const command: Command = {
             .setTitle(`${language(guild, 'SERVERINFO_TITLE')} "${name}"`)
             .setColor('DARKER_GREY')
             .addFields(
-                { name: "Territory", value: `${presences}`, inline: false},
+                { name: "Activities", value: `${presences.cache.map(x => x.activities)}`, inline: false},
                 {
                     name: `${language(guild, 'SERVERINFO_MEMBERS')}`,
                     value: `${memberCount}`,
@@ -63,7 +63,7 @@ export const command: Command = {
                 },
                 {
                     name: `${await language(guild, 'SERVERINFO_OWNER')}`,
-                    value: `${(await owner()).user.tag}`,
+                    value: `${(await guild.fetchOwner()).user.tag}`,
                     inline: false
                 },
                 {
