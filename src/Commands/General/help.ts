@@ -32,7 +32,7 @@ export const command: Command = {
         let embedcolor: any = await getColor(guildId, userId);
 
         // Get commands
-        client.commands.forEach((c) => {
+        client.registry.commands.forEach((c) => {
             cmd.push(c);
         })
         // if user specified a specific command
@@ -48,15 +48,12 @@ export const command: Command = {
                     {name: `**Permissions Needed**`, value: `\`${chosencmd.UserPermissions ? chosencmd.UserPermissions : 'None'}\``}
                 ]
             })
-                
             let messageEmbed = channel.send({ embeds: [embed] });
             return
         }
-        const emptyarray = (arr: any) => arr.length = 0;
-        
 
         function capitalizeFirstLetter(string: String) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
+            return string.toString().charAt(0).toUpperCase() + string.toString().slice(1);
         }
 
         /* Function for removing duplicate groups in categories */
@@ -64,13 +61,14 @@ export const command: Command = {
             var newArray: any = [];
             var lookupObject:any = {};
        
-            for(var i in originalArray) {
+            for (var i in originalArray) {
                lookupObject[originalArray[i][prop]] = originalArray[i];
             }
-       
-            for(i in lookupObject) {
+            
+            for (i in lookupObject) {
                 newArray.push(lookupObject[i].group);
             }
+            console.log(newArray)
             return newArray;
         })
         const categories: any = await removeDuplicates(cmd, 'group');

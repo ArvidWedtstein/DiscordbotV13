@@ -72,7 +72,7 @@ export const command: Command = {
         const settingsLangtxt = await language(guild, 'SETTINGS');
 
         let SettingsCategories: any = [];
-        client.commands.forEach((cmd) => {
+        client.registry.commands.forEach((cmd) => {
             SettingsCategories.push(cmd)
         })
 

@@ -139,7 +139,6 @@ export const command: Command = {
                 case "4":
                     await messageEmbed.delete(); 
             }
-            
         })
     }
 }

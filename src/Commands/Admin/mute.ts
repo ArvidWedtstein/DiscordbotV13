@@ -4,6 +4,7 @@ import { Command } from '../../Interfaces';
 export const command: Command = {
     name: "mute",
     description: "mute a user",
+    group: __dirname.toLowerCase(),
     run: async(client, message, args) => {
         const user = message.mentions.users.first();
         const length: number = parseInt(args[1]);

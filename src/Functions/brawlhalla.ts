@@ -6,7 +6,6 @@ import profileSchema from '../schemas/profileSchema';
 import { EmbedType } from 'discord-api-types';
 import moment from 'moment';
 import gradient from 'gradient-string';
-import { Stream } from 'stream';
 export const brawlhalla = (async (client: Client) => {
     let lastStream: any = {
         id: "",

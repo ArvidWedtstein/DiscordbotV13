@@ -12,6 +12,7 @@ export const command: Command = {
     description: "warn a user",
     details: "warn",
     aliases: ["advarsel"],
+    group: __dirname.toLowerCase(),
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "BAN_MEMBERS"],

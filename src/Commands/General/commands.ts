@@ -11,7 +11,7 @@ export const command: Command = {
         const { guild } = message
         const guildId = guild?.id;
         let txt = 'Commands:\n\n'
-        client.commands.forEach((c) => {
+        client.registry.commands.forEach((c) => {
             if (c.ownerOnly) return;
             if (c.hidden) return;
             console.log(c)

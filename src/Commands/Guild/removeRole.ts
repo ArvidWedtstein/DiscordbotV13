@@ -9,7 +9,7 @@ import { lang } from 'moment';
 export const command: Command = {
     name: "removerole",
     description: "remove a users role",
-    aliases: ["adduserrole"],
+    aliases: ["removeuserrole"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES", 'MANAGE_ROLES'],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],

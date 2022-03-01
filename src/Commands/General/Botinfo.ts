@@ -10,8 +10,8 @@ export const command: Command = {
     description: "info bout bot",
     run: async(client, message, args) => {
         const { guild } = message
-        const { uptime, user, commands, guilds }: any = client;
-        let commandsize = commands.size;
+        const { uptime, user, registry, guilds }: any = client;
+        let commandsize = registry.commands.size;
         let guildsize = 0
         client.guilds.cache.each(() => {
             guildsize += 1;

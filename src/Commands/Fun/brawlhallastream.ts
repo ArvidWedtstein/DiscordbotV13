@@ -9,7 +9,7 @@ import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
     name: "brawlhalla",
     description: "get brawlhalla stream notifications",
-    aliases: ["brawlhalla"],
+    aliases: ["brawlhallastream"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],

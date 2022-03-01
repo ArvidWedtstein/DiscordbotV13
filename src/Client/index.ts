@@ -9,14 +9,14 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { REST } from '@discordjs/rest';
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
 import { Routes } from 'discord-api-types/v9';
+import { Registry } from '../Interfaces/Registry';
 dotenv.config();
 
-
 class ExtendedClient extends Client {
-    public commands: Collection<string, Command> = new Collection();
     public slashCommands: Collection<string, SlashCommand> = new Collection();
     public events: Collection<string, Event> = new Collection();
     public aliases: Collection<string, Command> = new Collection();
+    public registry = new Registry(this);
     public config: Config = {
         token: process.env.CLIENT_TOKEN, 
         mongoURI: process.env.REMOTE_MONGODB, 
@@ -39,7 +39,8 @@ class ExtendedClient extends Client {
                 Intents.FLAGS.GUILD_SCHEDULED_EVENTS,
                 Intents.FLAGS.GUILD_INVITES,
                 Intents.FLAGS.GUILD_INTEGRATIONS,
-                Intents.FLAGS.GUILD_MESSAGE_TYPING
+                Intents.FLAGS.GUILD_MESSAGE_TYPING,
+                Intents.FLAGS.DIRECT_MESSAGE_REACTIONS
             ],
             messageCacheLifetime: 200,
             messageSweepInterval: 180,
@@ -53,6 +54,10 @@ class ExtendedClient extends Client {
             "useNewUrlParser": true,
             "useUnifiedTopology": true
         }
+
+        // ----------------------------
+        // Connect to database
+        // ----------------------------
         await mongoose.connect(this.config.mongoURI, options).then(async () => {
            console.log(`Connected to ${gradient.fruit('Database')}`)
         }).catch((err) => {
@@ -60,36 +65,50 @@ class ExtendedClient extends Client {
         });
 
 
-        /* Commands */
+        // ----------------------------
+        // Load Commands
+        // ----------------------------
         const commandPath = path.join(__dirname, "..", "Commands");
-        readdirSync(commandPath).forEach((dir) => {
-            const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
+        this.registry.registerGroups([
+            { id: "admin", name: "Admin" },
+            { id: "general", name: "General" },
+            { id: "fun", name: "Fun" },
+            { id: "guild", name: "Guild" }
+        ])
+        this.registry.registerCommandsIn(commandPath)
 
-            for (const file of commands) {
-                const { command } = require(`${commandPath}/${dir}/${file}`);
-                Object.assign(command, {group: dir})
+        // Old function for reading commands
+        // readdirSync(commandPath).forEach((dir) => {
+        //     const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
 
-                this.commands.set(command.name, command);
+        //     for (const file of commands) {
+        //         const { command } = require(`${commandPath}/${dir}/${file}`);
+        //         Object.assign(command, {group: dir})
+                
+        //         this.commands.set(command.name, command);
 
-                if (command.aliases?.length !== 0 && command.aliases) {
-                    command.aliases.forEach((alias: any) => {
-                        this.aliases.set(alias, command);
-                    })
-                }
-            }
-        })
+        //         if (command.aliases?.length !== 0 && command.aliases) {
+        //             command.aliases.forEach((alias: any) => {
+        //                 this.aliases.set(alias, command);
+        //             })
+        //         }
+        //     }
+        // })
 
-        /* Events */
+        
+        // ----------------------------
+        // Load Events
+        // ----------------------------
         const eventPath = path.join(__dirname, "..", "Events");
         readdirSync(eventPath).forEach(async (file) => {
             const { event } = await import(`${eventPath}/${file}`);
             this.events.set(event.name, event);
-            console.log(`Name: ${gradient.mind(event.name)}`);
             this.on(event.name, event.run.bind(null, this));
         })
 
-
-        /* SlashCommands */
+        // ----------------------------
+        // Load Slash Commands
+        // ----------------------------
         const rest = new REST({ version: '9' }).setToken(this.config.token || process.env.CLIENT_TOKEN);
         const slashCommandPath = path.join(__dirname, "..", "SlashCommands");
         const testcmds: any = []
@@ -137,8 +156,6 @@ class ExtendedClient extends Client {
                 } else if (slashCommand.testOnly && slashCommand.testOnly == false) {
                     globalcmds.push(cmd)
                 }
-                
-                
             }
         });
         (async () => {
@@ -169,6 +186,9 @@ class ExtendedClient extends Client {
                 }
             })();
         }
+    }
+    public async registerGroups() {
+        
     }
 }
 

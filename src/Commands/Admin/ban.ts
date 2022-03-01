@@ -6,6 +6,7 @@ import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy'
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 export const command: Command = {
     name: "ban",
+    group: "",
     run: async(client, message, args) => {
         const member = message.mentions.members?.first();
         if (!member) return message.reply('couldnt find member')
@@ -18,7 +19,7 @@ export const command: Command = {
         const embed = new MessageEmbed()
             .setAuthor({name: `${member?.user.tag}`, iconURL: client.user?.displayAvatarURL()})
             .setDescription(`got banned by ${message.author.tag} for ${reason} (${days})`)
-            .setFooter(`Executed by ${message.author.tag}`)
+            .setFooter({ text: `Executed by ${message.author.tag}` })
             .setTimestamp()
         message.channel.send({embeds: [embed]});
     }

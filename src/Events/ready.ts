@@ -4,6 +4,7 @@ import { loadLanguages } from '../Functions/language';
 import { brawlhalla } from '../Functions/brawlhalla';
 import { loadColors } from '../Functions/icon';
 import birthday from '../Functions/birthday';
+import path from 'path';
 
 export const event: Event = {
     name: "ready",
@@ -20,8 +21,9 @@ export const event: Event = {
         birthday(client);
 
         // Check for brawlhalla stream
-        brawlhalla(client);
+        // brawlhalla(client);
         
+
         await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
     }
 }

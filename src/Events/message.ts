@@ -70,7 +70,8 @@ export const event: Event = {
         
         const cmd = args.shift().toLowerCase();
         if (!cmd) return
-        const command = client.commands.get(cmd) || client.aliases.get(cmd);
+        
+        const command = client.registry.commands.get(cmd) || client.aliases.get(cmd);
 
         if (!command) return
         if (command?.disabled) return

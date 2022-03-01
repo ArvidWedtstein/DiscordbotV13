@@ -7,8 +7,8 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "askformoney",
-    description: "check my ping",
-    details: "Check the ping of this bot.",
+    description: "ask for money",
+    details: "beg for money.",
     aliases: ["beg"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],

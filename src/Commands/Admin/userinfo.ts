@@ -7,9 +7,10 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "userinfo",
-    description: "check my ping",
-    details: "Check the ping of this bot.",
-    aliases: ["memeping"],
+    description: "check info of a user",
+    details: "Check the info of a user.",
+    aliases: ["brukerinfo"],
+    group: __dirname.toLowerCase(),
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", 'ADMINISTRATOR'],
