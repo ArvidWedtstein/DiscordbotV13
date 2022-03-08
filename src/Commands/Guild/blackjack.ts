@@ -5,9 +5,10 @@ export const command: Command = {
     name: "black",
     description: "play blackjack",
     run: async(client, message, args) => {
+        const { author, guild } = message;
         message.delete()
-        const user = message.author;
-        const member = message.guild?.members.cache.get(user.id)
+        const user = author;
+        const member = guild?.members.cache.get(user.id)
 
         var suits = ["Spades", "Hearts", "Diamonds", "Clubs"]
         var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
@@ -20,7 +21,7 @@ export const command: Command = {
         🔵 Hit | get another card.
         ⛔ Surrender | Get half of your bet back.`
 
-        function createDeck() {
+        const createDeck = (() => {
             deck = new Array();
             values.forEach((value) => {
                 suits.forEach((suit) => {
@@ -35,8 +36,8 @@ export const command: Command = {
                     deck.push(card)
                 })
             })
-        }
-        function shuffle() {
+        })
+        const shuffle = (() => {
             for (var i = 0; i < 1000; i++) {
                 var location1 = Math.floor((Math.random() * deck.length));
                 var location2 = Math.floor((Math.random() * deck.length));
@@ -45,9 +46,8 @@ export const command: Command = {
                 deck[location1] = deck[location2];
                 deck[location2] = temp;
             }
-        }
-        function getPoints(player: number)
-        {
+        })
+        const getPoints = ((player: number) => {
             var points = 0;
             for(var i = 0; i < players[player].Hand.length; i++)
             {
@@ -55,23 +55,18 @@ export const command: Command = {
             }
             players[player].Points = points;
             return points;
-        }
+        })
 
-        function updatePoints()
+        const updatePoints = (() =>  
         {
             for (var i = 0 ; i < players.length; i++)
             {
                 getPoints(i);
             }
-        }
+        })
         var players = new Array();
-        function createPlayers(num: number) {
+        const createPlayers = ((num: number) => {
             players = new Array();
-            // for (var i = 0; i < num; i++) {
-            //     var hand = new Array();
-            //     var player = { Name: "Player " + i, Id: i, Points: 0, Hand: hand };
-            //     players.push(player);
-            // }
             for (var i = 0; i < num; i++) {
                 if (i === 1) {
                     var hand = new Array();
@@ -83,8 +78,8 @@ export const command: Command = {
                     players.push(player);
                 }
             }
-        }
-        function dealHands() {
+        })
+        const dealHands = (() => {
             // alternate handing cards to each player
             // 2 cards each
             for (var i = 0; i < 2; i++) {
@@ -96,8 +91,8 @@ export const command: Command = {
             }
             // updateDeck();
             createPlayersUI();
-        }
-        async function createPlayersUI() {
+        })
+        const createPlayersUI = (async () => {
             const embed = new MessageEmbed()
                 .setTitle("Blackjack")
                 .setTimestamp()
@@ -145,14 +140,14 @@ export const command: Command = {
             })
             
 
-        }
-        async function startBlackjack() {
+        })
+        const startBlackjack= (async () => {
             currentplayer = 0;
             createDeck();
             shuffle();
             createPlayers(2);
             dealHands();
-        }
+        })
 
         currentplayer = 0;
         function hit() {
