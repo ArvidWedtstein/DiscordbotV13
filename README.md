@@ -11,7 +11,7 @@ Download, and type `npm run dev` or `npm run start` in console, and hit enter.
 
 <div align="center">
   
-![Stuff used in this project](https://arvidgithubembed.herokuapp.com/skills?languages=typescript,mongodb,github,nodejs,npm,vscode,heroku&backgroundcolor=0D1117&title=Stuff%20used%20in%20this%20project&titlecolor=ffffff&textcolor=ffffff&boxcolor=CFCDFF&bordercolor=0D1117)
+![Stuff used in this project](https://arvidgithubembed.herokuapp.com/skills?languages=typescript,mongodb,github,nodejs,npmjs,vscode,heroku&backgroundcolor=0D1117&title=Stuff%20used%20in%20this%20project&titlecolor=ffffff&textcolor=ffffff&boxcolor=CFCDFF&bordercolor=0D1117)
   
 </div>
 
