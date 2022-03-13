@@ -27,5 +27,6 @@ export const command: Command = {
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
         message.channel.send({embeds: [embed]});
+        
     }
 }

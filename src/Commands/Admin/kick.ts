@@ -14,52 +14,48 @@ export const command: Command = {
     group: __dirname,
     UserPermissions: ["KICK_MEMBERS"],
     run: async(client, message, args) => {
-        const { guild } = message
+        message.delete()
+        const { guild, author, mentions, channel } = message
         if (!guild) return;
         const guildId = guild?.id
         const setting = await Settings(message, 'moderation');
-        if (setting == false) {
-            message.reply(`${await language(guild, 'SETTING_OFF')} Moderation ${await language(guild, 'SETTING_OFF2')}`);
-            return
-        } else if (setting == true) {
-            const target = message.mentions.users.first();
-            if (target) {
-                message.delete()
+        if (setting == false) return message.reply(`${await language(guild, 'SETTING_OFF')} Moderation ${await language(guild, 'SETTING_OFF2')}`);
+        
+        const target = mentions.users.first();
+        if (!target) return channel.send(`${author}, ${language(guild, 'USER_NOTFOUND')}`)
+        
 
-                let reason = args.slice(1).join(' ');
+        let reason = args.slice(1).join(' ');
 
-                //If there is no reason
-                if (!reason) {
-                    reason = `${await language(guild, 'BAN_NOREASON')}`;
-                }
+        // If there is no reason
+        if (!reason) reason = `${await language(guild, 'BAN_NOREASON')}`;
 
-                if (reason.length > 1024) {
-                    reason = reason.slice(0, 1021) + '...';
-                }
+        if (reason.length > 1024) reason = reason.slice(0, 1021) + '...';
 
-                //console.log(target.username + ' kick');
-                
-                
+        const targetMember = guild.members.cache.get(target.id);
+        let result = await settingsSchema.findOne({
+            guildId
+        })
+        let userembed = new MessageEmbed()
+            .setColor(client.config.botEmbedHex)
+            .setTitle(`Important Message`)
+            .setDescription(`I'm sorry to inform you that you have been forcefully removed from **${guild.name}**.
+            You have been removed because ${reason}. 
+            `)
+            .setFooter({ text: `Best regards, ${client.user?.username}`, iconURL: targetMember?.displayAvatarURL() })
+            .setTimestamp()
 
-                const targetMember = guild.members.cache.get(target.id);
-                let result = await settingsSchema.findOne({
-                    guildId
-                })
-                if (result.serverlog) {
-                    const logchannel = guild.channels.cache.find(channel => channel.id === result.serverlog);
-                    if (!logchannel) return;
-                    if (!logchannel.isText()) return
-                    let logembed = new MessageEmbed()
-                        .setColor(client.config.botEmbedHex)
-                        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
-                        .setDescription(`kicked\n\n${language(guild, 'BAN_REASON')}: ${reason}`)
-                        .setFooter(`${targetMember}`, targetMember?.displayAvatarURL())
-                    logchannel.send({ embeds: [logembed] });
-                }
-                targetMember?.kick(reason);
-            } else {
-                message.channel.send(`${message.author}, ${language(guild, 'USER_NOTFOUND')}`)
-            }   
-        }
+        targetMember?.kick(reason);
+
+        if (!result.serverlog) return 
+        const logchannel = guild.channels.cache.find(channel => channel.id === result.serverlog);
+        if (!logchannel) return;
+        if (!logchannel.isText()) return
+        let logembed = new MessageEmbed()
+            .setColor(client.config.botEmbedHex)
+            .setAuthor({ name: `${author.username}`, iconURL: author.displayAvatarURL() })
+            .setDescription(`kicked\n\n${language(guild, 'BAN_REASON')}: ${reason}`)
+            .setFooter({ text: `${targetMember}`, iconURL: targetMember?.displayAvatarURL() })
+        logchannel.send({ embeds: [logembed] });
     }
 }

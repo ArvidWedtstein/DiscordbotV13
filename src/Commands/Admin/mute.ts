@@ -1,4 +1,6 @@
 import { MessageEmbed } from 'discord.js';
+import language from '../../Functions/language';
+import { Settings } from '../../Functions/settings';
 import { Command } from '../../Interfaces';
 
 export const command: Command = {
@@ -6,19 +8,25 @@ export const command: Command = {
     description: "mute a user",
     group: __dirname.toLowerCase(),
     run: async(client, message, args) => {
-        const user = message.mentions.users.first();
+        const { guild, author, mentions } = message
+        if (!guild) return;
+        const guildId = guild?.id
+        const setting = await Settings(message, 'moderation');
+        if (!setting) return message.reply(`${await language(guild, 'SETTING_OFF')} Moderation ${await language(guild, 'SETTING_OFF2')}`);
+        
+        const user = mentions.users.first();
         const length: number = parseInt(args[1]);
         const reason: string = args.slice(2, args.length-1).join(' ');
         if (!user) return message.reply("Please tag a user");
         if (!length) return message.reply("Please provide a length of the timeout");
         if (!reason) return message.reply("Please provide a reason");
-        const member = message.guild?.members.cache.get(user.id)
+        const member = guild.members.cache.get(user.id)
         member?.timeout(length*1000, reason);
         const embed = new MessageEmbed()
-        .setTitle("Mute")
-        .setDescription(`${user.username} was given a **${length}** timeout for **${reason}**`)
-        .setFooter({ text: "Today at " })
-        .setTimestamp()
+            .setTitle("Mute")
+            .setDescription(`${user.username} was given a **${length}** timeout for **${reason}**`)
+            .setFooter({ text: "Today at " })
+            .setTimestamp()
         message.reply({embeds: [embed]})
     }
 }

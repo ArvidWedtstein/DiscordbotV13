@@ -8,7 +8,14 @@ export const command: Command = {
     name: "ban",
     group: "",
     run: async(client, message, args) => {
-        const member = message.mentions.members?.first();
+        const { guild, author, mentions, channel } = message
+        if (!guild) return;
+        const guildId = guild?.id
+        const setting = await Settings(message, 'moderation');
+
+        if (!setting) return message.reply(`${await language(guild, 'SETTING_OFF')} Moderation ${await language(guild, 'SETTING_OFF2')}`);
+
+        const member = mentions.members?.first();
         if (!member) return message.reply('couldnt find member')
         args.shift();
         const days = args[0];
@@ -18,9 +25,9 @@ export const command: Command = {
         member?.ban({days: parseInt(days), reason: reason});
         const embed = new MessageEmbed()
             .setAuthor({name: `${member?.user.tag}`, iconURL: client.user?.displayAvatarURL()})
-            .setDescription(`got banned by ${message.author.tag} for ${reason} (${days})`)
-            .setFooter({ text: `Executed by ${message.author.tag}` })
+            .setDescription(`got banned by ${author.tag} for ${reason} (${days})`)
+            .setFooter({ text: `Executed by ${author.tag}` })
             .setTimestamp()
-        message.channel.send({embeds: [embed]});
+        channel.send({embeds: [embed]});
     }
 }

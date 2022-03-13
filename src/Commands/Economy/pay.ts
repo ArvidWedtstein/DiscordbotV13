@@ -32,10 +32,7 @@ export const command: Command = {
         if (isNaN(coinsToGive) || coinsToGive < 0) return temporaryMessage(channel, `${language(guild, 'ECONOMY_VALID')}`, 10)
 
         const coinsOwned = await getCoins(guildId, member?.id)
-        if (coinsOwned < coinsToGive) {
-            message.reply(`${language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToGive} ErlingCoins!`)
-            return
-        }
+        if (coinsOwned < coinsToGive) return message.reply(`${language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToGive} ErlingCoins!`)
 
         const confirmation = await message.channel.send(`${language(guild, 'ECONOMY_PAYVERIFICATION')} ${target} ${coinsToGive}? (Y, N, Yes, No)`)
         const filter = (m: any) => m.author.id === message.author.id

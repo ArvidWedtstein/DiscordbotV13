@@ -104,9 +104,7 @@ export const command: Command = {
             let embed = new MessageEmbed()
                 .setColor(`AQUA`)
                 .setAuthor({ name: `${user?.user.username}'s ${language(guild, 'BIRTHDAY_CHANGE')} ${birthday}`, iconURL: user?.user.displayAvatarURL({ dynamic: true})})
-            message.reply({
-                embeds: [embed]
-            })
+            message.reply({ embeds: [embed] })
 
             const result = await profileSchema.findOneAndUpdate({
                 guildId,
