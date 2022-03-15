@@ -83,3 +83,4 @@ https://discord.gg/4Km3YdSjKX
 <h4 align="center"><b>Dynamic Help command</b></h4>
 
 <h6 align="center">This command automatically displays an explanation for your commands</h6>
+
