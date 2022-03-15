@@ -76,27 +76,9 @@ class ExtendedClient extends Client {
             { id: "fun", name: "Fun" },
             { id: "guild", name: "Guild" },
             { id: "random", name: "Random" },
+            { id: "level", name: "Level" },
         ])
         this.registry.registerCommandsIn(commandPath)
-
-        // Old function for reading commands
-        // readdirSync(commandPath).forEach((dir) => {
-        //     const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
-
-        //     for (const file of commands) {
-        //         const { command } = require(`${commandPath}/${dir}/${file}`);
-        //         Object.assign(command, {group: dir})
-                
-        //         this.commands.set(command.name, command);
-
-        //         if (command.aliases?.length !== 0 && command.aliases) {
-        //             command.aliases.forEach((alias: any) => {
-        //                 this.aliases.set(alias, command);
-        //             })
-        //         }
-        //     }
-        // })
-
         
         // ----------------------------
         // Load Events

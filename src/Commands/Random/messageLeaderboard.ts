@@ -37,7 +37,7 @@ export const command: Command = {
         for (let counter = 0; counter < result.length; ++counter) {
             const { userId, messageCount } = result[counter]
             const user = guild.members.cache.get(userId)
-            text += `#${counter + 1} ${user?.displayName} with ${messageCount} messages sent!\n`
+            text += `#${counter + 1} **${user?.displayName}** with ${messageCount} messages sent!\n`
         }
 
         const embed = new MessageEmbed()

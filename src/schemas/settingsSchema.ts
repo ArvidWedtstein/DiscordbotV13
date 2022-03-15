@@ -1,31 +1,20 @@
-import mongoose from 'mongoose'
+import { Schema, model } from "mongoose"
 
 const reqString = {
     type: String,
     required: true,
 }
-const settingsSchema = new mongoose.Schema({
+const reqBool = {
+    type: String,
+    default: true
+}
+const settingsSchema = new Schema({
     guildId: reqString,
-    emotes: {
-        type: Boolean,
-        default: true,
-    },
-    money: {
-        type: Boolean,
-        default: true,
-    },
-    ticket: {
-        type: Boolean,
-        default: true,
-    },
-    swearfilter: {
-        type: Boolean,
-        default: true,
-    },
-    moderation: {
-        type: Boolean,
-        default: true,
-    },
+    emotes: reqBool,
+    money: reqBool,
+    ticket: reqBool,
+    swearfilter: reqBool,
+    moderation: reqBool,
     currency: {
         type: String,
         default: 'ErlingCoin'
@@ -49,6 +38,10 @@ const settingsSchema = new mongoose.Schema({
     commands: {
         type: Object,
         required: false
+    },
+    levels: {
+        type: Array,
+        required: false
     }
 })
-export default mongoose.model('settings', settingsSchema)
+export default model('settings', settingsSchema)

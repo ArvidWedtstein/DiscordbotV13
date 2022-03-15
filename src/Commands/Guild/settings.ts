@@ -84,19 +84,6 @@ export const command: Command = {
             SettingsList.push({name: `${emojicharacters[str]} ${sign}`, value: `\`\`\`fix\n${SettingsCategories[i].group}\`\`\``})
         }
 
-        
-
-        /*const offbutton = new MessageButton()
-            .setStyle('red')
-            .setLabel('Off')
-            .setEmoji(`${off.id}`)
-            .setID('off')
-        const onbutton = new MessageButton()
-            .setStyle('green')
-            .setLabel('On')
-            .setEmoji(`${on.id}`)
-            .setID('on')*/
-
         let embed = new MessageEmbed()
             .setColor("FUCHSIA")
             .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(await settingsLangtxt)}${emojiCharacters['archright']}`)

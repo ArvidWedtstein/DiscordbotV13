@@ -11,6 +11,11 @@ import { addXP, getXP, getLevel } from '../../Functions/Level';
 import moment from 'moment';
 export const command: Command = {
     name: "profile",
+    description: "Your personal profile",
+    details: "You profile. contains stats about you.",
+    aliases: ["p"],
+    ownerOnly: false,
+    ClientPermissions: ["SEND_MESSAGES", "SEND_MESSAGES_IN_THREADS", "VIEW_CHANNEL"],
     run: async(client, message, args) => {
         const { guild, mentions, author } = message;
         const u = mentions.users.first()?.id || author?.id
@@ -18,8 +23,7 @@ export const command: Command = {
         const guildId = guild?.id
         const userId = user?.id  
 
-        message.delete()
-
+        // Get roles of user 
         let rolemap: any = user?.roles.cache
             .sort((a: any, b: any) => b.position - a.position)
             .map((r: any) => r)
@@ -29,11 +33,6 @@ export const command: Command = {
 
     
         let xptonextlevel: any = ''
-
-        // function getLevel(test: any) {
-        //     var n = test.split(" ")
-        //     return n[n.length - 2] + n[n.length - 1];
-        // }
 
 
         const result = await messageCountSchema.findOne({ 
@@ -50,23 +49,24 @@ export const command: Command = {
         }
         let birthday = '';
         let joinedDate: any = '';
-        const birthdayresult = await profileSchema.findOne({
+        const resultsbirthday = await profileSchema.findOne({
             userId
         })
-        if (!birthdayresult) {
+        if (!resultsbirthday) {
             birthday = 'Unknown'
             joinedDate = 'Unknown'
-        } else if (birthdayresult.birthday == '1/1') {
+        } else if (resultsbirthday.birthday == '1/1') {
             birthday = 'Unknown'
         } else {
-            birthday = birthdayresult.birthday;
-            joinedDate = moment(user?.joinedAt).fromNow()
+            birthday = resultsbirthday.birthday;
         }
-        let warntxt = '';
         const results = await profileSchema.findOne({
             userId,
             guildId
         })
+        joinedDate = moment(user?.joinedAt).fromNow()
+        let warntxt = '';
+        
         if (!results.warnings) {
             warntxt += 'No warns'
         } else {    
@@ -84,7 +84,6 @@ export const command: Command = {
 
         let presencegame: any = user?.presence.activities.length ? user?.presence.activities.filter( (x: any) => x.type === "PLAYING") : null;
         let presence = `${presencegame && presencegame.length ? presencegame[0].name : 'None'}`
-        // let presencelength = user?.presence.status;
 
 
         if (presence.includes('Skyrim')) {
@@ -112,25 +111,26 @@ export const command: Command = {
             badges += 'None'
         }
 
-        
-        
-        let embed = new Discord.MessageEmbed()
+        let description = [
+            `〔Birthday: \`${birthday}\``,
+            `〔Erlingcoin${Coins === 1 ? '' : 's'}${erlingcoin}: \`${Coins}\``,
+            ``,
+            `${userlevel ? '〔Lvl: \`' + userlevel + '\`' : ''}`,
+            `${xp ? '〔XP: \`' + xp + '\`' : ''}`,
+            `${xptonextlevel ? '〔XP to next Lvl: \`' + xptonextlevel + '\`' : ''}`,
+            ``,
+            `〔Messages Sent: \`${messages}\``,
+            `${badges ? '〔Badges: \`' + badges + '\`' : ''}`,
+            `${presence ? '〔Game: \`' + presence + '\`' : ''}`,
+            `${warntxt ? '〔Warns: \`' + warntxt + '\`' : ''}`,
+            `${joinedDate ? '〔Joined this server: \`' + joinedDate + '\`' : ''}`,
+        ]
+        let embed = new MessageEmbed()
             .setColor(color)
             .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true})}`})
-            //.addField('Joined Discord: ', user.createdAt)
-        if (birthday) embed.addField('Birthday🎂: ', birthday, true)
-        if (Coins) embed.addField(`ErlingCoin${Coins === 1 ? '' : 's'}${erlingcoin}: `, `\`${Coins}\`.`)
-        if (userlevel && userlevel != null) embed.addField('Level:', `\`${userlevel}\``, true)
-        if (xp) embed.addField('XP: ', `\`${xp.toString()}\``, true)
-        if (xptonextlevel) embed.addField('XP To Next Level: ', (xptonextlevel - xp).toString(), true)
-        if (messages) embed.addField("Messages Sent: ", `\`${messages}\`.`)
-        if (badges) embed.addField("Badges: ", `${badges}`)
-        if (presence) embed.addField("Game: ", `${presence}`)
-        if (warntxt) embed.addField("Warns: ", warntxt)
-        if (joinedDate) embed.addField("Joined this server: ", `${joinedDate}.`)
+            .setDescription(description.join('\n'))
+            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
         
-        
-        //.addField("Roles" , rolemap)
         let messageEmbed = await message.channel.send({ embeds: [embed] });
     }
 }
