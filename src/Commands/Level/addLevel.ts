@@ -12,7 +12,7 @@ import settingsSchema from '../../schemas/settingsSchema';
 export const command: Command = {
     name: "addlevel",
     description: "add/create a new level",
-    details: "add/create a new level",
+    details: "add/create a new level. I will automatically create a role for your level. You can customize the role as you want.",
     aliases: ["leveladd"],
     group: "Level",
     hidden: false,
@@ -36,10 +36,9 @@ export const command: Command = {
         var tokens2 = args.join(' ').split(delimiter).slice(0, start);
         var levelname = tokens2.join(delimiter).trim(); 
 
-        const role = guild.roles.create({ name: `${levelname} (Lvl ${level})`, color: '#ff0000', hoist: true });
+        const role = guild.roles.create({ name: `${levelname} (Lvl ${level})`, color: '#ff0000', hoist: true, position: 1 });
 
         let levelsobj = {name: `${levelname}`, level: `${level}`, role: (await role).id}
-
 
         let result = await settingsSchema.findOneAndUpdate({
             guildId
@@ -57,7 +56,7 @@ export const command: Command = {
         }
         
         const embed = new MessageEmbed()
-            .setTitle(`Created new level: ${levelname}(${level})`)
+            .setTitle(`Created new level: ${levelname} (${level})`)
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
         message.channel.send({embeds: [embed]});

@@ -32,20 +32,9 @@ export const command: Command = {
             guildId
         })
 
-        const sortObj = (list: any[], key: string) => {
-            const compare = (a: any, b: any) => {
-                a = a[key];
-                b = b[key];
-                var type = (typeof(a) === 'string' ||
-                            typeof(b) === 'string') ? 'string' : 'number';
-                var result;
-                if (type === 'string') result = a.localeCompare(b);
-                else result = a - b;
-                return result;
-            }
-            return list.sort(compare);
-        }
-        let sortedLevels = sortObj(result.levels, 'level')
+        const compare = (obj1: any, obj2: any) => { return obj1.level - obj2.level; }
+        let sortedLevels = result.levels.sort(compare)
+        
         let desc: any = []
         sortedLevels.forEach((level: any) => {
             desc.push(`${level.name} (Lvl ${level.level})`)

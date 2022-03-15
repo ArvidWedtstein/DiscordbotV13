@@ -35,7 +35,6 @@ export const command: Command = {
             $pull: { levels: { name: level } }
         })
 
-        
         const embed = new MessageEmbed()
             .setTitle(`Removed level: ${level}`)
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
