@@ -6,7 +6,6 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
-import pollSchema from '../../schemas/pollSchema';
 
 export const command: Command = {
     name: "poll",
@@ -82,15 +81,6 @@ export const command: Command = {
             }
         }
 
-        await new pollSchema({
-            pollId: pollId.toString(),
-            messageId: message.id,
-            guildId: guild.id,
-            question: question,
-            answers: answers,
-            current: true
-        }).save();
-
         client.on('messageReactionAdd', async (reaction, user) => {
             if (reaction.message.partial) await reaction.message.fetch();
             if (reaction.partial) await reaction.fetch();
@@ -102,12 +92,6 @@ export const command: Command = {
                 if (x.emoji.name != reaction.emoji.name && x.users.cache.has(user.id)) x.users.remove(user.id)
             })
             
-            // Check if guild still exist
-            if (!reaction.message.guild.available) {
-                await pollSchema.deleteMany({
-                    guildId: guild.id
-                })
-            }
 
             if (reaction.message.embeds[0].footer?.text != `Poll ID: ${pollId}`) return
             pollId = reaction.message.embeds[0].footer.text.replace('Poll ID ', '');
@@ -121,13 +105,6 @@ export const command: Command = {
                 }
                 i++
             })
-            const update = await pollSchema.findOneAndUpdate({
-                pollId: pollId.toString(),
-                guildId: guild.id
-            }, {
-                answers: answers
-            })
-            console.log(update)
         })
         client.on('messageReactionRemove', async (reaction, user) => {
             if (reaction.message.partial) await reaction.message.fetch();
@@ -135,12 +112,6 @@ export const command: Command = {
             if (user.bot) return;
             if (!reaction.message.guild) return;
 
-            // Check if guild still exist
-            if (!reaction.message.guild.available) {
-                await pollSchema.deleteMany({
-                    guildId: guild.id
-                })
-            }
             if (reaction.message.embeds[0].footer?.text == `Poll ID: ${pollId}`) {
                 pollId = reaction.message.embeds[0].footer.text.replace('Poll ID ', '');
                 let i = 0
@@ -152,13 +123,6 @@ export const command: Command = {
                     }
                     i++
                 })
-                const update = await pollSchema.findOneAndUpdate({
-                    pollId: pollId.toString(),
-                    guildId: guild.id
-                }, {
-                    answers: answers
-                })
-                console.log(update)
             }
         });
         setTimeout(async () => {
@@ -166,11 +130,6 @@ export const command: Command = {
             description.push(`\u200b`)
             description.push(`**Final Result**`)
 
-            const res = await pollSchema.findOne({
-                pollId: pollId.toString(),
-                guildId: guild.id
-            })
-            console.log(res)
             await console.log(answers)
             
 

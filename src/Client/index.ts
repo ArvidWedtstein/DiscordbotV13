@@ -72,8 +72,10 @@ class ExtendedClient extends Client {
         this.registry.registerGroups([
             { id: "admin", name: "Admin" },
             { id: "general", name: "General" },
+            { id: "economy", name: "Economy" },
             { id: "fun", name: "Fun" },
-            { id: "guild", name: "Guild" }
+            { id: "guild", name: "Guild" },
+            { id: "random", name: "Random" },
         ])
         this.registry.registerCommandsIn(commandPath)
 
