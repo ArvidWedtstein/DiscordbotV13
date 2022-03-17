@@ -39,7 +39,9 @@ export const command: Command = {
         sortedLevels.forEach((level: any) => {
             desc.push(`${level.name} (Lvl ${level.level})`)
         });
+        
         const embed = new MessageEmbed()
+            .setTitle(`${guild.name}'s Levels`)
             .setDescription(desc.join('\n'))
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
