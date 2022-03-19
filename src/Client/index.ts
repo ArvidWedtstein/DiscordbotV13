@@ -23,7 +23,7 @@ class ExtendedClient extends Client {
         prefix: process.env.PREFIX,
         botEmbedHex: "#ff4300",
         testServer: "916799218092486686",
-        invite: "https://discord.com/api/oauth2/authorize?client_id=923144434982465537&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fapi%2Foauth2%2Fauthorize%3Fclient_id%3D923144434982465537%26permissions%3D1644936822007%26scope%3Dbot%2520applications.commands&response_type=code&scope=bot%20applications.entitlements%20applications.store.update%20applications.builds.read%20applications.commands%20applications.builds.upload%20messages.read%20guilds.join",
+        invite: "https://discord.com/oauth2/authorize?client_id=787324889634963486&scope=bot&permissions=10200548352",
         owner: "320137922370338818"
     };
     public constructor() {
