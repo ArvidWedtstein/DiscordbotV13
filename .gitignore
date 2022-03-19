@@ -7,3 +7,4 @@ cmds
 .ionide
 Stats/
 .VSCodeCounter
+dist/
