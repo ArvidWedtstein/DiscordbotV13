@@ -15,7 +15,7 @@
     "node" : ">=16.0.0"
   },
   "keywords": [],
-  "type": "module",
+  "type": "commonjs",
   "author": "ArvidWedtstein",
   "license": "ISC",
   "dependencies": {
