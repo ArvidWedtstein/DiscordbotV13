@@ -14,23 +14,23 @@ export const event: Event = {
             !message.guild
         ) return;
 
-        const member = message.mentions.members?.first();
-        if (member) {
-            const data: any = afk.get(member.id);
+        // const member = message.mentions.members?.first();
+        // if (member) {
+        //     const data: any = afk.get(member.id);
 
-            if (data) {
-                const reason = data[1];
-                const timestamp = data[0];
-                const timeAgo: any = moment(timestamp).fromNow();
+        //     if (data) {
+        //         const reason = data[1];
+        //         const timestamp = data[0];
+        //         const timeAgo: any = moment(timestamp).fromNow();
 
-                const embed = new MessageEmbed() 
-                    .setAuthor({name: `.`, iconURL: member.displayAvatarURL()})
-                    .setTitle(`Reason: ${reason}`)
-                    .setFooter(`${member.user.tag} is currently afk`)
-                    .setTimestamp(timeAgo)
-                message.reply({ embeds: [embed] })
-            }
-        }
+        //         const embed = new MessageEmbed() 
+        //             .setAuthor({name: `.`, iconURL: member.displayAvatarURL()})
+        //             .setTitle(`Reason: ${reason}`)
+        //             .setFooter({ text: `${member.user.tag} is currently afk`})
+        //             .setTimestamp(timeAgo)
+        //         message.reply({ embeds: [embed] })
+        //     }
+        // }
         const getData = afk.get(message.author.id);
         if (getData) {
             afk.delete(message.author.id)
