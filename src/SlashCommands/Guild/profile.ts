@@ -20,7 +20,7 @@ export const slashCommand: SlashCommand = {
         }  
     ],
     testOnly: true,
-    run: async (client, interaction) => {
+    run: async (client: any, interaction: any) => {
         // if (!interaction.isCommand()) return
         if (!interaction.isCommand()) return
 
