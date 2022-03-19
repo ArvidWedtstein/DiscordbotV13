@@ -12,8 +12,16 @@ export const command: Command = {
     aliases: ["brukerinfo"],
     group: __dirname.toLowerCase(),
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", 'ADMINISTRATOR'],
+    UserPermissions: ["SEND_MESSAGES", 'BAN_MEMBERS'],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     ownerOnly: false,
     examples: ["userinfo @user"],
     

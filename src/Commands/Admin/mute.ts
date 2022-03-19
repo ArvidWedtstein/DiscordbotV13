@@ -7,6 +7,16 @@ export const command: Command = {
     name: "mute",
     description: "mute a user",
     group: __dirname.toLowerCase(),
+    UserPermissions: ["MUTE_MEMBERS"],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     run: async(client, message, args) => {
         const { guild, author, mentions } = message
         if (!guild) return;

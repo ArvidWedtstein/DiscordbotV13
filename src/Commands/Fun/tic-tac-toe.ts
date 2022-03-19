@@ -130,10 +130,10 @@ export const command: Command = {
                     msg = `${spots1[0]} ${spots1[1]} ${spots1[2]}\n${spots1[3]} ${spots1[4]} ${spots1[5]}\n${spots1[6]} ${spots1[7]} ${spots1[8]}`
                     let embed2 = new MessageEmbed()
                         .setColor('#ff4300')
-                        .setAuthor(`Turn: ${game.p2}`)
+                        .setAuthor({ name: `Turn: ${game.p2}` })
                         .setTitle(`Tic Tac Toe`)
                         .setDescription(`${msg}`)
-                        .setFooter('Write a number to mark your spot or *end* to stop the game')
+                        .setFooter({ text: 'Write a number to mark your spot or *end* to stop the game' })
 
                     channel.send({ embeds: [embed2] })
                     
@@ -148,10 +148,10 @@ export const command: Command = {
                     msg = `${spots1[0]} ${spots1[1]} ${spots1[2]}\n${spots1[3]} ${spots1[4]} ${spots1[5]}\n${spots1[6]} ${spots1[7]} ${spots1[8]}`
                     let embed2 = new Discord.MessageEmbed()
                         .setColor('#ff4300')
-                        .setAuthor(`Turn: ${game.p1}`)
+                        .setAuthor({ name: `Turn: ${game.p1}` })
                         .setTitle(`Tic Tac Toe`)
                         .setDescription(`${msg}`)
-                        .setFooter('Write a number to mark your spot')
+                        .setFooter({ text: 'Write a number to mark your spot' })
                     
                     channel.send({ embeds: [embed2] })
 

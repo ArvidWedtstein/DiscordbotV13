@@ -12,7 +12,16 @@ export const command: Command = {
     description: "nickname a user",
     aliases: ["nick"],
     group: __dirname,
-    UserPermissions: ["KICK_MEMBERS"],
+    UserPermissions: ["MANAGE_NICKNAMES"],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     run: async(client, message, args) => {
         message.delete()
         const { guild, author, mentions } = message

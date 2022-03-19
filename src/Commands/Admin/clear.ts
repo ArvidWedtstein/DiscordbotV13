@@ -8,6 +8,18 @@ export const command: Command = {
     name: "clear",
     description: "clear messages in a channel",
     group: __dirname.toLowerCase(),
+    UserPermissions: [
+        "MANAGE_MESSAGES"
+    ],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     run: async(client, message, args: any) => {
         const { guild, author, mentions, channel } = message
         if (!guild) return;

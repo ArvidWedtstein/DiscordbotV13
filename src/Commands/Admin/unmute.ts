@@ -9,6 +9,20 @@ export const command: Command = {
     description: "unmute a user",
     aliases: ["removemute"],
     group: __dirname.toLowerCase(),
+    UserPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'MUTE_MEMBERS'
+    ],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     run: async(client, message, args) => {
         const { guild, author, mentions } = message
         if (!guild) return;

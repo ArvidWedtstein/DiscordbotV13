@@ -8,7 +8,6 @@ import temporaryMessage from '../../Functions/temporary-message';
 import icon from '../../Functions/icon';
 import boticons from '../../Functions/boticons';
 import emojiCharacters from '../../Functions/emojiCharacters';
-import { APISelectMenuOption } from 'discord.js/node_modules/discord-api-types';
 export const command: Command = {
     name: "help",
     description: "get some help",
@@ -20,7 +19,6 @@ export const command: Command = {
     examples: ["help <cmd>"],
     
     run: async(client, message, args) => {
-        const cmd: any = []
         const { guild, author, channel, member } = message
         const guildId = guild?.id
         const userId = author.id;
@@ -32,12 +30,10 @@ export const command: Command = {
         let embedcolor: any = await getColor(guildId, userId);
 
         // Get commands
-        client.registry.commands.forEach((c) => {
-            cmd.push(c);
-        })
+
         // if user specified a specific command
         if (args[0]) {
-            let chosencmd = cmd.find((c: any) => c.name === args[0])
+            let chosencmd = client.registry.commands.find((c: any) => c.name === args[0])
             if (!chosencmd) return temporaryMessage(channel, `command could not be found`, 5);
             let embed = new MessageEmbed({
                 title: `${getEmoji("help")} ${await language(guild, 'HELP_TITLE')} - ${chosencmd.name}`,
@@ -68,10 +64,9 @@ export const command: Command = {
             for (i in lookupObject) {
                 newArray.push(lookupObject[i].group);
             }
-            console.log(newArray)
             return newArray;
         })
-        const categories: any = await removeDuplicates(cmd, 'group');
+        const categories: any = client.registry.groups.map((f) => f.name)
         const options: any[] = [{
             label: 'Home',
             description: 'Overview over the categories',
@@ -85,11 +80,12 @@ export const command: Command = {
         let embed = new MessageEmbed({
             color: embedcolor,
             title: `${getEmoji("help")}${emojiCharacters.squareleft}${await language(guild, 'HELP_TITLE')}${emojiCharacters.squareright}`,
-            description: `${boticons(client, 'ticket')}${await language(guild, 'HELP_TICKET')}\n[Invite](https://discord.com/api/oauth2/authorize?client_id=787324889634963486&permissions=0&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Foauth2%2Fauthorize%3F%26client_id%3D787324889634963486%26scope%3Dbot&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.join%20gdm.join%20rpc%20rpc.notifications.read%20applications.builds.upload%20messages.read%20webhook.incoming%20bot%20rpc.activities.write%20rpc.voice.write%20rpc.voice.read%20applications.builds.read%20applications.commands%20applications.store.update%20applications.entitlements%20activities.read%20activities.write%20relationships.read)`,
-            footer: { text: `-help <cmd> to see more details - 0/${categories.length}` },
+            description: `${boticons(client, 'ticket')}${await language(guild, 'HELP_TICKET')}\n[Invite](https://discord.gg/ysfgqV7QFM)`,
+            footer: { text: `${client.config.prefix}help <cmd> to see more details - 0/${categories.length}` },
             fields: [{name: `__**Home - ${0}**__`, value: 'This page', inline: true}]
         })
         for (let i = 0; i < categories.length; i++) {
+            console.log(categories[i])
             let roleoption: any = {
                 label: `${await capitalizeFirstLetter(categories[i])}`,
                 value: `${i + 1}`,
@@ -99,8 +95,9 @@ export const command: Command = {
                     id: getEmoji("chevronright").id
                 }
             }
-            options.push(roleoption)
-            embed.addField(`__**${capitalizeFirstLetter(categories[i])} - ${i + 1}**__`, `${await language(guild, 'HELP_LIST')} ${categories[i]} commands`, true)
+            await options.push(roleoption)
+            console.log(roleoption)
+            embed.addField(`__**${capitalizeFirstLetter(categories[i])} - ${i + 1}**__`, `${await language(guild, 'HELP_LIST')} ${categories[i].name} commands`, true)
         }
         const row = new MessageActionRow()
             .addComponents(
@@ -140,9 +137,7 @@ export const command: Command = {
             if (page === 0) {
                 await messageEmbed.edit({ embeds: [embed]})
             } else {
-                var filteredCmds = cmd.filter(function (el: any) {
-                    return el.group === categories[page - 1] && member?.permissions.has(el.UserPermissions);
-                });
+                var filteredCmds = client.registry.commands.sweep(el => el.group !== categories[page - 1] && !member!.permissions.has(el!.UserPermissions || "SEND_MESSAGES"));
                 helpembed(`${categories[page - 1]}`, page, filteredCmds)
             }
         })
@@ -176,9 +171,7 @@ export const command: Command = {
                     await messageEmbed.edit({ embeds: [embed] });
                     return
                 } else {
-                    var filteredCmds = cmd.filter(function (el: any) {
-                        return el.group === categories[page - 1] && member?.permissions.has(el.UserPermissions);
-                    });
+                    var filteredCmds = client.registry.commands.sweep(el => el.group !== categories[page - 1] && !member!.permissions.has(el!.UserPermissions || "SEND_MESSAGES"));
                     helpembed(`${categories[page - 1]}`, page, filteredCmds)
                 }
                 await reaction.users.remove(user.id);

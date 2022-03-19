@@ -15,7 +15,16 @@ export const command: Command = {
     group: __dirname.toLowerCase(),
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "BAN_MEMBERS"],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL',
+        'BAN_MEMBERS'
+    ],
     ownerOnly: false,
     examples: ["warn @user <reason>"],
     

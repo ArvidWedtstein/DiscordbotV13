@@ -6,6 +6,16 @@ export const command: Command = {
     name: "balance",
     aliases: ["bal"],
     description: "check your balance",
+    UserPermissions: ["SEND_MESSAGES"],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     run: async(client, message, args) => {
         const target = message.author || message.mentions.users.first();
         const { guild } = message

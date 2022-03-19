@@ -13,7 +13,17 @@ export const command: Command = {
     aliases: ["removeban"],
     group: __dirname,
     UserPermissions: ["BAN_MEMBERS"],
-    ClientPermissions: ["BAN_MEMBERS", "MODERATE_MEMBERS"],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL',
+        'BAN_MEMBERS',
+        'MODERATE_MEMBERS'
+    ],
     run: async(client, message, args) => {
         message.delete()
         const { guild, author, mentions } = message

@@ -6,7 +6,19 @@ import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy'
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 export const command: Command = {
     name: "ban",
-    group: "",
+    group: "Admin",
+    UserPermissions: [
+        "BAN_MEMBERS"
+    ],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     run: async(client, message, args) => {
         const { guild, author, mentions, channel } = message
         if (!guild) return;
