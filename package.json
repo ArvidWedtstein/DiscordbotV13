@@ -10,8 +10,12 @@
     "start": "node dist/index.js",
     "start2": "ts-node src/index.ts"
   },
+  "engines" : { 
+    "npm" : ">=7.0.0",
+    "node" : ">=16.0.0"
+  },
   "keywords": [],
-  "author": "",
+  "author": "ArvidWedtstein",
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^0.8.2",
