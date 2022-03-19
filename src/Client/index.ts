@@ -42,9 +42,13 @@ class ExtendedClient extends Client {
                 Intents.FLAGS.GUILD_MESSAGE_TYPING,
                 Intents.FLAGS.DIRECT_MESSAGE_REACTIONS
             ],
-            messageCacheLifetime: 200,
+            messageCacheLifetime: 60,
             messageSweepInterval: 180,
-            allowedMentions: { parse: ['users', 'roles'], repliedUser: true}
+            shards: 'auto',
+            restTimeOffset: 0,
+            restWsBridgeTimeout: 100,
+            allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true},
+            partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"]
         });
     }
     public async init() {
@@ -127,7 +131,6 @@ class ExtendedClient extends Client {
                     cmd.options.forEach((option: any) => {
                         if (option.options) {
                             option.options.forEach((option2: any) => {
-
                                 option2.type = commandoptiontypes.indexOf(option2.type)+1
                             })
                         }
@@ -137,7 +140,7 @@ class ExtendedClient extends Client {
 
                 if (slashCommand.testOnly) {
                     testcmds.push(cmd);
-                } else if (slashCommand.testOnly && slashCommand.testOnly == false) {
+                } else if (slashCommand.testOnly == false) {
                     globalcmds.push(cmd)
                 }
             }
@@ -170,9 +173,6 @@ class ExtendedClient extends Client {
                 }
             })();
         }
-    }
-    public async registerGroups() {
-        
     }
 }
 

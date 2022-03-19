@@ -8,15 +8,15 @@ export const slashCommand: SlashCommand = {
     permissions: ['KICK_MEMBERS', 'MUTE_MEMBERS'],
     ClientPermissions: ['MUTE_MEMBERS', 'KICK_MEMBERS'],
     testOnly: true,
-    run: async (client, interaction) => {
+    run: async (client, interaction, args) => {
         // if (!interaction.isCommand()) return
         if (interaction.isCommand()) return
         // if (interaction.isContextMenu()) return
         if (interaction.isUserContextMenu()) {
             const embed = new MessageEmbed()
-                .setAuthor({name: `${interaction.member?.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
+                .setAuthor({ name: `${interaction.member?.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}` })
                 .setDescription(`choose timeout length for`)
-                .setFooter(`${interaction.targetUser.tag}`, interaction.targetUser.displayAvatarURL())
+                .setFooter({ text: `${interaction.targetUser.tag}`, iconURL: interaction.targetUser.displayAvatarURL() })
                 
             const row = new MessageActionRow() 
                 .addComponents(

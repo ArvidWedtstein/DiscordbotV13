@@ -5,7 +5,7 @@ export const slashCommand: SlashCommand = {
     name: "ping",
     description: "ping",
     type: "CHAT_INPUT",
-    run: async (client, interaction) => {
+    run: async (client, interaction, args) => {
         new SlashCommandBuilder()
         .setName("ping")
         .setDescription("ping")

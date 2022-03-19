@@ -3,6 +3,7 @@ import Client from '../Client';
 import { Interaction, Message, CommandInteraction, GuildMember, PermissionString } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
 import language from '../Functions/language';
+import { arg } from 'mathjs';
 
 
 export const event: Event = {
@@ -69,47 +70,62 @@ export const event: Event = {
         
         if (interaction.isCommand()) {
             interaction.deferReply({ ephemeral: true})
-            const cmd = interaction.commandName
-            if (!cmd) return;
-            const command = client.slashCommands.get(cmd);
+            const { commandName, options, guild, channel } = interaction;
+
+            if (!commandName) return;
+            const command = client.slashCommands.get(commandName);
             if (command?.permissions) {
                 validatePermissions(command?.permissions);
                 
                 command?.permissions.forEach(async (perm) => {
-                    if (!member.permissions.has(perm)) return temporaryMessage(interaction.channel, `${await language(interaction.guild, 'PERMISSION_ERROR')}`);
+                    if (!member.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'PERMISSION_ERROR')}`);
                 })
             }
 
-            if (command?.ClientPermissions && interaction.guild.me?.permissions) {
-                validatePermissions(interaction.guild.me?.permissions.toArray());
+            if (command?.ClientPermissions && guild.me?.permissions) {
+                validatePermissions(guild.me?.permissions.toArray());
                 
                 command?.ClientPermissions.forEach(async (perm) => {
-                    if (!interaction.guild?.me?.permissions.has(perm)) return temporaryMessage(interaction.channel, `${await language(interaction.guild, 'CLIENTPERMISSION_ERROR')}`);
+                    if (!guild?.me?.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'CLIENTPERMISSION_ERROR')}`);
                 })
             }
-            if (command) (command as SlashCommand).run(client, interaction);
+
+            const args: string[] = []
+
+            options.data.forEach(({ value }) => {
+                args.push(String(value))
+            })
+            if (command) (command as SlashCommand).run(client, interaction, args);
         };
         if (interaction.isButton()) return
         if (interaction.isContextMenu() || interaction.isUserContextMenu()) {
             await interaction.deferReply({ ephemeral: false });
-            console.log(client.slashCommands.get(interaction.commandName))
-            const command = client.slashCommands.get(interaction.commandName);
+
+            const { commandName, options, guild, channel } = interaction;
+
+            const command = client.slashCommands.get(commandName);
             if (command?.permissions) {
                 validatePermissions(command?.permissions);
                 
                 command?.permissions.forEach(async (perm) => {
-                    if (!member.permissions.has(perm)) return temporaryMessage(interaction.channel, `${await language(interaction.guild, 'PERMISSION_ERROR')}`);
+                    if (!member.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'PERMISSION_ERROR')}`);
                 })
             }
 
-            if (command?.ClientPermissions && interaction.guild.me?.permissions) {
-                validatePermissions(interaction.guild.me?.permissions.toArray());
+            if (command?.ClientPermissions && guild.me?.permissions) {
+                validatePermissions(guild.me?.permissions.toArray());
                 
                 command?.ClientPermissions.forEach(async (perm) => {
-                    if (!interaction.guild?.me?.permissions.has(perm)) return temporaryMessage(interaction.channel, `${await language(interaction.guild, 'CLIENTPERMISSION_ERROR')}`);;
+                    if (!guild?.me?.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'CLIENTPERMISSION_ERROR')}`);;
                 })
             }
-            if (command) command.run(client, interaction);
+
+            const args: string[] = []
+
+            options.data.forEach(({ value }) => {
+                args.push(String(value))
+            })
+            if (command) command.run(client, interaction, args);
 
         }
     }
