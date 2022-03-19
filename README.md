@@ -7,7 +7,7 @@ Runs on DiscordJS V13
 ## How to use
 Download, and type `npm run dev` or `npm run start` in console, and hit enter.
 
-## Stuff used in this project
+##
 
 <div align="center">
   
