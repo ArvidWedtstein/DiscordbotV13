@@ -16,10 +16,11 @@ export const event: Event = {
 
         const member = message.mentions.members?.first();
         if (member) {
-            const data = afk.get(member.id);
+            const data: any = afk.get(member.id);
 
             if (data) {
-                const [ timestamp, reason ]:any = data;
+                const reason = data[1];
+                const timestamp = data[0];
                 const timeAgo: any = moment(timestamp).fromNow();
 
                 const embed = new MessageEmbed() 
