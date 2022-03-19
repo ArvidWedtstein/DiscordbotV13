@@ -8,10 +8,11 @@ const actions = ['give', 'remove', 'has']
 
 export const slashCommand: SlashCommand = {
     name: "role",
+    description: "roles",
     type: "CHAT_INPUT",
     permissions: ['KICK_MEMBERS', 'MUTE_MEMBERS'],
     ClientPermissions: ['MUTE_MEMBERS', 'KICK_MEMBERS'],
-    testOnly: false,
+    testOnly: true,
     options: [
         {
             name: "action",
@@ -36,10 +37,18 @@ export const slashCommand: SlashCommand = {
             required: true
         }  
     ],
-    run: async (client, interaction, args) => {
+    run: async (client, interaction) => {
+        if (!interaction.isCommand()) return
+        const { guild, channel, options } = interaction;
+
+        const args: string[] = []
+
+        options.data.forEach(({ value }) => {
+            args.push(String(value))
+        })
         const action = args.shift()
 
-        const { guild, channel } = interaction;
+        
 
         if (!action || !actions.includes(action)) return temporaryMessage(channel, `Unknown action. Use one of the following: ${actions.join(', ')}`, 10)
 
@@ -53,7 +62,17 @@ export const slashCommand: SlashCommand = {
         if (!roleId) return temporaryMessage(channel, `404 - Role with ID ${roleId} not found 😳`)
 
         if (action === 'has') {
-            
+            return await interaction.channel?.send({ content: `${member.roles.cache.has(roleId) ? 'User has role' : 'User does not have role'}` })
+        }
+        if (action === 'give') {
+            member.roles.add(role!)
+            interaction.editReply({ content: `Added role` })
+            return
+        }
+        if (action === 'remove') {
+            member.roles.remove(role!)
+            interaction.editReply({ content: `Removed role` })
+            return
         }
     }
 }

@@ -65,15 +65,14 @@ export const command: Command = {
             p2,
             turn: p1
         }
-        const confirmation = await message.channel.send(`${language(guild, 'ECONOMY_RESET')} (Y, N, yes, no)`)
         const filter = (m: any) => m.author.id === author.id || m.author.id === member.id
 
         if (!channel.isText()) return
         
-        const collector = confirmation.channel.createMessageCollector({
+        const collector = channel.createMessageCollector({
             filter, 
             max: 50,
-            time: 60 * 10,
+            time: 60 * 1000,
         });
     
         collector.on('collect', async (m: any) => {

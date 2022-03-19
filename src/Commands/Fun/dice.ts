@@ -32,7 +32,7 @@ export const command: Command = {
         let embed = new MessageEmbed()
             .setColor(client.config.botEmbedHex)
             .setTitle(`${emoji} You rolled a ***${getRandomIntInclusive(1, 6)}***`)
-            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+            .setFooter({ text: `Dice rolled by ${author.tag}`, iconURL: author.displayAvatarURL() })
         await channel.send({ embeds: [embed] })
         
     }

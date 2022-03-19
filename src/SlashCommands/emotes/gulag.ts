@@ -14,7 +14,7 @@ export const slashCommand: SlashCommand = {
     //     }  
     // ],
     testOnly: true,
-    run: async (client, interaction, args) => {
+    run: async (client, interaction) => {
         // if (!interaction.isCommand()) return
         if (interaction.isCommand()) return
         if (interaction.isUserContextMenu()) {

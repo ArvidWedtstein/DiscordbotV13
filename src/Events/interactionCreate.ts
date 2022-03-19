@@ -69,7 +69,7 @@ export const event: Event = {
         ) return;
         
         if (interaction.isCommand()) {
-            interaction.deferReply({ ephemeral: true})
+            await interaction.deferReply({ ephemeral: true })
             const { commandName, options, guild, channel } = interaction;
 
             if (!commandName) return;
@@ -78,7 +78,7 @@ export const event: Event = {
                 validatePermissions(command?.permissions);
                 
                 command?.permissions.forEach(async (perm) => {
-                    if (!member.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'PERMISSION_ERROR')}`);
+                    if (!member.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'PERMISSION_ERROR')}`, 10);
                 })
             }
 
@@ -86,20 +86,16 @@ export const event: Event = {
                 validatePermissions(guild.me?.permissions.toArray());
                 
                 command?.ClientPermissions.forEach(async (perm) => {
-                    if (!guild?.me?.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'CLIENTPERMISSION_ERROR')}`);
+                    if (!guild!.me!.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'CLIENTPERMISSION_ERROR')}`);
                 })
             }
 
-            const args: string[] = []
-
-            options.data.forEach(({ value }) => {
-                args.push(String(value))
-            })
-            if (command) (command as SlashCommand).run(client, interaction, args);
+            
+            if (command) (command as SlashCommand).run(client, interaction);
         };
         if (interaction.isButton()) return
         if (interaction.isContextMenu() || interaction.isUserContextMenu()) {
-            await interaction.deferReply({ ephemeral: false });
+            interaction.deferReply({ ephemeral: false });
 
             const { commandName, options, guild, channel } = interaction;
 
@@ -120,12 +116,7 @@ export const event: Event = {
                 })
             }
 
-            const args: string[] = []
-
-            options.data.forEach(({ value }) => {
-                args.push(String(value))
-            })
-            if (command) command.run(client, interaction, args);
+            if (command) command.run(client, interaction);
 
         }
     }

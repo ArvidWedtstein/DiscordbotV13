@@ -8,7 +8,7 @@ export const slashCommand: SlashCommand = {
     permissions: ['KICK_MEMBERS', 'MUTE_MEMBERS'],
     ClientPermissions: ['MUTE_MEMBERS', 'KICK_MEMBERS'],
     testOnly: true,
-    run: async (client, interaction, args) => {
+    run: async (client, interaction) => {
         // if (!interaction.isCommand()) return
         if (interaction.isCommand()) return
         // if (interaction.isContextMenu()) return

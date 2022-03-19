@@ -2,7 +2,7 @@ import Client from '../Client';
 import { CommandInteraction, Interaction, Message, ApplicationCommandType, ApplicationCommandOption, ApplicationCommandOptionType, PermissionString, CommandInteractionOptionResolver } from 'discord.js';
 
 interface Run {
-    (client: Client, interaction: Interaction, args: string[]): any;
+    (client: Client, interaction: Interaction): any;
 }
 
 export interface SlashCommand {
@@ -15,5 +15,4 @@ export interface SlashCommand {
     testOnly?: boolean;
     options?: ApplicationCommandOption[];
     run: Run;
-    
 }

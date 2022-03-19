@@ -127,6 +127,11 @@ class ExtendedClient extends Client {
                 this.slashCommands.set(slashCommand.name, slashCommand);
 
                 cmd.type = commandtypes.indexOf(slashCommand.type)+1;
+
+                if (slashCommand.type === "CHAT_INPUT") {
+                    cmd.description = slashCommand.description;
+
+                }
                 if (cmd.options) {
                     cmd.options.forEach((option: any) => {
                         if (option.options) {
@@ -158,21 +163,21 @@ class ExtendedClient extends Client {
                 console.error(error);
             }
         })();
-        if (globalcmds.length > 0) {
-            (async () => {
-                try {
-                    console.log('Started refreshing global (/) commands.', this.application?.id);
+        // if (globalcmds.length > 0) {
+        //     (async () => {
+        //         try {
+        //             console.log('Started refreshing global (/) commands.', this.application?.id);
             
-                    await rest.put(
-                        Routes.applicationCommands(this.application?.id || ''),
-                        { body: globalcmds }
-                    )
-                    console.log('Successfully reloaded global (/) commands.');
-                } catch (error) {
-                    console.error(error);
-                }
-            })();
-        }
+        //             await rest.put(
+        //                 Routes.applicationCommands(this.application?.id || ''),
+        //                 { body: globalcmds }
+        //             )
+        //             console.log('Successfully reloaded global (/) commands.');
+        //         } catch (error) {
+        //             console.error(error);
+        //         }
+        //     })();
+        // }
     }
 }
 
