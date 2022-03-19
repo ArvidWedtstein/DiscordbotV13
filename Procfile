@@ -1,1 +1,1 @@
-worker: nodemon ./src/index.ts
+web:ts-node/src/index.ts
