@@ -21,9 +21,8 @@ export const event: Event = {
         birthday(client);
 
         // Check for brawlhalla stream
-        // brawlhalla(client);
+        brawlhalla(client);
         
-
-        await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
+        // await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
     }
 }

@@ -20,7 +20,7 @@ class ExtendedClient extends Client {
     public config: Config = {
         token: process.env.CLIENT_TOKEN, 
         mongoURI: process.env.REMOTE_MONGODB, 
-        prefix: process.env.PREFIX,
+        prefix: "<",
         botEmbedHex: "#ff4300",
         testServer: "916799218092486686",
         invite: "https://discord.com/oauth2/authorize?client_id=787324889634963486&scope=bot&permissions=10200548352",
@@ -44,6 +44,7 @@ class ExtendedClient extends Client {
             ],
             messageCacheLifetime: 60,
             messageSweepInterval: 180,
+            restGlobalRateLimit: 180,
             shards: 'auto',
             restTimeOffset: 0,
             restWsBridgeTimeout: 100,
@@ -73,6 +74,7 @@ class ExtendedClient extends Client {
         // Load Commands
         // ----------------------------
         const commandPath = path.join(__dirname, "..", "Commands");
+        console.log(commandPath)
         this.registry.registerGroups([
             { id: "admin", name: "Admin" },
             { id: "general", name: "General" },
@@ -143,26 +145,29 @@ class ExtendedClient extends Client {
                     })
                 }
 
-                if (slashCommand.testOnly) {
-                    testcmds.push(cmd);
-                } else if (slashCommand.testOnly == false) {
-                    globalcmds.push(cmd)
-                }
+                // if (slashCommand.testOnly) {
+                //     testcmds.push(cmd);
+                // } else if (slashCommand.testOnly == false) {
+                //     globalcmds.push(cmd)
+                // }
             }
         });
-        (async () => {
-            try {
-                console.log('Started refreshing application (/) commands.');
+        if (testcmds.length > 0) {
+            (async () => {
+                try {
+                    console.log('Started refreshing application (/) commands.');
+            
+                    await rest.put(
+                        Routes.applicationGuildCommands(this.user?.id || '923144434982465537', this.config.testServer),
+                        { body: testcmds }
+                    )
+                    console.log('Successfully reloaded application (/) commands.');
+                } catch (error) {
+                    console.error(error);
+                }
+            })();
+        }
         
-                await rest.put(
-                    Routes.applicationGuildCommands(this.user?.id || '923144434982465537', this.config.testServer),
-                    { body: testcmds }
-                )
-                console.log('Successfully reloaded application (/) commands.');
-            } catch (error) {
-                console.error(error);
-            }
-        })();
         if (globalcmds.length > 0) {
             (async () => {
                 try {

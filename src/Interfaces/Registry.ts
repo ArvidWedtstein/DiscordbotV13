@@ -4,6 +4,7 @@ import { Command } from './Command';
 import { CommandGroup } from './CommandGroup';
 import fs from 'fs';
 import * as gradient from 'gradient-string';
+import path from 'path'
 export class Registry {
     public client;
     public commands: Collection<string, Command> = new Collection();
@@ -45,7 +46,7 @@ export class Registry {
     registerGroups(groups: CommandGroup[]|Object[]|Array<string[]|any>) {
 		if(!Array.isArray(groups)) throw new TypeError('Groups must be an Array.');
 		for(const group of groups) {
-            
+
 			if(Array.isArray(group)) this.registerGroup(group[0], group[1]);
 			else this.registerGroup(group.id, group.name);
 		}
@@ -103,7 +104,10 @@ export class Registry {
 	registerCommandsIn(options: string|any) {
 		fs.readdirSync(options).forEach((dir) => {
 			if (this.groups.find(g => g.id === dir.toLowerCase())) {
-				const commands: any = fs.readdirSync(`${options}/${dir}`).filter((file) => file.endsWith('.ts'));
+				// Check whether commands are TypeScript or have been compiled to Javascript
+				var extension = path.basename(__filename).split(".").pop()
+
+				const commands: any = fs.readdirSync(`${options}/${dir}`).filter((file) => file.endsWith(`.${extension}`));
 				const commands2 = []
 				for (const file of commands) {
 					const { command } = require(`${options}/${dir}/${file}`);

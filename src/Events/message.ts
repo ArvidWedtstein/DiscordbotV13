@@ -67,12 +67,16 @@ export const event: Event = {
             }
         }
         const args: any = message.content.slice(client.config.prefix.length).trim().split(" ");
-        
+
         const cmd = args.shift().toLowerCase();
+
         if (!cmd) return
-        
+
+        // Get command in registry
         const command = client.registry.commands.get(cmd) || client.aliases.get(cmd);
 
+
+        // Skip if command is disabled or doesn't exist
         if (!command) return
         if (command?.disabled) return
 
