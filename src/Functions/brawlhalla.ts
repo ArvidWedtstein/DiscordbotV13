@@ -39,12 +39,30 @@ export const brawlhalla = (async (client: Client) => {
 
           var greet: string;
 
+          var greetings = [
+            'Greetings',
+            "Howdy!",
+            "Hello there"
+          ]
+          var greetings1 = [
+            "Good Morning",
+            ...greetings
+          ]
+          var greetings2 = [
+            "Good Afternoon",
+            ...greetings
+          ]
+          var greetings3 = [
+            "Good Evening",
+            ...greetings
+          ]
+
           if (hours < 12) {
-            greet = 'Good Morning';
+            greet = greetings1[Math.floor(Math.random()*greetings1.length)];;
           } else if (hours >= 12 && hours <= 17) {
-            greet = 'Good Afternoon';
+            greet = greetings2[Math.floor(Math.random()*greetings2.length)];
           } else if (hours >= 17 && hours <= 24) {
-            greet = 'Good Evening';
+            greet = greetings3[Math.floor(Math.random()*greetings3.length)];
           }
             
           result.forEach(async (user) => {
@@ -53,10 +71,17 @@ export const brawlhalla = (async (client: Client) => {
 
             let member = guild.members.cache.find((member) => member.id === user.userId)
 
+            var messages = [
+              `I have the pleasure to inform you that **Brawlhalla** currently is streaming, live on Twitch.`,
+              `Did you know?!? **Brawlhalla** is streaming! YES. You heard right! Brawlhalla is streaming right now on twitch!`,
+            ]
+
+            var randomMsg = messages[Math.floor(Math.random()*messages.length)];
             let embed = new MessageEmbed()
               .setTitle(`${greet}, ${member?.user.username}.`)
-              .setDescription(`I have the pleasure to inform you that **Brawlhalla** currently is streaming, live on Twitch.`)
-              .setThumbnail(r.getThumbnailUrl({width: 800, height: 500}))
+              .setURL('https://www.twitch.tv/brawlhalla')
+              .setDescription(randomMsg)
+              .setThumbnail(r.getThumbnailUrl({width: 1000, height: 1000}))
               .setFooter({ text: `Sincerely, Memebot`, iconURL: client.user?.displayAvatarURL() })
               .setTimestamp()
 

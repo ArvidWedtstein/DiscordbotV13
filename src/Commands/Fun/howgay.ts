@@ -10,9 +10,9 @@ export const command: Command = {
     description: "check the true gayness of your homie",
     group: __dirname,
     run: async(client, message, args) => {
-        console.log(args)
+        const { guild, channel, mentions } = message
         // message.delete()
-        const guildId = message.guild?.id
+        const guildId = guild?.id
         const emoji: any = client.emojis.cache.get('801707111657504799')
         const getRandomIntInclusive = (async (min: number, max: number) => {
             min = Math.ceil(min);
@@ -20,41 +20,29 @@ export const command: Command = {
             const res: any = Math.floor(Math.random() * (max - min + 1)) + min;
             return res; //The maximum is inclusive and the minimum is inclusive 
         })
-        if (message.mentions.users.first()) {
-            const member = message.mentions.users.first()?.username || args[0];
-            if (!member) return console.log('could not find member')
-            
-            const gay = await getRandomIntInclusive(0, 100);
+        const member = mentions.users.first()?.username || args[0];
+        if (!member) return temporaryMessage(channel, `Could not find any member`)
+        
+        const gay = await getRandomIntInclusive(0, 100);
 
-            
-            
-            let embed = new Discord.MessageEmbed()
-                    .setColor('#ff00ff')
-                    .setTitle('Gayness Meter')
-                    .setDescription(`According to my results, ${member}.\nis ${gay}% gay`)
-            let messageEmbed = await message.channel.send({embeds: [embed]}).then(embedMessage => {
-                if (gay > 60) {
-                    embedMessage.react(emoji)
-                }
-            });
-            
-        } else {
-            if (!args[0]) {
-                return message.reply(`You need to define a thing or user: ${client.config.prefix}howgay <thing/user>`)
+        var messages = [
+            `results`,
+            `measurements`,
+            `research`,
+            `conclusion`,
+            `calculations`,
+            `decision`,
+            `opinion`
+        ]
+        var randomMsg = messages[Math.floor(Math.random()*messages.length)];
+        let embed = new Discord.MessageEmbed()
+                .setColor('#ff00ff')
+                .setTitle('Gayness Meter')
+                .setDescription(`According to my ${randomMsg}, ${member}.\nis ${gay}% gay`)
+        let messageEmbed = await message.channel.send({embeds: [embed]}).then(embedMessage => {
+            if (gay > 60) {
+                embedMessage.react(emoji)
             }
-            const gay = await getRandomIntInclusive(0, 100)
-            //console.log(gay)
-            
-            let embed = new Discord.MessageEmbed()
-                    .setColor('#ff00ff')
-                    .setTitle('Gayness Meter')
-                    .setDescription(`According to my results, ${args[0]}.\nis ${gay}% gay`)
-            let messageEmbed = await message.channel.send({embeds: [embed]}).then(embedMessage => {
-                if (gay > 60) {
-                    embedMessage.react(emoji)
-                    
-                }
-            });
-        }
+        });
     }
 }

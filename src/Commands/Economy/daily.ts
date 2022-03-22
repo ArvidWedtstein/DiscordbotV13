@@ -22,7 +22,7 @@ export const command: Command = {
         message.delete();
         const setting = await Settings(message, 'money');
 
-        if (setting == false) return temporaryMessage(channel, `${language(guild, 'SETTING_OFF')} Economy ${language(guild, 'SETTING_OFF2')}`, 10);
+        if (!setting) return temporaryMessage(channel, `${language(guild, 'SETTING_OFF')} Economy ${language(guild, 'SETTING_OFF2')}`, 10);
 
         const guildId = guild?.id;
         const userId = author.id

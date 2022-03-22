@@ -16,8 +16,10 @@ export const command: Command = {
     aliases: ["p"],
     ownerOnly: false,
     ClientPermissions: ["SEND_MESSAGES", "SEND_MESSAGES_IN_THREADS", "VIEW_CHANNEL"],
+    UserPermissions: ["SEND_MESSAGES"],
     run: async(client, message, args) => {
-        const { guild, mentions, author } = message;
+        const { guild, mentions, author, channel } = message;
+
         const u = mentions.users.first()?.id || author?.id
         const user: any = guild?.members.cache.find(r => r.id === u);
         const guildId = guild?.id
@@ -31,84 +33,70 @@ export const command: Command = {
         if (rolemap.length > 1024) rolemap = "Too many roles to display";
         if (!rolemap) rolemap = "No roles";
 
-    
-        let xptonextlevel: any = ''
-
 
         const result = await messageCountSchema.findOne({ 
             guildId,
             userId
         })
-        let messages = '';
-        if (!result) {
-            messages = '0'
-        } else if (!result.messageCount) {
-            messages = '0'
-        } else {
-            messages = result.messageCount;
-        }
-        let birthday = '';
+        let messages = '0';
+        if (result || result.messageCount) messages = result.messageCount;         
+        
+        
+        let birthday = 'Unknown';
         let joinedDate: any = '';
         const resultsbirthday = await profileSchema.findOne({
             userId
         })
-        if (!resultsbirthday) {
-            birthday = 'Unknown'
-            joinedDate = 'Unknown'
-        } else if (resultsbirthday.birthday == '1/1') {
-            birthday = 'Unknown'
-        } else {
-            birthday = resultsbirthday.birthday;
-        }
+
+        if (resultsbirthday && resultsbirthday.birthday != '1/1') birthday = resultsbirthday.birthday;
+
         const results = await profileSchema.findOne({
             userId,
             guildId
         })
+
         joinedDate = moment(user?.joinedAt).fromNow()
-        let warntxt = '';
+
+        let warntxt = 'No warns';
         
         if (!results.warnings) {
-            warntxt += 'No warns'
-        } else {    
-            //.addField(`Warned By ${author} for "${reason}"`, `on ${new Date(timestamp).toLocaleDateString()}`)
+            warntxt = ''
             for (const warning of results.warnings) {
                 const { author, timestamp, reason } = warning
             
                 let txt = `Warned By ${author} for "${reason}" on ${new Date(timestamp).toLocaleDateString()}\n`
                 warntxt += txt
             }
-        }
+        } 
     
         // Get Animated ErlingCoin
         const erlingcoin = client.emojis.cache.get('853928115696828426');
 
+        // Get presence data
         let presencegame: any = user?.presence.activities.length ? user?.presence.activities.filter( (x: any) => x.type === "PLAYING") : null;
         let presence = `${presencegame && presencegame.length ? presencegame[0].name : 'None'}`
 
+        if (presence.includes('Skyrim')) presence += `Skyrim`
 
-        if (presence.includes('Skyrim')) {
-            // presence += `${boticons(this.client, 'skyrim')}`
-            presence += `Skyrim`
-        }
-        
+
+        // Get XP and Level Data
         let Coins = await getCoins(guildId, userId);
         let xp: number = parseInt(await getXP(guildId, userId));
         let userlevel: any = await getLevel(guildId, userId);
 
         // Calculate xp to next level with some random math
-        xptonextlevel = (userlevel / 10) * (userlevel / 10) * 210;
+        let xptonextlevel = (userlevel / 10) * (userlevel / 10) * 210;
         let color = await getColor(guildId, userId);
 
         const badge = user.flags;
-        let badges = ''
+        let badges = 'None'
         if (badge) {
-            for (let i = 0; i < badge.length; i++) {
-                let badg = client.emojis.cache.find((e) => e.name === badge[i])
+            badges = ''
+            badge.forEach((bad: any) => {
+                let badg = client.emojis.cache.find((e) => e.name === bad)
                 
                 badges += `${badg}\n`
-            }
-        } else {
-            badges += 'None'
+            });
         }
 
         let description = [
@@ -131,6 +119,6 @@ export const command: Command = {
             .setDescription(description.join('\n'))
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
         
-        let messageEmbed = await message.channel.send({ embeds: [embed] });
+        let messageEmbed = await channel.send({ embeds: [embed] });
     }
 }
