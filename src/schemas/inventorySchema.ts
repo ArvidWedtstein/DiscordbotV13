@@ -1,5 +1,4 @@
-
-import mongoose from 'mongoose';
+import { Schema, model, models } from "mongoose"
 
 const reqString = {
     type: String,
@@ -11,7 +10,7 @@ const item = {
     amount: 1
 };
 
-const inventorySchema = new mongoose.Schema({
+const inventorySchema = new Schema({
     guildId: reqString,
     userId: reqString,
     items: {
@@ -21,4 +20,4 @@ const inventorySchema = new mongoose.Schema({
     //slots: reqNumber
 })
 const name: string = 'inventory'
-export default mongoose.models[name] || mongoose.model(name, inventorySchema)
+export default models[name] || model(name, inventorySchema)

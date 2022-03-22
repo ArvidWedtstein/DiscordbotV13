@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import { Schema, model } from "mongoose"
 
 const reqString = {
     type: String,
     required: true,
 }
 
-const profileSchema = new mongoose.Schema({ 
+const profileSchema = new Schema({ 
     guildId: reqString,
     userId: reqString,
     coins: {
@@ -34,4 +34,4 @@ const profileSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('profiles', profileSchema)
+export default model('profiles', profileSchema)

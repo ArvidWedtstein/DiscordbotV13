@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { Schema, model } from "mongoose"
 
-const warnSchema = new mongoose.Schema({
+const warnSchema = new Schema({
     guildId: {
         type: String,
         required: true,
@@ -15,4 +15,4 @@ const warnSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('warnings', warnSchema)
+export default model('warnings', warnSchema)

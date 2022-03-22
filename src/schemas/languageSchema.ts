@@ -1,12 +1,12 @@
-import mongoose from 'mongoose'
+import { Schema, model } from "mongoose"
 const reqString = {
     type: String,
     required: true
 }
 
-const languageSchema = new mongoose.Schema({
+const languageSchema = new Schema({
     guildId: reqString,
     language: reqString,
 })
 
-export default mongoose.model('languages', languageSchema);
+export default model('languages', languageSchema);

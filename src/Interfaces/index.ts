@@ -1,4 +1,4 @@
-export { Command } from './Command';
-export { SlashCommand } from './SlashCommand';
-export { Event } from './Event';
-export { Config } from './Config';
+export type { Command } from './Command';
+export type { SlashCommand } from './SlashCommand';
+export type { Event } from './Event';
+export type { Config } from './Config';

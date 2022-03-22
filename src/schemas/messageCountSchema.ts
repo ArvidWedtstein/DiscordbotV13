@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import { Schema, model } from "mongoose"
 const reqNumber = {
     type: Number,
     required: true,
@@ -12,10 +12,10 @@ const reqDate = {
     type: Date,
     required: true
 }
-const messageCountSchema = new mongoose.Schema({
+const messageCountSchema = new Schema({
     userId: reqString,
     guildId: reqString,
     messageCount: reqNumber,
 })
 
-export default mongoose.model('message-counts', messageCountSchema)
+export default model('message-counts', messageCountSchema)

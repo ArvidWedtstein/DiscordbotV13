@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import { Schema, model, models } from "mongoose"
 const reqString = {
     type: String,
     required: true
@@ -7,11 +7,11 @@ export interface emote {
     name: String,
     
 }
-const emoteSchema = new mongoose.Schema({
+const emoteSchema = new Schema({
     guildId: reqString,
     emotes: {
         type: Array
     },
 })
-
-export default mongoose.model('emotes', emoteSchema);
+const name: string = 'emotes'
+export default models[name] || model(name, emoteSchema)

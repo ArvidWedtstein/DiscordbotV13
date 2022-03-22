@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import { Schema, model } from "mongoose"
 
 const reqString = {
     type: String,
     required: true
 }
-const welcomeSchema = new mongoose.Schema({
+const welcomeSchema = new Schema({
     guildId: reqString,
     channelId: reqString,
     text: {
@@ -22,4 +22,4 @@ const welcomeSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('rules', welcomeSchema)
+export default model('rules', welcomeSchema)

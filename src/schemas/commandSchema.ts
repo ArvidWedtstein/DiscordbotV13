@@ -1,21 +1,16 @@
-import mongoose from 'mongoose'
+import { Schema, model, models } from "mongoose"
 
 const reqString = {
     type: String,
     required: true,
 }
-const reqNumber = {
-    type: Number,
-    required: true,
-    default: 15
-}
 
-
-const commandSchema = new mongoose.Schema({
+const commandSchema = new Schema({
     guildId: reqString,
     commands: {
         type: [Object],
         required: true,
     },
 })
-export default mongoose.model('commands', commandSchema)
+const name: string = "commands"
+export default models[name] || model(name, commandSchema)

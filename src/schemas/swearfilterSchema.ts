@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const swearfilterSchema = new mongoose.Schema({
+import { Schema, model } from "mongoose"
+const swearfilterSchema = new Schema({
     guildId: {
         type: String,
         required: true,
@@ -10,4 +10,4 @@ const swearfilterSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('swearwords', swearfilterSchema)
+export default model('swearwords', swearfilterSchema)
