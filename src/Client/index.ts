@@ -20,7 +20,7 @@ class ExtendedClient extends Client {
     public config: Config = {
         token: process.env.CLIENT_TOKEN, 
         mongoURI: process.env.REMOTE_MONGODB, 
-        prefix: "<",
+        prefix: process.env.PREFIX,
         botEmbedHex: "#ff4300",
         testServer: "916799218092486686",
         invite: "https://discord.com/oauth2/authorize?client_id=787324889634963486&scope=bot&permissions=10200548352",
