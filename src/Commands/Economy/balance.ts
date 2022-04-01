@@ -2,8 +2,8 @@ import { ColorResolvable, MessageEmbed } from 'discord.js';
 import { Command } from '../../Interfaces';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import temporaryMessage from 'Functions/temporary-message';
-import { Settings } from 'Functions/settings';
+import temporaryMessage from '../../Functions/temporary-message';
+import { Settings } from '../../Functions/settings';
 export const command: Command = {
     name: "balance",
     aliases: ["bal"],
