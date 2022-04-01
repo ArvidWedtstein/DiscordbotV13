@@ -74,7 +74,7 @@ class ExtendedClient extends Client {
         // Load Commands
         // ----------------------------
         const commandPath = path.join(__dirname, "..", "Commands");
-        console.log(commandPath)
+
         this.registry.registerGroups([
             { id: "admin", name: "Admin" },
             { id: "general", name: "General" },
