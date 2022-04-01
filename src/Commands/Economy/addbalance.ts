@@ -2,7 +2,7 @@ import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import temporaryMessage from 'Functions/temporary-message';
+import temporaryMessage from '../../Functions/temporary-message';
 
 export const command: Command = {
     name: "addbalance",
