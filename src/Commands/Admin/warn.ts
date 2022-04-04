@@ -6,7 +6,7 @@ import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
-import warnSchema from "../../schemas/warnSchema";
+import profileSchema from "../../schemas/profileSchema";
 export const command: Command = {
     name: "warn",
     description: "warn a user",
@@ -32,12 +32,11 @@ export const command: Command = {
         const { guild, channel, author, member, mentions } = message;
         message.delete()
         const setting = await Settings(message, 'moderation');
-        if (setting == false) return temporaryMessage(channel, 'Cannot use this command. Moderation is turned off', 10);
+        
+        if (!setting) return temporaryMessage(channel, 'Cannot use this command. Moderation is turned off', 10);
         
         const target = mentions.users.first()
-        if (!target) return temporaryMessage(channel, 'Please specify someone to warn.', 10);
-
-        if (target.bot) return temporaryMessage(channel, 'You cannot warn a bot', 10);
+        if (!target || target.bot) return temporaryMessage(channel, 'Please specify someone to warn.', 10);
 
         
         args.shift()
@@ -51,35 +50,23 @@ export const command: Command = {
             timestamp: new Date().getTime(),
             reason
         }
-        let result = await settingsSchema.findOne({
-            guildId
-        })
-        if (result.serverlog) {
-            const logchannel = guild?.channels.cache.find(channel => channel.id === result.serverlog);
-            if (!logchannel?.viewable || !logchannel.isText()) return;
-            let embedLogg = new Discord.MessageEmbed() 
-                .setColor('AQUA')
-                .addField('User: ', `${target.username}`)
-                .addField(`${language(guild, 'BAN_REASON')}: `, `${reason}`)
-                .addField('Warned by: ', `${message.author}`)
-            logchannel?.send({ embeds: [embedLogg] });
-        }
-        
-        await warnSchema.findOneAndUpdate({
+
+        let embedLogg = new Discord.MessageEmbed() 
+            .setColor('AQUA')
+            .addField('User: ', `${target.username}`)
+            .addField(`${language(guild, 'BAN_REASON')}: `, `${reason}`)
+            .addField('Warned by: ', `${author}`)
+        target.send({ embeds: [embedLogg] })
+
+        await profileSchema.findByIdAndUpdate({
             guildId,
             userId
         }, {
-            guildId,
-            userId,
             $push: {
-                warnings: warning
+                warns: warning
             }
-        }, {
-            upsert: true
-        })    
-
-        .catch((error) => {
-            console.log(error);
+        }).catch((error) => {
+            console.log(`Error while updating profile of user (${target.id})\n`, error);
         })
     }
 }

@@ -21,7 +21,7 @@ export async function setLanguage (guild: any, language: any) {
 }
 
 
-export default async function (guild: any, textId: string) {
+export default function (guild: any, textId: string) {
     if (!listoflang[textId]) {
         throw new Error(`Unknown text ID "${textId}"`)
     }

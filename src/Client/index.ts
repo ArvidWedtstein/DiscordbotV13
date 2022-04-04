@@ -132,7 +132,6 @@ class ExtendedClient extends Client {
 
                 if (slashCommand.type === "CHAT_INPUT") {
                     cmd.description = slashCommand.description;
-
                 }
                 if (cmd.options) {
                     cmd.options.forEach((option: any) => {

@@ -57,16 +57,15 @@ export const command: Command = {
 
         joinedDate = moment(user?.joinedAt).fromNow()
 
-        let warntxt = 'No warns';
+        let warns = [];
         
-        if (!results.warnings) {
-            warntxt = ''
-            for (const warning of results.warnings) {
-                const { author, timestamp, reason } = warning
-            
-                let txt = `Warned By ${author} for "${reason}" on ${new Date(timestamp).toLocaleDateString()}\n`
-                warntxt += txt
-            }
+        // Map warns
+        if (results.warns && results.warns.length > 0) {
+            warns = result.warns.map(
+                ({ reason, author, timestamp }: { reason: string, author: string, timestamp: any }) => (
+                    `Warned By ${author} for ${reason} on ${new Date(timestamp).toLocaleDateString()}`
+                )
+            );
         } 
     
         // Get Animated ErlingCoin
@@ -75,8 +74,6 @@ export const command: Command = {
         // Get presence data
         let presencegame: any = user?.presence.activities.length ? user?.presence.activities.filter( (x: any) => x.type === "PLAYING") : null;
         let presence = `${presencegame && presencegame.length ? presencegame[0].name : 'None'}`
-
-        if (presence.includes('Skyrim')) presence += `Skyrim`
 
 
         // Get XP and Level Data
@@ -110,7 +107,7 @@ export const command: Command = {
             `〔Messages Sent: \`${messages}\``,
             `${badges ? '〔Badges: \`' + badges + '\`' : ''}`,
             `${presence ? '〔Game: \`' + presence + '\`' : ''}`,
-            `${warntxt ? '〔Warns: \`' + warntxt + '\`' : ''}`,
+            `${warns.length > 0 ? '〔Warns: \`' + warns.join('\n') + '\`' : ''}`,
             `${joinedDate ? '〔Joined this server: \`' + joinedDate + '\`' : ''}`,
         ]
         let embed = new MessageEmbed()

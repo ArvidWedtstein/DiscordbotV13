@@ -28,6 +28,10 @@ const profileSchema = new Schema({
         type: Boolean,
         default: false
     },
+    warns: {
+        type: [Object],
+        default: [],
+    },
     joinedDate: {
         type: Date,
         required: false

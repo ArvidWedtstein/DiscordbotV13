@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
@@ -17,9 +17,10 @@ export const command: Command = {
     examples: ["brawlhalla"],
     
     run: async(client, message, args) => {
+        const { channel, author, guild, mentions } = message;
 
-        const userId = message.author.id;
-        const guildId = message.guild?.id;
+        const userId = author.id;
+        const guildId = guild?.id;
         const results = await profileSchema.findOne({
             userId,
             guildId
@@ -44,51 +45,60 @@ export const command: Command = {
             .setLabel('I do not wish brawlhalla notification plz')
             .setStyle("SUCCESS")
         const rowon = new MessageActionRow().addComponents(btnon);
+        const btn = new MessageButton() 
+            .setCustomId('brawlhallabutton')
+            .setEmoji('885437713707331634')
+            .setLabel(results.brawlhalla ? 'I do not wish brawlhalla notification plz' : 'I do not wish brawlhalla notification plz')
+            .setStyle(results.brawlhalla ? "SUCCESS" : "DANGER")
+        const row = new MessageActionRow().addComponents(btn);
 
 
         const embedoff = new MessageEmbed()
-            .setAuthor({name: `${message.author.username}`, iconURL: message.author.displayAvatarURL()})
+            .setAuthor({name: `${author.username}`, iconURL: author.displayAvatarURL()})
             .setTitle(`is not registered to recieve brawlhalla notifications`)
-            .setFooter({ text: `Requested by ${message.author.tag}`})
+            .setFooter({ text: `Requested by ${author.tag}`})
             .setTimestamp()
+        
+        const embed = (data: any) => {
+            const currentembed = new MessageEmbed()
+                .setAuthor({name: `${author.username}`, iconURL: author.displayAvatarURL()})
+                .setTitle(data ? `is now registered to recieve brawlhalla notifications`: `is not registered to recieve brawlhalla notifications`)
+                .setFooter({ text: `Requested by ${author.tag}`})
+                .setTimestamp()
+            return currentembed
+        }
         const embedon = new MessageEmbed()
-            .setAuthor({name: `${message.author.username}`, iconURL: message.author.displayAvatarURL()})
+            .setAuthor({name: `${author.username}`, iconURL: author.displayAvatarURL()})
             .setTitle(`is now registered to recieve brawlhalla notifications`)
-            .setFooter({ text: `Requested by ${message.author.tag}`})
+            .setFooter({ text: `Requested by ${author.tag}`})
             .setTimestamp()
 
-        if (results.brawlhalla)  message.channel.send({embeds: [embedon], components: [rowon]});
-        else  message.channel.send({embeds: [embedoff], components: [rowoff]});
+        channel.send({ 
+            embeds: [embed(results.brawlhalla) ], 
+            components: [row] 
+        }).then(async msg => {
+            const filter = (i: Interaction) => i.user.id === author.id;
+            let collect = msg.createMessageComponentCollector({
+                filter, 
+                max: 1,
+                time: 60*1000
+            });
 
+            // Check for button interaction
+            collect.on('collect', async (reaction: any) => {
+                if (!reaction) return;
+                if (!reaction.isButton()) return;
+                if (reaction.customId !== 'brawlhallabutton') return
 
-        client.on("interactionCreate", async (button) => {
-            if (!button.isButton()) return;
-            console.log(button.customId)
-            if ((button.customId !== 'brawlhallabuttonon') && (button.customId !== 'brawlhallabuttonoff')) return console.log('aaaaaaaaa');
-
-            // button.deferUpdate();
-            if (results.brawlhalla) {
-                button.update({embeds: [embedoff], components: [rowoff]});
                 const res = await profileSchema.findOneAndUpdate({
                     userId,
                     guildId
                 }, {
-                    brawlhalla: false
+                    brawlhalla: results.brawlhalla ? false : true
                 })
-                
-                rowoff.components[0].setDisabled(true);
-                return
-            } else {
-                button.update({embeds: [embedon], components: [rowon]});
-                const res = await profileSchema.findOneAndUpdate({
-                    userId,
-                    guildId
-                }, {
-                    brawlhalla: true
-                })
-                rowon.components[0].setDisabled(true);
-                return
-            }
-        });
+                reaction.update({ embeds: [embed(!results.brawlhalla)] })
+                return 
+            })
+        })
     }
 }
