@@ -35,6 +35,7 @@ export const command: Command = {
             .setCustomId('daily')
             .setLabel(`Click to claim your XP`)
             .setEmoji('💸')
+            .setStyle('SUCCESS')
         const row = new MessageActionRow()
             .addComponents(btn)
         const embed = new MessageEmbed()
