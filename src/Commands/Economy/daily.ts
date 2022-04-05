@@ -50,10 +50,11 @@ export const command: Command = {
                 max: 1,
                 time: 60*1000
             });
-            collect.on('collect', async (reaction: any) => {
+            collect.on('collect', async (reaction) => {
                 if (!reaction) return;
-                
-                msg.edit({ embeds: [embed.setDescription(`${author} ${await language(guild, "DAILY_ERLINGCOINS")}! (${xpreward}xp)`)] })
+                reaction.deferUpdate();
+                reaction.message.embeds[0].description = `${author} ${await language(guild, "DAILY_ERLINGCOINS")}! (${xpreward}xp)`
+                // msg.edit({ embeds: [embed.setDescription(`${author} ${await language(guild, "DAILY_ERLINGCOINS")}! (${xpreward}xp)`)] })
             })
         })
     }
