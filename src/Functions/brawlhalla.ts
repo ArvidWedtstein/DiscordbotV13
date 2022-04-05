@@ -74,6 +74,7 @@ export const brawlhalla = (async (client: Client) => {
             var messages = [
               `I have the pleasure to inform you that **Brawlhalla** currently is streaming, live on Twitch.`,
               `Did you know?!? **Brawlhalla** is streaming! YES. You heard right! Brawlhalla is streaming right now on twitch!`,
+              `Hey, just wanted to let you know that **Brawlhalla** is currently streaming. Have a good day 😊`
             ]
 
             var randomMsg = messages[Math.floor(Math.random()*messages.length)];
