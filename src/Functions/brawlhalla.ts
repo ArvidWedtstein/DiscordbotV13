@@ -16,10 +16,12 @@ export const brawlhalla = (async (client: Client) => {
   })
   let IsLiveMemory = false
   
-  const date = new Date()
-  let hours = date.getHours()
+  
   const Run = (async () => {
     try {
+      const date = new Date()
+      let hours = date.getHours()
+
       await twitch.getStreams({ channel: "brawlhalla" }).then(async data => {
         const r = data.data[0];
         if (r === undefined) return IsLiveMemory = false
@@ -27,6 +29,8 @@ export const brawlhalla = (async (client: Client) => {
         if (r.type != "live") return IsLiveMemory = false;
         
         if (twitchloop) {
+          console.info('Brawlhalla stream found');
+
           // open('https://www.twitch.tv/brawlhalla');
           IsLiveMemory = true;
           twitchloop = false;
@@ -74,7 +78,8 @@ export const brawlhalla = (async (client: Client) => {
             var messages = [
               `I have the pleasure to inform you that **Brawlhalla** currently is streaming, live on Twitch.`,
               `Did you know?!? **Brawlhalla** is streaming! YES. You heard right! Brawlhalla is streaming right now on twitch!`,
-              `Hey, just wanted to let you know that **Brawlhalla** is currently streaming. Have a good day 😊`
+              `Hey, just wanted to let you know that **Brawlhalla** is currently streaming. Have a good day 😊`,
+              `Hey there fella, just wanna let ya know that **Brawlhalla** is streaming. Have a nice one.`
             ]
 
             var randomMsg = messages[Math.floor(Math.random()*messages.length)];
