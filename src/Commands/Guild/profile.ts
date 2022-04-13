@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import messageCountSchema from '../../schemas/messageCountSchema';
 import profileSchema from '../../schemas/profileSchema';
@@ -110,12 +110,15 @@ export const command: Command = {
             `${warns.length > 0 ? '〔Warns: \`' + warns.join('\n') + '\`' : ''}`,
             `${joinedDate ? '〔Joined this server: \`' + joinedDate + '\`' : ''}`,
         ]
+
+        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
         let embed = new MessageEmbed()
             .setColor(color)
             .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true})}`})
             .setDescription(description.join('\n'))
+            .setImage('attachment://banner.jpg')
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
         
-        let messageEmbed = await channel.send({ embeds: [embed] });
+        let messageEmbed = await channel.send({ embeds: [embed], files: [attachment] });
     }
 }
