@@ -119,6 +119,6 @@ export const command: Command = {
             .setImage('attachment://banner.jpg')
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
         
-        let messageEmbed = await channel.send({ embeds: [embed], files: [attachment] });
+        await channel.send({ embeds: [embed], files: [attachment] });
     }
 }

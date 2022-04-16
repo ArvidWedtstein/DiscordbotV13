@@ -121,6 +121,7 @@ export class Registry {
         })
 	}
 }
+
 function isConstructor(func: any, _class: any) {
 	try {
 		// eslint-disable-next-line no-new
