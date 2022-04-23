@@ -41,8 +41,7 @@ https://discord.gg/4Km3YdSjKX
 - Custom icon colors
 - Economy System
 - Meme commands
-- Dice
-- Poll
+- Fun commands
 - Inventory System
 - Language Support in: English, German, Norwegian and French (partually)
 - Settings
@@ -84,3 +83,20 @@ https://discord.gg/4Km3YdSjKX
 
 <h6 align="center">This command automatically displays an explanation for your commands</h6>
 
+
+
+<h4 align="center"><b>Brawlhalla System</b></h4>
+
+<h6 align="center">This system lets you subscribe to the Brawlhalla notifications and get notified when there is a new brawlhalla stream on twitch.</h6>
+
+
+
+<h4 align="center"><b>Inventory System</b></h4>
+
+<h6 align="center">This system lets you buy a variety of items with ErlingCoins. These items can be traded with other users.</h6>
+
+
+
+<h4 align="center"><b>Fun Commands</b></h4>
+
+<h6 align="center">The fun commands contains a variety of commands and games like Tic-Tac-Toe, Rock-Scissors-Papers, Dice, Blackjack, A Command to Compare yourself to other users and much more.</h6>
