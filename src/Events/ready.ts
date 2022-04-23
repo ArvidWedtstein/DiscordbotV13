@@ -18,7 +18,7 @@ export const event: Event = {
         loadColors(client);
 
         // Check for birthdays
-        birthday(client);
+        //birthday(client);
 
         // Check for brawlhalla stream
         brawlhalla(client);

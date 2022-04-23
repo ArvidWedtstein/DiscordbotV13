@@ -53,7 +53,7 @@ export const brawlhalla = (async (client: Client) => {
         }).then((resp) => {
           streams = resp.data.data.segments;
           if (intervalID) clearInterval(intervalID);
-          streams[0].start_time = moment().format('YYYY-MM-DD HH:mm:ss');
+          // streams[0].start_time = moment().format('YYYY-MM-DD HH:mm:ss');
 
           CheckForStream(streams, twitchuser);
           intervalID = setInterval(CheckForStream, (60 * 1000), streams, twitchuser);

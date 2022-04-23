@@ -8,6 +8,10 @@ import * as gradient from 'gradient-string';
 
 export default (client: Client) => {
 
+  let lastBirthday = {
+    date: "",
+    checked: false
+  }
   const checkBirthday = (async () => {
     const date = new Date()
     let dformat = [
@@ -18,6 +22,18 @@ export default (client: Client) => {
     // Find all users with birthdays on this day
     let users = await profileSchema.find({birthday: dformat})
     if (users.length < 1) return;
+
+    // Check if we already checked today
+    if (dformat != lastBirthday.date) {
+      lastBirthday.date = dformat
+      lastBirthday.checked = false
+    }
+    if (lastBirthday.checked) return;
+
+    lastBirthday = {
+      date: dformat,
+      checked: true
+    }
 
     for(let i = 0; i < users.length; i++) {
       let user = users[i];
@@ -36,7 +52,7 @@ export default (client: Client) => {
 
       const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
-      
+
       let embed = new MessageEmbed()
         .setColor('#ff0000')
         .setTitle(`:champagne:${language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)
