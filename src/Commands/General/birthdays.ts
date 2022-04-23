@@ -16,11 +16,16 @@ export const command: Command = {
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
     run: async(client, message, args) => {
-        profileSchema.find({birthday: {$regex: `^${new Date().getMonth()+1}/`}}).then(async users => {
-            if(users.length < 1) return message.channel.send(`${language(message.guild, 'NO_BIRTHDAYS')}`)
-            let userList = users.map(user => `<@${user.userId}>`).join(', ')
+        profileSchema.find({ birthday: { $ne: "1/1", $exists: true } }).then(async users => {
+  
+            // let userList = users.map(user => `<@${user.userId}>`).join(', ')
+
+            
+            // TODO: Sort birthdays by day and month
+
+            let userList = users.map(user => `${message.guild?.members.cache.get(user.userId)?.user.username} ${user.birthday}`).join('\n')
             let embed = new MessageEmbed()
-                .setTitle(`${language(message.guild, 'BIRTHDAYS')}`)
+                .setTitle(`yesyes`)
                 .setDescription(`${userList}`)
             message.channel.send({ embeds: [embed] })
         })
