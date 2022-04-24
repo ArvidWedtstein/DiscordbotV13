@@ -15,7 +15,7 @@ export const command: Command = {
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["birthday <day>/<month>", "birthday 03/10"],
+    examples: ["birthday <day>/<month>/<year>", "birthday 03/10/2004"],
     
     run: async(client, message, args) => {
         function suffixes(number: any) {
@@ -31,16 +31,12 @@ export const command: Command = {
             ? `${converted}rd` 
             : `${converted}th`;
         }
-        message.delete()
+        // message.delete()
         const { guild, channel, author, mentions } = message
 
         const guildId = guild?.id
 
-        var d = new Date,
-            dformat = [
-                d.getDate(),
-                d.getMonth()+1,
-            ].join('/')+' '
+  
 
 
         const months = {
@@ -64,27 +60,42 @@ export const command: Command = {
         }
         const joined = args.join(" ");
         const split = joined.trim().split("/");
-        console.log(split)
-        let [ day, month ]: any = split;
+        let [ day, month, year ]: any = split;
 
         
         if (!day) return message.reply(`${language(guild, 'BIRTHDAY_DAY')}`);
         if (!month) return message.reply(`${language(guild, 'BIRTHDAY_MONTH')}`);
-        if (isNaN(day) || isNaN(month)) {
+        if (!year) return message.reply(`${language(guild, 'BIRTHDAY_MONTH')}`);
+        if (isNaN(day) || isNaN(month) || isNaN(year)) {
             return message.reply(`${language(guild, 'BIRTHDAY_NaN')}`)
         }
 
         day = parseInt(day);
         month = parseInt(month);
-        console.log(day, month)
-        if (!day || day > 31) return message.reply(`${language(guild, 'BIRTHDAY_FORMAT')}`);
-        if (!month || month > 12) return message.reply(`${language(guild, 'BIRTHDAY_FORMAT')}`);
+        year = parseInt(year);
 
-        const birthday = `${day}/${month}`;
+        if (day < 10) {
+            day = parseInt(`0${day}`)
+        }
+ 
+        if (day > 31 || day < 1) return message.reply(`${language(guild, 'BIRTHDAY_FORMAT')}`);
+        if (month > 12 || month < 1) return message.reply(`${language(guild, 'BIRTHDAY_FORMAT')}`);
+        if (year > new Date().getFullYear() || year < 1900) return message.reply(`${language(guild, 'BIRTHDAY_FORMAT')}`);
+
+        const birthday = `${day}/${month}/${year}`;
 
         
         const userId = user?.id;
-        const profileresult = await profileSchema.findOne({ guildId, userId })
+        const profileresult = await profileSchema.findOneAndUpdate({
+            guildId,
+            userId
+        }, {
+            $set: {
+                birthday
+            }
+        }, {
+            upsert: true,
+        })
                 
         if (!profileresult) {
             let embed = new MessageEmbed()
@@ -105,19 +116,6 @@ export const command: Command = {
                 .setColor(`AQUA`)
                 .setAuthor({ name: `${user?.user.username}'s ${language(guild, 'BIRTHDAY_CHANGE')} ${birthday}`, iconURL: user?.user.displayAvatarURL({ dynamic: true})})
             message.reply({ embeds: [embed] })
-
-            const result = await profileSchema.findOneAndUpdate({
-                guildId,
-                userId
-            }, {
-                guildId,
-                userId,
-                $set: {
-                    birthday
-                }
-            }, {
-                upsert: true,
-            })
         }
     }
 }

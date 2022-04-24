@@ -72,9 +72,11 @@ export const command: Command = {
         const erlingcoin = client.emojis.cache.get('853928115696828426');
 
         // Get presence data
-        let presencegame: any = user?.presence.activities.length ? user?.presence.activities.filter( (x: any) => x.type === "PLAYING") : null;
-        let presence = `${presencegame && presencegame.length ? presencegame[0].name : 'None'}`
-
+        let presence = "None";
+        if (user?.presence) {   
+            let presencegame = user?.presence.activities.length ? user?.presence.activities.filter( (x: any) => x.type === "PLAYING") : null;
+            presence = `${presencegame && presencegame.length ? presencegame[0].name : 'None'}`
+        }
 
         // Get XP and Level Data
         let Coins = await getCoins(guildId, userId);
@@ -95,9 +97,21 @@ export const command: Command = {
                 badges += `${badg}\n`
             });
         }
+        function getAge(dateString: string) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age: any = today.getFullYear() - birthDate.getFullYear();
 
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+        let b = birthday.split('/');
         let description = [
             `〔Birthday: \`${birthday}\``,
+            `〔Age: \`${getAge(`${b[2]}-${b[1]}-${b[0]}`)}\``,
             `〔Erlingcoin${Coins === 1 ? '' : 's'}${erlingcoin}: \`${Coins}\``,
             ``,
             `${userlevel ? '〔Lvl: \`' + userlevel + '\`' : ''}`,

@@ -186,7 +186,7 @@ export const brawlhalla = (async (client: Client) => {
         .setFooter({ text: `Sincerely, ${client.user?.username}`, iconURL: client.user?.displayAvatarURL() })
         .setTimestamp()
 
-      if (member?.id != '271288025428918274') member?.send({ embeds: [embed], files: [attachment] })
+      member?.send({ embeds: [embed], files: [attachment] })
     })
   })
   

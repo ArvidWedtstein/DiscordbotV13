@@ -653,8 +653,14 @@
         "BIRTHDAY_MONTH": {
             "english": "Please enter a month",
             "german": "Bitte geben Sie einen monat ein",
-            "norwegian": "Vennligst oppgi en dag",
+            "norwegian": "Vennligst oppgi en måned",
             "french": "Veuillez saisir un mois"
+        },
+        "BIRTHDAY_YEAR": {
+            "english": "Please enter a year",
+            "german": "Bitte geben Sie einen jahr ein",
+            "norwegian": "Vennligst oppgi et år",
+            "french": "Veuillez saisir un year"
         },
         "BIRTHDAY_NaN": {
             "english": "The date you entered is not a number",

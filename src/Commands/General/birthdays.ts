@@ -3,9 +3,11 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
+import moment from 'moment';
+import { blob } from 'stream/consumers';
 export const command: Command = {
     name: "birthdays",
     description: "see upcomming birthdays",
@@ -16,18 +18,33 @@ export const command: Command = {
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
     run: async(client, message, args) => {
-        profileSchema.find({ birthday: { $ne: "1/1", $exists: true } }).then(async users => {
-  
-            // let userList = users.map(user => `<@${user.userId}>`).join(', ')
+        const { guild, channel, author } = message
 
-            
-            // TODO: Sort birthdays by day and month
+        profileSchema.find({ guildId: guild?.id, birthday: { $ne: "1/1", $exists: true } }).then(async users => {
 
-            let userList = users.map(user => `${message.guild?.members.cache.get(user.userId)?.user.username} ${user.birthday}`).join('\n')
+            let birthdays = users.sort((a, b) => {
+                let ab = a.birthday.split('/')
+                let bb = b.birthday.split('/')
+                let aDate = new Date(`${ab[2]}-${ab[1]}-${ab[0]}`)
+                let bDate = new Date(`${bb[2]}-${bb[1]}-${bb[0]}`)
+                return aDate.getTime() - bDate.getTime();
+            });
+
+
+            let userList = birthdays.map(user => {
+                let bd = user.birthday.split('/')
+                let bdDate = new Date(`${bd[2]}-${bd[1]}-${bd[0]}`).setFullYear(new Date().getFullYear())
+                return `${moment(bdDate).isBefore(new Date()) ? "" : `${user.userId == author.id ? `**${guild?.members.cache.get(user.userId)?.user.username} - ${user.birthday}**` : `${guild?.members.cache.get(user.userId)?.user.username} - ${user.birthday}`}`}`
+            }).join('\n')
+
+            const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+
             let embed = new MessageEmbed()
-                .setTitle(`yesyes`)
+                .setTitle(`Upcomming Birthdays:`)
                 .setDescription(`${userList}`)
-            message.channel.send({ embeds: [embed] })
+                .setImage('attachment://banner.jpg')
+                .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+            channel.send({ embeds: [embed], files: [attachment] })
         })
     }
 }
