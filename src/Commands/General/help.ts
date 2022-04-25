@@ -154,10 +154,10 @@ export const command: Command = {
                 if (reaction.partial) await reaction.fetch();
                 if (!reaction.message.guild) return;
                 if (reaction.message.id != msg.id) return
-
+                reaction.deferUpdate();
                 // If SelectMenu is used. Then jump directly to selected page
                 if (reaction.isSelectMenu()) {
-                    reaction.deferUpdate();
+
                     page = parseInt(reaction.values[0]);
                     if (page === 0) {
                         await msg.edit({ embeds: [embed] })
@@ -167,7 +167,7 @@ export const command: Command = {
                         helpembed(`${categories[page - 1]}`, page, filteredCmds)
                     }
                 } else {
-                    reaction.deferUpdate();
+
 
                     page = Number(page)
                     if (reaction.customId === 'helpleft') {

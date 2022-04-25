@@ -11,8 +11,14 @@ export const command: Command = {
     details: "Check the ping of this bot.",
     aliases: ["setlang"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: [
+        "SEND_MESSAGES", 
+        'ADMINISTRATOR'
+    ],
+    ClientPermissions: [
+        "SEND_MESSAGES", 
+        "ADD_REACTIONS"
+    ],
     ownerOnly: false,
     examples: ["setlanguage <language>"],
     
@@ -54,10 +60,10 @@ export const command: Command = {
         let messageEmbed = await channel.send({
             embeds: [embed],
             components: [row]
-        });
+        })
 
         const filter = (i: Interaction) => i.user.id === author.id;
-        let collect = message.createMessageComponentCollector({
+        let collect = messageEmbed.createMessageComponentCollector({
             filter, 
             max: 1,
             time: 60000
@@ -66,7 +72,7 @@ export const command: Command = {
             if (!reaction) return;
             if (!reaction.isButton()) return;
 
-            switch (reaction.id) {
+            switch (reaction.customId) {
                 case "lang_de":
                     let embedDE = new MessageEmbed()
                         .setTitle(`Language`)
@@ -74,10 +80,7 @@ export const command: Command = {
                         .addFields(
                             {name: language[3], value: 'back'}
                         )
-                    let messageEmbedDE = await messageEmbed.edit({
-                        embeds: [embedDE],
-                        components: [row]
-                    });
+                    reaction.reply({ embeds: [embedDE], components: [row] })
 
                     setLanguage(guild, 'german')
 
@@ -96,10 +99,8 @@ export const command: Command = {
                         .addFields(
                             {name: language[3], value: 'back'}
                         )
-                    let messageEmbed1 = await messageEmbed.edit({
-                        embeds: [embedNO],
-                        components: [row]
-                    });
+                    reaction.reply({ embeds: [embedNO], components: [row] })
+
                     setLanguage(guild, 'norwegian')
 
                     await settingsSchema.findOneAndUpdate({
@@ -117,11 +118,8 @@ export const command: Command = {
                         .addFields(
                             {name: language[3], value: 'Close'}
                         )
-                    
-                    let messageEmbed2 = await messageEmbed.edit({
-                        embeds: [embedeng],
-                        components: [row]
-                    });
+                    reaction.reply({ embeds: [embedeng], components: [row] })
+
 
                     setLanguage(guild, 'english')
 
@@ -133,8 +131,8 @@ export const command: Command = {
                         upsert: true
                     })
                     break;
-                case "4":
-                    await messageEmbed.delete(); 
+                case "lang_close":
+                    reaction.message.embeds = []
             }
         })
     }

@@ -13,6 +13,7 @@ export const event: Event = {
             !message.content.startsWith(client.config.prefix)
         ) return;
 
+        if (message.content.startsWith("-stian")) return message.channel.send("<:gifflar:844852887389863947>");
 
         const validatePermissions = (permissions: PermissionString[]) => {
             const validPermissions = [
