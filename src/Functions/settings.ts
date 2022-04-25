@@ -21,7 +21,9 @@ export const Settings = (async (message: Message, category: string) => {
         money: result.money,
         currency: result.currency,
         antijoin: result.antijoin,
-        welcome: result.welcome
+        welcome: result.welcome,
+        levels: result.levels,
+        iconcolor: result.iconcolor,
     }
     for (const key in categories) {
         if (category == key) {
@@ -53,7 +55,9 @@ export const Settingsguild = (async (guild: any, category: string) => {
         money: result.money,
         currency: result.currency,
         antijoin: result.antijoin,
-        welcome: result.welcome
+        welcome: result.welcome,
+        levels: result.levels,
+        iconcolor: result.iconcolor,
     }
     for (const key in categories) {
         if (category == key) {

@@ -114,24 +114,22 @@
             "norwegian": "har hentet sine daglige XP"
         },
         "LEVEL_UP": {
-            "english": "You are now level",
-            "german": "Sie sind jetzt level",
-            "norwegian": "Du er nå level"
+            "english": "You are now level {insert}",
+            "german": "Sie sind jetzt level {insert}",
+            "norwegian": "Du er nå level {insert}",
+            "french": "Vous êtes maintenant au niveau {insert}"
         },
-        "LEVEL_UP2": {
-            "english": "You earned",
-            "german": "Ihre belohnung ist",
-            "norwegian": "Du tjente"
+        "LEVEL_YOU_EARNED": {
+            "english": "You earned {insert} ErlingCoins!",
+            "german": "Ihre belohnung ist {insert} ErlingCoins!",
+            "norwegian": "Du tjente {insert} ErlingCoins!",
+            "french": "Tu as gagné {insert} ErlingCoins!"
         },
-        "LEVEL_UP3": {
-            "english": "You now need",
-            "german": "Sie brauchen jetzt",
-            "norwegian": "Du trenger nå"
-        },
-        "LEVEL_UP4": {
-            "english": "to level up again",
-            "german": "zum nächsten level",
-            "norwegian": "til neste level"
+        "LEVEL_YOU_NOW_NEED": {
+            "english": "You now need {insert} XP to level up again",
+            "german": "Sie brauchen jetzt {insert} XP zum nähsten level",
+            "norwegian": "Du trenger nå {insert} XP til neste level",
+            "french": "Vous avez maintenant besoin {insert} XP remonter de niveau"
         },
         "SERVERINFO_MEMBERS": {
             "english": "Members",
@@ -513,10 +511,10 @@
             "french": "Vous venez d'être banni de"
         },
         "BAN_REASON": {
-            "english": "Reason",
-            "german": "Grund",
-            "norwegian": "Grunn",
-            "french": "Raison"
+            "english": "Reason: {insert}",
+            "german": "Grund: {insert}",
+            "norwegian": "Grunn: {insert}",
+            "french": "Raison: {insert}"
         },
         "CLEAR_AMOUNT": {
             "english": "please enter the amount of messages",

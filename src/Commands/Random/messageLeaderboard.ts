@@ -33,19 +33,18 @@ export const command: Command = {
             messageCount: -1,
         }).limit(10)
 
-        let text = ''
+        let text: any = []
         for (let counter = 0; counter < result.length; ++counter) {
             const { userId, messageCount } = result[counter]
             const user = guild.members.cache.get(userId)
-            text += `#${counter + 1} **${user?.displayName}** with ${messageCount} messages sent!\n`
+            text.push(`#${counter + 1} **${user?.displayName}** with ${messageCount} messages sent!`)
         }
 
         const embed = new MessageEmbed()
             .setTitle(`**Here are the 10 most active members, boss**`)
-            .setDescription(text)
+            .setDescription(text.join('\n'))
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({embeds: [embed]});
-        
+        return channel.send({embeds: [embed]});
     }
 }

@@ -1,5 +1,5 @@
 import items from '../items.json'
-import inventorySchema from '../schemas/inventorySchema';
+import profileSchema from '../schemas/profileSchema';
 
 const itemsCache = {}
 
@@ -8,13 +8,12 @@ export async function addItem (guildId: any, userId: any, itemname: any, amount:
     const item = {
         name: itemname,
     }
+
     for (let i = 0; i < amount; i++) {
-        const result = await inventorySchema.findOneAndUpdate({
+        const result = await profileSchema.findOneAndUpdate({
             guildId,
             userId,
         }, {
-            guildId,
-            userId,
             $push: {
                 items: item
             },
@@ -25,24 +24,20 @@ export async function addItem (guildId: any, userId: any, itemname: any, amount:
         })
     }
     console.log('Running findOneAndUpdate(item)')
-    
-    
-    return
-            
+
+    return            
 }
 export const removeItem = (async (guildId: any, userId: any, itemname: any, itemicon: any, amount: any) => {
-    //console.log('Running findOneAndUpdate(item)')
+
     const item = {
         name: itemname
     }
 
     for (let i = 0; i < amount; i++) {
-        const result = await inventorySchema.findOneAndUpdate({
+        const result = await profileSchema.findOneAndUpdate({
             guildId,
             userId,
         }, {
-            guildId,
-            userId,
             $pull: {
                 items: item
             }
@@ -51,8 +46,9 @@ export const removeItem = (async (guildId: any, userId: any, itemname: any, item
         }).catch((err: any) => {
             console.log(err)
         })
+
         if (!result) {
-            await new inventorySchema({
+            await new profileSchema({
                 guildId,
                 userId
             }).save()
@@ -61,21 +57,19 @@ export const removeItem = (async (guildId: any, userId: any, itemname: any, item
     return 
 })
 export const giveItem = (async (guildId: any, userId2: any, itemname: any, amount: any, authorId: any) => {
-    //console.log('Running findOneAndUpdate(item)')
+
     const item = {
         name: itemname
     }
     
     // Remove item from senders inventory
-    console.log(amount);
     for (let i = 0; i < amount; i++) {
         let userId = authorId;
-        const result = await inventorySchema.findOneAndUpdate({
+
+        const result = await profileSchema.findOneAndUpdate({
             guildId,
             userId,
         }, {
-            guildId,
-            userId,
             $pull: {
                 items: item
             }
@@ -84,8 +78,9 @@ export const giveItem = (async (guildId: any, userId2: any, itemname: any, amoun
         }).catch((err: any) => {
             console.log(err)
         })
+
         if (!result) {
-            await new inventorySchema({
+            await new profileSchema({
                 guildId,
                 userId
             }).save()
@@ -95,12 +90,10 @@ export const giveItem = (async (guildId: any, userId2: any, itemname: any, amoun
     // Add item to receivers inventory
     for (let i = 0; i < amount; i++) {
         let userId = userId2;
-        const result = await inventorySchema.findOneAndUpdate({
+        const result = await profileSchema.findOneAndUpdate({
             guildId,
             userId,
         }, {
-            guildId,
-            userId,
             $push: {
                 items: item
             }
@@ -109,9 +102,8 @@ export const giveItem = (async (guildId: any, userId2: any, itemname: any, amoun
         }).catch((err: any) => {
             console.log(err)
         })
-        console.log(result.items)
         if (!result) {
-            await new inventorySchema({
+            await new profileSchema({
                 guildId,
                 userId,
                 items: item
@@ -121,18 +113,17 @@ export const giveItem = (async (guildId: any, userId2: any, itemname: any, amoun
     return 
 })
 export const getItems = (async (guildId: any, userId: any) => {
-    // const cachedValue = itemsCache[`${guildId}-${userId}`];
+
     const cachedValue = ""
     if (cachedValue) {
         return cachedValue
     }
     console.log('Running findOne(getitems)')
 
-    const result = await inventorySchema.findOne({
+    const result = await profileSchema.findOne({
         guildId,
         userId
     })
-    //console.log(result)
 
     let items = {};
     
@@ -140,7 +131,7 @@ export const getItems = (async (guildId: any, userId: any) => {
         items = result.items
     } else {
         console.log('Inserting a document')
-        await new inventorySchema({
+        await new profileSchema({
             guildId,
             userId,
             //items

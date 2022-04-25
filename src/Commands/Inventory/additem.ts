@@ -23,7 +23,7 @@ export const command: Command = {
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, content, attachments } = message;
-        message.delete()
+
         if (!guild) return
         const guildId = guild.id;
         const user = guild.members.cache.find(m => m.id == mentions.users.first()?.id || m.id == author.id)

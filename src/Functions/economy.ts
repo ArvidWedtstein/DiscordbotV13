@@ -3,6 +3,7 @@ import Client from '../Client';
 import { ColorResolvable } from 'discord.js';
 const coinsCache: any = {}
 
+// This function adds coins to the users profile
 export const addCoins = (async (guildId: any, userId: any, coins: number) => {
     console.log(`Execute findOneAndUpdate(coins)`)
 
@@ -10,8 +11,6 @@ export const addCoins = (async (guildId: any, userId: any, coins: number) => {
         guildId,
         userId
     }, {
-        guildId,
-        userId,
         $inc: {
             coins
         }
@@ -28,13 +27,13 @@ export const addCoins = (async (guildId: any, userId: any, coins: number) => {
             coins
         }).save()
     }
-    //console.log('RESULT:', result)
 
     coinsCache[`${guildId}-${userId}`] = result.coins
 
     return result.coins
 });
 
+// This function sets the users coins to a specific value
 export const setCoins = (async (guildId: any, userId: any, coins: number) => {
     console.log(`Execute setCoins(${coins})`)
 
@@ -42,14 +41,11 @@ export const setCoins = (async (guildId: any, userId: any, coins: number) => {
         guildId,
         userId
     }, {
-        guildId,
-        userId,
         $set: {
             coins
         }
     }, {
         upsert: true,
-        new: true,
     })
 
 
@@ -58,6 +54,7 @@ export const setCoins = (async (guildId: any, userId: any, coins: number) => {
     return result.coins
 });
 
+// This function gets the users coins
 export const getCoins = (async (guildId: any, userId: any) => {
     const cachedValue = coinsCache[`${guildId}-${userId}`]
     if (cachedValue) {
@@ -69,13 +66,11 @@ export const getCoins = (async (guildId: any, userId: any) => {
         guildId,
         userId
     })
-    //console.log(result)
 
     let coins = 0;
     if (result) {
         coins = result.coins
     } else {
-        console.log('Inserting a document')
         await new profileSchema({
             guildId,
             userId,
@@ -87,6 +82,8 @@ export const getCoins = (async (guildId: any, userId: any) => {
 
     return coins 
 })
+
+// This function gets the color a user has set in their profile
 export const getColor = (async (guildId: any, userId: any) => {
     const result = await profileSchema.findOne({
         guildId,

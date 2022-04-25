@@ -31,7 +31,7 @@ export const command: Command = {
         if (!member) return message.reply('couldnt find member')
         args.shift();
         const days = args[0];
-        console.log('ban')
+
         args.shift();
         const reason = args.join(' ')
         member?.ban({days: parseInt(days), reason: reason});
@@ -40,6 +40,6 @@ export const command: Command = {
             .setDescription(`got banned by ${author.tag} for ${reason} (${days})`)
             .setFooter({ text: `Executed by ${author.tag}` })
             .setTimestamp()
-        channel.send({embeds: [embed]});
+        channel.send({ embeds: [embed] });
     }
 }

@@ -42,6 +42,11 @@ const settingsSchema = new Schema({
     levels: {
         type: Array,
         required: false
+    },
+    language: {
+        type: String,
+        required: true,
+        default: 'english'
     }
 })
 export default model('settings', settingsSchema)

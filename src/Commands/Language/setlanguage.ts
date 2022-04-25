@@ -2,10 +2,9 @@ import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { setLanguage } from '../../Functions/language';
-import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
-import languageSchema from '../../schemas/languageSchema';
+import settingsSchema from '../../schemas/settingsSchema';
 export const command: Command = {
     name: "setlanguage",
     description: "check my ping",
@@ -19,7 +18,7 @@ export const command: Command = {
     
     run: async(client, message, args) => {
         const { guild, channel, author } = message;
-        message.delete()
+
         const language = ['🇩🇪', '🇳🇴', '🇬🇧', '❌']
         const getEmoji = (emojiName: any) => client.emojis.cache.find((emoji) => emoji.name === emojiName)
         const guildId = guild?.id;
@@ -57,7 +56,7 @@ export const command: Command = {
             components: [row]
         });
 
-        const filter = (i: Interaction) => i.user.id === message.author.id;
+        const filter = (i: Interaction) => i.user.id === author.id;
         let collect = message.createMessageComponentCollector({
             filter, 
             max: 1,
@@ -66,7 +65,7 @@ export const command: Command = {
         collect.on('collect', async (reaction) => {
             if (!reaction) return;
             if (!reaction.isButton()) return;
-            console.log(reaction.id)
+
             switch (reaction.id) {
                 case "lang_de":
                     let embedDE = new MessageEmbed()
@@ -81,10 +80,10 @@ export const command: Command = {
                     });
 
                     setLanguage(guild, 'german')
-                    await languageSchema.findOneAndUpdate({
+
+                    await settingsSchema.findOneAndUpdate({
                         guildId: guildId
                     }, {
-                        guildId: guildId,
                         language: 'german'
                     }, {
                         upsert: true
@@ -103,10 +102,9 @@ export const command: Command = {
                     });
                     setLanguage(guild, 'norwegian')
 
-                    await languageSchema.findOneAndUpdate({
+                    await settingsSchema.findOneAndUpdate({
                         guildId: guildId
                     }, {
-                        guildId: guildId,
                         language: 'norwegian'
                     }, {
                         upsert: true
@@ -127,10 +125,9 @@ export const command: Command = {
 
                     setLanguage(guild, 'english')
 
-                    await languageSchema.findOneAndUpdate({
+                    await settingsSchema.findOneAndUpdate({
                         guildId: guildId
                     }, {
-                        guildId: guildId,
                         language: 'english'
                     }, {
                         upsert: true

@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose"
+import { Schema, model, models } from "mongoose"
 
 const reqString = {
     type: String,
@@ -32,10 +32,14 @@ const profileSchema = new Schema({
         type: [Object],
         default: [],
     },
+    items: {
+        type: [Object],
+        required: true,
+    },
     joinedDate: {
         type: Date,
         required: false
     }
 })
-
-export default model('profiles', profileSchema)
+const name: string = 'profiles'
+export default models[name] || model(name, profileSchema)

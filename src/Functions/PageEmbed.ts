@@ -33,27 +33,34 @@ export class PageEmbed {
         this.component = new MessageActionRow()
     }
     async post(message: Message, toggleIcons?: any[]) {
-        
+        const { channel, author, guild } = message
+
         this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`}
         let reactions = this.pages[this.currentPage].reactions;
         const row = this.getRow() || this.component;
-        const msg = message.channel.send({embeds: [this.pages[this.currentPage]], components: [row]}).then(async (m) => {
+        const msg = channel.send({ 
+            embeds: [this.pages[this.currentPage]], 
+            components: [row] 
+        }).then(async (m) => {
             if (await Object.values(reactions).length > 0) {
                 for (let i = 0; i < Object.values(reactions).length; i++) {
                     let emoji: any = Object.values(reactions)[i];
                     m.react(emoji)
                 }
-                const filter = (i: Interaction) => i.user.id === message.author.id;
+                const filter = (i: Interaction) => i.user.id === author.id;
+
                 const collector = m.createMessageComponentCollector({
                     filter,
                     max: 10000,
                     time: 1000 * 60
                 })
 
-                const guildId = message?.guild?.id;
+                const guildId = guild?.id;
+
                 let result = await settingsSchema.findOne({
                     guildId
                 })
+
                 if (!result) {
                     result = await new settingsSchema({
                         guildId
@@ -63,26 +70,28 @@ export class PageEmbed {
                     if (!reaction) return;
 
                     reaction.deferUpdate();
+
+
                     
-                    if (reaction.customId === 'prev_embed') {// page left
+                    if (reaction.customId === 'prev_embed') { // page left
                         if (this.currentPage <= 0) this.currentPage = this.pages.length-1
-                        this.currentPage -= 1;
-                        this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`}
+                        this.currentPage -= 1; 
+                        this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`} // Update the footer text to the new page number
 
                         this.getRow();
 
                         if (this.pages[this.currentPage].settings != null) {
                             this.settingsBtn(m, this.pages[this.currentPage].settings.type, result)
-                            m.edit({embeds: [this.pages[this.currentPage]], components: [await this.component]})
+                            m.edit({ embeds: [this.pages[this.currentPage]], components: [await this.component] })
                         } else {
-                            await m.edit({embeds: [this.pages[this.currentPage]], components: [await this.component]})
+                            await m.edit({ embeds: [this.pages[this.currentPage]], components: [await this.component] })
                         }
                         
-                        await m.edit({embeds: [this.pages[this.currentPage]], components: [await this.component]})
-                    } else if (reaction.customId === 'next_embed') { // page left
+                        await m.edit({ embeds: [this.pages[this.currentPage]], components: [await this.component] })
+                    } else if (reaction.customId === 'next_embed') { // page right
                         if (this.currentPage >= this.pages.length-1) this.currentPage = - 1
                         this.currentPage += 1;
-                        this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`}
+                        this.pages[this.currentPage].footer = {text: `Page ${this.currentPage}`} // Update the footer text to the new page number
 
                         this.getRow();
                         
@@ -93,13 +102,14 @@ export class PageEmbed {
                             await m.edit({embeds: [this.pages[this.currentPage]], components: [await this.component]})
                         }
                     } else if (reaction.customId === `embed_on_${this.pages[this.currentPage].settings.type}` || `embed_off_${this.pages[this.currentPage].settings.type}`) {
-                        const guildId = message?.guild?.id;
-                        result[this.pages[this.currentPage].settings.type] = !result[this.pages[this.currentPage].settings.type]
+    
+                        result[this.pages[this.currentPage].settings.type] = !result[this.pages[this.currentPage].settings.type] // Toggle the setting
 
                         await this.settingsBtn(m, this.pages[this.currentPage].settings.type, result)
                         await m.edit({embeds: [this.pages[this.currentPage]], components: [await this.component]})
                     }
                 })
+                // When collector has finished, then update guilds settings
                 collector.on('end', async (reaction) => {
                     result = await settingsSchema.findOneAndUpdate(
                         {

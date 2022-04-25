@@ -2,7 +2,7 @@ import settingsSchema from "../../schemas/settingsSchema";
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
-import language from '../../Functions/language';
+import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
@@ -30,17 +30,19 @@ export const command: Command = {
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions } = message;
-        message.delete()
+
+        if (!guild) return
         const setting = await Settings(message, 'moderation');
         
         if (!setting) return temporaryMessage(channel, 'Cannot use this command. Moderation is turned off', 10);
         
         const target = mentions.users.first()
+
         if (!target || target.bot) return temporaryMessage(channel, 'Please specify someone to warn.', 10);
 
         
         args.shift()
-        const guildId = guild?.id
+        const guildId = guild.id
         const userId = target.id
         const reason = args.join(' ')
 
@@ -50,12 +52,15 @@ export const command: Command = {
             timestamp: new Date().getTime(),
             reason
         }
+        let description = [
+            `User: **${target.tag}**`,
+            `${insert(guild, 'BAN_REASON', reason)}`
+        ].join('\n')
 
-        let embedLogg = new Discord.MessageEmbed() 
+        let embedLogg = new MessageEmbed() 
             .setColor('AQUA')
-            .addField('User: ', `${target.username}`)
-            .addField(`${language(guild, 'BAN_REASON')}: `, `${reason}`)
-            .addField('Warned by: ', `${author}`)
+            .setDescription(description)
+            .setFooter({ text: `Warned by: ${author}`, iconURL: author.displayAvatarURL() })
         target.send({ embeds: [embedLogg] })
 
         await profileSchema.findByIdAndUpdate({

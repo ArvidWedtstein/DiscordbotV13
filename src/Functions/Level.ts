@@ -1,9 +1,9 @@
-import { Message, MessageEmbed, RoleResolvable } from 'discord.js';
+import { Message, MessageAttachment, MessageEmbed, RoleResolvable } from 'discord.js';
 import fs from 'fs';
 import profileSchema from '../schemas/profileSchema';
 import settingsSchema from '../schemas/settingsSchema';
 import { getCoins, addCoins } from './economy';
-import language from './language';
+import language, { insert } from './language';
 //let xps = 0;
 
 
@@ -26,21 +26,20 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
     const { guild, member } = message
 
     if (!guild) return
+    if (!member || member.user.bot) return
+    
     const result = await profileSchema.findOneAndUpdate(
         {
             guildId, 
             userId,
         },
         {
-            guildId,
-            userId,
             $inc: {
                 xp: xpToAdd
             },
         }, 
         {
             upsert: true,
-            new: true,
         }
     )
     const sortObj = (list: any[], key: string) => {
@@ -60,6 +59,7 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
     const levels = await settingsSchema.findOne({
         guildId
     })
+
     let userlevels = sortObj(levels.levels, 'level')
     
     let { xp, level } = result
@@ -69,6 +69,7 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
 
     // If xp is more or equal then Level Up
     if (xp >= needed) {
+        // If there are levels specified for the guild
         if (userlevels) {
             let oldlvl = userlevels.find((lvl: any) => lvl.level == level)
             let indexLevel = userlevels.indexOf(oldlvl)
@@ -78,6 +79,7 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
     
             let newlvl = userlevels[indexLevel+1]
             
+            // Set level to next level
             level = newlvl.level;
 
             let newrole = guild.roles.cache.find(r => r.id === newlvl.role)
@@ -86,16 +88,28 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
         } else {
             level += 10
         }
-        
-        let moneyresult = needed / 100
-        const moneyReward = (Math.round(moneyresult)); 
-        await addCoins(guildId, userId, moneyReward)
+        // If guild has economy/money system enabled in settings
+        let moneyReward;
+        if (levels.money) {
+            let moneyresult = needed / 100
+            moneyReward = (Math.round(moneyresult)); 
+            await addCoins(guildId, userId, moneyReward)
+        }
+        let description = [
+            `${insert(guild, 'LEVEL_UP', level)} (${xp}xp)!`,
+            `${levels.money ? `${insert(guild, 'LEVEL_YOU_EARNED', moneyReward)}` : ""}`,
+            `${insert(guild, 'LEVEL_YOU_NOW_NEED', getNeededXP(level))}.`
+        ].join('\n')
+
+        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
         const embed = new MessageEmbed()
-            .setDescription(`${await language(guild, 'LEVEL_UP')} ${level} (${xp}xp)!\n${await language(guild, 'LEVEL_UP2')} ${moneyReward} ErlingCoins!\n${await language(guild, 'LEVEL_UP3')} ${getNeededXP(level)} XP ${await language(guild, 'LEVEL_UP4')}.`)
+            .setDescription(description)
+            .setImage('attachment://banner.jpg')
             .setFooter({ text: `${member?.user.tag}`, iconURL: member?.displayAvatarURL() })
             .setTimestamp()
-        message.reply({embeds: [embed]}).then((msg) => {
+
+        message.reply({ embeds: [embed], files: [attachment] }).then((msg) => {
             setTimeout(() => {
                 msg.delete()
             }, 20000)
