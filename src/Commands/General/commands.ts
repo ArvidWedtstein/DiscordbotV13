@@ -11,12 +11,13 @@ export const command: Command = {
         const { guild } = message
         const guildId = guild?.id;
         let txt = 'Commands:\n\n'
+        txt += `**Command** | **Description**\n`
         client.registry.commands.forEach((c) => {
-            if (c.ownerOnly) return;
-            if (c.hidden) return;
-            console.log(c)
-            txt += `**Command** | **Description**\n`
-            txt += `${c.name}: ${c.description}\n`
+            const { name, description, hidden, ownerOnly } = c;
+            
+            if (!ownerOnly && !hidden && txt.length < 1900) {
+                txt += `${name}: ${description}\n`
+            };
         })
 
         await message.reply(txt)

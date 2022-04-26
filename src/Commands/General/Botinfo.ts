@@ -9,7 +9,7 @@ export const command: Command = {
     name: "botinfo",
     description: "info bout bot",
     run: async(client, message, args) => {
-        const { guild } = message
+        const { guild, channel } = message
         const { uptime, user, registry, guilds }: any = client;
         let commandsize = registry.commands.size;
         let guildsize = 0
@@ -39,6 +39,6 @@ export const command: Command = {
                 { name: 'Commands Loaded:', value: `\`${commandsize}\``, inline: true },
                 { name: 'Currently in:', value: `\`${guildsize}\` servers`, inline: true },
             )
-        message.channel.send({ embeds: [embed] });
+        channel.send({ embeds: [embed] });
     }
 }

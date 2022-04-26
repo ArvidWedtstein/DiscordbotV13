@@ -1,7 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, ContextMenuInteraction, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { SlashCommand } from '../../Interfaces';
-import messageCountSchema from "../../schemas/messageCountSchema";
 export const slashCommand: SlashCommand = {
     name: "mute",
     type: "USER",

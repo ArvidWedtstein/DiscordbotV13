@@ -23,7 +23,7 @@ export const command: Command = {
         
         axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}`).then(res => {
             const embed = new MessageEmbed()
-                .setAuthor({ name: `Astronomy Picture of the Day` })
+                .setTitle(`Astronomy Picture of the Day`)
                 .setImage(res.data.hdurl)
                 .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
                 .setTimestamp(Date.now())

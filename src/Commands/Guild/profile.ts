@@ -5,7 +5,6 @@ import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
-import messageCountSchema from '../../schemas/messageCountSchema';
 import profileSchema from '../../schemas/profileSchema';
 import { addXP, getXP, getLevel } from '../../Functions/Level';
 import moment from 'moment';
@@ -34,26 +33,20 @@ export const command: Command = {
         if (!rolemap) rolemap = "No roles";
 
 
-        const result = await messageCountSchema.findOne({ 
-            guildId,
-            userId
-        })
-        let messages = '0';
-        if (result || result.messageCount) messages = result.messageCount;         
         
+
         
         let birthday = 'Unknown';
         let joinedDate: any = '';
-        const resultsbirthday = await profileSchema.findOne({
-            userId
-        })
 
-        if (resultsbirthday && resultsbirthday.birthday != '1/1') birthday = resultsbirthday.birthday;
 
         const results = await profileSchema.findOne({
             userId,
             guildId
         })
+        let messages = results.messageCount;
+   
+        if (results && results.birthday != '1/1') birthday = results.birthday;
 
         joinedDate = moment(user?.joinedAt).fromNow()
 
@@ -61,7 +54,7 @@ export const command: Command = {
         
         // Map warns
         if (results.warns && results.warns.length > 0) {
-            warns = result.warns.map(
+            warns = results.warns.map(
                 ({ reason, author, timestamp }: { reason: string, author: string, timestamp: any }) => (
                     `Warned By ${author} for ${reason} on ${new Date(timestamp).toLocaleDateString()}`
                 )
@@ -121,6 +114,7 @@ export const command: Command = {
             `〔Messages Sent: \`${messages}\``,
             `${badges ? '〔Badges: \`' + badges + '\`' : ''}`,
             `${presence ? '〔Game: \`' + presence + '\`' : ''}`,
+            `${results.brawlhalla ? '〔Brawlhalla fan: \`' + "yes, absolutely" + '\`' : ''}`,
             `${warns.length > 0 ? '〔Warns: \`' + warns.join('\n') + '\`' : ''}`,
             `${joinedDate ? '〔Joined this server: \`' + joinedDate + '\`' : ''}`,
         ]

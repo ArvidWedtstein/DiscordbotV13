@@ -6,6 +6,8 @@ import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy'
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 export const command: Command = {
     name: "ban",
+    description: "lets you ban a user",
+    details: "lets you ban a user from the server",
     group: "Admin",
     UserPermissions: [
         "BAN_MEMBERS"

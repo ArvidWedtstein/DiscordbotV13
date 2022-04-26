@@ -36,6 +36,11 @@ const profileSchema = new Schema({
         type: [Object],
         required: true,
     },
+    messageCount: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     joinedDate: {
         type: Date,
         required: false

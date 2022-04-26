@@ -9,7 +9,7 @@ export const command: Command = {
     description: "list over guild roles",
     aliases: ["roleslist"],
     run: async(client, message, args) => {
-        const { guild } = message
+        const { guild, channel } = message
         let rolemap: any = guild?.roles.cache
             .sort((a, b) => b.position - a.position)
             .map(r => r)
@@ -19,6 +19,6 @@ export const command: Command = {
         const embed = new MessageEmbed()
             .setTitle('Server Roles')
             .addField("Role List" , rolemap)
-        message.channel.send({embeds: [embed]});
+        channel.send({embeds: [embed]});
     }
 }

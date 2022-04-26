@@ -21,17 +21,19 @@ export const command: Command = {
         const { guild, mentions, author, member, channel } = message;
 
         axios.get('http://api.open-notify.org/iss-now.json').then(res => {
-            axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${res.data.iss_position.latitude},${res.data.iss_position.longitude}&sensor=true&key=${process.env.GOOGLE_API_KEY}`).then(res2 => {
-                let types: any = res2.data.results[res2.data.results.length-1].address_components[res2.data.results[res2.data.results.length-1].address_components.length-1].types;
+            let { iss_position } = res.data
+            axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${iss_position.latitude},${iss_position.longitude}&sensor=true&key=${process.env.GOOGLE_API_KEY}`).then(res2 => {
+                let { results } = res2.data
+                let types: any = results[results.length-1].address_components[results[results.length-1].address_components.length-1].types;
 
                 const attachment = new MessageAttachment('./img/iss.jpg', 'iss.jpg')  // Create an attachment
                 const embed = new MessageEmbed()
                     .setAuthor({ name: `International Space Station` })
                     .setThumbnail('attachment://iss.jpg')
                     .addFields(
-                        {name: "Latitude", value: `${res.data.iss_position.latitude}`, inline: true}, 
-                        {name: "Longitude", value: `${res.data.iss_position.longitude}`, inline: true}, 
-                        {name: "Country", value: `${types.some((x: any) => x == "country") ? `${res2.data.results[res2.data.results.length-1].address_components[0].long_name}` : "In the middle of nowhere"}`, inline: true},
+                        {name: "Latitude", value: `${iss_position.latitude}`, inline: true}, 
+                        {name: "Longitude", value: `${iss_position.longitude}`, inline: true}, 
+                        {name: "Country", value: `${types.some((x: any) => x == "country") ? `${results[results.length-1].address_components[0].long_name}` : "In the middle of nowhere"}`, inline: true},
                     )
                     .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
                     .setTimestamp(Date.now())

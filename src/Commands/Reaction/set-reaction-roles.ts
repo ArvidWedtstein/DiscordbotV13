@@ -11,16 +11,16 @@ import { addToCache, fetchCache } from '../../Functions/reactions';
 import reactionRoleSchema from '../../schemas/reactionRoleSchema';
 
 export const command: Command = {
-    name: "ping",
-    description: "check my ping",
-    details: "Check the ping of this bot.",
-    aliases: ["memeping"],
-    group: "Guild",
+    name: "setreactionroles",
+    description: "setreactionroles",
+    details: "setreactionroles",
+    aliases: ["set_reaction_roles"],
+    group: "Reaction",
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["ping"],
+    examples: ["setreactionroles"],
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments } = message;

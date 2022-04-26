@@ -7,13 +7,15 @@ import language from '../Functions/language';
 export const event: Event = {
     name: "messageCreate",
     run: (client: Client, message: Message) => {
+        const { author, content, guild, member, channel } = message;
         if (
-            message.author.bot ||
-            !message.guild ||
-            !message.content.startsWith(client.config.prefix)
+            author.bot ||
+            !guild ||
+            !content.startsWith(client.config.prefix)
         ) return;
 
-        if (message.content.startsWith("-stian")) return message.channel.send("<:gifflar:844852887389863947>");
+        // Custom stian command. Just for fun.
+        if (content.startsWith("-stian")) return message.channel.send("<:gifflar:844852887389863947>");
 
         const validatePermissions = (permissions: PermissionString[]) => {
             const validPermissions = [
@@ -67,7 +69,7 @@ export const event: Event = {
                 }
             }
         }
-        const args: any = message.content.slice(client.config.prefix.length).trim().split(" ");
+        const args: any = content.slice(client.config.prefix.length).trim().split(" ");
 
         const cmd = args.shift().toLowerCase();
 
@@ -79,17 +81,21 @@ export const event: Event = {
 
         // Skip if command is disabled or doesn't exist
         if (!command) return
-        if (command?.disabled) return
-
+        if (command.disabled) return
+        
 
         if (command?.UserPermissions) {
+            // Validate Permissions
+            validatePermissions(command.UserPermissions);
             command?.UserPermissions.forEach(async (p) => {
-                if (!message.member?.permissions.toArray().includes(p)) return temporaryMessage(message.channel, `${await language(message.guild, 'PERMISSION_ERROR')}`);
+                if (!member?.permissions.toArray().includes(p)) return temporaryMessage(channel, `${language(guild, 'PERMISSION_ERROR')}`);
             })
         }
-        if (command?.ClientPermissions) {
+        if (command.ClientPermissions) {
+            // Validate Permissions
+            validatePermissions(command.ClientPermissions);
             command?.ClientPermissions.forEach(async (p) => {
-                if (!message.guild?.me?.permissions.toArray().includes(p)) return temporaryMessage(message.channel, `${await language(message.guild, 'CLIENTPERMISSION_ERROR')}`);
+                if (!guild?.me?.permissions.toArray().includes(p)) return temporaryMessage(channel, `${language(guild, 'CLIENTPERMISSION_ERROR')}`);
             })
         }
         

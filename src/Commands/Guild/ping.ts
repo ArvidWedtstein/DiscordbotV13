@@ -27,7 +27,7 @@ export const command: Command = {
             .setAuthor({name: `Ping is currently ${client.ws.ping.toString()}`, iconURL: client.user?.displayAvatarURL()})
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({embeds: [embed]});
+        channel.send({ embeds: [embed] });
         
     }
 }

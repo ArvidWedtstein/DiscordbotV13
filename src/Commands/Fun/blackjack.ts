@@ -2,7 +2,8 @@ import { Command } from '../../Interfaces';
 import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
-    name: "black",
+    name: "blackjack",
+    aliases: ["black"],
     description: "play blackjack",
     run: async(client, message, args) => {
         const { author, guild } = message;

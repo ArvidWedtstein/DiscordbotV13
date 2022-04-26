@@ -1,5 +1,4 @@
-import { Schema, model } from "mongoose"
-
+import { Schema, model, models } from "mongoose"
 const reqNumber = {
     type: Number,
     required: true
@@ -12,8 +11,7 @@ const reqDate = {
     type: Date,
     required: true
 }
-
-const reactionroleSchema = new Schema({
+const reactionrole = new Schema({
     guildId: reqString,
     channelId: reqString,
     messageId: reqString,
@@ -21,6 +19,8 @@ const reactionroleSchema = new Schema({
         emoji: reqString,
         roleId: reqString
     }]
+    
 })
 
-export default model('reaction-role', reactionroleSchema);
+const name: string = 'reaction-roles2'
+export default models[name] || model(name, reactionrole)

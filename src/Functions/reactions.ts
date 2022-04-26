@@ -1,6 +1,6 @@
 import { Client, Message } from "discord.js"
 
-const reactionSchema = require('../../schemas/reaction-roles-schema')
+const reactionSchema = require('../schemas/reaction-roles-schema')
 
 const cache: any = {}
 

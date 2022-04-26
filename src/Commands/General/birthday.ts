@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
@@ -63,12 +63,10 @@ export const command: Command = {
         let [ day, month, year ]: any = split;
 
         
-        if (!day) return message.reply(`${language(guild, 'BIRTHDAY_DAY')}`);
-        if (!month) return message.reply(`${language(guild, 'BIRTHDAY_MONTH')}`);
-        if (!year) return message.reply(`${language(guild, 'BIRTHDAY_MONTH')}`);
-        if (isNaN(day) || isNaN(month) || isNaN(year)) {
-            return message.reply(`${language(guild, 'BIRTHDAY_NaN')}`)
-        }
+        if (!day) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_DAY')}`, 10);
+        if (!month) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_MONTH')}`, 10);
+        if (!year) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_MONTH')}`, 10);
+        if (isNaN(day) || isNaN(month) || isNaN(year)) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_NaN')}`, 10);
 
         day = parseInt(day);
         month = parseInt(month);
@@ -78,9 +76,9 @@ export const command: Command = {
             day = parseInt(`0${day}`)
         }
  
-        if (day > 31 || day < 1) return message.reply(`${language(guild, 'BIRTHDAY_FORMAT')}`);
-        if (month > 12 || month < 1) return message.reply(`${language(guild, 'BIRTHDAY_FORMAT')}`);
-        if (year > new Date().getFullYear() || year < 1900) return message.reply(`${language(guild, 'BIRTHDAY_FORMAT')}`);
+        if (day > 31 || day < 1) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_FORMAT')}`, 10);
+        if (month > 12 || month < 1) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_FORMAT')}`, 10);
+        if (year > new Date().getFullYear() || year < 1900) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_FORMAT')}`, 10);
 
         const birthday = `${day}/${month}/${year}`;
 
@@ -96,14 +94,8 @@ export const command: Command = {
         }, {
             upsert: true,
         })
-                
+        
         if (!profileresult) {
-            let embed = new MessageEmbed()
-                .setColor(`AQUA`)
-                .setAuthor({ name: `${user?.user.username}'s ${language(guild, 'BIRTHDAY_CHANGE')} **${birthday}**`, iconURL: user?.user?.displayAvatarURL() })
-            message.reply({
-                embeds: [embed]
-            })
             new profileSchema({
                 guildId,
                 userId,
@@ -111,12 +103,19 @@ export const command: Command = {
                     birthday
                 }
             })
-        } else {
-            let embed = new MessageEmbed()
-                .setColor(`AQUA`)
-                .setAuthor({ name: `${user?.user.username}'s ${language(guild, 'BIRTHDAY_CHANGE')} ${birthday}`, iconURL: user?.user.displayAvatarURL({ dynamic: true})})
-            message.reply({ embeds: [embed] })
         }
+
+        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        
+        let embed = new MessageEmbed()
+            .setColor(`AQUA`)
+            .setAuthor({ name: `${user?.user.username}'s ${language(guild, 'BIRTHDAY_CHANGE')} ${birthday}`, iconURL: user?.user.displayAvatarURL({ dynamic: true})})
+            .setImage('attachment://banner.jpg')
+
+        message.reply({ 
+            embeds: [embed],
+            files: [attachment]
+        })
     }
 }
 

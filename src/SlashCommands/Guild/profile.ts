@@ -4,7 +4,6 @@ import moment from "moment";
 import { getCoins, getColor } from "../../Functions/economy";
 import { getLevel, getXP } from "../../Functions/Level";
 import { SlashCommand } from '../../Interfaces';
-import messageCountSchema from "../../schemas/messageCountSchema";
 import profileSchema from "../../schemas/profileSchema";
 export const slashCommand: SlashCommand = {
     name: "profile",
@@ -31,17 +30,17 @@ export const slashCommand: SlashCommand = {
         let xptonextlevel: any = ''
 
 
-        const result = await messageCountSchema.findOne({ 
-            guildId,
-            userId
+        const results = await profileSchema.findOne({
+            userId,
+            guildId
         })
         let messages = '';
-        if (!result) {
+        if (!results) {
             messages = '0'
-        } else if (!result.messageCount) {
+        } else if (!results.messageCount) {
             messages = '0'
         } else {
-            messages = result.messageCount;
+            messages = results.messageCount;
         }
         let birthday = '';
 
@@ -59,10 +58,7 @@ export const slashCommand: SlashCommand = {
             joinedDate = moment(birthdayresult.joinedAt).fromNow()
         }
         let warntxt = '';
-        const results = await profileSchema.findOne({
-            userId,
-            guildId
-        })
+
         if (!results.warnings) {
             warntxt += 'No warns'
         } else {    

@@ -16,8 +16,8 @@ export const command: Command = {
     examples: ["addrole @user @role"],
     
     run: async(client, message, args) => {
-        const mention = message.mentions.users.first();
-        const { guild } = message;
+        const { guild, mentions, channel, author } = message;
+        const mention = mentions.users.first();
         if (!guild?.available) return;
 
         const member: GuildMember|undefined = guild?.members.cache.find(m => m.id === mention?.id)
@@ -39,9 +39,9 @@ export const command: Command = {
             )
         const embed = new MessageEmbed()
             .setAuthor({name: `Choose role for ${member?.user.username}`, iconURL: member?.user.displayAvatarURL()})
-            .setFooter({ text: `Executed by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
+            .setFooter({ text: `Executed by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({embeds: [embed], components: [roleSelect]});
+        channel.send({ embeds: [embed], components: [roleSelect] });
 
         client.on("interactionCreate", async (button) => {
             if (!button.isSelectMenu()) return;
@@ -49,7 +49,7 @@ export const command: Command = {
             if (button.customId != 'rolesSelect') return;
             await button.deferUpdate();
             
-            if (button.member?.user.id != message.author.id) return;
+            if (button.member?.user.id != author.id) return;
             
 
             const chosenrole = guild.roles.cache.find((r) => r.id === button.values[0])

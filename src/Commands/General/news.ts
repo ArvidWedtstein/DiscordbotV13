@@ -17,7 +17,7 @@ export const command: Command = {
         // const targetChannel = message.mentions.channels.first();
         const targetChannel = message.channel;
         if (!targetChannel) {
-            console.log('no channel found')
+
             message.reply(`${await language(guild, 'CHANNEL')}`)
             return
         }
@@ -31,7 +31,7 @@ export const command: Command = {
             console.log(json)
             // const { text = ''} = json
             console.log(json)
-            targetChannel.send({content: "test", embeds: [json]});
+            targetChannel.send({content: "News", embeds: [json]});
             if (targetChannel.type === 'GUILD_NEWS') {
                 message.crosspost()
             }

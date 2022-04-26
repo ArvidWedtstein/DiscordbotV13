@@ -2,7 +2,6 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, ContextMenuInteraction, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import temporaryMessage from "../../Functions/temporary-message";
 import { SlashCommand } from '../../Interfaces';
-import messageCountSchema from "../../schemas/messageCountSchema";
 
 const actions = ['give', 'remove', 'has']
 

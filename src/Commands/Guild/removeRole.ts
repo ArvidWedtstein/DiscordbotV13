@@ -17,12 +17,12 @@ export const command: Command = {
     examples: ["addrole @user @role"],
     
     run: async(client, message, args) => {
-        const mention = message.mentions.users.first();
-        const { guild } = message;
+        const { guild, mentions, author, channel } = message;
+        const mention = mentions.users.first();
         if (!guild?.available) return;
         const roles: any[] = [];
         const member: GuildMember|undefined = guild?.members.cache.find(m => m.id === mention?.id)
-        if (!member) return message.reply(await language(guild, 'VALID_USER'))
+        if (!member) return temporaryMessage(channel, language(guild, 'VALID_USER'), 10)
         const guildRoles = await member?.roles.cache
             .sort((a, b) => b.position - a.position)
             .map(r => roles.push({label: r.name, description: r.id, value: r.id}))
@@ -38,9 +38,9 @@ export const command: Command = {
             )
         const embed = new MessageEmbed()
             .setAuthor({name: `Choose role for ${member?.user.tag}`, iconURL: member?.user.displayAvatarURL()})
-            .setFooter({ text: `Eggsecuted by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
+            .setFooter({ text: `Executed by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({embeds: [embed], components: [roleSelect]});
+        channel.send({embeds: [embed], components: [roleSelect]});
 
         client.on("interactionCreate", async (button) => {
             if (!button.isSelectMenu()) return;
@@ -48,7 +48,7 @@ export const command: Command = {
             if (button.customId != 'rolesRemove') return;
             await button.deferUpdate();
             
-            if (button.member?.user.id != message.author.id) return;
+            if (button.member?.user.id != author.id) return;
             
 
             const chosenrole = guild.roles.cache.find((r) => r.id === button.values[0])

@@ -23,13 +23,13 @@ export const command: Command = {
         axios.get(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${process.env.NASA_API_KEY}`).then(res => {
             var chosenPicture = res.data.photos[Math.floor(Math.random()*res.data.photos.length)];
             const embed = new MessageEmbed()
-                .setAuthor({ name: `Random Mars Rover Picture` })
+                .setTitle(`Random Mars Rover Picture`)
                 .setImage(chosenPicture.img_src)
                 .setDescription(`Taken on ${chosenPicture.earth_date} by the "${chosenPicture.rover.name}" rover with the camera ${chosenPicture.camera.full_name}`)
                 .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
                 .setTimestamp(Date.now())
 
-            channel.send( {embeds: [embed] });
+            channel.send({ embeds: [embed] });
         }).catch(err => {
             console.log(err);
         })

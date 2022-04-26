@@ -1,7 +1,7 @@
 import { Event, Command} from '../Interfaces';
 import Client from '../Client';
 import { Message } from 'discord.js';
-import messageCountSchema from '../schemas/messageCountSchema';
+import profileSchema from '../schemas/profileSchema';
 import moment from 'moment';
 
 export const event: Event = {
@@ -27,12 +27,10 @@ export const event: Event = {
         const userId = author.id
         if (author.bot) return;
 
-        const result = await messageCountSchema.findOneAndUpdate({
+        const result = await profileSchema.findOneAndUpdate({
             userId: userId,
             guildId: guildId,
         }, {
-            userId: userId,
-            guildId: guildId,
             $inc: {
                 'messageCount': 1
             },

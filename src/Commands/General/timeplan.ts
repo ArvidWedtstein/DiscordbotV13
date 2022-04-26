@@ -9,16 +9,16 @@ export const command: Command = {
     description: "shows timeplan",
     aliases: ["ukeplan"],
     run: async(client, message, args) => {
-        //message.delete();
-        const { guild } = message
+
+        const { guild, channel, author } = message
         const guildId = guild?.id
         const d = new Date()
         const toggle = new MessageButton()
-            .setLabel(`${await language(guild, 'TIMEPLAN_SWITCH')}`)
+            .setLabel(`Page 1`)
             .setStyle(3)
             .setCustomId('1')
         const toggle2 = new MessageButton()
-            .setLabel(`${await language(guild, 'TIMEPLAN_SWITCH')}`)
+            .setLabel(`Page 2`)
             .setStyle(1)
             .setCustomId('2')
         const close = new MessageButton()
@@ -37,15 +37,15 @@ export const command: Command = {
 
             
 
-        let msg = await message.channel.send({
+        let msg = await channel.send({
             files: [attachment],
             components: [row]
         })
         client.on("interactionCreate", async (button) => {
             if (!button.isButton()) return;
+            button.deferUpdate();
             
-            console.log(`ID: `, button.customId)
-            if (button.member?.user.id != message.author.id) return;
+            if (button.member?.user.id != author.id) return;
             if (button.customId == '1') {
                 msg.edit({
                     files: [attachment2],
@@ -56,12 +56,9 @@ export const command: Command = {
                     files: [attachment],
                     components: [row]
                 })
-            }
-            else if (button.customId == '3') {
+            } else if (button.customId == '3') {
                 msg.delete()
-                
             }
-            
         });
     }
 }

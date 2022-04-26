@@ -86,6 +86,7 @@ class ExtendedClient extends Client {
             { id: "level", name: "Level" },
             { id: "music", name: "Music" },
             { id: "random", name: "Random" },
+            { id: "reaction", name: "Reaction" },
             { id: "utils", name: "Utils" },
         ])
         this.registry.registerCommandsIn(commandPath)

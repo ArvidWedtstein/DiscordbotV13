@@ -33,12 +33,12 @@ export const command: Command = {
         if (args[0]) {
             let chosencmd = client.registry.commands.find((c: any) => c.name === args[0])
 
-            if (!chosencmd) return temporaryMessage(channel, `command could not be found`, 5);
+            if (!chosencmd) return temporaryMessage(channel, `Command could not be found`, 5);
             
             const { name, description, details, UserPermissions, aliases, group } = chosencmd;
 
             let embed = new MessageEmbed({
-                title: `${getEmoji("help")} ${await language(guild, 'HELP_TITLE')} - ${name}`,
+                title: `${getEmoji("help")} ${language(guild, 'HELP_TITLE')} - ${name}`,
                 description: `${details ? details : description}`,
                 fields: [
                     {name: `**Usage**`, value: `\`${name}\``},

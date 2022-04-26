@@ -77,7 +77,7 @@ export const command: Command = {
         })
 
         SettingsCategories = SettingsCategories.filter((v: any,i:any,a: any)=>a.findIndex((t: any)=>(t.group===v.group))===i)
-        console.log(SettingsCategories)
+
         const SettingsList = []
         for (let i = 0; i < SettingsCategories.length; i++) {
             let str: any = `${i}-3`

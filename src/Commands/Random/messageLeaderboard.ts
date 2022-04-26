@@ -7,7 +7,7 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
-import messageCountSchema from '../../schemas/messageCountSchema';
+import profileSchema from '../../schemas/profileSchema';
 import emojiCharacters from '../../Functions/emojiCharacters';
 
 export const command: Command = {
@@ -27,7 +27,7 @@ export const command: Command = {
         if (!guild) return
 
         const guildId = guild.id
-        const result = await messageCountSchema.find({
+        const result = await profileSchema.find({
             guildId: guildId,
         }).sort({
             messageCount: -1,

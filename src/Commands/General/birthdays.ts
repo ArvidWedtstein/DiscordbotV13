@@ -22,6 +22,7 @@ export const command: Command = {
 
         profileSchema.find({ guildId: guild?.id, birthday: { $ne: "1/1", $exists: true } }).then(async users => {
 
+            // Sort birthdays
             let birthdays = users.sort((a, b) => {
                 let ab = a.birthday.split('/')
                 let bb = b.birthday.split('/')
@@ -30,7 +31,7 @@ export const command: Command = {
                 return aDate.getTime() - bDate.getTime();
             });
 
-
+            // Map the users and their birthdays
             let userList = birthdays.map(user => {
                 let bd = user.birthday.split('/')
                 let bdDate = new Date(`${bd[2]}-${bd[1]}-${bd[0]}`).setFullYear(new Date().getFullYear())

@@ -7,7 +7,7 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
-import messageCountSchema from '../../schemas/messageCountSchema';
+import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
     name: "serverinfo",
     description: "check info of a server",
@@ -33,13 +33,15 @@ export const command: Command = {
         //const guildfeatures = guild.features
         const guildId = guild.id;
         
-        const msgresult = await messageCountSchema.find({
-            guildId: guildId
+
+        const msgresult = await profileSchema.find({
+            guildId: guildId,
+            messageCount: { $gt: 0, $exists: true }
         })
         var msgnmb = 0;
         for (let index = 0; index < msgresult.length; index++) {
             const { messageCount = 0 } = msgresult[index]
-            msgnmb = msgnmb + messageCount
+            msgnmb += messageCount
         }
 
         // Get server boosters
