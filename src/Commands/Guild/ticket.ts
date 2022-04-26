@@ -1,7 +1,7 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
-import language from '../../Functions/language';
+import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
@@ -16,83 +16,79 @@ export const command: Command = {
     examples: ["ticket "],
     
     run: async(client, message, args) => {
-        const { guild, author, member } = message;
-        const guildId = guild?.id
+        const { guild, author, member, channel: chan } = message;
+        if (!guild) return
+        const guildId = guild.id
 
         const setting = await Settings(message, 'ticket');
-        if (setting == false) {
-            message.reply(`${await language(guild, 'SETTING_OFF')} Ticket ${await language(guild, 'SETTING_OFF2')}`);
-            return
-        } else if (setting == true) {
-            
-            let channel = guild?.channels.cache.find(channel => channel.name === 'tickets');
-            if (!channel) {
-                const name = 'tickets'
-                guild?.channels
-                    .create(name, {
-                        nsfw: true,
-                        topic: "pain"
-                    })
-                channel = guild?.channels.cache.find(channel => channel.name === 'tickets');
-            }
-            const check = '<:yes:807175712515162183>'
-            let helpText = args.slice(0).join(' ');
-            var d = new Date();
-    
-            //If there is no help
-            if (!helpText) {
-                return message.reply(`${language(guild, 'TICKET_NOARGS')}`)
-                //helpText = 'No help needed.';
-            }
-    
-            if (helpText.length > 1024) {
-                helpText = helpText.slice(0, 1021) + '...';
-            }
-            if (channel?.type != "GUILD_TEXT") return;
-            const { member } = message
-            let embed = new Discord.MessageEmbed()
-                .setColor('#ff0000')
-                .setTitle(`${await language(guild, 'TICKET_ISSUE')}:`)
-                .setDescription(helpText)
-                .setAuthor({ name: `${author?.username}`, iconURL: message.author.displayAvatarURL()} )
-                .setFooter({ text: `${await language(guild, 'TICKET_UNSOLVED')} ${d.toLocaleTimeString()}`})
-            let messageEmbed = await channel?.send({ embeds: [embed]}).then((message: any) => {
-                message.react(check);
-    
-                client.on('messageReactionAdd', async (reaction, user) => {
-                    if (reaction.message.partial) await reaction.message.fetch();
-                    if (reaction.partial) await reaction.fetch();
-                    if (user.bot) return;
-                    if (!reaction.message.guild) return;
-                    const ReactUser = reaction.message.guild.members.cache.get(user?.id)
-                    let embed2 = new MessageEmbed()
-                        .setColor('#10ff00')
-                        .setTitle(`${await language(guild, 'TICKET_SOLVED')} ${await language(guild, 'TICKET_ISSUE')}:`)
-                        .setDescription(helpText)
-                        .setAuthor({name: `${member?.user?.username}`, iconURL: member?.user.displayAvatarURL()})
-                        .setTimestamp()
-                        .setFooter({ text: `${await language(guild, 'TICKET_SOLVEDBY')} ${user.username}`})
-                    reaction.message.edit({ embeds: [embed2] });
-                    member?.user.send(`${await language(guild, 'TICKET_SOLVEDISSUE')} ${user.username}`)
-                    
-                });
-                client.on('messageReactionRemove', async (reaction, user) => {
-                    if (reaction.message.partial) await reaction.message.fetch();
-                    if (reaction.partial) await reaction.fetch();
-                    if (user.bot) return;
-                    if (!reaction.message.guild) return;
+        if (!setting) return temporaryMessage(chan, `${insert(guild, 'SETTING_OFF', "Ticket")}`)
         
-                    const ReactUser = reaction.message.guild.members.cache.get(user?.id)
-                    let embed = new MessageEmbed()
-                        .setColor('#ff0000')
-                        .setTitle(`${language(guild, 'TICKET_ISSUE')}:`)
-                        .setDescription(helpText)
-                        .setAuthor({ name: `${member?.user.username}`, iconURL: member?.user.displayAvatarURL() })
-                        .setFooter({ text: `${language(guild, 'TICKET_UNSOLVED')} ${d.toLocaleTimeString()}`})
-                    message.edit({ embeds: [embed] });
-                    member?.user.send(`${language(guild, 'TICKET_UNSOLVEDISSUE')}`)
-                });
-            })
+        let channel = guild?.channels.cache.find(channel => channel.name === 'tickets');
+        if (!channel) {
+            const name = 'tickets'
+            guild?.channels
+                .create(name, {
+                    nsfw: true,
+                    topic: "pain"
+                })
+            channel = guild?.channels.cache.find(channel => channel.name === 'tickets');
         }
+        const check = '<:yes:807175712515162183>'
+        let helpText = args.slice(0).join(' ');
+        var d = new Date();
+
+        //If there is no help
+        if (!helpText) {
+            return message.reply(`${language(guild, 'TICKET_NOARGS')}`)
+            //helpText = 'No help needed.';
+        }
+
+        if (helpText.length > 1024) {
+            helpText = helpText.slice(0, 1021) + '...';
+        }
+        if (channel?.type != "GUILD_TEXT") return;
+        let embed = new MessageEmbed()
+            .setColor('#ff0000')
+            .setTitle(`${await language(guild, 'TICKET_ISSUE')}:`)
+            .setDescription(helpText)
+            .setAuthor({ name: `${author?.username}`, iconURL: message.author.displayAvatarURL()} )
+            .setFooter({ text: `${await language(guild, 'TICKET_UNSOLVED')} ${d.toLocaleTimeString()}`})
+        let messageEmbed = await channel?.send({ embeds: [embed]}).then((message: any) => {
+            message.react(check);
+
+            client.on('messageReactionAdd', async (reaction, user) => {
+                if (reaction.message.partial) await reaction.message.fetch();
+                if (reaction.partial) await reaction.fetch();
+                if (user.bot) return;
+                if (!reaction.message.guild) return;
+                const ReactUser = reaction.message.guild.members.cache.get(user?.id)
+                let embed2 = new MessageEmbed()
+                    .setColor('#10ff00')
+                    .setTitle(`${await language(guild, 'TICKET_SOLVED')} ${await language(guild, 'TICKET_ISSUE')}:`)
+                    .setDescription(helpText)
+                    .setAuthor({name: `${member?.user?.username}`, iconURL: member?.user.displayAvatarURL()})
+                    .setTimestamp()
+                    .setFooter({ text: `${await language(guild, 'TICKET_SOLVEDBY')} ${user.username}`})
+                reaction.message.edit({ embeds: [embed2] });
+                member?.user.send(`${await language(guild, 'TICKET_SOLVEDISSUE')} ${user.username}`)
+                
+            });
+            client.on('messageReactionRemove', async (reaction, user) => {
+                if (reaction.message.partial) await reaction.message.fetch();
+                if (reaction.partial) await reaction.fetch();
+                if (user.bot) return;
+                if (!reaction.message.guild) return;
+    
+                const ReactUser = reaction.message.guild.members.cache.get(user?.id)
+                let embed = new MessageEmbed()
+                    .setColor('#ff0000')
+                    .setTitle(`${language(guild, 'TICKET_ISSUE')}:`)
+                    .setDescription(helpText)
+                    .setAuthor({ name: `${member?.user.username}`, iconURL: member?.user.displayAvatarURL() })
+                    .setFooter({ text: `${language(guild, 'TICKET_UNSOLVED')} ${d.toLocaleTimeString()}`})
+                message.edit({ embeds: [embed] });
+                member?.user.send(`${language(guild, 'TICKET_UNSOLVEDISSUE')}`)
+            });
+        })
     }
 }

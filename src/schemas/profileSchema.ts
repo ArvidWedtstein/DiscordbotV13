@@ -8,6 +8,10 @@ const reqString = {
 const profileSchema = new Schema({ 
     guildId: reqString,
     userId: reqString,
+    steamId: {
+        type: String, 
+        required: false
+    },
     coins: {
         type: Number,
         default: 0,

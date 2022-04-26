@@ -1,5 +1,6 @@
 import { MessageEmbed } from 'discord.js';
-import language from '../../Functions/language';
+import temporaryMessage from '../../Functions/temporary-message';
+import language, { insert } from '../../Functions/language';
 import { Settings } from '../../Functions/settings';
 import { Command } from '../../Interfaces';
 
@@ -18,11 +19,11 @@ export const command: Command = {
         'VIEW_CHANNEL'
     ],
     run: async(client, message, args) => {
-        const { guild, author, mentions } = message
+        const { guild, author, mentions, channel } = message
         if (!guild) return;
         const guildId = guild?.id
         const setting = await Settings(message, 'moderation');
-        if (!setting) return message.reply(`${await language(guild, 'SETTING_OFF')} Moderation ${await language(guild, 'SETTING_OFF2')}`);
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`, 10);
         
         const user = mentions.users.first();
         const length: number = parseInt(args[1]);

@@ -10,23 +10,19 @@ export const event: Event = {
         const guild: Guild = member.guild;
         const setting = await Settingsguild(guild.id, 'welcome');
         
-        if (setting == false) {
-            // message.reply(`${language(guild, 'SETTING_OFF')} Welcome/Leave ${language(guild, 'SETTING_OFF2')}`);
+        if (!setting) return;
+
+        const channelId = guild.systemChannel?.id;
+        if (!channelId) {
             return
-        } else if (setting == true) {
-            const channelId = guild.systemChannel?.id;
-            if (!channelId) {
-                return
-            }
-            
-            const channel = guild.channels.cache.get(channelId);
-            if (!channel) {
-                return
-            }
-            if (!channel.viewable || !channel.isText()) return
-            channel.send(`${language(guild, 'LEAVE')} ${member.user.tag}`)
-        
         }
+        
+        const channel = guild.channels.cache.get(channelId);
+        if (!channel) {
+            return
+        }
+        if (!channel.viewable || !channel.isText()) return
+        channel.send(`${language(guild, 'LEAVE')} ${member.user.tag}`)
     }
 }
 

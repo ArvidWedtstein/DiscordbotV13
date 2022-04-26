@@ -1,6 +1,6 @@
 import { ColorResolvable, MessageEmbed } from 'discord.js';
 import { Command } from '../../Interfaces';
-import language from '../../Functions/language';
+import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import temporaryMessage from '../../Functions/temporary-message';
 import { Settings } from '../../Functions/settings';
@@ -20,12 +20,13 @@ export const command: Command = {
     ],
     run: async(client, message, args) => {
         const { guild, author, mentions, channel } = message
+        if (!guild) return;
         const target = author || mentions.users.first();
         const guildId = guild?.id
         const userId = target.id
         const setting = await Settings(message, 'money');
         // const setting: boolean = true;
-        if (!setting) return temporaryMessage(channel, `${language(guild, 'SETTING_OFF')} Economy ${language(guild, 'SETTING_OFF2')}`, 10);
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
 
         // Get coins and user defined color
         let coins = await getCoins(guildId, userId);

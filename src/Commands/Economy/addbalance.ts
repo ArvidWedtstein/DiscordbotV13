@@ -1,6 +1,6 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import language from '../../Functions/language';
+import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import temporaryMessage from '../../Functions/temporary-message';
 
@@ -11,18 +11,19 @@ export const command: Command = {
     UserPermissions: ['BAN_MEMBERS'],
     run: async(client, message, args) => {
         const { guild, channel, mentions, reply } = message
+        if (!guild) return;
         const guildId = guild?.id
-        message.delete();
+
         const setting = await Settings(message, 'money');
-        if (!setting) return temporaryMessage(channel, `${await language(guild, 'SETTING_OFF')} Economy ${await language(guild, 'SETTING_OFF2')}`, 10);
-           
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
+            
         const mention = mentions.users.first();
     
-        if (!mention) return temporaryMessage(channel, `${await language(guild, 'VALID_USER')}`, 10)
+        if (!mention) return temporaryMessage(channel, `${language(guild, 'VALID_USER')}`, 10)
 
         const coins: number = parseInt(args[1]);
         
-        if (isNaN(coins)) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_VALID')}`, 10)
+        if (isNaN(coins)) return temporaryMessage(channel, `${language(guild, 'ECONOMY_VALID')}`, 10)
 
         const userId = mention.id
 

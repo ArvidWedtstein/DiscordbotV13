@@ -1,5 +1,6 @@
 import { MessageEmbed } from 'discord.js';
-import language from '../../Functions/language';
+import temporaryMessage from '../../Functions/temporary-message';
+import language, { insert } from '../../Functions/language';
 import { Settings } from '../../Functions/settings';
 import { Command } from '../../Interfaces';
 import settingsSchema from '../../schemas/settingsSchema';
@@ -25,7 +26,7 @@ export const command: Command = {
         if (!guild) return;
         const guildId = guild?.id
         const setting = await Settings(message, 'moderation');
-        if (!setting) return message.reply(`${await language(guild, 'SETTING_OFF')} Moderation ${await language(guild, 'SETTING_OFF2')}`);
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
         
         if(!args[0]) return message.reply(`${language(guild, 'CLEAR_AMOUNT')}`);
         if(isNaN(args[0])) return message.reply(`${language(guild, 'CLEAR_NaN')}`);

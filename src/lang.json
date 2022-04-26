@@ -262,14 +262,9 @@
             "norwegian": "Kunne ikke nickname denne personen"
         },
         "SETTING_OFF": {
-            "english": "Cannot use this command.",
-            "german": "Dieser command kann nicht benutzt werden.",
-            "norwegian": "Denne kommandoen kan ikke brukes."
-        },
-        "SETTING_OFF2": {
-            "english": "is turned off.",
-            "german": "ist ausgeschaltet.",
-            "norwegian": "er skrudd av."
+            "english": "Cannot use this command. {insert} is turned off.",
+            "german": "Dieser command kann nicht benutzt werden. {insert} ist ausgeschaltet.",
+            "norwegian": "Denne kommandoen kan ikke brukes. {insert} er slått av."
         },
         "VALID_USER": {
             "english": "Please provide a valid user",
@@ -679,9 +674,9 @@
             "french": "Ajout de votre anniversaire à votre profil"
         },
         "BIRTHDAY_CHANGE": {
-            "english": "birthday changed to",
-            "german": "geburtsdag wurde geändert zu",
-            "norwegian": "bursdag ble endret til",
+            "english": "Birthday changed to",
+            "german": "Geburtsdag wurde geändert zu",
+            "norwegian": "Bursdag ble endret til",
             "french": "Anniversaire changé en"
         },
         "CHANNEL": {

@@ -34,7 +34,7 @@ export const command: Command = {
         if (!guild) return
         const setting = await Settings(message, 'moderation');
         
-        if (!setting) return temporaryMessage(channel, 'Cannot use this command. Moderation is turned off', 10);
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`, 10);
         
         const target = mentions.users.first()
 

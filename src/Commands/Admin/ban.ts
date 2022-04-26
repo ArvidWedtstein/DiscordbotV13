@@ -1,9 +1,10 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
-import language from '../../Functions/language';
+import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "ban",
     description: "lets you ban a user",
@@ -26,8 +27,8 @@ export const command: Command = {
         if (!guild) return;
         const guildId = guild?.id
         const setting = await Settings(message, 'moderation');
-
-        if (!setting) return message.reply(`${await language(guild, 'SETTING_OFF')} Moderation ${await language(guild, 'SETTING_OFF2')}`);
+        
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
 
         const member = mentions.members?.first();
         if (!member) return message.reply('couldnt find member')

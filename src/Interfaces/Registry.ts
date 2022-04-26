@@ -102,6 +102,7 @@ export class Registry {
 	 * registry.registerCommandsIn(path.join(__dirname, 'commands'));
 	 */
 	registerCommandsIn(options: string|any) {
+		if (!options) throw new Error('No options specified.');
 		fs.readdirSync(options).forEach((dir) => {
 			if (this.groups.find(g => g.id === dir.toLowerCase())) {
 				// Check whether commands are TypeScript or have been compiled to Javascript

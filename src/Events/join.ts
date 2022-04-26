@@ -12,33 +12,26 @@ export const event: Event = {
         const guild: Guild = member.guild;
         const guildId = guild.id;
         const setting = await Settingsguild(guild.id, 'welcome');
-        if (setting == false) {
-            
-            // message.reply(`${language(guild, 'SETTING_OFF')} Welcome/Leave ${language(guild, 'SETTING_OFF2')}`);
+        if (!setting) return
+        const channelId = guild.systemChannel?.id;
+        if (!channelId) {
             return
-        } else if (setting == true) {
-            const channelId = guild.systemChannel?.id;
-            if (!channelId) {
-                return
-            }
-            const userId = member.user.id;
-            const channel = guild.channels.cache.get(channelId);
-            if (!channel) {
-                return
-            }
-            const result = await profileSchema.findOneAndUpdate({
-                guildId,
-                userId
-            }, {
-                guildId,
-                userId,
-                joinedDate: date1
-            }, {
-                upsert: true
-            }).catch((err: any) => {
-                console.log(err)
-            })
-            channel.setName(`${await language(guild, 'WELCOME')} ${member.user.tag}\n${await language(guild, 'WELCOME_RULES')}`)
         }
+        const userId = member.user.id;
+        const channel = guild.channels.cache.get(channelId);
+        if (!channel) {
+            return
+        }
+        const result = await profileSchema.findOneAndUpdate({
+            guildId,
+            userId
+        }, {
+            joinedDate: date1
+        }, {
+            upsert: true
+        }).catch((err: any) => {
+            console.log(err)
+        })
+        channel.setName(`${await language(guild, 'WELCOME')} ${member.user.tag}\n${await language(guild, 'WELCOME_RULES')}`)
     }
 }

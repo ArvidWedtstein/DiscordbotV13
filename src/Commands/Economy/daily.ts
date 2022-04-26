@@ -1,7 +1,7 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
-import language from '../../Functions/language';
+import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
@@ -19,10 +19,10 @@ export const command: Command = {
     
     run: async(client, message, args) => {
         const { guild, channel, author } = message;
-
+        if (!guild) return;
         const setting = await Settings(message, 'money');
 
-        if (!setting) return temporaryMessage(channel, `${language(guild, 'SETTING_OFF')} Economy ${language(guild, 'SETTING_OFF2')}`, 10);
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
 
         const guildId = guild?.id;
         const userId = author.id
