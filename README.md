@@ -38,7 +38,6 @@ https://discord.gg/4Km3YdSjKX
 
 ```java
 - Level System
-- Custom icon colors
 - Economy System
 - Meme commands
 - Fun commands
