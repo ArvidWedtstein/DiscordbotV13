@@ -1,11 +1,12 @@
 import profileSchema from '../schemas/profileSchema';
 import Client from '../Client';
 import { ColorResolvable } from 'discord.js';
+import * as gradient from 'gradient-string';
 const coinsCache: any = {}
 
 // This function adds coins to the users profile
 export const addCoins = (async (guildId: any, userId: any, coins: number) => {
-    console.log(`Execute findOneAndUpdate(coins)`)
+    console.log(`${gradient.morning(`〔Economy Event〕`)} Add ${gradient.summer(`${userId}`)}: ${gradient.rainbow(`${coins}`)}`);
 
     const result = await profileSchema.findOneAndUpdate({
         guildId,
@@ -35,7 +36,7 @@ export const addCoins = (async (guildId: any, userId: any, coins: number) => {
 
 // This function sets the users coins to a specific value
 export const setCoins = (async (guildId: any, userId: any, coins: number) => {
-    console.log(`Execute setCoins(${coins})`)
+    console.log(`${gradient.morning(`〔Economy Event〕`)} Set ${gradient.summer(`${userId}`)}: ${gradient.rainbow(`${coins}`)}`);
 
     const result = await profileSchema.findOneAndUpdate({
         guildId,
@@ -55,28 +56,29 @@ export const setCoins = (async (guildId: any, userId: any, coins: number) => {
 });
 
 // This function gets the users coins
-export const getCoins = (async (guildId: any, userId: any) => {
+export const getCoins = (async (guildId: string, userId: any) => {
+    console.log(`${gradient.morning(`〔Economy Event〕`)} Get ${gradient.summer(`${userId}`)}`);
+    
     const cachedValue = coinsCache[`${guildId}-${userId}`]
     if (cachedValue) {
         return cachedValue
     }
-    console.log('Running findOne("economy")')
+    
 
-    const result = await profileSchema.findOne({
+    let result = await profileSchema.findOne({
         guildId,
         userId
     })
 
-    let coins = 0;
-    if (result) {
-        coins = result.coins
-    } else {
-        await new profileSchema({
+    
+    if (!result) {
+        result = await new profileSchema({
             guildId,
             userId,
-            coins
+            coins: 0
         }).save()
     }
+    let coins = result.coins;
 
     coinsCache[`${guildId}-${userId}`] = coins
 

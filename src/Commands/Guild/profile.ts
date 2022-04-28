@@ -19,9 +19,12 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, mentions, author, channel } = message;
 
+        if (!guild) return
         const u = mentions.users.first()?.id || author?.id
         const user: any = guild?.members.cache.find(r => r.id === u);
-        const guildId = guild?.id
+
+        if (!user) return 
+        const guildId = guild.id
         const userId = user?.id  
 
         // Get roles of user 
@@ -31,36 +34,28 @@ export const command: Command = {
             .join(", \n");
         if (rolemap.length > 1024) rolemap = "Too many roles to display";
         if (!rolemap) rolemap = "No roles";
-
-
-        
-
         
         let birthday = 'Unknown';
-        let joinedDate: any = '';
 
-
+        // Get users profile
         const results = await profileSchema.findOne({
             userId,
             guildId
         })
+
         let messages = results.messageCount;
    
         if (results && results.birthday != '1/1') birthday = results.birthday;
 
-        joinedDate = moment(user?.joinedAt).fromNow()
+        let joinedDate = moment(user?.joinedAt).fromNow();
 
-        let warns = [];
-        
         // Map warns
-        if (results.warns && results.warns.length > 0) {
-            warns = results.warns.map(
-                ({ reason, author, timestamp }: { reason: string, author: string, timestamp: any }) => (
-                    `Warned By ${author} for ${reason} on ${new Date(timestamp).toLocaleDateString()}`
-                )
-            );
-        } 
-    
+        let warns = results.warns.map(
+            ({ reason, author, timestamp }: { reason: string, author: string, timestamp: any }) => (
+                `Warned By ${author} for ${reason} on ${new Date(timestamp).toLocaleDateString()}`
+            )
+        );
+        
         // Get Animated ErlingCoin
         const erlingcoin = client.emojis.cache.get('853928115696828426');
 
@@ -101,6 +96,7 @@ export const command: Command = {
             }
             return age;
         }
+        
         let b = birthday.split('/');
         let description = [
             `〔Birthday: \`${birthday}\``,

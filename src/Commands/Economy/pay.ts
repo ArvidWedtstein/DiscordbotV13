@@ -21,62 +21,71 @@ export const command: Command = {
         if (!guild) return
         const guildId = guild?.id
 
+        // Check if economy is enabled
         const setting = await Settings(message, 'money');
         if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
 
+        // Get user
         const target = mentions.users.first();
 
         if (!target) return temporaryMessage(channel, `${language(guild, 'VALID_USER')}`, 10);
-        if (target.id == message.author.id) return temporaryMessage(channel, `${language(guild, 'VALID_USER')}`, 10);
+        if (target.id == author.id) return temporaryMessage(channel, `${language(guild, 'VALID_USER')}`, 10);
 
-        const coinsToGive: any = args[1]
-        if (isNaN(coinsToGive) || coinsToGive < 0) return temporaryMessage(channel, `${language(guild, 'ECONOMY_VALID')}`, 10)
+        // Check if specified amount is a number
+        const coinsToGive: any = args[1];
+        if (isNaN(coinsToGive) || coinsToGive < 0) return temporaryMessage(channel, `${language(guild, 'ECONOMY_VALID')}`, 10);
 
+        // Check if user has enough coins
         const coinsOwned = await getCoins(guildId, member?.id)
-        if (coinsOwned < coinsToGive) return message.reply(`${language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToGive} ErlingCoins!`)
+        if (coinsOwned < coinsToGive) return temporaryMessage(channel, `${language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToGive} ErlingCoins!`, 10);
 
-        const confirmation = await message.channel.send(`${language(guild, 'ECONOMY_PAYVERIFICATION')} ${target} ${coinsToGive}? (Y, N, Yes, No)`)
-        const filter = (m: any) => m.author.id === message.author.id
+        const confirmation = await channel.send(`${language(guild, 'ECONOMY_PAYVERIFICATION')} **${target.username}** ${coinsToGive}? (Y, Yes, N, No)`)
+        const filter = (m: any) => m.author.id === author.id
 
         const collector = confirmation.channel.createMessageCollector({
             filter, 
             max: 1,
-            time: 60000,
+            time: 180 * 1000,
         });
     
         collector.on('collect', async (m) => {
-            if (m.content.toLowerCase() == 'y' || 'yes') {
-                const remainingCoins = await addCoins(
-                    guildId,
-                    member?.id,
-                    coinsToGive * -1
-                )
-                const newBalance = await addCoins(
-                    guildId,
-                    target.id,
-                    coinsToGive
-                )
-
-                const attachment = new MessageAttachment(`./img/ErlingMoney.png`, `ErlingMoney.png`);
-                let embed = new MessageEmbed()
-                    .setColor('BLURPLE')
-                    .setTitle('Transaction')
-                    .setDescription(`${language(guild, 'ECONOMY_PAY')} <@${target.id}> ${coinsToGive} ErlingCoins!`)
-                    .addField(`${language(guild, 'ECONOMY_PAYLEFT')}`, `${remainingCoins}`)
-                    .setThumbnail(`attachment://ErlingMoney.png`);
-                message.channel.send({ embeds: [embed], files: [attachment] })
-            } else if (m.content.toLowerCase() == 'n' || 'no') {
-                temporaryMessage(m.channel, `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 5)
+            const { channel, content } = m
+            // Check if the answer is neither "y" or "yes"
+            if (content.toLowerCase() !== 'y' && content.toLowerCase() !== 'yes') {
+                return temporaryMessage(channel, `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 10)
             }
+            const remainingCoins = await addCoins(
+                guildId,
+                member?.id,
+                coinsToGive * -1
+            )
+            const newBalance = await addCoins(
+                guildId,
+                target.id,
+                coinsToGive
+            )
+
+            const attachment = new MessageAttachment(`./img/ErlingCoinSpin.gif`, `ErlingCoinSpin.gif`);
+            const border = new MessageAttachment(`./img/banner.jpg`, `banner.jpg`);
+            let embed = new MessageEmbed()
+                .setTitle('Transaction')
+                .setDescription(`${language(guild, 'ECONOMY_PAY')} **${target.username}** ${coinsToGive} ErlingCoins!
+                \n${language(guild, 'ECONOMY_PAYLEFT')} ${remainingCoins} ErlingCoins!`)
+                .setThumbnail(`attachment://ErlingCoinSpin.gif`)
+                .setImage(`attachment://banner.jpg`)
+                .setFooter({ text: `Erlingcoins sent by ${author.username}`, iconURL: author.displayAvatarURL() })
+            channel.send({
+                embeds: [embed], 
+                files: [attachment, border] 
+            })
         });
         
     
         collector.on('end', (collected, reason) => {
-            console.log(reason)
             if (reason === 'time') {
-                temporaryMessage(message.channel,  `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 5);
-                return
+                temporaryMessage(channel,  `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 5);
             }
+            return
         });
     }
 }

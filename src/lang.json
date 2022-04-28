@@ -823,7 +823,7 @@
             "norwegian": "Kunne ikke finne en info/regel kanal",
             "french": "Aucun canal d'informations/règles défini. -setinfo"
         },
-        "ECONOMY_PAYVERIFICARTION": {
+        "ECONOMY_PAYVERIFICATION": {
             "english": "Are you sure you want to pay",
             "german": "Bitte bestätigen Sie die transaktion",
             "norwegian": "Er du sikker på at du vil betale",
@@ -936,12 +936,6 @@
             "german": "aktuelle Woche",
             "norwegian": "nåværende uke",
             "french": "cette semaine"
-        },
-        "ECONOMY_PAYVERIFICATION": {
-            "english": "Du you want to give",
-            "german": "Wollen sie geben",
-            "norwegian": "Vil du gi",
-            "french": "."
         },
         "TEMPLATE": {
             "english": ".",

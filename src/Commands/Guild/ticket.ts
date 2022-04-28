@@ -23,15 +23,12 @@ export const command: Command = {
         const setting = await Settings(message, 'ticket');
         if (!setting) return temporaryMessage(chan, `${insert(guild, 'SETTING_OFF', "Ticket")}`)
         
-        let channel = guild?.channels.cache.find(channel => channel.name === 'tickets');
+        let channel: any = guild.channels.cache.find(channel => channel.name === 'tickets');
         if (!channel) {
-            const name = 'tickets'
-            guild?.channels
-                .create(name, {
-                    nsfw: true,
-                    topic: "pain"
-                })
-            channel = guild?.channels.cache.find(channel => channel.name === 'tickets');
+            channel = guild.channels.create('tickets', {
+                nsfw: true,
+                topic: "pain"
+            })
         }
         const check = '<:yes:807175712515162183>'
         let helpText = args.slice(0).join(' ');
@@ -39,22 +36,22 @@ export const command: Command = {
 
         //If there is no help
         if (!helpText) {
-            return message.reply(`${language(guild, 'TICKET_NOARGS')}`)
-            //helpText = 'No help needed.';
+            return temporaryMessage(chan, `${language(guild, 'TICKET_NOARGS')}`, 10)
         }
 
         if (helpText.length > 1024) {
             helpText = helpText.slice(0, 1021) + '...';
         }
         if (channel?.type != "GUILD_TEXT") return;
+
         let embed = new MessageEmbed()
             .setColor('#ff0000')
             .setTitle(`${await language(guild, 'TICKET_ISSUE')}:`)
             .setDescription(helpText)
-            .setAuthor({ name: `${author?.username}`, iconURL: message.author.displayAvatarURL()} )
+            .setAuthor({ name: `${author.username}`, iconURL: author.displayAvatarURL()} )
             .setFooter({ text: `${await language(guild, 'TICKET_UNSOLVED')} ${d.toLocaleTimeString()}`})
-        let messageEmbed = await channel?.send({ embeds: [embed]}).then((message: any) => {
-            message.react(check);
+        let messageEmbed = await channel.send({ embeds: [embed] }).then((msg: any) => {
+            msg.react(check);
 
             client.on('messageReactionAdd', async (reaction, user) => {
                 if (reaction.message.partial) await reaction.message.fetch();
