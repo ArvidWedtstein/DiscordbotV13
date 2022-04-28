@@ -25,7 +25,7 @@ export const command: Command = {
         
         const gay = await getRandomIntInclusive(0, 100);
 
-        var messages = [
+        let messages = [
             `results`,
             `measurements`,
             `research`,
@@ -34,7 +34,7 @@ export const command: Command = {
             `decision`,
             `opinion`
         ]
-        var randomMsg = messages[Math.floor(Math.random()*messages.length)];
+        let randomMsg = messages[Math.floor(Math.random()*messages.length)];
         let embed = new Discord.MessageEmbed()
                 .setColor('#ff00ff')
                 .setTitle('Gayness Meter')

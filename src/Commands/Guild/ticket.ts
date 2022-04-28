@@ -35,7 +35,7 @@ export const command: Command = {
         }
         const check = '<:yes:807175712515162183>'
         let helpText = args.slice(0).join(' ');
-        var d = new Date();
+        let d = new Date();
 
         //If there is no help
         if (!helpText) {

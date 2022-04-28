@@ -42,8 +42,8 @@ export const command: Command = {
         let time = args.join(' ').split(delimiter).slice(start)[0]
 
         // To get the substring BEFORE the nth occurence
-        var tokens2 = args.join(' ').split(delimiter).slice(0, start);
-        var question = tokens2.join(delimiter); 
+        let tokens2 = args.join(' ').split(delimiter).slice(0, start);
+        let question = tokens2.join(delimiter); 
 
         // Check if question, choices and a time is specified
         if (!question) return temporaryMessage(channel, `No question provided`, 10);

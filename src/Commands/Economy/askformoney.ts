@@ -25,7 +25,7 @@ export const command: Command = {
         
         if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
             
-        var d = new Date();
+        let d = new Date();
 
         const target = mentions.users.first();
         if (!target) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_VALIDUSER')}`, 10);

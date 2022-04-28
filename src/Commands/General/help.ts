@@ -162,7 +162,7 @@ export const command: Command = {
                     if (page === 0) {
                         await msg.edit({ embeds: [embed] })
                     } else {
-                        // var filteredCmds = await client.registry.commands.sweep(el => el.group.name !== categories[page - 1] && !member!.permissions.has(el!.UserPermissions || "SEND_MESSAGES"));
+                        // let filteredCmds = await client.registry.commands.sweep(el => el.group.name !== categories[page - 1] && !member!.permissions.has(el!.UserPermissions || "SEND_MESSAGES"));
                         let filteredCmds = client.registry.commands.filter(el => el.group.name == categories[page - 1])
                         helpembed(`${categories[page - 1]}`, page, filteredCmds)
                     }

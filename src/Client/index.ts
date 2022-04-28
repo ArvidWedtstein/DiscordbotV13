@@ -113,12 +113,12 @@ class ExtendedClient extends Client {
 
             for (const file of commands) {
                 const { slashCommand } = require(`${slashCommandPath}/${dir}/${file}`);
-                var commandtypes = [
+                let commandtypes = [
                     'CHAT_INPUT',
                     'USER',
                     'MESSAGE'
                 ]
-                var commandoptiontypes = [
+                let commandoptiontypes = [
                     "SUB_COMMAND",
                     "SUB_COMMAND_GROUP",
                     "STRING",
@@ -130,7 +130,7 @@ class ExtendedClient extends Client {
                     "MENTIONABLE",
                     "NUMBER"
                 ]
-                var cmd: any = slashCommand;
+                let cmd: any = slashCommand;
                 this.slashCommands.set(slashCommand.name, slashCommand);
 
                 cmd.type = commandtypes.indexOf(slashCommand.type)+1;

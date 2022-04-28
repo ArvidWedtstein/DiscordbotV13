@@ -619,7 +619,7 @@ const list_songs = (message: Message, server_queue: any) => {
     let nowPlaying = server_queue.songs[songint];
     let qMsg = `${language(guild, 'MUSIC_NOWPLAYING')} ${nowPlaying.title}\n-----------------------------------\n`
 
-    for (var i = 1; i < server_queue.songs.length; i++) {
+    for (let i = 1; i < server_queue.songs.length; i++) {
         qMsg += `${i}. ${server_queue.songs[i].title}\n`
     }
     

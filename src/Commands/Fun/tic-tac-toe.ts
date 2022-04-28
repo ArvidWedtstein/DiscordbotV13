@@ -24,7 +24,7 @@ export const command: Command = {
         const games: any = {}
         const gamespots: any = [':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', ':nine:']
         let spots1: any = []
-        var transform: any = {
+        let transform: any = {
             1: ':one:',
             2: ':two:',
             3: ':three:',

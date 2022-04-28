@@ -46,9 +46,9 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
         const compare = (a: any, b: any) => {
             a = a[key];
             b = b[key];
-            var type = (typeof(a) === 'string' ||
+            let type = (typeof(a) === 'string' ||
                         typeof(b) === 'string') ? 'string' : 'number';
-            var result;
+            let result;
             if (type === 'string') result = a.localeCompare(b);
             else result = a - b;
             return result;

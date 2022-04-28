@@ -106,7 +106,7 @@ export class Registry {
 		fs.readdirSync(options).forEach((dir) => {
 			if (this.groups.find(g => g.id === dir.toLowerCase())) {
 				// Check whether commands are TypeScript or have been compiled to Javascript
-				var extension = path.basename(__filename).split(".").pop()
+				let extension = path.basename(__filename).split(".").pop()
 
 				const commands: any = fs.readdirSync(`${options}/${dir}`).filter((file) => file.endsWith(`.${extension}`));
 				const commands2 = []

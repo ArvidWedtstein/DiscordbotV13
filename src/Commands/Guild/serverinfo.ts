@@ -38,7 +38,7 @@ export const command: Command = {
             guildId: guildId,
             messageCount: { $gt: 0, $exists: true }
         })
-        var msgnmb = 0;
+        let msgnmb = 0;
         for (let index = 0; index < msgresult.length; index++) {
             const { messageCount = 0 } = msgresult[index]
             msgnmb += messageCount

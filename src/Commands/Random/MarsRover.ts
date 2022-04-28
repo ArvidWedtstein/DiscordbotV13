@@ -21,7 +21,7 @@ export const command: Command = {
         const { guild, mentions, author, member, channel } = message;
 
         axios.get(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${process.env.NASA_API_KEY}`).then(res => {
-            var chosenPicture = res.data.photos[Math.floor(Math.random()*res.data.photos.length)];
+            let chosenPicture = res.data.photos[Math.floor(Math.random()*res.data.photos.length)];
             const embed = new MessageEmbed()
                 .setTitle(`Random Mars Rover Picture`)
                 .setImage(chosenPicture.img_src)

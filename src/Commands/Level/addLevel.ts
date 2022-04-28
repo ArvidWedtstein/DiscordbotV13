@@ -33,8 +33,8 @@ export const command: Command = {
              
         if (level.slice(-1) != "0") return temporaryMessage(channel, `Level must be tenable (10,20,30...)`, 10)
 
-        var tokens2 = args.join(' ').split(delimiter).slice(0, start);
-        var levelname = tokens2.join(delimiter).trim(); 
+        let tokens2 = args.join(' ').split(delimiter).slice(0, start);
+        let levelname = tokens2.join(delimiter).trim(); 
 
         const role = guild.roles.create({ name: `${levelname} (Lvl ${level})`, color: '#ff0000', hoist: true, position: 1 });
 

@@ -91,11 +91,11 @@ export const command: Command = {
             });
         }
         function getAge(dateString: string) {
-            var today = new Date();
-            var birthDate = new Date(dateString);
-            var age: any = today.getFullYear() - birthDate.getFullYear();
+            let today = new Date();
+            let birthDate = new Date(dateString);
+            let age: any = today.getFullYear() - birthDate.getFullYear();
 
-            var m = today.getMonth() - birthDate.getMonth();
+            let m = today.getMonth() - birthDate.getMonth();
             if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }

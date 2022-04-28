@@ -7,7 +7,7 @@ import moment from 'moment';
 export const event: Event = {
     name: "messageCreate",
     run: async (client: Client, message: Message) => {    
-        // var d = new Date();
+        // let d = new Date();
         // const date = [
         //     d.getDate(),
         //     d.getMonth()+1,

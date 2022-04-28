@@ -36,7 +36,7 @@ export const brawlhalla = (async (client: Client) => {
   let intervalID: any;
 
   const RunDaily = (async () => {
-    var user = 'brawlhalla'
+    let user = 'brawlhalla'
     try {
       axios.get(`https://api.twitch.tv/helix/users?login=${user}`, {
         headers: {
@@ -103,16 +103,16 @@ export const brawlhalla = (async (client: Client) => {
 
     // Calculate the stream duration
     const getStreamDuration = ((daStream: Stream) => {
-      var streamDuration = moment.duration(moment(daStream.end_time).diff(moment(daStream.start_time)));
-      var streamDurationString: any = streamDuration.asHours().toFixed(1);
+      let streamDuration = moment.duration(moment(daStream.end_time).diff(moment(daStream.start_time)));
+      let streamDurationString: any = streamDuration.asHours().toFixed(1);
       streamDurationString = `**${streamDurationString}** ${streamDurationString > 1 ? "hours" : "hour"}`;
       return streamDurationString
     });
 
     // Calculate the amount of points the user can earn while watching the stream.
     const calculatePoints = ((daStream: Stream) => {
-      var streamDuration = moment.duration(moment(daStream.end_time).diff(moment(daStream.start_time)));
-      var streamPoints = parseInt(streamDuration.asMinutes().toFixed(1));
+      let streamDuration = moment.duration(moment(daStream.end_time).diff(moment(daStream.start_time)));
+      let streamPoints = parseInt(streamDuration.asMinutes().toFixed(1));
       return streamPoints
     });
 
@@ -123,23 +123,23 @@ export const brawlhalla = (async (client: Client) => {
       ))
     )
 
-    var greet: string;
+    let greet: string;
 
-    var greetings = [
+    let greetings = [
       'Greetings',
       "Howdy!",
       "Hello there",
       "G'day"
     ]
-    var greetings1 = [
+    let greetings1 = [
       "Good Morning",
       ...greetings
     ]
-    var greetings2 = [
+    let greetings2 = [
       "Good Afternoon",
       ...greetings
     ]
-    var greetings3 = [
+    let greetings3 = [
       "Good Evening",
       ...greetings
     ]
@@ -158,7 +158,7 @@ export const brawlhalla = (async (client: Client) => {
 
       let member = guild.members.cache.find((member) => member.id === user.userId)
 
-      var messages = [
+      let messages = [
         `I have the pleasure to inform you that **Brawlhalla** currently is streaming a INSERT_STREAM_LENGTH long \n**${stream.title}**,\nlive on Twitch.`,
         `Did you know?!? **Brawlhalla** is live! YES. You heard right! Brawlhalla is streaming a INSERT_STREAM_LENGTH long \n**${stream.title}**\nright now on twitch!`,
         `Hey, just wanted to let you know that **Brawlhalla** is currently streaming a INSERT_STREAM_LENGTH long \n**${stream.title}**.\nHave a good day 😊`,
@@ -168,7 +168,7 @@ export const brawlhalla = (async (client: Client) => {
       ]
 
       // Get a random message.
-      var randomMsg = messages[Math.floor(Math.random()*messages.length)]
+      let randomMsg = messages[Math.floor(Math.random()*messages.length)]
         .replaceAll('INSERT_STREAM_LENGTH', `${getStreamDuration(stream)}`);
 
       // Create new MessageAttachment for the border at the bottom of the embed.

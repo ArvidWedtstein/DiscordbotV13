@@ -16,7 +16,7 @@
   },
   "keywords": [],
   "author": "ArvidWedtstein",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^0.8.2",
     "@discordjs/rest": "^0.2.0-canary.0",
@@ -39,6 +39,7 @@
   "devDependencies": {
     "@types/gradient-string": "^1.1.2",
     "@types/node": "^17.0.16",
+    "eslint": "^8.14.0",
     "ts-node": "^10.7.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.5"

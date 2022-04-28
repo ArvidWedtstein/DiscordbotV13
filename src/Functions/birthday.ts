@@ -104,7 +104,7 @@ export default (client: Client) => {
 
       if (!results) return
 
-      var d = new Date,
+      let d = new Date,
       dformat = [
         d.getDate(),
         d.getMonth()+1,
