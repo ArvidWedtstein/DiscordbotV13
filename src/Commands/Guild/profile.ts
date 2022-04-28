@@ -71,8 +71,12 @@ export const command: Command = {
         let xp: number = parseInt(await getXP(guildId, userId));
         let userlevel: any = await getLevel(guildId, userId);
 
+        const getNeededXP = (level: number) => {
+            let levle = level / 10
+            return levle * levle * 210
+        }
         // Calculate xp to next level with some random math
-        let xptonextlevel = (userlevel / 10) * (userlevel / 10) * 210;
+        let xptonextlevel = getNeededXP(userlevel)
         let color = await getColor(guildId, userId);
 
         const badge = user.flags;
@@ -96,23 +100,24 @@ export const command: Command = {
             }
             return age;
         }
+        function toCodeBlock(str: any) {
+            return `\`${str}\``
+        }
         
         let b = birthday.split('/');
         let description = [
-            `〔Birthday: \`${birthday}\``,
-            `〔Age: \`${getAge(`${b[2]}-${b[1]}-${b[0]}`)}\``,
-            `〔Erlingcoin${Coins === 1 ? '' : 's'}${erlingcoin}: \`${Coins}\``,
-            ``,
-            `${userlevel ? '〔Lvl: \`' + userlevel + '\`' : ''}`,
-            `${xp ? '〔XP: \`' + xp + '\`' : ''}`,
-            `${xptonextlevel ? '〔XP to next Lvl: \`' + xptonextlevel + '\`' : ''}`,
-            ``,
-            `〔Messages Sent: \`${messages}\``,
-            `${badges ? '〔Badges: \`' + badges + '\`' : ''}`,
-            `${presence ? '〔Game: \`' + presence + '\`' : ''}`,
-            `${results.brawlhalla ? '〔Brawlhalla fan: \`' + "yes, absolutely" + '\`' : ''}`,
-            `${warns.length > 0 ? '〔Warns: \`' + warns.join('\n') + '\`' : ''}`,
-            `${joinedDate ? '〔Joined this server: \`' + joinedDate + '\`' : ''}`,
+            `〔Birthday: ${toCodeBlock(birthday)}`,
+            `〔Age: ${toCodeBlock(getAge(`${b[2]}-${b[1]}-${b[0]}`))}`,
+            `〔Erlingcoin${Coins === 1 ? '' : 's'}${erlingcoin}: ${toCodeBlock(Coins)}\n`,
+            `〔Lvl: ${toCodeBlock(userlevel)}`,
+            `${xp ? `〔XP: ${toCodeBlock(xp)}` : ''}`,
+            `${xptonextlevel ? `〔XP to next Lvl: ${toCodeBlock(xptonextlevel - xp)}` : ''}\n`,
+            `〔Messages Sent: ${toCodeBlock(messages)}`,
+            `〔Badges: ${toCodeBlock(badges)}`,
+            `${presence ? `〔Game: ${toCodeBlock(presence)}` : ''}`,
+            `${results.brawlhalla ? `〔Brawlhalla fan: ${toCodeBlock("yes, absolutely")}` : ''}`,
+            `${warns.length > 0 ? `〔Warns: ${toCodeBlock(warns.join('\n'))}` : ''}`,
+            `${joinedDate ? `〔Joined this server: ${toCodeBlock(joinedDate)}` : ''}`,
         ]
 
         const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');

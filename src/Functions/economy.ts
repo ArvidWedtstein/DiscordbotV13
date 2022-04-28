@@ -6,7 +6,7 @@ const coinsCache: any = {}
 
 // This function adds coins to the users profile
 export const addCoins = (async (guildId: any, userId: any, coins: number) => {
-    console.log(`${gradient.morning(`〔Economy Event〕`)} Add ${gradient.summer(`${userId}`)}: ${gradient.rainbow(`${coins}`)}`);
+    console.log(`${gradient.morning(`〔Economy Event〕`)}Add ${gradient.summer(`${userId}`)}: ${gradient.rainbow(`${coins}`)}`);
 
     const result = await profileSchema.findOneAndUpdate({
         guildId,
@@ -36,7 +36,7 @@ export const addCoins = (async (guildId: any, userId: any, coins: number) => {
 
 // This function sets the users coins to a specific value
 export const setCoins = (async (guildId: any, userId: any, coins: number) => {
-    console.log(`${gradient.morning(`〔Economy Event〕`)} Set ${gradient.summer(`${userId}`)}: ${gradient.rainbow(`${coins}`)}`);
+    console.log(`${gradient.morning(`〔Economy Event〕`)}Set ${gradient.summer(`${userId}`)}: ${gradient.rainbow(`${coins}`)}`);
 
     const result = await profileSchema.findOneAndUpdate({
         guildId,
@@ -57,7 +57,7 @@ export const setCoins = (async (guildId: any, userId: any, coins: number) => {
 
 // This function gets the users coins
 export const getCoins = (async (guildId: string, userId: any) => {
-    console.log(`${gradient.morning(`〔Economy Event〕`)} Get ${gradient.summer(`${userId}`)}`);
+    console.log(`${gradient.morning(`〔Economy Event〕`)}Get ${gradient.summer(`${userId}`)}`);
     
     const cachedValue = coinsCache[`${guildId}-${userId}`]
     if (cachedValue) {
