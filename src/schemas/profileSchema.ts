@@ -32,6 +32,21 @@ const profileSchema = new Schema({
         type: Boolean,
         default: false
     },
+    brawlhallacodes: {
+        type: [{
+            code: {
+                type: String,
+            },
+            name: {
+                type: String,
+            },
+            redeemed: {
+                type: Boolean,
+                default: false
+            },
+        }],
+        required: false
+    },
     warns: {
         type: [Object],
         default: [],
