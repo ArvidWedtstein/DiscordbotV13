@@ -28,6 +28,10 @@ const profileSchema = new Schema({
         type: String,
         default: '1/1',
     },
+    brawlhallaId: {
+        type: String,
+        required: false
+    },
     brawlhalla: {
         type: Boolean,
         default: false

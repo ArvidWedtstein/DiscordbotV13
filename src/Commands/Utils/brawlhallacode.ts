@@ -11,7 +11,7 @@ export const command: Command = {
     name: "brawlhallacode",
     description: "Brawlhalla Code",
     details: "Brawlhalla Code",
-    aliases: ["bwlcode"],
+    aliases: ["bwlcode", "addbrawlhallacode"],
     hidden: true,
     UserPermissions: ["ADMINISTRATOR"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "EMBED_LINKS"],
@@ -20,25 +20,35 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, channel, author } = message;
         if (!guild) return
-
-        let codeRegex = new RegExp("/\b[A-Z0-9]{6}\b/-/\b[A-Z0-9]{6}\b/");
-        if (!args[0]) return temporaryMessage(channel, `Invalid Code | ABCDEF-GHIJKL {Name}`, 10)
+        
+        let codeRegex = new RegExp(/[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}/g);
         let code = args[0];
+        if (!code || !codeRegex.test(code)) return temporaryMessage(channel, `Invalid Code | ABCDEF-GHIJKL {Name}`, 10)
+
         args.shift()
 
-        if (args.join(' ').length < 1) return temporaryMessage(channel, `Name is not long enough`, 10)
-
-        let brawlcode = {
-            name: args.join(' '),
-            code: code
+        if (args.join(' ').length < 1) {
+            message.delete();
+            return temporaryMessage(channel, `Name is not long enough`, 10)
         }
+
+        const check = await profileSchema.findOne({
+            userId: author.id,
+            guildId: guild.id
+        })
+        if (check.brawlhallacodes.find((x:any) => x.code === code)) return temporaryMessage(channel, `Code already exists`, 10);
         
+        // $AddToSet operator adds a value to an array unless the value is already present
         const results = await profileSchema.findOneAndUpdate({
             userId: author.id,
             guildId: guild.id
         }, {
-            $addToSet: {
-                brawlhallacodes: brawlcode
+            $push: {
+                brawlhallacodes: {
+                    code: code,
+                    name: args.join(' '),
+                    redeemed: false
+                }
             }
         })
 
