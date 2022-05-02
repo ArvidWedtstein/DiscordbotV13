@@ -3,6 +3,7 @@ import { Settings } from '../../Functions/settings';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import temporaryMessage from '../../Functions/temporary-message';
+import { MessageAttachment, MessageEmbed } from 'discord.js';
 
 export const command: Command = {
     name: "addbalance",
@@ -10,8 +11,8 @@ export const command: Command = {
     aliases: ["addbal"],
     UserPermissions: ['BAN_MEMBERS'],
     run: async(client, message, args) => {
-        const { guild, channel, mentions, reply } = message
-        if (!guild) return;
+        const { guild, channel, mentions, author } = message
+        if (!guild || !channel) return;
         const guildId = guild?.id
 
         const setting = await Settings(message, 'money');
@@ -28,7 +29,14 @@ export const command: Command = {
         const userId = mention.id
 
         const newCoins = await addCoins(guildId, userId, coins)
-
-        reply(`${await language(guild, 'ECONOMY_PAY')} <@${userId}> ${coins} ErlingCoins. \n<@${userId}>, ${await language(guild, 'ECONOMY_PAYLEFT')} ${newCoins} ErlingCoins!`)
+        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+    
+        let embed = new MessageEmbed()
+            .setColor(client.config.botEmbedHex)
+            .setDescription(`${language(guild, 'ECONOMY_PAY')} <@${userId}> ${coins} ErlingCoins. \n<@${userId}>, ${language(guild, 'ECONOMY_PAYLEFT')} ${newCoins} ErlingCoins!`)
+            .setImage('attachment://banner.jpg')
+            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+        return channel.send({ embeds: [embed], files: [attachment] })
+        // message.reply(`${await language(guild, 'ECONOMY_PAY')} <@${userId}> ${coins} ErlingCoins. \n<@${userId}>, ${language(guild, 'ECONOMY_PAYLEFT')} ${newCoins} ErlingCoins!`)
     }
 }

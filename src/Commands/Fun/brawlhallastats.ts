@@ -20,7 +20,7 @@ export const command: Command = {
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["brawlhallastats"],
+    examples: ["brawlhallastats {character}"],
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments } = message;
@@ -30,6 +30,7 @@ export const command: Command = {
         let guildId = guild.id;
         let u = mentions.users.first();
         if (u) {
+            args.shift();
             userId = u.id;
         }
         
@@ -37,16 +38,21 @@ export const command: Command = {
             userId,
             guildId
         }).then(async(results) => {
-            const steamId = results.steamId;
+            const { steamId } = results;
+            let brawlhallaId = results.brawlhallaId;
+            
+
             if (!results) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a profile. Please create one with -profile`, 50);
-            if (!steamId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a steam id connected. Please connect your profile to steam with -connectsteam {steamid}`, 50);
-            // if (!results.brawlhallaId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id connected. Please connect your profile to brawlhalla with -connectbrawlhalla {steamid}`, 50);
-            if (!results.brawlhallaId && steamId) {
+            if (!steamId || steamId == undefined) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a steam id connected. Please connect your profile to steam with -connectsteam {steamid}`, 50);
+            
+            if (!brawlhallaId && steamId) {
+                console.log('has no brawlhalla id but has steam id');
                 try {
                     axios.get(`https://api.brawlhalla.com/search?steamid=${steamId}&api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
-                        if (!res.data.brawlhalla_id) return 
+                        if (!res.data.brawlhalla_id) return temporaryMessage(channel, `This user not have a brawlhalla id`, 50);
                         if (res.data.brawlhalla_id) {
                             results.brawlhallaId = res.data.brawlhalla_id;
+                            brawlhallaId = res.data.brawlhalla_id;
                             results.save();
                         }
                     });
@@ -54,9 +60,8 @@ export const command: Command = {
                     console.log(err);
                 }
             }
-
-            const brawlhallaId = results.brawlhallaId;
-            
+            brawlhallaId = results.brawlhallaId;
+            if (!brawlhallaId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id connected.`, 50);
 
             function toCodeBlock(str: any) {
                 return `\`${str}\``
@@ -66,6 +71,11 @@ export const command: Command = {
                 if (!res.data) return temporaryMessage(channel, 'No results found', 50);
                 const { clan, xp, wins, games, level, legends } = res.data;
 
+                let legend;
+                if (args[0]) {
+                    legend = legends.find((legend: any) => legend.legend_name_key == args[0].toLowerCase());
+                    if (!legend) return temporaryMessage(channel, `No legend with that name found`, 50);
+                }
                 let sortedLegendsWins = legends.sort((a: any, b: any) => {
                     return b.wins - a.wins;
                 });
@@ -91,21 +101,22 @@ export const command: Command = {
                     return b.falls - a.falls;
                 });
                 
+            
                 let description = [
                     `〔Clan: ${toCodeBlock(clan.clan_name)}〕`,
                     `〔Wins: ${toCodeBlock(wins)}〕`,
                     `〔Games: ${toCodeBlock(games)}〕`,
                     `〔Level: ${toCodeBlock(level)}〕`,
                     `〔XP: ${toCodeBlock(xp)}〕\n`,
-                    `**Legend with most:**`,
-                    `〔wins: ${toCodeBlock(sortedLegendsWins[0].legend_name_key)} - ${toCodeBlock(sortedLegendsWins[0].wins)}〕`,
-                    `〔matchtime: ${toCodeBlock(sortedLegendsMatchtime[0].legend_name_key)} - ${toCodeBlock(sortedLegendsMatchtime[0].matchtime / 60)}min〕`,
-                    `〔Damage Dealt: ${toCodeBlock(sortedLegendsDamageDealt[0].legend_name_key)} - ${toCodeBlock(sortedLegendsDamageDealt[0].matchtime)}〕`,
-                    `〔Games played: ${toCodeBlock(sortedLegendsGames[0].legend_name_key)} - ${toCodeBlock(sortedLegendsGames[0].games)}〕`,
-                    `〔level: ${toCodeBlock(sortedLegendsLevel[0].legend_name_key)} - ${toCodeBlock(sortedLegendsLevel[0].level)}〕`,
-                    `〔XP: ${toCodeBlock(sortedLegendsXP[0].legend_name_key)} - ${toCodeBlock(sortedLegendsXP[0].xp)}〕`,
-                    `〔KOs: ${toCodeBlock(sortedLegendsKOs[0].legend_name_key)} - ${toCodeBlock(sortedLegendsKOs[0].kos)}〕`,
-                    `〔Falls: ${toCodeBlock(sortedLegendsFalls[0].legend_name_key)} - ${toCodeBlock(sortedLegendsFalls[0].falls)}〕`
+                    `${legend ? `Stats for ${legend.legend_name_key}` : "**Legend with most:**"}`,
+                    `〔Wins: ${toCodeBlock(legend ? legend.wins : `${sortedLegendsWins[0].legend_name_key} - ${sortedLegendsWins[0].wins}`)}〕`,
+                    `〔Matchtime: ${toCodeBlock(legend ? `${(legend.matchtime/60).toFixed(2)} min` : `${sortedLegendsMatchtime[0].legend_name_key} - ${(sortedLegendsMatchtime[0].matchtime/60).toFixed(2)} min`)}〕`,
+                    `〔Damage Dealt: ${toCodeBlock(legend ? legend.damagedealt : `${sortedLegendsDamageDealt[0].legend_name_key} - ${sortedLegendsDamageDealt[0].damagedealt}`)}〕`,
+                    `〔Games played: ${toCodeBlock(legend ? legend.games : `${sortedLegendsGames[0].legend_name_key} - ${sortedLegendsGames[0].games}`)}〕`,
+                    `〔Level: ${toCodeBlock(legend ? legend.level : `${sortedLegendsLevel[0].legend_name_key} - ${sortedLegendsLevel[0].level}`)}〕`,
+                    `〔XP: ${toCodeBlock(legend ? legend.xp : `${sortedLegendsXP[0].legend_name_key} - ${sortedLegendsXP[0].xp}`)} 〕`,
+                    `〔KOs: ${toCodeBlock(legend ? legend.kos : `${sortedLegendsKOs[0].legend_name_key} - ${sortedLegendsKOs[0].kos}`)}〕`,
+                    `〔Falls: ${toCodeBlock(legend ? legend.falls : `${sortedLegendsFalls[0].legend_name_key} - ${sortedLegendsFalls[0].falls}`)}〕`
                 ]
 
                 const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');

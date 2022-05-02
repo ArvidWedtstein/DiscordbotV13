@@ -20,7 +20,7 @@ export async function setLanguage (guild: any, language: any) {
     guildLanguages[guild.id] = language.toLowerCase();
 }
 
-export async function insert (guild: Guild, textId: string, insertValue: any) {
+export function insert (guild: Guild, textId: string, insertValue: any) {
     if (!listoflang[textId]) {
         throw new Error(`Unknown text ID "${textId}"`)
     }
