@@ -28,7 +28,7 @@ export const command: Command = {
         
         let userId = author.id;
         let guildId = guild.id;
-        let u = mentions.users.first()
+        let u = mentions.users.first();
         if (u) {
             userId = u.id;
         }
@@ -37,12 +37,26 @@ export const command: Command = {
             userId,
             guildId
         }).then(async(results) => {
+            const steamId = results.steamId;
             if (!results) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a profile. Please create one with -profile`, 50);
-            if (!results.steamId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a steam id. Please connect your profile to steam with -connectsteam {steamid}`, 50);
-            if (!results.brawlhallaId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id. Please connect your profile to brawlhalla with -connectbrawlhalla {steamid}`, 50);
+            if (!steamId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a steam id connected. Please connect your profile to steam with -connectsteam {steamid}`, 50);
+            // if (!results.brawlhallaId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id connected. Please connect your profile to brawlhalla with -connectbrawlhalla {steamid}`, 50);
+            if (!results.brawlhallaId && steamId) {
+                try {
+                    axios.get(`https://api.brawlhalla.com/search?steamid=${steamId}&api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
+                        if (!res.data.brawlhalla_id) return 
+                        if (res.data.brawlhalla_id) {
+                            results.brawlhallaId = res.data.brawlhalla_id;
+                            results.save();
+                        }
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
+            }
 
             const brawlhallaId = results.brawlhallaId;
-            const steamId = results.steamId;
+            
 
             function toCodeBlock(str: any) {
                 return `\`${str}\``
@@ -98,7 +112,7 @@ export const command: Command = {
     
                 let embed = new MessageEmbed()
                     .setColor(client.config.botEmbedHex)
-                    .setAuthor({ name: `${author.username}'s Brawlhalla Stats`, iconURL: author.displayAvatarURL() })
+                    .setAuthor({ name: `${u ? u.username : author.username}'s Brawlhalla Stats`, iconURL: `${u ? u.displayAvatarURL() : author.displayAvatarURL()}` })
                     .setDescription(description.join('\n'))
                     .setThumbnail(`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLB1letx0NtgkR-wgqOHCsYsISHHfsXepQzjMb3drZA&s`)
                     .setImage('attachment://banner.jpg')
