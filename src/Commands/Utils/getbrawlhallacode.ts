@@ -21,71 +21,77 @@ export const command: Command = {
         const { guild, channel, author } = message;
         if (!guild) return
 
-        
-
+        // Get the users profile from the database
         const results = await profileSchema.findOne({
             userId: author.id,
             guildId: guild.id
         })
 
-        let unfilteredcodes = results.brawlhallacodes
+        if (!results || !results.brawlhallacodes) return temporaryMessage(channel, `You do not have any brawlhalla codes`, 20);
 
-        let codes = unfilteredcodes.filter((unfilteredcodes: any) => unfilteredcodes.redeemed == false);
-
-
-        // TODO - Mark code with redeemed after redeemed insted of removing it.
+        // Get only the codes that are not already redeemed.
+        let codes = results.brawlhallacodes.filter((unfilteredcodes: any) => unfilteredcodes.redeemed == false);
 
 
+        // MessageAttachment for the bottom border banner
+        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+
+        // If random is selected
         if (args[0] && args[0].toLowerCase() === 'random') {
             args.shift()
             let rand = Math.floor(Math.random()*codes.length)
             let chosencode = codes[rand];
 
             codes[rand].redeemed = true;
-            // codes.splice(codes.findIndex((code: any) => code.code === chosencode.code), 1)
 
             results.save()
 
             const embed = new MessageEmbed()
                 .setTitle(`${author.tag}'s Brawlhalla Code`)
                 .setDescription(`${chosencode.name} | \`${chosencode.code}\``)
-                .setFooter({ text: `${guild.name} | ${guild.id}` })
+                .setImage('attachment://banner.jpg')
+                .setFooter({ text: `Requested by ${author.tag}` })
                 .setTimestamp()
             return author.send({ embeds: [embed] })
         }
         
-
         let options = []
         for (let i = 0; i < codes.length; i++) {
             let option: any = {
                 label: `${codes[i].name}`,
                 value: `${i}`,
                 description: `${codes[i].name}`,
-                emoji: {
-                    name: `FeelsGerman`,
-                    id: "885437713707331634"
-                }
+                // emoji: {
+                //     name: `FeelsGerman`,
+                //     id: "885437713707331634"
+                // }
             }
-            if (codes[i].name.length > 0) {
+            // Check if name is empty.
+            if (codes[i].name.length > 0 && codes[i].name != null) {
                 options.push(option)
             }
         }
-        let row = new MessageActionRow()
-            .addComponents(
-                new MessageSelectMenu({
-                    customId: 'Menu',
-                    placeholder: "Select Item",
-                    options: options,
-                    maxValues: 1,
-                    minValues: 1
-                })
-            )
+        let row = new MessageActionRow().addComponents(
+            new MessageSelectMenu({
+                customId: 'brawlhalla_code_menu',
+                placeholder: "Select Item",
+                options: options,
+                maxValues: 1,
+                minValues: 1
+            })
+        )
+
         const embed = new MessageEmbed()
             .setTitle(`${author.tag}'s Brawlhalla Codes`)
-            .setFooter({ text: `Requested by ${author.tag}` })
+            .setImage('attachment://banner.jpg')
+            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL({ dynamic: true }) })
             .setTimestamp()
-        author.send({ embeds: [embed], components: [row] }).then(async(msg: any) => {
-            const filter = (i: Interaction) => i.user.id === author.id;
+        
+        author.send({ embeds: [embed], components: [row] }).then(async (msg) => {
+            // Filter for checking that no one unauthorised uses the Select Menu.
+            const filter = (i: Interaction) => i.user.id === author.id && 
+                i.isSelectMenu() && 
+                i.customId === 'brawlhalla_code_menu';
 
             let collect = msg.createMessageComponentCollector({
                 filter, 
@@ -93,26 +99,25 @@ export const command: Command = {
                 time: 60*1000
             });
 
-            collect.on('collect', async (reaction: any) => {
+            collect.on('collect', async (reaction) => {
                 if (!reaction) return;
-                if (reaction.message.partial) await reaction.message.fetch();
-                if (reaction.partial) await reaction.fetch();
                 if (reaction.message.id != msg.id) return
-
                 if (!reaction.isSelectMenu()) return;
 
+                // Get the name and the code
+                let { name, code, redeemed } = codes[reaction.values[0]];
 
-                
-                const embed2 = new MessageEmbed()
-                    .setTitle(`${author.tag}'s Brawlhalla Code`)
-                    .setDescription(`${codes[reaction.values[0]].name} | \`${codes[reaction.values[0]].code}\``)
-                    .setFooter({ text: `Requested by ${author.tag}` })
-                    .setTimestamp()
-                reaction.update({ embeds: [embed2], components: [] })
+                // Edit the MessageEmbed and disable the Select Menu
+                embed.setDescription(`${name} | \`${code}\``)
+                row.components[0].setDisabled(true)
 
-                codes[reaction.values[0]].redeemed = true;
+                reaction.update({ embeds: [embed], components: [row] })
+
+                redeemed = true;
     
                 results.save()
+
+                return
             })
         })
     }

@@ -46,7 +46,6 @@ export const command: Command = {
             if (!steamId || steamId == undefined) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a steam id connected. Please connect your profile to steam with -connectsteam {steamid}`, 50);
             
             if (!brawlhallaId && steamId) {
-                console.log('has no brawlhalla id but has steam id');
                 try {
                     axios.get(`https://api.brawlhalla.com/search?steamid=${steamId}&api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
                         if (!res.data.brawlhalla_id) return temporaryMessage(channel, `This user not have a brawlhalla id`, 50);
