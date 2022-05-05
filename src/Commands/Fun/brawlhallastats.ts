@@ -30,13 +30,16 @@ export const command: Command = {
         let guildId = guild.id;
         let u = mentions.users.first();
         if (u) {
-            args.shift();
             userId = u.id;
+            args.shift();
         }
-        
+        console.log(userId, author.id)
         profileSchema.findOne({
             userId,
-            guildId
+            steamId: {
+                $exists: true
+            }
+            // guildId
         }).then(async(results) => {
             const { steamId } = results;
             let brawlhallaId = results.brawlhallaId;
@@ -121,7 +124,7 @@ export const command: Command = {
                     }
                 })
                 
-                console.log(legends.sort(sort('wins'))[0].legend_name_key);
+                console.log(legends.sort(sort('wins', 'desc'))[0].legend_name_key);
                 console.log(sortedLegendsWins[0].legend_name_key);
             
                 let description = [
