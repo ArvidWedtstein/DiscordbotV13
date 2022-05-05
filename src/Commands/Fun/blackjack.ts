@@ -1,13 +1,16 @@
 import { Command } from '../../Interfaces';
 import { MessageEmbed } from 'discord.js';
+import { text } from 'stream/consumers';
 
 export const command: Command = {
     name: "blackjack",
     aliases: ["black"],
     description: "play blackjack",
     run: async(client, message, args) => {
-        const { author, guild } = message;
-        message.delete()
+        const { author, guild, channel } = message;
+
+        if (!guild) return;
+        // message.delete()
         const user = author;
         const member = guild?.members.cache.get(user.id)
 
@@ -17,10 +20,12 @@ export const command: Command = {
         let deck = new Array();
         let currentplayer = 0;
         
-        let rules = `Please decide what to do in the following 60 seconds or you will lose!
-        🔴 Stand | not asking for more cards.
-        🔵 Hit | get another card.
-        ⛔ Surrender | Get half of your bet back.`
+        let rules = [
+            `Please decide what to do in the following 60 seconds or you will lose!\n`,
+            `🔴 Stand | not asking for more cards.`,
+            `🔵 Hit | get another card.`,
+            `⛔ Surrender | Get half of your bet back.`
+        ]
 
         const createDeck = (() => {
             deck = new Array();
@@ -93,29 +98,47 @@ export const command: Command = {
             // updateDeck();
             createPlayersUI();
         })
+
+
+        const filter = (reaction: any, user: any) => {
+            return user.id === author.id
+        }
+
+        function genText(textArray: any, players: any) {
+            for (let i = 0; i < players.length; i++) {
+                textArray.push(`${players[i].Name === 'Dealer' ? '🕵️‍♂️' : '👨‍🦰'} (**${players[i].Points}** points) | ${players[i].Name} **your** cards are:`)
+                for (let c = 0; c < players[i].Hand.length; c++) {
+                    let hand = players[i].Hand[c]
+                    textArray.push(`**${hand.Value}** of ${hand.Suit}`)
+                }
+                textArray.push(``);
+            }
+            return textArray;
+        }
         const createPlayersUI = (async () => {
-            const embed = new MessageEmbed()
-                .setTitle("Blackjack")
-                .setTimestamp()
-            let txt = ""
+            
+            let txt = []
             for (let i = 0; i < players.length; i++) {
                 let usertxt = `${players[i].Name === 'Dealer' ? '🕵️‍♂️' : '👨‍🦰'} (**${players[i].Points}** points) | ${players[i].Name} **your** cards are:\n`
                 for (let c = 0; c < players[i].Hand.length; c++) {
                     usertxt += `**${players[i].Hand[c].Value}** of ${players[i].Hand[c].Suit}\n`
                 }
-                txt += `${usertxt}\n`;
-
+                txt.push(usertxt);
             }   
             
-            txt += `\n${rules}`
-            embed.setDescription(txt)
-            let messageEmbed = message.channel.send({ embeds: [embed]}).then((msg) => {
+            txt.push(rules)
+
+            const embed = new MessageEmbed()
+                .setTitle("Blackjack")
+                .setDescription(txt.join('\n'))
+                .setThumbnail("https://images-ext-1.discordapp.net/external/EWCXIQ_PqlxJwZx-yXLU_DNZv65J3kl3o8xxJZJaoPI/https/images.emojiterra.com/mozilla/512px/1f0cf.png?width=456&height=456")
+                .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+                .setTimestamp()
+            channel.send({ embeds: [embed] }).then((msg) => {
                 msg.react('🔴')
                 msg.react('🔵')
                 msg.react('⛔')
-                const filter = (reaction: any, user: any) => {
-                    return user.id === message.author.id
-                }
+
                 const collector = msg.createReactionCollector({
                     filter,
                     max: 1,
@@ -123,25 +146,28 @@ export const command: Command = {
                 })
         
                 collector.on('collect', (reaction) => {
-                    console.log(reaction.emoji.name)
-                    if (reaction.emoji.name == '🔵') {
-                        hit();
-                    }
-                    if (reaction.emoji.name == '🔴') {
-                        stay();
-                    }
-                    if (reaction.emoji.name == '⛔') {
-                        surrender();
+                    switch (reaction.emoji.name) {
+                        case '🔴':
+                            collector.stop("stand");
+                            stay();
+                            break;
+                        case '🔵':
+                            collector.stop("hit")
+                            hit();
+                            break;
+                        case '⛔':
+                            collector.stop("surrender")
+                            surrender();
+                            break;
                     }
                 })
         
-                collector.on('end', (collected) => {
-                    //console.log(collected)
+                collector.on('end', (collected, reason) => {
+                    console.log(collected, reason)
                 })
             })
-            
-
         })
+
         const startBlackjack= (async () => {
             currentplayer = 0;
             createDeck();
@@ -162,49 +188,41 @@ export const command: Command = {
             check();
         }
         function surrender() {
-            return message.channel.send('You surrendered. Here is half your money back.')
+            return channel.send('You surrendered. Here is half your money back.')
         }
 
+        // Check if user or dealer has over 21 points
         function check() {
+            let txt: string[] = [];
+
             if (players[currentplayer].Points > 21) {
-                const embed = new MessageEmbed()
-                    .setTitle("Blackjack")
-                    .setTimestamp()
-                let txt = [];
+                txt.push(`😡${players[currentplayer].Name} you lost!\n`);
                 
-                txt.push(`${players[currentplayer].Name} lost!\n`);
-                for (let i = 0; i < players.length; i++) {
+                txt = genText(txt, players);
 
-                    txt.push(`${players[i].Name === 'Dealer' ? '🕵️‍♂️' : '👨‍🦰'} (**${players[i].Points}** points) | ${players[i].Name} **your** cards are:`)
-                    for (let c = 0; c < players[i].Hand.length; c++) {
-                        txt.push(`**${players[i].Hand[c].Value}** of ${players[i].Hand[c].Suit}`)
-                    }
-                    txt.push(``);
-                }
-                embed.setDescription(txt.join('\n'))
-                let messageEmbed = message.channel.send({ embeds: [embed]})
-                // end(); 
-            } else {
                 const embed = new MessageEmbed()
                     .setTitle("Blackjack")
+                    .setDescription(txt.join('\n'))
+                    .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
                     .setTimestamp()
-                let txt = ""
-                for (let i = 0; i < players.length; i++) {
-                    let usertxt = `${players[i].Name === 'Dealer' ? '🕵️‍♂️' : '👨‍🦰'} (**${players[i].Points}** points) | ${players[i].Name} **your** cards are:\n`
-                    for (let c = 0; c < players[i].Hand.length; c++) {
-                        usertxt += `**${players[i].Hand[c].Value}** of ${players[i].Hand[c].Suit}\n`
-                    }
-                    txt += `${usertxt}\n`;
 
-                }   
-                txt += rules
-                embed.setDescription(txt)
-                let messageEmbed = message.channel.send({ embeds: [embed]}).then((msg) => {
+                channel.send({ embeds: [embed] })
+                end(); 
+            } else {
+                txt = []
+                txt = genText(txt, players);
+                txt.push(...rules.slice(0, -1));
+
+                const embed = new MessageEmbed()
+                    .setTitle("Blackjack")
+                    .setDescription(txt.join('\n'))
+                    .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+                    .setTimestamp()
+
+                channel.send({ embeds: [embed] }).then((msg) => {
                     msg.react('🔴')
                     msg.react('🔵')
-                    const filter = (reaction: any, user: any) => {
-                        return user.id === message.author.id
-                    }
+                    
                     const collector = msg.createReactionCollector({
                         filter,
                         max: 1,
@@ -213,64 +231,69 @@ export const command: Command = {
             
                     collector.on('collect', (reaction, user) => {
                         console.log(reaction.emoji.name)
-                        if (reaction.emoji.name == '🔵') {
-                            hit();
-                        }
-                        if (reaction.emoji.name == '🔴') {
-                            stay();
-                        }
-                        if (reaction.emoji.name == '⛔') {
-                            surrender();
+                        switch (reaction.emoji.name) {
+                            case '🔴':
+                                collector.stop("stand");
+                                stay();
+                                break;
+                            case '🔵':
+                                collector.stop("hit")
+                                hit();
+                                break;
+                            case '⛔':
+                                collector.stop("surrender")
+                                surrender();
+                                break;
                         }
                     })
             
-                    collector.on('end', (collected) => {
-                        //console.log(collected)
+                    collector.on('end', (collected, reason) => {
+                        console.log(collected, reason)
                     })
                 })
             }
         }
+
+        // If player pressed stay
         function stay() {
             if (currentplayer != players.length-1) {
                 currentplayer += 1
                 let card = deck.pop();
                 players[currentplayer].Hand.push(card);
 
-                
                 updatePoints();
                 check();
             } else {
                 end();
             }
         }
-
         function end() {
             let winner = -1;
             let score = 0;
 
-            const embed = new MessageEmbed()
-                .setTitle("Blackjack")
-                .setTimestamp()
             let txt = [];
-            
             for (let i = 0; i < players.length; i++) {
-                if (players[i].Points > score && players[i].Points < 22) {
+                let player = players[i];
+                // Check if player points are over score 
+                if (player.Points > score && player.Points < 22) {
                     winner = i;
                     txt.push(`${players[winner].Name} you won!\n`);
                 }
-                score = players[i].Points;
+                score = player.Points;
 
-                
-                txt.push(`${players[i].Name === 'Dealer' ? '🕵️‍♂️' : '👨‍🦰'} (**${players[i].Points}** points) | ${players[i].Name} **your** cards are:`)
-                for (let c = 0; c < players[i].Hand.length; c++) {
-                    txt.push(`**${players[i].Hand[c].Value}** of ${players[i].Hand[c].Suit}`)
+                txt.push(`${player.Name === 'Dealer' ? '🕵️‍♂️' : '👨‍🦰'} (**${player.Points}** points) | ${player.Name} **your** cards are:`)
+                for (let c = 0; c < player.Hand.length; c++) {
+                    txt.push(`**${player.Hand[c].Value}** of ${player.Hand[c].Suit}`)
                 }
                 txt.push(``);
             }
 
-            embed.setDescription(txt.join('\n'))
-            let messageEmbed = message.channel.send({ embeds: [embed]})
-
+            const embed = new MessageEmbed()
+                .setTitle("Blackjack")
+                .setDescription(txt.join('\n'))
+                .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+                .setTimestamp()
+            channel.send({ embeds: [embed] })
         }
         startBlackjack();
     }
