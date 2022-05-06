@@ -67,7 +67,7 @@ export const command: Command = {
                 // }
             }
             // Check if name is empty.
-            if (codes[i].name.length > 0 && codes[i].name != null) {
+            if (codes[i].name.length > 0 && codes[i].name != null && codes[i].redeemed == false) {
                 options.push(option)
             }
         }
