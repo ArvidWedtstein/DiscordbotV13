@@ -89,7 +89,6 @@ export const command: Command = {
             'dilophosaurus',
             'dromaeosaurus',
             'europelta',
-            'fukuiraptor',
             'giganotosaurus',
             'hadrosaurus',
             'iguanodon',
@@ -107,27 +106,12 @@ export const command: Command = {
             'pteranodon',
             'quetzalcoatlus',
             'raptor',
-            'sauroposeidon',
-            'shantungosaurus',
+            'megalodon',
             'stegosaurus',
             'triceratops',
             'tyrannosaurus',
             'velociraptor',
-            'vulcanodon',
             'xenoceratops',
-            'yandexaurus',
-            'zalmoxes',
-            'zephyrosaurus',
-            'ziphiusaurus',
-            'zornosaurus',
-            'zululand',
-            'zulusephedra',
-            'zygon',
-            'zygonykus',
-            'zygospore',
-            'zygosperm',
-            'zygote',
-            'zygotic',
             'maewing',
             'oviraptor',
             'ankylosaurus',
@@ -197,11 +181,14 @@ export const command: Command = {
             .setTimestamp()
         
         let messageEmbed = channel.send({ embeds: [embed] })
-        const filter = (m: any) => m.channel.id === channel.id && !m.author.bot;
+        const filter = (m: any) => m.channel.id === channel.id && !m.author.bot && m.author.id === author.id;
         const collector = channel.createMessageCollector({filter, time: 60*1000});
         collector.on('collect', async (reaction) => {
             if (!reaction) return;
-            reaction.content.toLowerCase() === word ? collector.stop('correct') : collector.stop('incorrect');
+            embed.setTitle(`${author.username} failed to guess the word! 😭`);
+                // embed.setDescription(`The correct word was: **${word}**`);
+                channel.send({ embeds: [embed] })
+            reaction.content.toLowerCase() === word ? collector.stop('correct') : channel.send({ embeds: [embed] });
         })
 
         // TODO - Gradually add letters to the hint over time.
