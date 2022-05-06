@@ -28,6 +28,8 @@ export const command: Command = {
         const { guild, channel, author, member, mentions, attachments } = message;
         if (!guild) return
 
+
+        
         let computer = [
             'computer',
             'mouse',
@@ -130,7 +132,6 @@ export const command: Command = {
             'oviraptor',
             'ankylosaurus',
             'dodo'
-            
         ]
         let categories = [
             {
@@ -174,7 +175,13 @@ export const command: Command = {
             }
             return words.join(' ')
         }
-        let category = categories[Math.floor(Math.random() * categories.length)];
+        let category: any = categories[Math.floor(Math.random() * categories.length)];
+
+        // If category is mentioned
+        if (args[0]) {
+            category = categories.find(c => c.name.toLowerCase() == args[0].toLowerCase());
+        }
+
         let word = category.words[Math.floor(Math.random() * category.words.length)];
         let scrambledWord = scramble(word).toUpperCase();
 
@@ -204,7 +211,7 @@ export const command: Command = {
 
         collector.on('end', async (collected, reason) => {
             console.log(reason)
-            word = "";
+            
             if (reason === 'correct') {
                 embed.setTitle(`${author.username} guessed the word! 🎉`);
                 embed.setDescription(`The correct word was: **${word}**`);
@@ -218,6 +225,7 @@ export const command: Command = {
                 embed.setDescription(`Letters were: **${scrambledWord}**\nRight order: **${word}**`);
                 channel.send({ embeds: [embed] })
             }
+            word = "";
         })
 
         return
