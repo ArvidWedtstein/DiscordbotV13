@@ -19,7 +19,7 @@ export const event: Event = {
         }
         const userId = member.user.id;
         const channel = guild.channels.cache.get(channelId);
-        if (!channel) {
+        if (!channel || !channel.isText()) {
             return
         }
         const result = await profileSchema.findOneAndUpdate({
@@ -32,6 +32,12 @@ export const event: Event = {
         }).catch((err: any) => {
             console.log(err)
         })
-        channel.setName(`${await language(guild, 'WELCOME')} ${member.user.tag}\n${await language(guild, 'WELCOME_RULES')}`)
+
+        
+        const embed = new MessageEmbed()
+            .setAuthor({ name: `${language(guild, 'WELCOME')} ${member.user.tag}`, iconURL: member.user.displayAvatarURL() })
+            .setDescription(`${language(guild, 'WELCOME_RULES')}`)
+            .setFooter({ text: `New member detected by ${client.user?.tag}` })
+        channel.send({ embeds: [embed] })
     }
 }

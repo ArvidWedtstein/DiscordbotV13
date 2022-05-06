@@ -74,34 +74,11 @@ export const command: Command = {
                 const { clan, xp, wins, games, level, legends } = res.data;
 
                 let legend;
+                args[0].trim()
                 if (args[0]) {
                     legend = legends.find((legend: any) => legend.legend_name_key == args[0].toLowerCase());
                     if (!legend) return temporaryMessage(channel, `No legend with that name found`, 50);
                 }
-                let sortedLegendsWins = legends.sort((a: any, b: any) => {
-                    return b.wins - a.wins;
-                });
-                let sortedLegendsMatchtime = legends.sort((a: any, b: any) => {
-                    return b.matchtime - a.matchtime;
-                });
-                let sortedLegendsDamageDealt = legends.sort((a: any, b: any) => {
-                    return b.damagedealt - a.damagedealt;
-                });
-                let sortedLegendsGames = legends.sort((a: any, b: any) => {
-                    return b.games - a.games;
-                });
-                let sortedLegendsLevel = legends.sort((a: any, b: any) => {
-                    return a.level - b.level;
-                });
-                let sortedLegendsXP = legends.sort((a: any, b: any) => {
-                    return b.xp - a.xp;
-                });
-                let sortedLegendsKOs = legends.sort((a: any, b: any) => {
-                    return b.kos - a.kos;
-                });
-                let sortedLegendsFalls = legends.sort((a: any, b: any) => {
-                    return b.falls - a.falls;
-                });
 
                 const sort = ((key: string, order = 'asc') => {
                     return function innerSort(a: any, b: any) {
@@ -123,10 +100,19 @@ export const command: Command = {
                         );
                     }
                 })
-                
-                console.log(legends.sort(sort('wins', 'desc'))[0].legend_name_key);
-                console.log(sortedLegendsWins[0].legend_name_key);
             
+            
+                
+
+                let TopWins = legends.sort(sort('wins', 'desc'))[0];
+                let TopMatchtime = legends.sort(sort('matchtime', 'desc'))[0];
+                let TopDamageDealt = legends.sort(sort('damagedealt', 'desc'))[0];
+                let TopGames = legends.sort(sort('games', 'desc'))[0];
+                let TopLevel = legends.sort(sort('level', 'desc'))[0];
+                let TopXP = legends.sort(sort('xp', 'desc'))[0];
+                let TopKOs = legends.sort(sort('kos', 'desc'))[0];
+                let TopFalls = legends.sort(sort('falls', 'desc'))[0];
+
                 let description = [
                     `〔Clan: ${toCodeBlock(clan.clan_name)}〕`,
                     `〔Wins: ${toCodeBlock(wins)}〕`,
@@ -134,14 +120,14 @@ export const command: Command = {
                     `〔Level: ${toCodeBlock(level)}〕`,
                     `〔XP: ${toCodeBlock(xp)}〕\n`,
                     `${legend ? `Stats for ${legend.legend_name_key}` : "**Legend with most:**"}`,
-                    `〔Wins: ${toCodeBlock(legend ? legend.wins : `${sortedLegendsWins[0].legend_name_key} - ${sortedLegendsWins[0].wins}`)}〕`,
-                    `〔Matchtime: ${toCodeBlock(legend ? `${(legend.matchtime/60).toFixed(2)} min` : `${sortedLegendsMatchtime[0].legend_name_key} - ${(sortedLegendsMatchtime[0].matchtime/60).toFixed(2)} min`)}〕`,
-                    `〔Damage Dealt: ${toCodeBlock(legend ? legend.damagedealt : `${sortedLegendsDamageDealt[0].legend_name_key} - ${sortedLegendsDamageDealt[0].damagedealt}`)}〕`,
-                    `〔Games played: ${toCodeBlock(legend ? legend.games : `${sortedLegendsGames[0].legend_name_key} - ${sortedLegendsGames[0].games}`)}〕`,
-                    `〔Level: ${toCodeBlock(legend ? legend.level : `${sortedLegendsLevel[0].legend_name_key} - ${sortedLegendsLevel[0].level}`)}〕`,
-                    `〔XP: ${toCodeBlock(legend ? legend.xp : `${sortedLegendsXP[0].legend_name_key} - ${sortedLegendsXP[0].xp}`)} 〕`,
-                    `〔KOs: ${toCodeBlock(legend ? legend.kos : `${sortedLegendsKOs[0].legend_name_key} - ${sortedLegendsKOs[0].kos}`)}〕`,
-                    `〔Falls: ${toCodeBlock(legend ? legend.falls : `${sortedLegendsFalls[0].legend_name_key} - ${sortedLegendsFalls[0].falls}`)}〕`
+                    `〔Wins: ${toCodeBlock(legend ? legend.wins : `${TopWins.legend_name_key} - ${TopWins.wins}`)}〕`,
+                    `〔Matchtime: ${toCodeBlock(legend ? `${(legend.matchtime/60).toFixed(2)} min` : `${TopMatchtime.legend_name_key} - ${(TopMatchtime.matchtime/60).toFixed(2)} min`)}〕`,
+                    `〔Damage Dealt: ${toCodeBlock(legend ? legend.damagedealt : `${TopDamageDealt.legend_name_key} - ${TopDamageDealt.damagedealt}`)}〕`,
+                    `〔Games played: ${toCodeBlock(legend ? legend.games : `${TopGames.legend_name_key} - ${TopGames.games}`)}〕`,
+                    `〔Level: ${toCodeBlock(legend ? legend.level : `${TopLevel.legend_name_key} - ${TopLevel.level}`)}〕`,
+                    `〔XP: ${toCodeBlock(legend ? legend.xp : `${TopXP.legend_name_key} - ${TopXP.xp}`)} 〕`,
+                    `〔KOs: ${toCodeBlock(legend ? legend.kos : `${TopKOs.legend_name_key} - ${TopKOs.kos}`)}〕`,
+                    `〔Falls: ${toCodeBlock(legend ? legend.falls : `${TopFalls.legend_name_key} - ${TopFalls.falls}`)}〕`
                 ]
 
                 const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');

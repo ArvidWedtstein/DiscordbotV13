@@ -45,6 +45,8 @@ export const command: Command = {
             'case',
             'cable',
             'power supply',
+            'server',
+            'radiator'
         ]
         let network = [
             'network',
@@ -74,6 +76,62 @@ export const command: Command = {
             'dhcp',
             'telnet',
         ]
+
+        // list all ark: survival evolved dinosaurs
+        let dinosaurs = [
+            'brontosaurus',
+            'carcharodon',
+            'carnotaurus',
+            'cetiosaurus',
+            'chasmosaurus',
+            'dilophosaurus',
+            'dromaeosaurus',
+            'europelta',
+            'fukuiraptor',
+            'giganotosaurus',
+            'hadrosaurus',
+            'iguanodon',
+            'jurassosaurus',
+            'kentrosaurus',
+            'lambdacisaurus',
+            'lapparentosaurus',
+            'mamenchisaurus',
+            'mammoth',
+            'nanosaurus',
+            'nankosaurus',
+            'ornithomimus',
+            'ornithoprocopis',
+            'parasaurolophus',
+            'pteranodon',
+            'quetzalcoatlus',
+            'raptor',
+            'sauroposeidon',
+            'shantungosaurus',
+            'stegosaurus',
+            'triceratops',
+            'tyrannosaurus',
+            'velociraptor',
+            'vulcanodon',
+            'xenoceratops',
+            'yandexaurus',
+            'zalmoxes',
+            'zephyrosaurus',
+            'ziphiusaurus',
+            'zornosaurus',
+            'zululand',
+            'zulusephedra',
+            'zygon',
+            'zygonykus',
+            'zygospore',
+            'zygosperm',
+            'zygote',
+            'zygotic',
+            'maewing',
+            'oviraptor',
+            'ankylosaurus',
+            'dodo'
+            
+        ]
         let categories = [
             {
                 name: 'computer',
@@ -90,6 +148,10 @@ export const command: Command = {
             {
                 name: 'protocol',
                 words: protocol
+            },
+            {
+                name: "dinosaurs",
+                words: dinosaurs
             }
         ]
 
@@ -112,7 +174,6 @@ export const command: Command = {
             }
             return words.join(' ')
         }
-
         let category = categories[Math.floor(Math.random() * categories.length)];
         let word = category.words[Math.floor(Math.random() * category.words.length)];
         let scrambledWord = scramble(word).toUpperCase();
@@ -143,6 +204,7 @@ export const command: Command = {
 
         collector.on('end', async (collected, reason) => {
             console.log(reason)
+            word = "";
             if (reason === 'correct') {
                 embed.setTitle(`${author.username} guessed the word! 🎉`);
                 embed.setDescription(`The correct word was: **${word}**`);
@@ -157,6 +219,8 @@ export const command: Command = {
                 channel.send({ embeds: [embed] })
             }
         })
+
+        return
         
     }
 }
