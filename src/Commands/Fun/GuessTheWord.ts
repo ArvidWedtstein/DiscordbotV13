@@ -84,8 +84,6 @@ export const command: Command = {
             'brontosaurus',
             'carcharodon',
             'carnotaurus',
-            'cetiosaurus',
-            'chasmosaurus',
             'dilophosaurus',
             'giganotosaurus',
             'iguanodon',
@@ -215,7 +213,7 @@ export const command: Command = {
         collector.on('collect', async (reaction) => {
             if (!reaction) return;
             embed.setTitle(`${author.username} failed to guess the word! 😭`);
-                // embed.setDescription(`The correct word was: **${word}**`);
+                embed.setDescription(`You can try again`);
             reaction.content.toLowerCase() === word ? collector.stop('correct') : channel.send({ embeds: [embed] });
         })
 
