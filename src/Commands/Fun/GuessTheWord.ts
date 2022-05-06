@@ -216,7 +216,6 @@ export const command: Command = {
             if (!reaction) return;
             embed.setTitle(`${author.username} failed to guess the word! 😭`);
                 // embed.setDescription(`The correct word was: **${word}**`);
-                channel.send({ embeds: [embed] })
             reaction.content.toLowerCase() === word ? collector.stop('correct') : channel.send({ embeds: [embed] });
         })
 
