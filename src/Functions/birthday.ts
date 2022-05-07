@@ -12,6 +12,8 @@ export default (client: Client) => {
     date: "",
     checked: false
   }
+
+  // Use this to check birthdays on the future
   const checkBirthday = (async () => {
     const date = new Date()
     let dformat = [
@@ -21,6 +23,8 @@ export default (client: Client) => {
     
     // Find all users with birthdays on this day
     let users = await profileSchema.find({birthday: dformat})
+    
+    // If there are no users with birthdays on this day
     if (users.length < 1) return;
 
     // Check if we already checked today

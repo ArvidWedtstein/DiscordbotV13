@@ -189,6 +189,6 @@ export const brawlhalla = (async (client: Client) => {
       member?.send({ embeds: [embed], files: [attachment] })
     })
   })
-  
+  console.log(`${gradient.instagram(`Checking for brawlhalla streams...`)}`);
   RunDaily()
 })
