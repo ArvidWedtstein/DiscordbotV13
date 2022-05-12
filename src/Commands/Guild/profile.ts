@@ -47,6 +47,17 @@ export const command: Command = {
    
         if (results && results.birthday != '1/1') birthday = results.birthday;
 
+        if (!results.birthday) {
+            let res2 = await profileSchema.findOne({
+                userId,
+                birthday: {
+                    $exists: true,
+                    $ne: null
+                }
+            })
+            if (res2) birthday = res2.birthday;
+        }
+
         let joinedDate = moment(user?.joinedAt).fromNow();
 
         // Map warns

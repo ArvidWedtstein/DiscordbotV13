@@ -28,20 +28,16 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
     if (!guild) return
     if (!member || member.user.bot) return
     
-    const result = await profileSchema.findOneAndUpdate(
-        {
+    const result = await profileSchema.findOneAndUpdate({
             guildId, 
             userId,
-        },
-        {
+        },{
             $inc: {
                 xp: xpToAdd
             },
-        }, 
-        {
+        }, {
             upsert: true,
-        }
-    )
+    })
     const sortObj = (list: any[], key: string) => {
         const compare = (a: any, b: any) => {
             a = a[key];
@@ -56,26 +52,26 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
         return list.sort(compare);
     }
 
-    const levels = await settingsSchema.findOne({
+    const guildSettings = await settingsSchema.findOne({
         guildId
     })
 
-    let userlevels = sortObj(levels.levels, 'level')
+    
     
     let { xp, level } = result
     let needed = getNeededXP(level)
-    let checklevel = level + 10;
-    if (!userlevels.find((lvl: any) => lvl.level == checklevel)) return;
+
 
     // If xp is more or equal then Level Up
     if (xp >= needed) {
-        // If there are levels specified for the guild
-        if (userlevels) {
+        // If there are levels specified for the guild and check if the next level exists
+        if (guildSettings.levels) {
+            let userlevels = sortObj(guildSettings.levels, 'level')
             let oldlvl = userlevels.find((lvl: any) => lvl.level == level)
             let indexLevel = userlevels.indexOf(oldlvl)
             let oldrole = guild.roles.cache.find(r => r.id === oldlvl.role) || guild.roles.cache.get(oldlvl.role)
             
-            if (oldrole) member?.roles.remove(oldrole);
+            if (oldrole) member.roles.remove(oldrole);
     
             let newlvl = userlevels[indexLevel+1]
             
@@ -84,27 +80,28 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
 
             let newrole = guild.roles.cache.find(r => r.id === newlvl.role)
             
-            if (newrole) member?.roles.add(newrole);
+            if (newrole) member.roles.add(newrole);
         } else {
             level += 10
         }
+
         // If guild has economy/money system enabled in settings
         let moneyReward;
-        if (levels.money) {
+        if (guildSettings.money) {
             let moneyresult = needed / 100
             moneyReward = (Math.round(moneyresult)); 
-            await addCoins(guildId, userId, moneyReward)
+            await addCoins(guildId, userId, moneyReward);
         }
         let description = [
             `${insert(guild, 'LEVEL_UP', level)} (${xp}xp)!`,
-            `${levels.money ? `${insert(guild, 'LEVEL_YOU_EARNED', moneyReward)}` : ""}`,
+            `${guildSettings.money ? `${insert(guild, 'LEVEL_YOU_EARNED', moneyReward)}` : ""}`,
             `${insert(guild, 'LEVEL_YOU_NOW_NEED', getNeededXP(level))}.`
-        ].join('\n')
+        ]
 
         const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
         const embed = new MessageEmbed()
-            .setDescription(description)
+            .setDescription(description.join('\n'))
             .setImage('attachment://banner.jpg')
             .setFooter({ text: `${member?.user.tag}`, iconURL: member?.displayAvatarURL() })
             .setTimestamp()
@@ -114,6 +111,8 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
                 msg.delete()
             }, 20000)
         })
+
+        // Update level
         await profileSchema.findOneAndUpdate({
             guildId,
             userId,
@@ -121,7 +120,6 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
             level,
             xp
         })
-
     }
 })
 

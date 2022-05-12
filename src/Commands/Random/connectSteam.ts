@@ -21,26 +21,34 @@ export const command: Command = {
         const { guild, mentions, author, channel, content } = message;
 
         if (!guild) return;
-        if (!args[0]) return temporaryMessage(channel, 'Please provide a steam id', 50);
-        
-        profileSchema.findOne({
-            userId: author.id,
-            guildId: guild.id
-        }).then(async(results) => {
-            if (!results) return temporaryMessage(channel, 'You do not have a profile. Please create one with -profile', 50);
-            
-            axios.get(`https://api.brawlhalla.com/search?steam_id=${args[0]}&api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
-                if (!res.data.length) return temporaryMessage(channel, 'No results found', 50);
 
-                if (res.data.brawlhalla_id) {
-                    results.brawlhallaId = res.data.brawlhalla_id;
-                    // return temporaryMessage(channel, `Successfully connected your profile to Brawlhalla`, 50);
+        let steamId = args[0];
+        if (!steamId) return temporaryMessage(channel, 'Please provide a steam id', 50);
+        // if (steamId.match(/^\d+$/)) return temporaryMessage(channel, 'Please provide a valid steam id', 50);
+        profileSchema.find({
+            userId: author.id
+        }).then(async(results) => {
+            if (results.length < 1) return temporaryMessage(channel, 'You do not have a profile. Please create one with -profile', 50);
+            
+            results.forEach(async(result) => {
+                // if (result.steamId) return temporaryMessage(channel, 'You already have a steam id connected', 50);
+
+                try {
+                    axios.get(`https://api.brawlhalla.com/search?steamid=${steamId}&api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
+                        if (!res.data.length || !res.data) return
+    
+                        if (res.data.brawlhalla_id) {
+                            result.brawlhallaId = res.data.brawlhalla_id;
+                            // return temporaryMessage(channel, `Successfully connected your profile to Brawlhalla`, 50);
+                        }
+                    });
+                } catch (e) {
+                    console.log(e);
                 }
+                result.steamId = steamId;
+                result.save();
             });
-            results.steamId = args[0];
-            results.save().then(() => {
-                return temporaryMessage(channel, 'Your steam id has been linked to your profile', 50);
-            })
+            return temporaryMessage(channel, 'Your steam id has been linked to your profile', 50);
         })
     }
 }
