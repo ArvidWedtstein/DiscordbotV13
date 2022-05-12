@@ -43,16 +43,17 @@ export const command: Command = {
             guildId
         })
 
+
         let messages = results.messageCount;
    
         if (results && results.birthday != '1/1') birthday = results.birthday;
-
-        if (!results.birthday) {
+        console.log(results)
+        if (!results.birthday || results.birthday == '1/1') {
             let res2 = await profileSchema.findOne({
                 userId,
                 birthday: {
                     $exists: true,
-                    $ne: null
+                    $ne: null || '1/1'
                 }
             })
             if (res2) birthday = res2.birthday;

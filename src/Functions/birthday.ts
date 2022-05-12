@@ -15,6 +15,8 @@ export default (client: Client) => {
 
   // Use this to check birthdays on the future
   const checkBirthday = (async () => {
+    console.log(`${gradient.instagram(`Checking for birthdays`)}`);
+
     const date = new Date()
     let dformat = [
       date.getDate(),
@@ -22,7 +24,7 @@ export default (client: Client) => {
     ].join('/')+''
     
     // Find all users with birthdays on this day
-    let users = await profileSchema.find({birthday: dformat})
+    let users = await profileSchema.find({ birthday: dformat })
     
     // If there are no users with birthdays on this day
     if (users.length < 1) return;
@@ -32,6 +34,7 @@ export default (client: Client) => {
       lastBirthday.date = dformat
       lastBirthday.checked = false
     }
+
     if (lastBirthday.checked) return;
 
     lastBirthday = {
@@ -39,7 +42,7 @@ export default (client: Client) => {
       checked: true
     }
 
-    for(let i = 0; i < users.length; i++) {
+    for (let i = 0; i < users.length; i++) {
       let user = users[i];
       let userId = user.userId;
       let guildId = user.guildId;
@@ -49,10 +52,13 @@ export default (client: Client) => {
       if (!guild) return;
       let channel = guild.publicUpdatesChannel;
 
-      let userGuild = client.users.cache.get(userId) || guild.members.cache.get(userId);
+      
 
+      let birthdayUser = client.users.cache.get(userId) || guild.members.cache.get(userId);
+
+      if (!birthdayUser) return;
+      
       // TODO: Send the user a private message with the birthday message if user is not found.
-      if (!userGuild) return;
 
       const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
@@ -60,20 +66,22 @@ export default (client: Client) => {
       let embed = new MessageEmbed()
         .setColor('#ff0000')
         .setTitle(`:champagne:${language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)
-        .setThumbnail(userGuild.displayAvatarURL())
+        .setThumbnail(birthdayUser.displayAvatarURL())
         .setDescription(`<@${userId}> ${language(guild, 'BIRTHDAY_USER')}\n||@everyone||\n${language(guild, 'PROMOTE_USER')} to <@${userId}>! (+**5000**xp) `)
         .setImage('attachment://banner.jpg')
         .setFooter({ text: `This birthday wish was brought to you by ${client.user?.username}` })
         .setTimestamp()
   
-      channel?.send({ embeds: [embed], files: [attachment] }).then((message: Message) => {
+      if (!channel) return birthdayUser.send({ embeds: [embed], files: [attachment] });
+
+      channel.send({ embeds: [embed], files: [attachment] }).then((message: Message) => {
         addXP(guildId, userId, 5000, message)
       })
     }
   })
 
 
-  // TODO: rework this to be more dynamic
+  // OLD BIRTHDAY CHECKER
   const checkForBirthday = async () => {
     const list = client.guilds.cache.get('524951977243836417');
     if (!list) return;
@@ -83,13 +91,13 @@ export default (client: Client) => {
       const guildId = guild.id;
       let news = guild.channels.cache.find(channel => channel.name === 'nyheter');
       
-      if (!news || !news?.isText() || news.isVoice() || news.isThread()) {
+      if (!news || !news.isText() || news.isVoice() || news.isThread()) {
         const name = `${language(guild, 'NEWS_CHANNELNAME')}`
         guild.channels.create(name, {
-          topic: "Test"
+          topic: "News"
         })
         
-        news = guild.channels.cache.find(channel => channel.name === 'nyheter');
+        news = guild.channels.cache.find(channel => channel.name === `${language(guild, 'NEWS_CHANNELNAME')}`);
         if (!news) return;
         
       }
@@ -152,10 +160,11 @@ export default (client: Client) => {
     }); 
     console.log(`${gradient.instagram(`Checking for birthdays`)}`);
   };
-  checkForBirthday();
+
+  checkBirthday();
 
   // Run checkForBirthday every 12 hours
-  setInterval(checkForBirthday, 43200 * 1000);
+  setInterval(checkBirthday, 43200 * 1000);
 }
 
 
