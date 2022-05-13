@@ -214,6 +214,7 @@ export const command: Command = {
         collector.on('collect', async (reaction) => {
             if (!reaction.content.startsWith('-word')) return
             if (!reaction) return;
+            reaction.content.replace('-word', '');
             embed.setTitle(`${author.username} failed to guess the word! 😭`);
                 embed.setDescription(`You can try again`);
             reaction.content.toLowerCase() === word ? collector.stop('correct') : channel.send({ embeds: [embed] });
