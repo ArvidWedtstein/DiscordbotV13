@@ -25,9 +25,10 @@ export const command: Command = {
     examples: ["guesstheword"],
     
     run: async(client, message, args) => {
-        const { guild, channel, author, member, mentions, attachments } = message;
+        const { guild, channel, author, member, mentions, attachments, content } = message;
         if (!guild) return
 
+        if (!content.startsWith('-word')) return
 
         
         let computer = [
@@ -189,8 +190,8 @@ export const command: Command = {
         let category: any = categories[Math.floor(Math.random() * categories.length)];
 
         // If category is mentioned
-        if (args[0]) {
-            category = categories.find(c => c.name.toLowerCase() == args[0].toLowerCase());
+        if (args[1]) {
+            category = categories.find(c => c.name.toLowerCase() == args[1].toLowerCase());
         }
 
         let word = category.words[Math.floor(Math.random() * category.words.length)];
@@ -204,11 +205,11 @@ export const command: Command = {
             .setAuthor({ name: `Guess the Word!` })
             .setTitle(`Word: \`${scrambledWord}\``)
             .setDescription(`**Hint**: Starts with ${word.charAt(0).toUpperCase()}\nCategory: **${category.name}**`)
-            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+            .setFooter({ text: `Requested by ${author.tag} | Answer with -word {the word}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
         
         let messageEmbed = channel.send({ embeds: [embed] })
-        const filter = (m: any) => m.channel.id === channel.id && !m.author.bot && m.author.id === author.id;
+        const filter = (m: any) => m.channel.id === channel.id && !m.author.bot;
         const collector = channel.createMessageCollector({filter, time: 5*60*1000});
         collector.on('collect', async (reaction) => {
             if (!reaction) return;
