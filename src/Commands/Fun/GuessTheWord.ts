@@ -22,13 +22,13 @@ export const command: Command = {
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["guesstheword"],
+    examples: ["guesstheword {category}"],
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments, content } = message;
         if (!guild) return
 
-        if (!content.startsWith('-word')) return
+        
 
         
         let computer = [
@@ -212,6 +212,7 @@ export const command: Command = {
         const filter = (m: any) => m.channel.id === channel.id && !m.author.bot;
         const collector = channel.createMessageCollector({filter, time: 5*60*1000});
         collector.on('collect', async (reaction) => {
+            if (!reaction.content.startsWith('-word')) return
             if (!reaction) return;
             embed.setTitle(`${author.username} failed to guess the word! 😭`);
                 embed.setDescription(`You can try again`);
