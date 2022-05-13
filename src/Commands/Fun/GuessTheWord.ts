@@ -239,7 +239,7 @@ export const command: Command = {
             console.log(reason)
             if (reason === 'correct') {
                 var end = moment(new Date()); // another date
-                var duration = moment.duration(now.diff(end));
+                var duration = moment.duration(end.diff(now));
 
                 // 
                 let guessedWord = {
