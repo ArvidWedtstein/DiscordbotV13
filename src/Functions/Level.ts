@@ -65,7 +65,7 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
     // If xp is more or equal then Level Up
     if (xp >= needed) {
         // If there are levels specified for the guild and check if the next level exists
-        if (guildSettings.levels && guildSettings.levels.length > 0) {
+        if (guildSettings && guildSettings.levels && guildSettings.levels.length > 0) {
             let userlevels = sortObj(guildSettings.levels, 'level')
             let oldlvl = userlevels.find((lvl: any) => lvl.level == level)
             let indexLevel = userlevels.indexOf(oldlvl)
