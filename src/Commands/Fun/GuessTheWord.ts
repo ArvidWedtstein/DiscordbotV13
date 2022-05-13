@@ -9,7 +9,6 @@ import moment from 'moment';
 import icon from '../../Functions/icon';
 import profileSchema from '../../schemas/profileSchema';
 import axios from 'axios';
-import { re } from 'mathjs';
 
 let lastWord: any;
 export const command: Command = {
@@ -27,9 +26,6 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments, content } = message;
         if (!guild) return
-
-        
-
         
         let computer = [
             'computer',
@@ -197,18 +193,25 @@ export const command: Command = {
         let word = category.words[Math.floor(Math.random() * category.words.length)];
         let scrambledWord = scramble(word).toUpperCase();
 
+        // Make sure that the word is not the same as the last word
         if (lastWord == word) word = category.words[Math.floor(Math.random() * category.words.length)];
         lastWord = word;
 
+
+        
         let embed = new MessageEmbed()
-            .setColor(client.config.botEmbedHex)
-            .setAuthor({ name: `Guess the Word!` })
-            .setTitle(`Word: \`${scrambledWord}\``)
-            .setDescription(`**Hint**: Starts with ${word.charAt(0).toUpperCase()}\nCategory: **${category.name}**`)
-            .setFooter({ text: `Requested by ${author.tag} | Answer with -word {the word}`, iconURL: author.displayAvatarURL() })
-            .setTimestamp()
+        .setColor(client.config.botEmbedHex)
+        .setAuthor({ name: `Guess the Word!` })
+        .setTitle(`Word: \`${scrambledWord}\``)
+        .setDescription(`**Hint**: Starts with ${word.charAt(0).toUpperCase()}\nCategory: **${category.name}**`)
+        .setFooter({ text: `Requested by ${author.tag} | Answer with -word {the word}`, iconURL: author.displayAvatarURL() })
+        .setTimestamp()
         
         let messageEmbed = channel.send({ embeds: [embed] })
+        
+        var now = moment(new Date()); // date when the game starts. Is used to calculate the time used to solve the word
+
+
 
         let guessedUser: any;
         const filter = (m: any) => m.channel.id === channel.id && !m.author.bot;
@@ -234,12 +237,15 @@ export const command: Command = {
 
         collector.on('end', async (collected, reason) => {
             console.log(reason)
-            console.log(collected)
             if (reason === 'correct') {
-                // TODO - Add time used to guess word
+                var end = moment(new Date()); // another date
+                var duration = moment.duration(now.diff(end));
+
+                // 
                 let guessedWord = {
                     word: word,
-                    scrambledWord: scrambledWord
+                    scrambledWord: scrambledWord,
+                    time: duration.asSeconds()
                 }
                 await profileSchema.findOneAndUpdate({
                     userId: guessedUser.id,
@@ -249,7 +255,7 @@ export const command: Command = {
                         guessedWords: guessedWord
                     }
                 })
-                embed.setTitle(`${guessedUser.username} guessed the word! 🎉`);
+                embed.setTitle(`${icon(client, guild, 'checkmark')} ${guessedUser.username} guessed the word in ${duration.asSeconds()} seconds! 🎉`);
                 embed.setDescription(`The correct word was: **${word}**`);
                 channel.send({ embeds: [embed] })
             } else if (reason === 'incorrect') {

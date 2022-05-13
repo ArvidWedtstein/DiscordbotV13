@@ -29,6 +29,14 @@ Download, and type `npm run dev` or `npm run start` in console, and hit enter.
 
 <p align="left">In this project i learned how to use node.js, discord.js and javascript</p>
 
+
+<h3 align="left"><strong>APIs used in this project</strong></h3>
+
+```java
+- NASA Api
+- Brawlhalla API
+```
+
 ## Features
 <h2 align="center"><strong>Features</strong></h2>
 

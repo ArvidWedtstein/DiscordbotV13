@@ -47,7 +47,6 @@ export const command: Command = {
         let messages = results.messageCount;
    
         if (results && results.birthday != '1/1') birthday = results.birthday;
-        console.log(results)
         if (!results.birthday || results.birthday == '1/1') {
             let res2 = await profileSchema.findOne({
                 userId,
@@ -91,16 +90,7 @@ export const command: Command = {
         let xptonextlevel = getNeededXP(userlevel)
         let color = await getColor(guildId, userId);
 
-        const badge = user.flags;
-        let badges = 'None'
-        if (badge) {
-            badges = ''
-            badge.forEach((bad: any) => {
-                let badg = client.emojis.cache.find((e) => e.name === bad)
-                
-                badges += `${badg}\n`
-            });
-        }
+        
         function getAge(dateString: string) {
             let today = new Date();
             let birthDate = new Date(dateString);
@@ -125,7 +115,7 @@ export const command: Command = {
             `${xp ? `〔XP: ${toCodeBlock(xp)}` : ''}`,
             `${xptonextlevel ? `〔XP to next Lvl: ${toCodeBlock(xptonextlevel - xp)}` : ''}\n`,
             `〔Messages Sent: ${toCodeBlock(messages)}`,
-            `〔Badges: ${toCodeBlock(badges)}`,
+            `〔Words Solved: ${toCodeBlock(results.guessedWords.length)}`,
             `${presence ? `〔Game: ${toCodeBlock(presence)}` : ''}`,
             `${results.brawlhalla ? `〔Brawlhalla fan: ${toCodeBlock("yes, absolutely")}` : ''}`,
             `${warns.length > 0 ? `〔Warns: ${toCodeBlock(warns.join('\n'))}` : ''}`,
