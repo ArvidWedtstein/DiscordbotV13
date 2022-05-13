@@ -209,16 +209,22 @@ export const command: Command = {
             .setTimestamp()
         
         let messageEmbed = channel.send({ embeds: [embed] })
+
+        let guessedUser: any;
         const filter = (m: any) => m.channel.id === channel.id && !m.author.bot;
         const collector = channel.createMessageCollector({filter, time: 5*60*1000});
         collector.on('collect', async (reaction) => {
             if (!reaction.content.startsWith('-word')) return
             if (!reaction) return;
 
-            console.log(reaction.content, word)
-            embed.setTitle(`${author.username} failed to guess the word! 😭`);
+            embed.setTitle(`${reaction.author.username} failed to guess the word! 😭`);
             embed.setDescription(`You can try again`);
-            reaction.content.replace('-word ', '').toLowerCase() === word ? collector.stop('correct') : channel.send({ embeds: [embed] });
+            if (reaction.content.replace('-word ', '').toLowerCase() === word) {
+                guessedUser = reaction.author; 
+                collector.stop('correct')
+            } else {
+                channel.send({ embeds: [embed] })
+            }
         })
 
         // TODO - Gradually add letters to the hint over time.
@@ -228,7 +234,7 @@ export const command: Command = {
 
         collector.on('end', async (collected, reason) => {
             console.log(reason)
-            
+            console.log(collected)
             if (reason === 'correct') {
                 // TODO - Add time used to guess word
                 let guessedWord = {
@@ -236,13 +242,14 @@ export const command: Command = {
                     scrambledWord: scrambledWord
                 }
                 await profileSchema.findOneAndUpdate({
-                    userID: author.id 
+                    userId: guessedUser.id,
+                    guildId: guild.id
                 }, {
                     $push: {
                         guessedWords: guessedWord
                     }
                 })
-                embed.setTitle(`${author.username} guessed the word! 🎉`);
+                embed.setTitle(`${guessedUser.username} guessed the word! 🎉`);
                 embed.setDescription(`The correct word was: **${word}**`);
                 channel.send({ embeds: [embed] })
             } else if (reason === 'incorrect') {
