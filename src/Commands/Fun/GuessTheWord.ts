@@ -187,6 +187,9 @@ export const command: Command = {
 
         // If category is mentioned
         if (args[1]) {
+            if (!categories.find(c => c.name.toLowerCase() == args[1].toLowerCase())) {
+                return channel.send(`No category with that name found. Try one of these: \`${categories.map(c => c.name).join(', ')}\``)
+            }
             category = categories.find(c => c.name.toLowerCase() == args[1].toLowerCase());
         }
 
