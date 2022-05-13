@@ -64,6 +64,11 @@ const profileSchema = new Schema({
         required: true,
         default: 0
     },
+    guessedWords: {
+        type: [Object],
+        required: false,
+        default: []
+    },
     joinedDate: {
         type: Date,
         required: false

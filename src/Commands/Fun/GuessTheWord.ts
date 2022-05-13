@@ -230,6 +230,18 @@ export const command: Command = {
             console.log(reason)
             
             if (reason === 'correct') {
+                // TODO - Add time used to guess word
+                let guessedWord = {
+                    word: word,
+                    scrambledWord: scrambledWord
+                }
+                await profileSchema.findOneAndUpdate({
+                    userID: author.id 
+                }, {
+                    $push: {
+                        guessedWords: guessedWord
+                    }
+                })
                 embed.setTitle(`${author.username} guessed the word! 🎉`);
                 embed.setDescription(`The correct word was: **${word}**`);
                 channel.send({ embeds: [embed] })
