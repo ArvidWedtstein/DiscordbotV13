@@ -203,12 +203,12 @@ export const command: Command = {
 
         
         let embed = new MessageEmbed()
-        .setColor(client.config.botEmbedHex)
-        .setAuthor({ name: `Guess the Word!` })
-        .setTitle(`Word: \`${scrambledWord}\``)
-        .setDescription(`**Hint**: Starts with ${word.charAt(0).toUpperCase()}\nCategory: **${category.name}**`)
-        .setFooter({ text: `Requested by ${author.tag} | Answer with -word {the word}`, iconURL: author.displayAvatarURL() })
-        .setTimestamp()
+            .setColor(client.config.botEmbedHex)
+            .setAuthor({ name: `Guess the Word!` })
+            .setTitle(`Word: \`${scrambledWord}\``)
+            .setDescription(`**Hint**: Starts with ${word.charAt(0).toUpperCase()}\nCategory: **${category.name}**`)
+            .setFooter({ text: `Requested by ${author.tag} | Answer with -word {the word}`, iconURL: author.displayAvatarURL() })
+            .setTimestamp()
         
         let messageEmbed = channel.send({ embeds: [embed] })
         
