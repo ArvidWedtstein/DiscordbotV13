@@ -28,21 +28,50 @@ export const command: Command = {
 
         if (!legend) return temporaryMessage(channel, 'Please provide a legend name', 10);
 
+        function toCodeBlock(str: any) {
+            return `\`${str}\``
+        }
 
-        const chosenlegend = brawlhallalegends.find((legend: any) => legend.legend_name_key === legend);
+        function capitalizeFirstLetter(string: string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        let legends = brawlhallalegends
+        const chosenlegend = legends.find((leg) => leg.legend_name_key == legend);
 
         if (!chosenlegend) return temporaryMessage(channel, 'That legend does not exist', 10);
+
+        let icon = "🟦"
+        let empty = "⬛"
+
+        let desc = [
+            `**${chosenlegend.bio_quote}**`,
+            `*${chosenlegend.bio_quote_about_attrib}*\n`,
+            `**${chosenlegend.bio_quote_from}**`,
+            `*${chosenlegend.bio_quote_from_attrib}*\n`,
+            `-------------`,
+            `Strength\u3164: ${toCodeBlock(icon.repeat(chosenlegend.strength))}${empty.repeat(10 - chosenlegend.strength)}`,
+            `Dexterity  : ${toCodeBlock(icon.repeat(chosenlegend.dexterity))}${empty.repeat(10 - chosenlegend.dexterity)}`,
+            `Defense\u3164: ${toCodeBlock(icon.repeat(chosenlegend.defense))}${empty.repeat(10 - chosenlegend.defense)}`,
+            `Speed\u3164\u3164: ${toCodeBlock(icon.repeat(chosenlegend.speed))}${empty.repeat(10 - chosenlegend.speed)}`,
+            `----------\u3164---`,
+            `Weapon 1: ${client.emojis.cache.find(emoji => emoji.name === chosenlegend.weapon_one.toLowerCase())}`,
+            `Weapon 2: ${client.emojis.cache.find(emoji => emoji.name === chosenlegend.weapon_two.toLowerCase())}`,
+        ]
         
-        // const embed = new MessageEmbed()
-        //     .setColor(client.config.botEmbedHex)
-        //     .setTitle(`${chosenlegend.legend_name_key}`)
-        //     .setDescription(`${chosenlegend.legend_description}`)
-        //     .setThumbnail(`https://brawlhalla.com/static/images/legends/${chosenlegend.legend_name_key}.png`)
-        //     .setTimestamp()
-        //     .setFooter(`Requested by ${author.username}`, author.displayAvatarURL());
+        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+
+        const embed = new MessageEmbed()
+            .setColor(client.config.botEmbedHex)
+            .setTitle(`${capitalizeFirstLetter(chosenlegend.legend_name_key)} Aka ${capitalizeFirstLetter(chosenlegend.bio_aka)}`)
+            .setDescription(desc.join('\n'))
+            .setThumbnail(`${chosenlegend.thumbnail}`)
+            .setImage(`attachment://banner.jpg`)
+            .setTimestamp()
+            .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL() });
             
 
-        
+        channel.send({ embeds: [embed], files: [attachment]  })
         // Use static data instead of sending api request every time command is used
         // try {
         //     axios.get(`https://api.brawlhalla.com/legend/all/?api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
