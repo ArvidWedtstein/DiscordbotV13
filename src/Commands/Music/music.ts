@@ -141,11 +141,13 @@ export const command: Command = {
                         if (!voice_channel.joinable) return temporaryMessage(channel, `Could not join voicechannel`, 10)
                         if (voice_channel.full) return temporaryMessage(channel, `There is not enough room for both of us in this voicechannel 😐`, 10)
 
+                        let ad: any = guild.voiceAdapterCreator
                         // Join Voice channel
                         let connection = joinVoiceChannel({
                             channelId: voice_channel.id,
                             guildId: guildId,
-                            adapterCreator: guild.voiceAdapterCreator
+                            selfDeaf: true,
+                            adapterCreator: ad
                         })
 
 
@@ -442,11 +444,12 @@ async function load_queue (message: Message, server_queue: any, client: any) {
 
     if (!voice_channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
     
+    let ad: any = guild.voiceAdapterCreator
     // Join Voice channel
     let connection = await joinVoiceChannel({
         channelId: voice_channel.id,
         guildId: guildId,
-        adapterCreator: guild.voiceAdapterCreator
+        adapterCreator: ad
     })
     
     const queue_constructor: any = {
