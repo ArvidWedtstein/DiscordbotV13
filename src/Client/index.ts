@@ -60,6 +60,7 @@ class ExtendedClient extends Client {
             "useUnifiedTopology": true
         }
 
+
         // ----------------------------
         // Connect to database
         // ----------------------------
