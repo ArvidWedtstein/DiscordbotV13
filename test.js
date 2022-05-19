@@ -996,39 +996,31 @@ let bwl =
   }
 ]
 let legends = []
-// bwl.forEach(async (legend) => {
-//     let temp = legend
-//     let legen = staticdata.find((leg) => leg.legend_name_key === legend.name)
-//     delete temp.name
-    
-    
-    
-// })
 
-let interval = 55
-async function getLeg(id, leg) {
-    delete leg.name
-    try {
-        await axios.get(`https://api.brawlhalla.com/legend/${id}?api_key=17O5Y4XD4PY5AFAJWWX9`).then(async(res) => {
-            // if (!res.data.length || !res.data) return
-            let s = bwl.find((l) => l.name === res.data.legend_name_key)
-            delete s.name
-            let newtemp = Object.assign(res.data, s)
-            legends.push(newtemp)
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
-setInterval(async () => {
-    if (interval < 60) {
-        console.log(interval)
-        getLeg(interval, bwl[0])
-        interval++
-        // console.log(legends)
-    } else {
-        console.log(legends)
-    }
+// let interval = 55
+// async function getLeg(id, leg) {
+//     delete leg.name
+//     try {
+//         await axios.get(`https://api.brawlhalla.com/legend/${id}?api_key=17O5Y4XD4PY5AFAJWWX9`).then(async(res) => {
+//             // if (!res.data.length || !res.data) return
+//             let s = bwl.find((l) => l.name === res.data.legend_name_key)
+//             delete s.name
+//             let newtemp = Object.assign(res.data, s)
+//             legends.push(newtemp)
+//         });
+//     } catch (e) {
+//         console.log(e);
+//     }
+// }
+// setInterval(async () => {
+//     if (interval < 60) {
+//         console.log(interval)
+//         getLeg(interval, bwl[0])
+//         interval++
+//         // console.log(legends)
+//     } else {
+//         console.log(legends)
+//     }
     
-}, 5000)
+// }, 5000)
 

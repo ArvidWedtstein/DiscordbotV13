@@ -62,8 +62,12 @@ export class Registry {
 				this.client.aliases.set(alias, command);
             }
         }
+
+		// Check if group is valid
 		const group = this.groups.find(grp => grp.id === command.group.toLowerCase());
 		if(!group) throw new Error(`Group "${command.group}" is not registered.`);
+
+		// Check if the command is already registered
 		if(group.commands.some(cmd => cmd.name === command.name)) {
 			throw new Error(`A command with the member name "${command.name}" is already registered in ${group.id}`);
 		}
@@ -108,7 +112,7 @@ export class Registry {
 				// Check whether commands are TypeScript or have been compiled to Javascript
 				let extension = path.basename(__filename).split(".").pop()
 
-				const commands: any = fs.readdirSync(`${options}/${dir}`).filter((file) => file.endsWith(`.${extension}`));
+				const commands = fs.readdirSync(`${options}/${dir}`).filter((file) => file.endsWith(`.${extension}`));
 				const commands2 = []
 				for (const file of commands) {
 					const { command } = require(`${options}/${dir}/${file}`);

@@ -17,7 +17,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/bodvar.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/BodvarSplash-1.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 900
   },
   {
     "legend_id": 4,
@@ -38,8 +39,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/cassidy.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/CassidySplash-1.png",
-    "gender": "female"
-    
+    "gender": "female",
+    "cost": 2300
   },
   {
     "legend_id": 5,
@@ -60,7 +61,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/orion.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/OrionSplash-1.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 2300
   },
   {
     "legend_id": 6,
@@ -81,7 +83,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_VraxxM-1.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/VraxxSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 2300
   },
   {
     "legend_id": 7,
@@ -102,7 +105,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/gnash.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/GnashSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 2300
   },
   {
     "legend_id": 8,
@@ -123,7 +127,8 @@
     "speed": 3,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/nai.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/NaiSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 2300
   },
   {
     "legend_id": 9,
@@ -144,7 +149,8 @@
     "speed": 8,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/lucien.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/LucienSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 2300
   },
   {
     "legend_id": 10,
@@ -165,7 +171,8 @@
     "speed": 8,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/hattori.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/HattoriSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 2300
   },
   {
     "legend_id": 11,
@@ -186,7 +193,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/roland.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/RolandSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 2300
   },
   {
     "legend_id": 12,
@@ -207,7 +215,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/scarlet.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/ScarletSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 3900
   },
   {
     "legend_id": 13,
@@ -228,7 +237,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/thatch.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/UpdatedThatch.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 3900
   },
   {
     "legend_id": 14,
@@ -249,7 +259,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/ada.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/AdaSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 3900
   },
   {
     "legend_id": 15,
@@ -270,7 +281,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/sentinel.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/SentinelSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 2300
   },
   {
     "legend_id": 16,
@@ -291,7 +303,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/teros.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/TerosSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 3900
   },
   {
     "legend_id": 18,
@@ -312,7 +325,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ElfM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/EmberSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 900
   },
   {
     "legend_id": 19,
@@ -333,7 +347,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ValkyrieM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/BrynnSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 900
   },
   {
     "legend_id": 20,
@@ -354,7 +369,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_CatM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/AsuriSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 3900
   },
   {
     "legend_id": 21,
@@ -374,7 +390,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ApocM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/BarrazaSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 3900
   },
   {
     "legend_id": 22,
@@ -395,7 +412,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_DwarfM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/UlgrimSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 23,
@@ -416,7 +434,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_AzothM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/AzothSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 24,
@@ -437,7 +456,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SamuraiM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/KojiSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 25,
@@ -458,7 +478,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_MonsterHunterM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/DianaSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 26,
@@ -479,7 +500,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_BarbarianM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/JhalaSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 28,
@@ -500,7 +522,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_GolemM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/KorSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 3900
   },
   {
     "legend_id": 29,
@@ -521,7 +544,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_MonkM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/WuShangSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 30,
@@ -542,7 +566,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ValM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/ValSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 31,
@@ -563,7 +588,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_DragonM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/RagnirSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 32,
@@ -584,7 +610,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_CrossM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/CrossSplashNoShadow.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 33,
@@ -605,7 +632,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_AssassinM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/MirageSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 3900
   },
   {
     "legend_id": 34,
@@ -626,7 +654,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ReaperM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/NixSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 35,
@@ -647,7 +676,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_WerewolfM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/MordexSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 36,
@@ -668,7 +698,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_KitsuneM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/Yumiko1.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 37,
@@ -689,7 +720,8 @@
     "speed": 8,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SpaceHunterM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/ArtemisSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 38,
@@ -710,7 +742,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ThiefM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/CaspianSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 39,
@@ -731,7 +764,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_CorsairM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/SidraSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 3900
   },
   {
     "legend_id": 40,
@@ -752,7 +786,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_BruteM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/UpdatedXull.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 41,
@@ -773,7 +808,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SoldierM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/IsaiahSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 42,
@@ -794,7 +830,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_InuitM-1.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/KayaSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 43,
@@ -815,7 +852,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ShinobiM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/JiroSplash.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 44,
@@ -836,7 +874,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_WuxiaM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/LinFeiSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 45,
@@ -857,7 +896,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_CelestialM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/ZarielSplash.png",
-    "gender": "none"
+    "gender": "none",
+    "cost": 5400
   },
   {
     "legend_id": 46,
@@ -878,7 +918,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_RaymanM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/RaymanSplash_Single.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 47,
@@ -899,7 +940,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ElfwarM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2018/12/duskcard.png",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 48,
@@ -920,7 +962,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SpellwitchM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/02/faitcard.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 49,
@@ -941,7 +984,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ThorM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/05/thorcard.jpg",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 50,
@@ -962,7 +1006,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_RagefighterM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/07/petracard.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 51,
@@ -983,7 +1028,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ActualRobotM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/09/LegendCard_Vector.jpg",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 52,
@@ -1004,7 +1050,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_VampLordM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/12/LegendSTATCard_Volkov-1.jpg",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 53,
@@ -1025,7 +1072,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_GargoyleM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2020/03/LegendCard_Onyx.jpg",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 54,
@@ -1046,7 +1094,8 @@
     "speed": 6,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SellswordM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2020/07/LegendCard_jaeyun-1.jpg",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 55,
@@ -1067,7 +1116,8 @@
     "speed": 8,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ActualSharkM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2020/10/MakoSTATS_650x1080.jpg",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 56,
@@ -1088,7 +1138,8 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_GhostArmorM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2021/01/LegendStats_Magyare.jpg",
-    "gender": "none"
+    "gender": "none",
+    "cost": 5400
   },
   {
     "legend_id": 57,
@@ -1109,7 +1160,8 @@
     "speed": 5,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_BountyHunterM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2021/04/LegendCard_Reno.jpg",
-    "gender": "male"
+    "gender": "male",
+    "cost": 5400
   },
   {
     "legend_id": 58,
@@ -1130,7 +1182,8 @@
     "speed": 7,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/12/a_Roster_Pose_BirdBardM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/MuninSplash.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   },
   {
     "legend_id": 59,
@@ -1151,7 +1204,7 @@
     "speed": 4,
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2022/03/a_Roster_Pose_FairyQueenM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/Arcadia_FX.png",
-    "gender": "female"
+    "gender": "female",
+    "cost": 5400
   }
-
 ]

@@ -15,6 +15,9 @@ export const command: Command = {
     description: "settings",
     run: async(client, message, args) => {
         const { guild, channel, author, mentions } = message
+
+        if (!guild) return;
+
         const getEmoji = async (emojiName: any) => {
             return await icon(client, guild, emojiName)
         }
@@ -45,31 +48,32 @@ export const command: Command = {
         ]
         const toggleIcons: any[] = [on, off];
         const t = new PageEmbed(pages);
-        await t.post(message, toggleIcons)
+
+        // await t.post(message, toggleIcons)
 
         function capitalizeFirstLetter(string: string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
         
-        const guildId = guild?.id
+        const guildId = guild.id
         message.delete()
         let emojicharacters: any = emojiCharacters
         
         const desc: any = {
-            1: `${await language(guild, 'EMOTE_SYSTEM')}`,
-            2: `${await language(guild, 'ECONOMY_SYSTEM')}`,
-            3: `${await language(guild, 'SWEARFILTER_SYSTEM')}`,
-            4: `${await language(guild, 'TICKET_SYSTEM')}`,
-            5: `${await language(guild, 'MODERATION_SYSTEM')}`,
-            6: `${await language(guild, 'ANTIJOIN_SYSTEM')}`,
-            7: `${await language(guild, 'WELCOME_SYSTEM')}`
+            1: `${language(guild, 'EMOTE_SYSTEM')}`,
+            2: `${language(guild, 'ECONOMY_SYSTEM')}`,
+            3: `${language(guild, 'SWEARFILTER_SYSTEM')}`,
+            4: `${language(guild, 'TICKET_SYSTEM')}`,
+            5: `${language(guild, 'MODERATION_SYSTEM')}`,
+            6: `${language(guild, 'ANTIJOIN_SYSTEM')}`,
+            7: `${language(guild, 'WELCOME_SYSTEM')}`
         }
         let page = 0;
         const settingicon = icon(client, guild, 'settings');
         
         const sign = boticons(client, 'sign');
 
-        const settingsLangtxt = await language(guild, 'SETTINGS');
+        const settingsLangtxt = language(guild, 'SETTINGS');
 
         let SettingsCategories: any = [];
         client.registry.commands.forEach((cmd) => {
@@ -88,7 +92,7 @@ export const command: Command = {
             .setColor("FUCHSIA")
             .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(await settingsLangtxt)}${emojiCharacters['archright']}`)
             .addFields(SettingsList)
-            .setFooter({text: `${await language(guild, 'HELP_PAGE')} - ${page}/7`})
+            .setFooter({text: `${language(guild, 'HELP_PAGE')} - ${page}/7`})
         let messageEmbed = await channel.send({embeds: [embed]})
  
         const left: any = icon(client, guild, 'chevronleft');
@@ -105,9 +109,9 @@ export const command: Command = {
         const updateEmbed = (async (color: any, category: string, emojis: any = [], toggleemoji: any, pageint: number) => {
             let embed2 = new Discord.MessageEmbed()
                 .setColor(color)
-                .setTitle(`${capitalizeFirstLetter(category)} system ${await language(guild, 'SETTINGS')} ${toggleemoji}`)
-                .setDescription(`${await language(guild, 'SETTINGS_REACT')} ${capitalizeFirstLetter(category)} system\n__${desc[pageint]}__`)
-                .setFooter({text: `${await language(guild, 'HELP_PAGE')} - ${pageint}/7`})
+                .setTitle(`${capitalizeFirstLetter(category)} system ${language(guild, 'SETTINGS')} ${toggleemoji}`)
+                .setDescription(`${language(guild, 'SETTINGS_REACT')} ${capitalizeFirstLetter(category)} system\n__${desc[pageint]}__`)
+                .setFooter({text: `${language(guild, 'HELP_PAGE')} - ${pageint}/7`})
             let messageEmbeds = await messageEmbed.edit({embeds: [embed2]});
             
             //messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
@@ -240,9 +244,9 @@ export const command: Command = {
                         await reaction.users.remove(user?.id);
                         embed = new Discord.MessageEmbed()
                             .setColor("#00ff00")
-                            .setTitle(`${capitalizeFirstLetter(await language(guild, 'SETTINGS'))}`)
-                            .setDescription(`${settingicon} ${await language(guild, 'SETTINGS_DESC')}\n\n\n${desc}`)
-                            .setFooter({ text: `${await language(guild, 'HELP_PAGE')} - ${page}/${categories.length + 1}` })
+                            .setTitle(`${capitalizeFirstLetter(language(guild, 'SETTINGS'))}`)
+                            .setDescription(`${settingicon} ${language(guild, 'SETTINGS_DESC')}\n\n\n${desc}`)
+                            .setFooter({ text: `${language(guild, 'HELP_PAGE')} - ${page}/${categories.length + 1}` })
                         await messageEmbed.edit({embeds: [embed]});
                         
                         // messageEmbed.react(left)

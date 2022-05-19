@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { GuildEmoji, MessageEmbed } from "discord.js";
 import Client from '../Client';
 import settingsSchema from "../schemas/settingsSchema"
 import color, { colors, blue, yellow, red, purple } from '../icons.json';
@@ -7,8 +7,8 @@ const guildIcons: any = {}
 
 const icons: any = color;
 
-export default (client: Client, guild: any, emojiId: any) => {
-    const selectedColor: any = guildIcons[guild.id];
+export default (client: Client, guild: any, emojiId: any): GuildEmoji => {
+    const selectedColor = guildIcons[guild.id];
     if (!icons[selectedColor][emojiId]) {
         throw new Error(`Unknown color ID "${emojiId}"`)
     }
