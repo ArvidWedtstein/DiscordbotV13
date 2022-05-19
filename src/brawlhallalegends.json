@@ -18,7 +18,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/bodvar.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/BodvarSplash-1.png",
     "gender": "male",
-    "cost": 900
+    "cost": 900,
+    "release_date": "30/04/2014"
   },
   {
     "legend_id": 4,
@@ -40,7 +41,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/cassidy.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/CassidySplash-1.png",
     "gender": "female",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "30/04/2014"
   },
   {
     "legend_id": 5,
@@ -62,14 +64,15 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/orion.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/OrionSplash-1.png",
     "gender": "male",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "30/04/2014"
   },
   {
     "legend_id": 6,
     "legend_name_key": "lord vraxx",
     "bio_name": "Lord Vraxx",
     "bio_aka": "The Despotic",
-    "bio_quote": "Lord Vraxx we adore thee. So strong and smart and great.\nDon’t shoot or fry or jail us. Don’t crush or immolate.\nDon’t chop us into pieces. Don’t throw us in the bay.\nWe’re loyal, true and faithful. You’re looking great today.",
+    "bio_quote": "Lord Vraxx we adore thee. So strong and smart and great. Don’t shoot or fry or jail us. Don’t crush or immolate. Don’t chop us into pieces. Don’t throw us in the bay. We’re loyal, true and faithful. You’re looking great today.",
     "bio_quote_about_attrib": "-241st stanza of the Vraxxian Imperial Anthem",
     "bio_quote_from": "Now, Lance Starchampion, I’ve beaten you at laser sword dueling, just as I have beaten you at everything else. But I will keep you alive long enough to witness my final victory.",
     "bio_quote_from_attrib": "-Lord Vraxx",
@@ -84,7 +87,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_VraxxM-1.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/VraxxSplash.png",
     "gender": "male",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "30/04/2014"
   },
   {
     "legend_id": 7,
@@ -95,7 +99,7 @@
     "bio_quote_about_attrib": "-American Journal of Prehistoric Studies",
     "bio_quote_from": "[points to sky] [walks fingers on palm] [shows two fingers] [shakes fist] [points to self] Do I make myself clear?",
     "bio_quote_from_attrib": "-Gnash",
-    "bio_text": "In the darkness before the dawn of history, Gnash was raised by the harsh jungle itself. The lone hunter was called Long Fang by the saber-tooths, The Beast by the human clans, and Swift Death by the Primordials, an ancient race of savage cannibal apes.\nThe ruthless Primordials drove humankind to the brink of extinction before Gnash emerged to stalk their steps. He devised the very first 'plan' when he drove the last of the Primordials through the Great Crevasse to the Valley of the Never Setting Sun and trapped them there with a giant avalanche.\nNo one has been in Valhalla longer, and some say he was hunting these heavenly forests before Odin and company arrived. He continues to collect firewood, avoid darkness, store food for winter, and does not seem to understand or care that he is not still on Earth. He talks little about the Tournament, or anything else, but his winning record speaks for itself.",
+    "bio_text": "In the darkness before the dawn of history, Gnash was raised by the harsh jungle itself. The lone hunter was called Long Fang by the saber-tooths, The Beast by the human clans, and Swift Death by the Primordials, an ancient race of savage cannibal apes.\nThe ruthless Primordials drove humankind to the brink of extinction before Gnash emerged to stalk their steps. He devised the very first \"plan\" when he drove the last of the Primordials through the Great Crevasse to the Valley of the Never Setting Sun and trapped them there with a giant avalanche.\nNo one has been in Valhalla longer, and some say he was hunting these heavenly forests before Odin and company arrived. He continues to collect firewood, avoid darkness, store food for winter, and does not seem to understand or care that he is not still on Earth. He talks little about the Tournament, or anything else, but his winning record speaks for itself.",
     "bot_name": "Gnashomaton",
     "weapon_one": "Hammer",
     "weapon_two": "Spear",
@@ -106,7 +110,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/gnash.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/GnashSplash.png",
     "gender": "male",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "22/05/2014"
   },
   {
     "legend_id": 8,
@@ -128,7 +133,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/nai.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/NaiSplash.png",
     "gender": "female",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "10/07/2014"
   },
   {
     "legend_id": 9,
@@ -150,7 +156,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/lucien.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/LucienSplash.png",
     "gender": "male",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "09/01/2015"
   },
   {
     "legend_id": 10,
@@ -172,7 +179,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/hattori.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/HattoriSplash.png",
     "gender": "female",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "26/08//2014"
   },
   {
     "legend_id": 11,
@@ -183,7 +191,7 @@
     "bio_quote_about_attrib": "-Shakespeare, Henry IV part 3 (lost manuscript)",
     "bio_quote_from": "How’s my hair?",
     "bio_quote_from_attrib": "-Lord Sir Roland Somerset Montgomery, Duke of the Three Isles, Lord of Havershant, Slayer of the Bilious Dragon, Protector of the Illythians, Victor of the Siege of Alsburg, Haver of a Great Beard, Defender of the Danes, Conqueror of Guilardia, Prince of the Glorious Summer of ’14, Knight of the Order of the Exalted Lion, Honorary Abbot of Canterbury Cathedral, Champion of the City of Bath, Marshall of the Eastlands, Knight of the Crimson Buckle, Admiral of the Northern Seas, etc.",
-    "bio_text": "As a young knight, bold Sir Roland vanquished the fabled Jade Knight, and for a brief moment his eyes pierced the veil between worlds. He beheld the Valkyrie Hypernia as she lifted up his defeated foe. Overcome by her beauty, Roland dedicated his life to gaining glory in hopes of seeing the Valkyrie again. \nFor the next fifty years, the proud, bullheaded and charming Roland won more victories, made more enemies and broke more hearts than any knight of his time. His single-handed storming of the Fortress of Alsburg inspired forty-seven epic ballads and a Lifetime miniseries. Bards wrote songs about the song he wrote commemorating his victory over the Bilious Fire Drake.\nAs an old man on his deathbed, Roland finally beheld Hypernia again. She could not allow a natural death to keep such a warrior from Valhalla, so, with a ghost of a smile, she punched him herself so he could die in battle and she could offer him a seat in the hall of glory.\n' +No one in Valhalla feels a greater thirst for victory in the tournament than Sir Roland. He rejoices with every win and rages at every loss.",
+    "bio_text": "As a young knight, bold Sir Roland vanquished the fabled Jade Knight, and for a brief moment his eyes pierced the veil between worlds. He beheld the Valkyrie Hypernia as she lifted up his defeated foe. Overcome by her beauty, Roland dedicated his life to gaining glory in hopes of seeing the Valkyrie again. \nFor the next fifty years, the proud, bullheaded and charming Roland won more victories, made more enemies and broke more hearts than any knight of his time. His single-handed storming of the Fortress of Alsburg inspired forty-seven epic ballads and a Lifetime miniseries. Bards wrote songs about the song he wrote commemorating his victory over the Bilious Fire Drake.\nAs an old man on his deathbed, Roland finally beheld Hypernia again. She could not allow a natural death to keep such a warrior from Valhalla, so, with a ghost of a smile, she punched him herself so he could die in battle and she could offer him a seat in the hall of glory.\r\nNo one in Valhalla feels a greater thirst for victory in the tournament than Sir Roland. He rejoices with every win and rages at every loss.",
     "bot_name": "Sir Rolbot",
     "weapon_one": "RocketLance",
     "weapon_two": "Sword",
@@ -194,7 +202,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/roland.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/RolandSplash.png",
     "gender": "male",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "25/11/2014"
   },
   {
     "legend_id": 12,
@@ -216,14 +225,15 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/scarlet.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/ScarletSplash.png",
     "gender": "female",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "12/11/2014"
   },
   {
     "legend_id": 13,
     "legend_name_key": "thatch",
     "bio_name": "Thatch",
     "bio_aka": "The Madman of Barbados",
-    "bio_quote": "“An old sea shanty tells the tale of a buccaneer who went mad drinking gunpowder and grog. Every time he sailed into battle, he’d set his own ship aflame so there could be no retreat. I forget how it goes, but the chorus includes the phrase 'high turnover rate.'”",
+    "bio_quote": "“An old sea shanty tells the tale of a buccaneer who went mad drinking gunpowder and grog. Every time he sailed into battle, he’d set his own ship aflame so there could be no retreat. I forget how it goes, but the chorus includes the phrase \"high turnover rate.\"”",
     "bio_quote_about_attrib": "-Oldish Pete, proprietor of The Anchor and Pistol",
     "bio_quote_from": "Ye call this grog? I can still feel me face.",
     "bio_quote_from_attrib": "-Thatch, to a stuffed deer head over the bar",
@@ -238,7 +248,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/thatch.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/UpdatedThatch.png",
     "gender": "male",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "26/08/2014"
   },
   {
     "legend_id": 14,
@@ -260,7 +271,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/ada.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/AdaSplash.png",
     "gender": "female",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "12/11/2014"
   },
   {
     "legend_id": 15,
@@ -282,7 +294,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/sentinel.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/SentinelSplash.png",
     "gender": "female",
-    "cost": 2300
+    "cost": 2300,
+    "release_date": "12/11/2014"
   },
   {
     "legend_id": 16,
@@ -293,7 +306,7 @@
     "bio_quote_about_attrib": "-Flynkin Furfoot, only survivor of Heroes for Hire's expedition to Peril Mountain",
     "bio_quote_from": "I hate ‘adventurers.' Always so sure, so sure. Like they have a magic spell that can tell good from evil, right from wrong.",
     "bio_quote_from_attrib": "-Teros ",
-    "bio_text": "The orphan boy-calf Teros relied on his terrible visage and instinct for sudden violence to survive on the streets of Dragonport. He got by as a stone carrier and debt collector until, in the gladiator pits, he found his true calling in reckless combat.\nHe thrived in the ring, crushing cleverer foes with implacable fury and animal wile. In the end, he could only be pitted against the rare ogre or giant, and he moved on to a life of wandering. \nFor a time, he carved out a place in Fangwild Forest, shouldering aside a wyvern and a hobgoblin clan. Later, he fell in with the Iron Legion, turning the tide of the Battle of Orc Pass for the Zombie Lord. His tenure as wizard’s henchman ended typically - with the evil mage shrieking to him, “Finish Them!” while fleeing through a magic portal. He lived for a while deep in Peril Mountain, where he found a strange comfort in the maze of abandoned tunnels.   \nIn Valhalla, Teros is indifferent to the rules or intent of the Tournament, but takes savage joy in all battle. His nightly visit to the mead hall is heralded by throngs of fleeing Valhallans.",
+    "bio_text": "The orphan boy-calf Teros relied on his terrible visage and instinct for sudden violence to survive on the streets of Dragonport. He got by as a stone carrier and debt collector until, in the gladiator pits, he found his true calling in reckless combat.\nHe thrived in the ring, crushing cleverer foes with implacable fury and animal wile. In the end, he could only be pitted against the rare ogre or giant, and he moved on to a life of wandering. \nFor a time, he carved out a place in Fangwild Forest, shouldering aside a wyvern and a hobgoblin clan. Later, he fell in with the Iron Legion, turning the tide of the Battle of Orc Pass for the Zombie Lord. His tenure as wizard’s henchman ended typically - with the evil mage shrieking to him, “Finish Them!” while fleeing through a magic portal. He lived for a while deep in Peril Mountain, where he found a strange comfort in the maze of abandoned tunnels.\nIn Valhalla, Teros is indifferent to the rules or intent of the Tournament, but takes savage joy in all battle. His nightly visit to the mead hall is heralded by throngs of fleeing Valhallans.",
     "bot_name": "Terobyte",
     "weapon_one": "Axe",
     "weapon_two": "Hammer",
@@ -304,7 +317,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/teros.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/TerosSplash.png",
     "gender": "male",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "10/04/2015"
   },
   {
     "legend_id": 18,
@@ -326,7 +340,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ElfM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/EmberSplash.png",
     "gender": "female",
-    "cost": 900
+    "cost": 900,
+    "release_date": "11/11/2015"
   },
   {
     "legend_id": 19,
@@ -348,7 +363,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ValkyrieM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/BrynnSplash.png",
     "gender": "female",
-    "cost": 900
+    "cost": 900,
+    "release_date": "06/08/2015"
   },
   {
     "legend_id": 20,
@@ -370,14 +386,16 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_CatM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/AsuriSplash.png",
     "gender": "female",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "24/09/2015"
   },
   {
     "legend_id": 21,
     "legend_name_key": "barraza",
     "bio_name": "Barraza",
     "bio_aka": "Diesel Heart, The Lord of the Waste",
-    "bio_quote": "“Barraza is the answer. Find him. Search for him in the waste. If ever he loved me he will listen. Offer him our water. Offer him our fuel. Offer him everything if he will be our king.”",         "bio_quote_about_attrib": "-Queen of the Lastfolk",
+    "bio_quote": "“Barraza is the answer. Find him. Search for him in the waste. If ever he loved me he will listen. Offer him our water. Offer him our fuel. Offer him everything if he will be our king.”",         
+    "bio_quote_about_attrib": "-Queen of the Lastfolk",
     "bio_quote_from": "Take his bike and water and leave him to the crows. I never even liked her.",
     "bio_quote_from_attrib": "-Barraza",
     "bio_text": "The Apocalypse came not on a missile but a mist. MBFC’s self-replicating nanobot cloud bricked anything that relied on computer circuitry, which in 2150 was everything. Deployed in desperation against a rogue agent’s hideout, the weaponized mist was supposed to become inert after twenty minutes.\nFifty years later, Barraza was born in an abandoned aircraft carrier outside the girder wastes once called Los Angeles. All Barraza knew of this world was that he had to steal, scheme, and fight for every bite of food and every breath. \nShot in the chest by The Gaslords and left for dead, he returned, kept alive by an artificial heart burning diesel and an iron will. Soon the Gaslords were dead, followed by the Ravagers, the Scorpions, the Battleborn, and every other challenger, until the man they called Diesel Heart ruled the wastes from Four Face Mountain to the Steel Wall. Waterhaulers, warbangers, zealots, radsuits, wastecroppers, junkers - all feared Diesel Heart.\nThe ultimate survivor, Barraza knows Valhalla is another threat to overcome through violence and will. The next apocalypse is coming, and he will do what it takes to come out on top again.",
@@ -391,7 +409,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ApocM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/02/BarrazaSplash.png",
     "gender": "male",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "20/10/2015"
   },
   {
     "legend_id": 22,
@@ -413,7 +432,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_DwarfM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/UlgrimSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "02/03/2016"
   },
   {
     "legend_id": 23,
@@ -435,7 +455,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_AzothM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/AzothSplash.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "06/01/2016"
   },
   {
     "legend_id": 24,
@@ -446,7 +467,7 @@
     "bio_quote_about_attrib": "-Katsu the Blind",
     "bio_quote_from": "Well, I killed her demon husband. So... it's complicated.",
     "bio_quote_from_attrib": "-Koji on Hattori",
-    "bio_text": "As the second son Koji knew he would never take over his father's school or inherit the coveted family sword. Instead he spent his days determined to create his own technique, one without a silly made up name.\nChange came quickly. Fearful of The School of the Demon Slaying Sword, a corrupt Shogun decreed Koji's father and all his students be killed. To save their legacy, Koji was ordered to take the ancestral katana and flee, keeping it safe at all costs.\n` +After many patient and careful years he was ready to reclaim his honor. In an audience with the Shogun he revealed his name and petitioned to reinstate his family's place. The twisted Shogun only laughed. Knowing his fate was sealed, Koji leapt across the hall and cut him down. The stunned chamber guards fell next.\nAs Koji caught his breath, the palace alarm sounded. A slight man with red eyes rose from the shadows. Introducing himself as a fellow second son, the brother of Kagima offered Koji power untold and a way out. All he needed to do was part with the family blade. Koji examined the sword, remembering the stories his father told him as a child. He smiled thinly.\nWhen the 3,000 guards entered the chamber they found the demon's head lying on the floor and Koji rushing toward them sword in hand, boldly carving his path to Valhalla.",
+    "bio_text": "As the second son Koji knew he would never take over his father's school or inherit the coveted family sword. Instead he spent his days determined to create his own technique, one without a silly made up name.\nChange came quickly. Fearful of The School of the Demon Slaying Sword, a corrupt Shogun decreed Koji's father and all his students be killed. To save their legacy, Koji was ordered to take the ancestral katana and flee, keeping it safe at all costs.\nAfter many patient and careful years he was ready to reclaim his honor. In an audience with the Shogun he revealed his name and petitioned to reinstate his family's place. The twisted Shogun only laughed. Knowing his fate was sealed, Koji leapt across the hall and cut him down. The stunned chamber guards fell next.\nAs Koji caught his breath, the palace alarm sounded. A slight man with red eyes rose from the shadows. Introducing himself as a fellow second son, the brother of Kagima offered Koji power untold and a way out. All he needed to do was part with the family blade. Koji examined the sword, remembering the stories his father told him as a child. He smiled thinly.\nWhen the 3,000 guards entered the chamber they found the demon's head lying on the floor and Koji rushing toward them sword in hand, boldly carving his path to Valhalla.",
     "bot_name": "Mechoji",
     "weapon_one": "Bow",
     "weapon_two": "Sword",
@@ -457,7 +478,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SamuraiM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/KojiSplash.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "04/02/2016"
   },
   {
     "legend_id": 25,
@@ -479,7 +501,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_MonsterHunterM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/DianaSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "30/03/2016"
   },
   {
     "legend_id": 26,
@@ -501,7 +524,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_BarbarianM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/JhalaSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "27/04/2016"
   },
   {
     "legend_id": 28,
@@ -523,7 +547,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_GolemM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/KorSplash.png",
     "gender": "male",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "01/06/2016"
   },
   {
     "legend_id": 29,
@@ -545,7 +570,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_MonkM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/WuShangSplash.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "13/07/2016"
   },
   {
     "legend_id": 30,
@@ -567,7 +593,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ValM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/ValSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "24/08/2016"
   },
   {
     "legend_id": 31,
@@ -589,7 +616,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_DragonM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/RagnirSplash.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "28/09/2016"
   },
   {
     "legend_id": 32,
@@ -611,7 +639,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_CrossM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/CrossSplashNoShadow.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "16/11/2016"
   },
   {
     "legend_id": 33,
@@ -633,7 +662,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_AssassinM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/MirageSplash.png",
     "gender": "female",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "11/01/2017"
   },
   {
     "legend_id": 34,
@@ -655,7 +685,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ReaperM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/NixSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "15/02/2017"
   },
   {
     "legend_id": 35,
@@ -677,7 +708,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_WerewolfM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/MordexSplash.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "29/03/2017"
   },
   {
     "legend_id": 36,
@@ -699,7 +731,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_KitsuneM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/Yumiko1.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "03/03/2017"
   },
   {
     "legend_id": 37,
@@ -721,7 +754,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SpaceHunterM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/ArtemisSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "14/06/2017"
   },
   {
     "legend_id": 38,
@@ -743,7 +777,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ThiefM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/CaspianSplash.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "26/07/2017"
   },
   {
     "legend_id": 39,
@@ -765,7 +800,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_CorsairM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/SidraSplash.png",
     "gender": "female",
-    "cost": 3900
+    "cost": 3900,
+    "release_date": "19/10/2018"
   },
   {
     "legend_id": 40,
@@ -787,7 +823,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_BruteM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/UpdatedXull.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "22/11/2017"
   },
   {
     "legend_id": 41,
@@ -809,7 +846,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SoldierM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/IsaiahSplash.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "07/03/2018"
   },
   {
     "legend_id": 42,
@@ -831,7 +869,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_InuitM-1.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/KayaSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "10/01/2018"
   },
   {
     "legend_id": 43,
@@ -853,7 +892,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ShinobiM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/JiroSplash.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "18/04/2018"
   },
   {
     "legend_id": 44,
@@ -875,7 +915,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_WuxiaM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/LinFeiSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "30/05/2018"
   },
   {
     "legend_id": 45,
@@ -897,7 +938,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_CelestialM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/ZarielSplash.png",
     "gender": "none",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "25/07/2018"
   },
   {
     "legend_id": 46,
@@ -919,7 +961,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_RaymanM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/05/RaymanSplash_Single.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "06/11/2018"
   },
   {
     "legend_id": 47,
@@ -941,7 +984,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ElfwarM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2018/12/duskcard.png",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "28/11/2018"
   },
   {
     "legend_id": 48,
@@ -963,7 +1007,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SpellwitchM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/02/faitcard.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "30/01/2019"
   },
   {
     "legend_id": 49,
@@ -985,7 +1030,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ThorM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/05/thorcard.jpg",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "14/03/2019"
   },
   {
     "legend_id": 50,
@@ -1007,7 +1053,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_RagefighterM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/07/petracard.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "26/06/2019"
   },
   {
     "legend_id": 51,
@@ -1029,7 +1076,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ActualRobotM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/09/LegendCard_Vector.jpg",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "20/09/2019"
   },
   {
     "legend_id": 52,
@@ -1051,7 +1099,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_VampLordM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2019/12/LegendSTATCard_Volkov-1.jpg",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "18/12/2019"
   },
   {
     "legend_id": 53,
@@ -1073,7 +1122,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_GargoyleM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2020/03/LegendCard_Onyx.jpg",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "16/03/2020"
   },
   {
     "legend_id": 54,
@@ -1095,7 +1145,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_SellswordM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2020/07/LegendCard_jaeyun-1.jpg",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "08/07/2020"
   },
   {
     "legend_id": 55,
@@ -1117,7 +1168,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_ActualSharkM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2020/10/MakoSTATS_650x1080.jpg",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "01/10/2020"
   },
   {
     "legend_id": 56,
@@ -1139,7 +1191,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_GhostArmorM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2021/01/LegendStats_Magyare.jpg",
     "gender": "none",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "14/01/2021"
   },
   {
     "legend_id": 57,
@@ -1161,7 +1214,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/07/a_Roster_Pose_BountyHunterM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2021/04/LegendCard_Reno.jpg",
     "gender": "male",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "14/04/2021"
   },
   {
     "legend_id": 58,
@@ -1183,7 +1237,8 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2021/12/a_Roster_Pose_BirdBardM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/MuninSplash.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "13/10/2021"
   },
   {
     "legend_id": 59,
@@ -1205,6 +1260,7 @@
     "thumbnail": "https://www.brawlhalla.com/c/uploads/2022/03/a_Roster_Pose_FairyQueenM.png",
     "img": "https://www.brawlhalla.com/c/uploads/2022/03/Arcadia_FX.png",
     "gender": "female",
-    "cost": 5400
+    "cost": 5400,
+    "release_date": "16/03/2022"
   }
 ]

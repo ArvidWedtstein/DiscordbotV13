@@ -19,7 +19,7 @@ import {
     Interaction,
     Guild,
     MessageEmbedOptions,
-    MessageAttachment
+    MessageAttachment,
 } from "discord.js";
 import settingsSchema from "../schemas/settingsSchema";
 
@@ -61,7 +61,8 @@ export class PageEmbed {
     }
     private generate(page: PageEmbedOptions) {
         // Update the footer text to the new page number
-        page.footer = {text: `Page ${this.currentPage}`} 
+        page.footer = {text: `Page ${this.currentPage+1} of ${this.pages.length}`} 
+        page.image = { url: `attachment://banner.jpg` }
         return new MessageEmbed(page)
     }
     async post(message: Message) {
@@ -87,9 +88,8 @@ export class PageEmbed {
 
 
         const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-        page.image = { url: `attachment://banner.jpg` }
 
-        const msg = channel.send({ 
+        const messageEmbed = channel.send({ 
             embeds: [this.generate(page)], 
             components: [row],
             files: [attachment]
@@ -111,8 +111,7 @@ export class PageEmbed {
             // Create a collector for the buttons
             const collector = m.createMessageComponentCollector({
                 filter,
-                max: 10000,
-                time: 5 * 1000 * 60
+                time: 5 * (1000 * 60)
             })
 
             
@@ -129,7 +128,8 @@ export class PageEmbed {
                     await this.settingsBtn(m, page.settings.type, result)
                     await m.edit({
                         embeds: [this.generate(page)], 
-                        components: [await this.component]
+                        components: [await this.component],
+                        files: [attachment]
                     })
                     return;
                 }
@@ -153,14 +153,14 @@ export class PageEmbed {
 
                     m.edit({ 
                         embeds: [this.generate(page)], 
-                        components: [await this.component]
+                        components: [await this.component],
                     })
                     return
                 }
 
                 await m.edit({ 
                     embeds: [this.generate(page)], 
-                    components: [await this.component]
+                    components: [await this.component],
                 })
             })
 
@@ -177,23 +177,27 @@ export class PageEmbed {
                         }
                     )
                 }
+                // Disable buttons
+                
+                this.getRow(true)
+                m.edit({ embeds: [this.generate(page)], components: [await this.component] })
                 return
             })
         })     
     }
-    private getRow() {
+    private getRow(disabled: boolean = false) {
         this.component.setComponents(
             new MessageButton({
                 customId: 'prev_embed',
                 style: "SECONDARY",
                 emoji: "⬅",
-                disabled: this.currentPage === 0
+                disabled: !disabled ? this.currentPage === 0 : disabled
             }),
             new MessageButton({
                 customId: 'next_embed',
                 style: "SECONDARY",
                 emoji: "➡",
-                disabled: this.currentPage === this.pages.length - 1
+                disabled: !disabled ? this.currentPage === this.pages.length - 1 : disabled
             })
         )
         return this.component;

@@ -30,16 +30,24 @@ export const command: Command = {
 
         if (!legend) return temporaryMessage(channel, 'Please provide a legend name', 10);
 
-        const getEmoji = async (emojiName: any) => {
-            return await icon(client, guild, emojiName)
-        }
-
         function toCodeBlock(str: any) {
             return `\`${str}\``
         }
 
+        // Old progressbar icons
+        // let baricon = "🟦"
+        // let empty = "⬛"
         function capitalizeFirstLetter(string: string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function getEmoji(name: string) {
+            return client.emojis.cache.find(emoji => emoji.name === name)
+        }
+        function genStatbar(stat: number) {
+            let baricon = "█";
+            let empty = "▒";
+            return `${toCodeBlock(`${baricon.repeat(stat)}${empty.repeat(10 - stat)}`)}`
         }
 
         let legends = brawlhallalegends
@@ -47,33 +55,6 @@ export const command: Command = {
 
         if (!chosenlegend) return temporaryMessage(channel, 'That legend does not exist 😐', 10);
 
-        let baricon = "█";
-        let empty = "▒";
-
-        // Old progressbar icons
-        // let baricon = "🟦"
-        // let empty = "⬛"
-
-        // let desc = [
-        //     `**${chosenlegend.bio_quote}**`,
-        //     `*${chosenlegend.bio_quote_about_attrib}*\n`,
-        //     `**${chosenlegend.bio_quote_from}**`,
-        //     `*${chosenlegend.bio_quote_from_attrib}*\n`,
-        //     `-------------`,
-        //     `Strength: ${toCodeBlock(baricon.repeat(chosenlegend.strength))}${empty.repeat(10 - chosenlegend.strength)}`,
-        //     `Dexterity: ${toCodeBlock(baricon.repeat(chosenlegend.dexterity))}${empty.repeat(10 - chosenlegend.dexterity)}`,
-        //     `Defense: ${toCodeBlock(baricon.repeat(chosenlegend.defense))}${empty.repeat(10 - chosenlegend.defense)}`,
-        //     `Speed: ${toCodeBlock(baricon.repeat(chosenlegend.speed))}${empty.repeat(10 - chosenlegend.speed)}`,
-        //     `-------------`,
-        //     `Weapon 1: ${client.emojis.cache.find(emoji => emoji.name === chosenlegend.weapon_one.toLowerCase())}`,
-        //     `Weapon 2: ${client.emojis.cache.find(emoji => emoji.name === chosenlegend.weapon_two.toLowerCase())}`,
-        //     `-------------`,
-        //     `Gender: ${toCodeBlock(capitalizeFirstLetter(chosenlegend.gender))}\n`,
-        //     `Botname: ${toCodeBlock(chosenlegend.bot_name)}`,
-        //     `Price: ${toCodeBlock(chosenlegend.cost)}`
-        // ]
-        
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
         const pages: PageEmbedOptions[] = [
             {
@@ -85,16 +66,17 @@ export const command: Command = {
                     `**${chosenlegend.bio_quote_from}**`,
                     `*${chosenlegend.bio_quote_from_attrib}*\n`,
                     `-------------`,
-                    `Strength: ${toCodeBlock(baricon.repeat(chosenlegend.strength))}${empty.repeat(10 - chosenlegend.strength)}`,
-                    `Dexterity: ${toCodeBlock(baricon.repeat(chosenlegend.dexterity))}${empty.repeat(10 - chosenlegend.dexterity)}`,
-                    `Defense: ${toCodeBlock(baricon.repeat(chosenlegend.defense))}${empty.repeat(10 - chosenlegend.defense)}`,
-                    `Speed: ${toCodeBlock(baricon.repeat(chosenlegend.speed))}${empty.repeat(10 - chosenlegend.speed)}`,
+                    `${getEmoji('attack')}: ${genStatbar(chosenlegend.strength)}`,
+                    `${getEmoji('dexterity')}: ${genStatbar(chosenlegend.dexterity)}`,
+                    `${getEmoji('defense')}: ${genStatbar(chosenlegend.defense)}`,
+                    `${getEmoji('speed')}: ${genStatbar(chosenlegend.speed)}`,
                     `-------------`,
-                    `Weapon 1: ${client.emojis.cache.find(emoji => emoji.name === chosenlegend.weapon_one.toLowerCase())}`,
-                    `Weapon 2: ${client.emojis.cache.find(emoji => emoji.name === chosenlegend.weapon_two.toLowerCase())}`,
+                    `Weapon 1: ${getEmoji(chosenlegend.weapon_one.toLowerCase())}`,
+                    `Weapon 2: ${getEmoji(chosenlegend.weapon_two.toLowerCase())}`,
                     `-------------`,
                     `Gender: ${toCodeBlock(capitalizeFirstLetter(chosenlegend.gender))}${chosenlegend.gender === 'male' ? `🚹` : `🚺`}\n`,
-                    `Botname: ${toCodeBlock(chosenlegend.bot_name)}${client.emojis.cache.find(emoji => emoji.name === 'gold_coin')}`
+                    `Botname: ${toCodeBlock(chosenlegend.bot_name)}${getEmoji('gold_coin')}`,
+                    `Released on: ${toCodeBlock(chosenlegend.release_date)}`
                 ].join('\n'),
                 thumbnail: { url: `${chosenlegend.thumbnail}` },
                 timestamp: new Date(),
@@ -111,17 +93,6 @@ export const command: Command = {
 
         await t.post(message)
 
-        // const embed = new MessageEmbed()
-        //     .setColor(client.config.botEmbedHex)
-        //     .setTitle(`${capitalizeFirstLetter(chosenlegend.legend_name_key)} Aka ${capitalizeFirstLetter(chosenlegend.bio_aka)}`)
-        //     .setDescription(desc.join('\n'))
-        //     .setThumbnail(`${chosenlegend.thumbnail}`)
-        //     .setImage(`attachment://banner.jpg`)
-        //     .setTimestamp()
-        //     .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL() });
-            
-
-        // channel.send({ embeds: [embed], files: [attachment] })
 
 
         // Use static data instead of sending api request every time command is used

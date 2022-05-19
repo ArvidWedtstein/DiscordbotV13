@@ -101,6 +101,7 @@ class ExtendedClient extends Client {
             this.on(event.name, event.run.bind(null, this));
         })
 
+
         // ----------------------------
         // Load Slash Commands
         // ----------------------------
