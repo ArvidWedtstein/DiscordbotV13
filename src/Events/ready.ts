@@ -12,7 +12,7 @@ export const event: Event = {
         console.log(`${gradient.atlas(client.user?.tag)} is ${gradient.summer('online!')}`);
         /* Init Language */
         loadLanguages(client);
-        const arrayOfSlashCommands: any = [];
+        // const arrayOfSlashCommands: any = [];
 
         // Load Icon Colors
         loadColors(client);
@@ -23,5 +23,8 @@ export const event: Event = {
         // Check for brawlhalla stream
         brawlhalla(client);
         // await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
+
+
+        console.log(`${gradient.atlas(`Commands loaded: ${await client.registry.commands.size}`)}`);
     }
 }

@@ -91,7 +91,7 @@ class ExtendedClient extends Client {
             { id: "utils", name: "Utils" },
         ])
         this.registry.registerCommandsIn(commandPath)
-        
+
         // ----------------------------
         // Load Events
         // ----------------------------
