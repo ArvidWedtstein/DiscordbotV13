@@ -38,7 +38,7 @@ export const command: Command = {
         const yes = '<:yes:807175712515162183>'
         const no = '<:no:807175696555573278>'
         let embed = new MessageEmbed()
-            .setColor('AQUA')
+            .setColor(client.config.botEmbedHex)
             .setDescription(`${await language(guild, 'ECONOMY_ASKFORMONEY')} ${coinsToAsk} ErlingCoins, <@${target.id}>`)
             .setAuthor({ name: author.username, iconURL: author.displayAvatarURL() })
             .setFooter({ text: `${await language(guild, 'ECONOMY_ASKFORMONEYYESNO')}. ${d.toLocaleTimeString()}` })

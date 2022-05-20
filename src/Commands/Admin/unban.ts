@@ -42,7 +42,7 @@ export const command: Command = {
 
             // Log action
             let logembed = new Discord.MessageEmbed()
-                .setColor("DARKER_GREY")
+                .setColor(client.config.botEmbedHex)
                 .setAuthor({ name: `${bUser.user}`, iconURL: bUser.user.displayAvatarURL() })
                 .setDescription(`${language(guild, 'BAN_UNBAN')}`)
                 .setFooter({ text: `${author.username}`, iconURL: author.displayAvatarURL() })

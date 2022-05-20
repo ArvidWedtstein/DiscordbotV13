@@ -164,6 +164,10 @@ export const command: Command = {
             }
         ]
 
+        function getEmoji(name: string) {
+            return client.emojis.cache.find(emoji => emoji.name === name)
+        }
+
         function scramble(a: any) {
             let words = a.split(" "); 
             for (let i = 0; i < words.length; i++) {
@@ -258,8 +262,12 @@ export const command: Command = {
                         guessedWords: guessedWord
                     }
                 })
+
+                // Reward the user with some erlingcoins
+                addCoins(guild.id, guessedUser.id, 25)
+
                 embed.setTitle(`${icon(client, guild, 'checkmark')} ${guessedUser.username} guessed the word in ${duration.asSeconds()} seconds! 🎉`);
-                embed.setDescription(`The correct word was: **${word}**`);
+                embed.setDescription(`**You got 25 ${getEmoji('ErlingCoinSpin')} in reward!**\nThe correct word was: **${word}**`);
                 channel.send({ embeds: [embed] })
             } else if (reason === 'incorrect') {
                 embed.setTitle(`${author.username} failed to guess the word! 😭`);

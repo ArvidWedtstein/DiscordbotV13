@@ -75,7 +75,8 @@ export const command: Command = {
                     `Weapon 2: ${getEmoji(chosenlegend.weapon_two.toLowerCase())}`,
                     `-------------`,
                     `Gender: ${toCodeBlock(capitalizeFirstLetter(chosenlegend.gender))}${chosenlegend.gender === 'male' ? `🚹` : `🚺`}\n`,
-                    `Botname: ${toCodeBlock(chosenlegend.bot_name)}${getEmoji('gold_coin')}`,
+                    `Botname: ${toCodeBlock(chosenlegend.bot_name)}`,
+                    `Price: ${chosenlegend.cost}${getEmoji('gold_coin')}`,
                     `Released on: ${toCodeBlock(chosenlegend.release_date)}`
                 ].join('\n'),
                 thumbnail: { url: `${chosenlegend.thumbnail}` },

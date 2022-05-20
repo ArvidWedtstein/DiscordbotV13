@@ -8,7 +8,7 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import emojiCharacters from '../../Functions/emojiCharacters';
 import icon from '../../Functions/icon';
 import boticons from '../../Functions/boticons';
-import { PageEmbed } from '../../Functions/PageEmbed';
+import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed';
 
 export const command: Command = {
     name: "settings",
@@ -24,39 +24,44 @@ export const command: Command = {
         // Embed Class Test
         const off = await boticons(client, 'off');
         const on = await boticons(client, 'on');
-        const testemojileft = await getEmoji("chevronleft")
-        const testemojiright = await getEmoji("chevronright")
+        const left = icon(client, guild, 'chevronleft');
+        const right = icon(client, guild, 'chevronright');
 
-        const pages = [
+        const pages: PageEmbedOptions[] = [
             {
-                title: "Home",
+                color: client.config.botEmbedHex,
+                title: `Home`,
                 reactions: {
-                    left: testemojileft,
-                    right: testemojiright
+                    left: left,
+                    right: right
                 },
+                timestamp: new Date(),
             },
             {
-                title: "test2",
+                color: client.config.botEmbedHex,
+                title: `Welcome`,
                 reactions: {
-                    left: testemojileft,
-                    right: testemojiright
+                    left: left,
+                    right: right
                 },
                 settings: {
                     type: 'welcome'
-                }
-            }
+                },
+                timestamp: new Date(),
+            },
         ]
+
         const toggleIcons: any[] = [on, off];
         const t = new PageEmbed(pages);
 
-        // await t.post(message, toggleIcons)
+        await t.post(message)
 
         function capitalizeFirstLetter(string: string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
         
         const guildId = guild.id
-        message.delete()
+        // message.delete()
         let emojicharacters: any = emojiCharacters
         
         const desc: any = {
@@ -73,9 +78,7 @@ export const command: Command = {
         
         const sign = boticons(client, 'sign');
 
-        const settingsLangtxt = language(guild, 'SETTINGS');
-
-        let SettingsCategories: any = [];
+        let SettingsCategories: any[] = [];
         client.registry.commands.forEach((cmd) => {
             SettingsCategories.push(cmd)
         })
@@ -89,14 +92,14 @@ export const command: Command = {
         }
 
         let embed = new MessageEmbed()
-            .setColor("FUCHSIA")
-            .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(await settingsLangtxt)}${emojiCharacters['archright']}`)
+            .setColor(client.config.botEmbedHex)
+            .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(language(guild, 'SETTINGS'))}${emojiCharacters['archright']}`)
             .addFields(SettingsList)
             .setFooter({text: `${language(guild, 'HELP_PAGE')} - ${page}/7`})
         let messageEmbed = await channel.send({embeds: [embed]})
  
-        const left: any = icon(client, guild, 'chevronleft');
-        const right: any = icon(client, guild, 'chevronright');
+        
+
         if (!left || !right) return console.log('no emoji found');
         try {
 			await messageEmbed.react(left);

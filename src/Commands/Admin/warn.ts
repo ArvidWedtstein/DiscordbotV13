@@ -58,7 +58,7 @@ export const command: Command = {
         ].join('\n')
 
         let embedLogg = new MessageEmbed() 
-            .setColor('AQUA')
+            .setColor(client.config.botEmbedHex)
             .setDescription(description)
             .setFooter({ text: `Warned by: ${author}`, iconURL: author.displayAvatarURL() })
         target.send({ embeds: [embedLogg] })
