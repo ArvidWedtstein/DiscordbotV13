@@ -4,12 +4,10 @@ import profileSchema from '../schemas/profileSchema';
 const itemsCache = {}
 
 const inventoryslotsCache = {}
-export async function addItem (guildId: any, userId: any, itemname: string, amount: number) {
-    const items = []
+export const addItem = (async (guildId: any, userId: any, itemname: string, amount: number) => {
+    const insertItems = []
     for (let i = 0; i < amount; i++) {
-        items.push({
-            name: itemname,
-        })
+        insertItems.push({name: itemname,})
     }
     const result = await profileSchema.findOneAndUpdate({
         guildId,
@@ -25,10 +23,11 @@ export async function addItem (guildId: any, userId: any, itemname: string, amou
     }).catch((err: any) => {
         console.log(err)
     })
+
     console.log('Running findOneAndUpdate(item)')
 
-    return result 
-}
+    return result.items 
+})
 export const removeItem = (async (guildId: any, userId: any, itemname: any, itemicon: any, amount: any) => {
 
     const item = {

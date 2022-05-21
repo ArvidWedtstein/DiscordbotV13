@@ -1,22 +1,35 @@
 import { addItem } from '../../src/Functions/UserInventory';
 // const { addItem } = require('../../src/Functions/UserInventory');
 
-test("Add Item to A user's inventory", () => {
-    expect(addItem('987654321987654321', '123456789123456789', 'test', 1)).toMatchObject({});
+test("Add Item to A user's inventory", async () => {
+    let guildId = '987654321987654321';
+    let userId = '123456789123456789';
+    let itemname = 'test';
+    let amount = 1;
+
+    // console.log(await addItem(guildId, userId, itemname, amount) == items)
+    expect(await addItem(guildId, userId, itemname, amount)).toHaveLength(amount);
+    
+    expect(await addItem(guildId, userId, itemname, amount)).toEqual(
+        expect.arrayContaining([
+            expect.objectContaining({name: itemname}),
+        ])
+    );
 })
 
-
-// describe('Add Item to a user', () => {
-//     let item = 'apple';
-//     let amount = 2;
-//     let userId = '123456789123456789';
+// test("Remove Item from a user's inventory", async () => {
 //     let guildId = '987654321987654321';
+//     let userId = '123456789123456789';
+//     let itemname = 'test';
+//     let amount = 1;
 
-
-//     it('item should not be a number', () => {
-//         expect(item).not.toBeNull()
-//     })
-//     it('amount should be valid', () => {
-//         expect(amount).toBeGreaterThan(0);
-//     })
+//     // console.log(await addItem(guildId, userId, itemname, amount) == items)
+//     expect(await addItem(guildId, userId, itemname, amount)).toHaveLength(amount);
+    
+//     expect(await addItem(guildId, userId, itemname, amount)).toEqual(
+//         expect.arrayContaining([
+//             expect.objectContaining({name: itemname}),
+//         ])
+//     );
 // })
+
