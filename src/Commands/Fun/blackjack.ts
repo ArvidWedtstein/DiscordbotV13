@@ -126,7 +126,7 @@ export const command: Command = {
                 txt.push(usertxt);
             }   
             
-            txt.push(rules)
+            txt.push(rules.join('\n'));
 
             const embed = new MessageEmbed()
                 .setTitle("Blackjack")
