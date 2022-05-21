@@ -8,3 +8,5 @@ cmds
 Stats/
 .VSCodeCounter
 dist/
+
+coverage

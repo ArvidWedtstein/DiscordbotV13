@@ -4,28 +4,30 @@ import profileSchema from '../schemas/profileSchema';
 const itemsCache = {}
 
 const inventoryslotsCache = {}
-export async function addItem (guildId: any, userId: any, itemname: any, amount: any) {
-    const item = {
-        name: itemname,
-    }
-
+export async function addItem (guildId: any, userId: any, itemname: string, amount: number) {
+    const items = []
     for (let i = 0; i < amount; i++) {
-        const result = await profileSchema.findOneAndUpdate({
-            guildId,
-            userId,
-        }, {
-            $push: {
-                items: item
-            },
-        }, {
-            upsert: true,
-        }).catch((err: any) => {
-            console.log(err)
+        items.push({
+            name: itemname,
         })
     }
+    const result = await profileSchema.findOneAndUpdate({
+        guildId,
+        userId,
+    }, {
+        $push: {
+            items: {
+                $each: items
+            }
+        },
+    }, {
+        upsert: true,
+    }).catch((err: any) => {
+        console.log(err)
+    })
     console.log('Running findOneAndUpdate(item)')
 
-    return            
+    return result 
 }
 export const removeItem = (async (guildId: any, userId: any, itemname: any, itemicon: any, amount: any) => {
 

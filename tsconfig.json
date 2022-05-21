@@ -104,4 +104,9 @@
   "include" : [
     "src/**/*.ts"   /* Include every ts file in source folder */
   ],
+  "typeAcquisition": {
+    "include": [
+      "jest"
+    ]
+  }
 }
