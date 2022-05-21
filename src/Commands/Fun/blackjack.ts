@@ -200,13 +200,13 @@ export const command: Command = {
                 
                 txt = genText(txt, players);
 
-                const embed = new MessageEmbed()
-                    .setTitle("Blackjack")
-                    .setDescription(txt.join('\n'))
-                    .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
-                    .setTimestamp()
+                // const embed = new MessageEmbed()
+                //     .setTitle("Blackjack")
+                //     .setDescription(txt.join('\n'))
+                //     .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+                //     .setTimestamp()
 
-                channel.send({ embeds: [embed] })
+                // channel.send({ embeds: [embed] })
                 end(); 
             } else {
                 txt = []
@@ -226,7 +226,7 @@ export const command: Command = {
                     const collector = msg.createReactionCollector({
                         filter,
                         max: 1,
-                        time: 1000 * 60
+                        time: 5 * 1000 * 60
                     })
             
                     collector.on('collect', (reaction, user) => {

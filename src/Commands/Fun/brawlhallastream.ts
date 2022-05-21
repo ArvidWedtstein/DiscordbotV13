@@ -7,24 +7,28 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
-    name: "brawlhalla",
+    name: "brawlhallastream",
     description: "get brawlhalla stream notifications",
-    aliases: ["brawlhallastream"],
+    aliases: ["brawlhallatwitch"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["brawlhalla"],
+    examples: ["brawlhallastream"],
     
     run: async(client, message, args) => {
         const { channel, author, guild, mentions } = message;
 
+        if (!guild) return;
+
         const userId = author.id;
-        const guildId = guild?.id;
+        const guildId = guild.id;
         const results = await profileSchema.findOne({
             userId,
             guildId
         })
+
+
         if (!results.brawlhalla) {
             await new profileSchema({
                 guildId,

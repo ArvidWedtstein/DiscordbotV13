@@ -24,6 +24,8 @@ export const command: Command = {
         const { guild, channel, author, member, mentions, attachments } = message;
         if (!guild) return
 
+        // TODO - Implement money reward for winning and losing
+
         let chosenOddOrEven = args[0];
         if (!chosenOddOrEven) return temporaryMessage(channel, `Please choose odd or even`, 15);
 

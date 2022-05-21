@@ -7,6 +7,7 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
+import { PageEmbed } from 'Functions/PageEmbed'
 export const command: Command = {
     name: "weather",
     description: "get the weather for a city",
@@ -26,6 +27,7 @@ export const command: Command = {
         
         if (!city) return temporaryMessage(channel, "Please provide a city", 10)
 
+        // TODO - Implement PageEmbed to show the weather for the next 2 days
         try {
             axios.get(`https://goweather.herokuapp.com/weather/${city.toLowerCase()}`).then(async res => {
                 const embed = new MessageEmbed({

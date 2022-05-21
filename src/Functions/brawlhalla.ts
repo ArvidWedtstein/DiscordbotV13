@@ -175,6 +175,7 @@ export const brawlhalla = (async (client: Client) => {
       const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
       
       let embed = new MessageEmbed()
+        .setColor(client.config.botEmbedHex)
         .setTitle(`${greet}, ${member?.user.username}.`)
         .setURL('https://www.twitch.tv/brawlhalla')
         .setDescription(`${randomMsg}

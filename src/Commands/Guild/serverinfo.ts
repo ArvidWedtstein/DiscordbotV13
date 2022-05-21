@@ -12,13 +12,13 @@ export const command: Command = {
     name: "serverinfo",
     description: "check info of a server",
     details: "Check the stats of a guild.",
-    aliases: ["guildinfo"],
+    aliases: ["guildinfo", "server"],
     group: "Guild",
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["serverinfo"],
+    examples: ["serverinfo", "server"],
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions } = message;
@@ -38,24 +38,28 @@ export const command: Command = {
             guildId: guildId,
             messageCount: { $gt: 0, $exists: true }
         })
+        const gwresult = await profileSchema.find({
+            guildId: guildId,
+            guessedWords: { $exists: true }
+        })
         let msgnmb = 0;
-        for (let index = 0; index < msgresult.length; index++) {
-            const { messageCount = 0 } = msgresult[index]
+        for (let k = 0; k < msgresult.length; k++) {
+            const { messageCount = 0 } = msgresult[k]
             msgnmb += messageCount
         }
 
         // Get server boosters
-        let nitroboosters;
+        let nitroboosters: any = 0;
         const nitroRole = guild.roles.cache.find(r => r.name === 'Server Booster')
-        if (!nitroRole) {
-            nitroboosters = 0;
-        } else {
+        if (nitroRole) {
             nitroboosters = roles.cache.get(nitroRole.id)?.members.size;
         }
+
+
         
         const embed = new MessageEmbed()
             .setTitle(`${language(guild, 'SERVERINFO_TITLE')} "${name}"`)
-            .setColor('DARKER_GREY')
+            .setColor(client.config.botEmbedHex)
             .addFields(
                 { name: "Activities", value: `${presences.cache.map(x => x.activities)}`, inline: false},
                 {
@@ -75,6 +79,11 @@ export const command: Command = {
                 },
                 {
                     name: `${language(guild, 'SERVERINFO_MESSAGESSENT')}`,
+                    value: `${msgnmb}`,
+                    inline: false
+                },
+                {
+                    name: `Words Guessed:`,
                     value: `${msgnmb}`,
                     inline: false
                 },
