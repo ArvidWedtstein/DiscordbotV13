@@ -9,8 +9,8 @@ import { addXP } from '../../Functions/Level';
 import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
     name: "getbrawlhallacode",
-    description: "Brawlhalla Code",
-    details: "Brawlhalla Code",
+    description: "get Brawlhalla Code",
+    details: "get Brawlhalla Code",
     aliases: ["getbwlcode"],
     hidden: true,
     UserPermissions: ["ADMINISTRATOR"],
@@ -24,7 +24,8 @@ export const command: Command = {
         // Get the users profile from the database
         const results = await profileSchema.findOne({
             userId: author.id,
-            guildId: guild.id
+            guildId: guild.id,
+            brawlhallaCode: { $exists: true }
         })
 
         if (!results || !results.brawlhallacodes) return temporaryMessage(channel, `You do not have any brawlhalla codes`, 20);
@@ -103,6 +104,9 @@ export const command: Command = {
                 if (!reaction) return;
                 if (reaction.message.id != msg.id) return
                 if (!reaction.isSelectMenu()) return;
+
+                // The line of code under is experimental
+                reaction.deferUpdate();
 
                 // Get the name and the code
                 let { name, code, redeemed } = codes[reaction.values[0]];

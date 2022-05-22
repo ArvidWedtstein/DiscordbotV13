@@ -41,6 +41,8 @@ export const command: Command = {
             files: [attachment],
             components: [row]
         })
+
+        // TODO - Replace this crap with messageComponent collector
         client.on("interactionCreate", async (button) => {
             if (!button.isButton()) return;
             button.deferUpdate();

@@ -5,7 +5,6 @@ import { readdirSync } from 'fs';
 import { Command, SlashCommand, Event, Config } from '../Interfaces';
 import * as dotenv from 'dotenv';
 import * as gradient from 'gradient-string';
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { REST } from '@discordjs/rest';
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
 import { Routes } from 'discord-api-types/v9';
@@ -43,7 +42,7 @@ class ExtendedClient extends Client {
                 Intents.FLAGS.DIRECT_MESSAGE_REACTIONS
             ],
             messageCacheLifetime: 60,
-            messageSweepInterval: 180,
+            // messageSweepInterval: 180,
             restGlobalRateLimit: 180,
             shards: 'auto',
             restTimeOffset: 0,

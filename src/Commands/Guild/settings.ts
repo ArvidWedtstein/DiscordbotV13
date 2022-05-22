@@ -13,6 +13,10 @@ import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed';
 export const command: Command = {
     name: "settings",
     description: "settings",
+    details: "settings",
+    aliases: ["setting"],
+    hidden: false,
+    UserPermissions: ["SEND_MESSAGES", "MANAGE_GUILD"],
     run: async(client, message, args) => {
         const { guild, channel, author, mentions } = message
 
@@ -95,7 +99,7 @@ export const command: Command = {
             .setColor(client.config.botEmbedHex)
             .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(language(guild, 'SETTINGS'))}${emojiCharacters['archright']}`)
             .addFields(SettingsList)
-            .setFooter({text: `${language(guild, 'HELP_PAGE')} - ${page}/7`})
+            .setFooter({text: `${language(guild, 'HELP_PAGE')} - ${page}/${SettingsList.length}`})
         let messageEmbed = await channel.send({embeds: [embed]})
  
         
@@ -129,12 +133,12 @@ export const command: Command = {
             if (reaction.partial) await reaction.fetch();
             if (user.bot) return;
             if (!reaction.message.guild) return;
-            if (user != message.author) {
+            if (user != author) {
                 await reaction.users.remove(user.id);
                 return
             }
             let emojis = []
-            if (reaction.message.channel.id == message.channel.id) {
+            if (reaction.message.channel.id == channel.id) {
                 if (reaction.message.id != messageEmbed.id) return
 
 

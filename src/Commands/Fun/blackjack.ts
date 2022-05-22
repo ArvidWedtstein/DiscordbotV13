@@ -12,7 +12,9 @@ export const command: Command = {
         if (!guild) return;
         // message.delete()
         const user = author;
-        const member = guild?.members.cache.get(user.id)
+        const member = guild.members.cache.get(user.id)
+
+        // TODO - Add help embed
 
         let suits = ["Spades", "Hearts", "Diamonds", "Clubs"]
         let values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]

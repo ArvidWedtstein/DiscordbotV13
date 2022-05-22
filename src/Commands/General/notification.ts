@@ -7,7 +7,6 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 import moment from 'moment';
-import { blob } from 'stream/consumers';
 export const command: Command = {
     name: "notification",
     description: "choose what you want to get notified about",
@@ -20,9 +19,12 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, channel, author } = message
 
+        if (!guild) return;
+
         const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
         // TODO - Create either select menu with the notification settings or buttons. Toggle emoji of button/menuitem to show/hide.
+        // or create a PageEmbed with a page to toggle each notification
         let embed = new MessageEmbed()
             .setTitle(`Notifications`)
             .setDescription(`This command is still in progress.`)
