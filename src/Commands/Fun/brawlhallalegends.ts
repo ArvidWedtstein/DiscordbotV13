@@ -86,6 +86,5 @@ export const command: Command = {
         const t = new PageEmbed(pages);
 
         await t.post(message)
-
     }
 }
