@@ -29,7 +29,7 @@ export const command: Command = {
 
         // TODO - Implement PageEmbed to show the weather for the next 2 days and add icons for the weather
         // TODO - Replace this inaccurate API with this:
-        // Use this api to get the lat and longitude for the city: https://openweathermap.org/api/geocoding-api
+        // Use this api to get the lat and longitude for the city: https://openweathermap.org/api/geocoding-api / http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=
         // Use then the Yr.no api to get the weather for the lat and longitude: https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=51.5&lon=0
         try {
             axios.get(`https://goweather.herokuapp.com/weather/${city.toLowerCase()}`).then(async res => {
