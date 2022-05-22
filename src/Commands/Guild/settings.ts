@@ -127,7 +127,7 @@ export const command: Command = {
                 messageEmbed.react(emoji);
             })
         })
-
+            
         client.on('messageReactionAdd', async (reaction: any, user: any) => {
             if (reaction.message.partial) await reaction.message.fetch();
             if (reaction.partial) await reaction.fetch();

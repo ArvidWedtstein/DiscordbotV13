@@ -55,8 +55,7 @@ export const command: Command = {
                     `**Legend Name**\n`,
                 ].join('\n'),
                 timestamp: new Date(),
-            },
-
+            }
         ]
 
         legends.map(legend => {

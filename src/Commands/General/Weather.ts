@@ -7,7 +7,7 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
-import { PageEmbed } from 'Functions/PageEmbed'
+import { PageEmbed, PageEmbedOptions } from 'Functions/PageEmbed'
 export const command: Command = {
     name: "weather",
     description: "get the weather for a city",
@@ -27,9 +27,24 @@ export const command: Command = {
         
         if (!city) return temporaryMessage(channel, "Please provide a city", 10)
 
-        // TODO - Implement PageEmbed to show the weather for the next 2 days
+        // TODO - Implement PageEmbed to show the weather for the next 2 days and add icons for the weather
+        // TODO - Replace this inaccurate API with this:
+        // Use this api to get the lat and longitude for the city: https://openweathermap.org/api/geocoding-api
+        // Use then the Yr.no api to get the weather for the lat and longitude: https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=51.5&lon=0
         try {
             axios.get(`https://goweather.herokuapp.com/weather/${city.toLowerCase()}`).then(async res => {
+
+                const pages: PageEmbedOptions[] = [
+                    {
+                        color: client.config.botEmbedHex,
+                        title: `All Legends`,
+                        description: [
+                            `**Legend Name**\n`,
+                        ].join('\n'),
+                        timestamp: new Date(),
+                    },
+        
+                ]
                 const embed = new MessageEmbed({
                     color: 0x03a9f4,
                     title: `Weather in ${city}`,
