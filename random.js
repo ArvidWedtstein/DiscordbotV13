@@ -996,7 +996,12 @@ let bwl =
   }
 ]
 let legends = []
+const wind_from_direction = 120;
+const wind_from_direction_cardinal = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+const wind_from_direction_index = Math.round(wind_from_direction / 22.5)
+const wind_from_direction_cardinal_direction = wind_from_direction_cardinal[wind_from_direction_index]
 
+console.log(wind_from_direction_cardinal_direction)
 // let interval = 55
 // async function getLeg(id, leg) {
 //     delete leg.name

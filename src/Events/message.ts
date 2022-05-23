@@ -98,6 +98,21 @@ export const event: Event = {
                 if (!guild?.me?.permissions.toArray().includes(p)) return temporaryMessage(channel, `${language(guild, 'CLIENTPERMISSION_ERROR')}`);
             })
         }
+
+        if (command.cooldown) {
+            let cooldown = new Set();
+
+            if(cooldown.has(author.id)) {
+                return channel.send("You can only use this command twice a day.");
+            } else {
+                cooldown.add(author.id);
+                setTimeout(() => {
+                    cooldown.delete(author.id);
+                }, 43200000);
+                // 12 hours
+            }
+            // https://stackoverflow.com/questions/65978548/how-to-make-max-uses-for-a-command-for-one-person-discord-js
+        }
         
         if (command) (command as Command).run(client, message, args);
     }

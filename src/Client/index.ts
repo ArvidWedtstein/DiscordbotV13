@@ -41,14 +41,14 @@ class ExtendedClient extends Client {
                 Intents.FLAGS.GUILD_MESSAGE_TYPING,
                 Intents.FLAGS.DIRECT_MESSAGE_REACTIONS
             ],
-            messageCacheLifetime: 60,
+            // messageCacheLifetime: 60,
             // messageSweepInterval: 180,
-            restGlobalRateLimit: 180,
-            shards: 'auto',
-            restTimeOffset: 0,
-            restWsBridgeTimeout: 100,
-            allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true},
-            partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"]
+            // restGlobalRateLimit: 180,
+            // shards: 'auto',
+            // restTimeOffset: 0,
+            // restWsBridgeTimeout: 100,
+            // allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true},
+            // partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"]
         });
     }
     public async init() {
@@ -105,7 +105,7 @@ class ExtendedClient extends Client {
         // ----------------------------
         // Load Slash Commands
         // ----------------------------
-        const rest = new REST({ version: '9' }).setToken(this.config.token || process.env.CLIENT_TOKEN);
+        // const rest = new REST({ version: '9' }).setToken(this.config.token || process.env.CLIENT_TOKEN);
         const slashCommandPath = path.join(__dirname, "..", "SlashCommands");
         const testcmds: any = []
         const globalcmds: any = []
@@ -162,10 +162,10 @@ class ExtendedClient extends Client {
                 try {
                     console.log('Started refreshing application (/) commands.');
             
-                    await rest.put(
-                        Routes.applicationGuildCommands(this.user?.id || '923144434982465537', this.config.testServer),
-                        { body: testcmds }
-                    )
+                    // await rest.put(
+                    //     Routes.applicationGuildCommands(this.user?.id || '923144434982465537', this.config.testServer),
+                    //     { body: testcmds }
+                    // )
                     console.log('Successfully reloaded application (/) commands.');
                 } catch (error) {
                     console.error(error);
@@ -178,10 +178,10 @@ class ExtendedClient extends Client {
                 try {
                     console.log('Started refreshing global (/) commands.', this.application?.id);
             
-                    await rest.put(
-                        Routes.applicationCommands(this.application?.id || ''),
-                        { body: globalcmds }
-                    )
+                    // await rest.put(
+                    //     Routes.applicationCommands(this.application?.id || ''),
+                    //     { body: globalcmds }
+                    // )
                     console.log('Successfully reloaded global (/) commands.');
                 } catch (error) {
                     console.error(error);

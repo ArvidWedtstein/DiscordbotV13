@@ -40,249 +40,249 @@ export const command: Command = {
     examples: ["music"],
     
     run: async(client, message, args) => {
-        const { guild, channel, author, member, mentions } = message;
+        // const { guild, channel, author, member, mentions } = message;
 
-        const playemojis = [
-            "play",
-            "skip",
-            "stop",
-            "resume",
-            "pause",
-            "loopone",
-            "loopall",
-            "loopstop",
-            "music",
-            "cable",
-            "audio"
-        ]
+        // const playemojis = [
+        //     "play",
+        //     "skip",
+        //     "stop",
+        //     "resume",
+        //     "pause",
+        //     "loopone",
+        //     "loopall",
+        //     "loopstop",
+        //     "music",
+        //     "cable",
+        //     "audio"
+        // ]
 
-        if (!guild) return message.reply(`Cannot find guild`);
+        // if (!guild) return message.reply(`Cannot find guild`);
         
-        const getEmoji = (emojiName: any) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
+        // const getEmoji = (emojiName: any) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
 
-        playemojis.forEach(async (emoji: any) => {
-            music[emoji] = getEmoji(emoji)
-        })
+        // playemojis.forEach(async (emoji: any) => {
+        //     music[emoji] = getEmoji(emoji)
+        // })
         
-        const guildId = guild?.id;
-        const userId = author.id;
+        // const guildId = guild?.id;
+        // const userId = author.id;
         
-        const voice_channel = member?.voice.channel;
+        // const voice_channel = member?.voice.channel;
 
 
-        const server_queue = queue.get(guildId)
-        if (!args[0]) {
-            menu(message, music, server_queue, client)
-        } else if (args[0] == 'play') {
-            if (!voice_channel) {
-                return temporaryMessage(channel, `${language(guild, 'VOICE_CHANNEL')}.`, 30)
-            } else {
-                /*let result = await searcher.search(args.join(" "), { type: "video" })
-                const songInfo = await ytdl.getInfo(result.first.url)*/
+        // const server_queue = queue.get(guildId)
+        // if (!args[0]) {
+        //     menu(message, music, server_queue, client)
+        // } else if (args[0] == 'play') {
+        //     if (!voice_channel) {
+        //         return temporaryMessage(channel, `${language(guild, 'VOICE_CHANNEL')}.`, 30)
+        //     } else {
+        //         /*let result = await searcher.search(args.join(" "), { type: "video" })
+        //         const songInfo = await ytdl.getInfo(result.first.url)*/
                 
-                let song: any = {}
-                /*let song = { 
-                    title: songInfo.videoDetails.title, 
-                    url: songInfo.videoDetails.video_url,
-                    img: songInfo.videoDetails.thumbnail,
-                    duration: songInfo.videoDetails.duration
-                }*/
+        //         let song: any = {}
+        //         /*let song = { 
+        //             title: songInfo.videoDetails.title, 
+        //             url: songInfo.videoDetails.video_url,
+        //             img: songInfo.videoDetails.thumbnail,
+        //             duration: songInfo.videoDetails.duration
+        //         }*/
                 
-                if (!args.length) return temporaryMessage(channel, 'You need to send the second argument', 30)
+        //         if (!args.length) return temporaryMessage(channel, 'You need to send the second argument', 30)
         
-                // if (ytdl.validateURL(args[0])) {
-                //     const song_info = await ytdl.getInfo(args[0]);
-                //     song_info.fade_in_start_milliseconds = false;
-                //     song_info.loudness = 100;
+        //         // if (ytdl.validateURL(args[0])) {
+        //         //     const song_info = await ytdl.getInfo(args[0]);
+        //         //     song_info.fade_in_start_milliseconds = false;
+        //         //     song_info.loudness = 100;
                     
-                //     song = { 
-                //         title: song_info.videoDetails.title, 
-                //         url: song_info.videoDetails.video_url,
-                //         img: song_info.videoDetails.thumbnail,
-                //         duration: song_info.videoDetails.duration
-                //     }
-                // } else {
-                //     //If the video is not a URL then use keywords to find that video.
-                //     const video_finder = async (query: any) => {
-                //         const videoResult = await ytSearch(query);
+        //         //     song = { 
+        //         //         title: song_info.videoDetails.title, 
+        //         //         url: song_info.videoDetails.video_url,
+        //         //         img: song_info.videoDetails.thumbnail,
+        //         //         duration: song_info.videoDetails.duration
+        //         //     }
+        //         // } else {
+        //         //     //If the video is not a URL then use keywords to find that video.
+        //         //     const video_finder = async (query: any) => {
+        //         //         const videoResult = await ytSearch(query);
                         
-                //         return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
+        //         //         return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
                         
-                //         /*let videoResult = await searcher.search(query)
-                //         return videoResult.first*/
-                //     }
-                //     const video = await video_finder(args.join(" "));
-                //     if (video) {
-                //         song = { title: video.title, url: video.url, img: video.thumbnail, duration: video.duration }
-                //     } else {
-                //         temporaryMessage(channel, `${language(guild, 'MUSIC_CONNECTERROR')}`, 30);
-                //     }
-                // }
-                if (!server_queue) {
+        //         //         /*let videoResult = await searcher.search(query)
+        //         //         return videoResult.first*/
+        //         //     }
+        //         //     const video = await video_finder(args.join(" "));
+        //         //     if (video) {
+        //         //         song = { title: video.title, url: video.url, img: video.thumbnail, duration: video.duration }
+        //         //     } else {
+        //         //         temporaryMessage(channel, `${language(guild, 'MUSIC_CONNECTERROR')}`, 30);
+        //         //     }
+        //         // }
+        //         if (!server_queue) {
 
-                    const queue_constructor: any = {
-                        voice_channel: voice_channel,
-                        text_channel: channel,
-                        connection: null,
-                        songs: [],
-                        playing: true,
-                        loopone: false,
-                        loopall: false
-                    }
+        //             const queue_constructor: any = {
+        //                 voice_channel: voice_channel,
+        //                 text_channel: channel,
+        //                 connection: null,
+        //                 songs: [],
+        //                 playing: true,
+        //                 loopone: false,
+        //                 loopall: false
+        //             }
         
-                    // Set quene
-                    queue.set(guildId, queue_constructor);
+        //             // Set quene
+        //             queue.set(guildId, queue_constructor);
 
-                    // Add song to quene
-                    queue_constructor.songs.push(song);
-                    //songs.push(song)
+        //             // Add song to quene
+        //             queue_constructor.songs.push(song);
+        //             //songs.push(song)
 
-                    try {
-                        if (!voice_channel.joinable) return temporaryMessage(channel, `Could not join voicechannel`, 10)
-                        if (voice_channel.full) return temporaryMessage(channel, `There is not enough room for both of us in this voicechannel 😐`, 10)
+        //             try {
+        //                 if (!voice_channel.joinable) return temporaryMessage(channel, `Could not join voicechannel`, 10)
+        //                 if (voice_channel.full) return temporaryMessage(channel, `There is not enough room for both of us in this voicechannel 😐`, 10)
 
-                        let ad: any = guild.voiceAdapterCreator
-                        // Join Voice channel
-                        let connection = joinVoiceChannel({
-                            channelId: voice_channel.id,
-                            guildId: guildId,
-                            selfDeaf: true,
-                            adapterCreator: ad
-                        })
+        //                 let ad: any = guild.voiceAdapterCreator
+        //                 // Join Voice channel
+        //                 let connection = joinVoiceChannel({
+        //                     channelId: voice_channel.id,
+        //                     guildId: guildId,
+        //                     selfDeaf: true,
+        //                     adapterCreator: ad
+        //                 })
 
 
-                        queue_constructor.connection = connection;
-                        video_player(message, queue_constructor.songs[0], client)
-                    } catch (err) { 
-                        queue.delete(guildId);
-                        console.error(err);
-                        return temporaryMessage(channel, `${language(guild, 'MUSIC_CONNECTERROR')}`, 10);
-                    }
-                } else {
-                    // If there already is a song in the quene
-                    server_queue.songs.push(song);
+        //                 queue_constructor.connection = connection;
+        //                 video_player(message, queue_constructor.songs[0], client)
+        //             } catch (err) { 
+        //                 queue.delete(guildId);
+        //                 console.error(err);
+        //                 return temporaryMessage(channel, `${language(guild, 'MUSIC_CONNECTERROR')}`, 10);
+        //             }
+        //         } else {
+        //             // If there already is a song in the quene
+        //             server_queue.songs.push(song);
                     
-                    let embed = new MessageEmbed()
-                        .setColor('#ff0000')
-                        .setTitle(`📥 **${song?.title}** ${language(guild, 'MUSIC_ADDQUEUE')}.`)
-                        .setThumbnail(song?.img)
-                        .setFooter({ text: `Added by ${message.author.username}`, iconURL: `${message.author.displayAvatarURL()}` })
+        //             let embed = new MessageEmbed()
+        //                 .setColor('#ff0000')
+        //                 .setTitle(`📥 **${song?.title}** ${language(guild, 'MUSIC_ADDQUEUE')}.`)
+        //                 .setThumbnail(song?.img)
+        //                 .setFooter({ text: `Added by ${message.author.username}`, iconURL: `${message.author.displayAvatarURL()}` })
                     
-                    return await temporaryMessage(server_queue.text_channel, embed, 10);
-                }
-            }
+        //             return await temporaryMessage(server_queue.text_channel, embed, 10);
+        //         }
+        //     }
 
-        } else if (args[0] == 'skip') {
-            skip_song(message, server_queue);
-        } else if (args[0] == 'stop') {
-            stop_song(message, server_queue);
-        } else if (args[0] == 'list') {
-            list_songs(message, server_queue);
-        } else if (args[0] == 'save') {
-            save_queue(message, server_queue);
-        } else if (args[0] == 'load') {
-            load_queue(message, server_queue, client);
-        } else if (args[0] == 'playlist') {
-            playlist_songs(message, server_queue);
-        } else if (args[0] == 'v') {
-            volume(message, args, server_queue);
-        } else if (args[0] == 'p') {
-            pause_song(message, server_queue);
-        } else if (args[0] == 'r') {
-            resume_song(message, server_queue);
-        } else if (args[0] == 'loop') {
-            if (args[1] == 'one') {
-                loop_one(message, server_queue);
-            } else if (args[1] == 'all') {
-                loop_all(message, server_queue);
-            } else if (args[1] == 'off') {
-                loop_off(message, server_queue);
-            }
-        } 
-        const filter = (i: Interaction) => i.user.id === author.id;
-        const filterReaction = (i: MessageReaction, user: User) => {
-            return user.id === author.id;
-        }
-        let collect = message.createMessageComponentCollector({
-            filter, 
-            max: 1,
-            time: 60000
-        });
-        collect.on('collect', async (reaction) => {
-            if (!reaction) return;
-            if (!reaction.isButton()) return;
-            console.log(reaction.id)
-            switch (reaction.id) {
-                case "play":
+        // } else if (args[0] == 'skip') {
+        //     skip_song(message, server_queue);
+        // } else if (args[0] == 'stop') {
+        //     stop_song(message, server_queue);
+        // } else if (args[0] == 'list') {
+        //     list_songs(message, server_queue);
+        // } else if (args[0] == 'save') {
+        //     save_queue(message, server_queue);
+        // } else if (args[0] == 'load') {
+        //     load_queue(message, server_queue, client);
+        // } else if (args[0] == 'playlist') {
+        //     playlist_songs(message, server_queue);
+        // } else if (args[0] == 'v') {
+        //     volume(message, args, server_queue);
+        // } else if (args[0] == 'p') {
+        //     pause_song(message, server_queue);
+        // } else if (args[0] == 'r') {
+        //     resume_song(message, server_queue);
+        // } else if (args[0] == 'loop') {
+        //     if (args[1] == 'one') {
+        //         loop_one(message, server_queue);
+        //     } else if (args[1] == 'all') {
+        //         loop_all(message, server_queue);
+        //     } else if (args[1] == 'off') {
+        //         loop_off(message, server_queue);
+        //     }
+        // } 
+        // const filter = (i: Interaction) => i.user.id === author.id;
+        // const filterReaction = (i: MessageReaction, user: User) => {
+        //     return user.id === author.id;
+        // }
+        // let collect = message.createMessageComponentCollector({
+        //     filter, 
+        //     max: 1,
+        //     time: 60000
+        // });
+        // collect.on('collect', async (reaction) => {
+        //     if (!reaction) return;
+        //     if (!reaction.isButton()) return;
+        //     console.log(reaction.id)
+        //     switch (reaction.id) {
+        //         case "play":
 
-                    break;
-                case "skip":
-                    skip_song(message, server_queue);
-                    break;
-                case "stop":
-                    stop_song(message, server_queue);
-                    break;
-                case "loopone":
-                    loop_one(message, server_queue);
-                    break;
-                case "loopall":
-                    loop_all(message, server_queue);
-                    break;
-                case "loopstop":
-                    loop_off(message, server_queue);
-                    break;
-            }
-        })
-        let reactionCollect = message.createReactionCollector({
-            filter: filterReaction,
-            max: 1,
-            time: 60000
-        });
-        reactionCollect.on('collect', async (reaction: MessageReaction, user: User) => {
-            if (reaction.message.partial) await reaction.message.fetch();
-            if (reaction.partial) await reaction.fetch();
-            if (user.bot) return;
-            if (!reaction.message.guild) return;
+        //             break;
+        //         case "skip":
+        //             skip_song(message, server_queue);
+        //             break;
+        //         case "stop":
+        //             stop_song(message, server_queue);
+        //             break;
+        //         case "loopone":
+        //             loop_one(message, server_queue);
+        //             break;
+        //         case "loopall":
+        //             loop_all(message, server_queue);
+        //             break;
+        //         case "loopstop":
+        //             loop_off(message, server_queue);
+        //             break;
+        //     }
+        // })
+        // let reactionCollect = message.createReactionCollector({
+        //     filter: filterReaction,
+        //     max: 1,
+        //     time: 60000
+        // });
+        // reactionCollect.on('collect', async (reaction: MessageReaction, user: User) => {
+        //     if (reaction.message.partial) await reaction.message.fetch();
+        //     if (reaction.partial) await reaction.fetch();
+        //     if (user.bot) return;
+        //     if (!reaction.message.guild) return;
 
             
-            if (reaction.message.channel.id != channel.id) return
-            switch (reaction.emoji) {
-                case music.pause: 
-                    await reaction.users.remove(user.id);
-                    await reaction.users.remove(client.user?.id);
-                    reaction.message.react(music.resume)
-                    pause_song(message, server_queue);
-                    break;
-                case music.resume:
-                    await reaction.users.remove(user.id);
-                    await reaction.users.remove(client.user?.id);
-                    reaction.message.react(music.pause)
-                    resume_song(message, server_queue);
-                    break; 
-                case music.stop:
-                    stop_song(message, server_queue);
-                    await reaction.users.remove(user.id);
-                    break;
-                case music.skip:
-                    skip_song(message, server_queue);
-                    await reaction.users.remove(user.id);
-                    break;
-                case music.loopone: 
-                    loop_one(message, server_queue);
-                    await reaction.users.remove(user.id);
-                    break;
-                case music.loopall:
-                    loop_all(message, server_queue);
-                    await reaction.users.remove(user.id);
-                    break;
-                case music.loopstop:
-                    loop_off(message, server_queue);
-                    break;
-                default:
+        //     if (reaction.message.channel.id != channel.id) return
+        //     switch (reaction.emoji) {
+        //         case music.pause: 
+        //             await reaction.users.remove(user.id);
+        //             await reaction.users.remove(client.user?.id);
+        //             reaction.message.react(music.resume)
+        //             pause_song(message, server_queue);
+        //             break;
+        //         case music.resume:
+        //             await reaction.users.remove(user.id);
+        //             await reaction.users.remove(client.user?.id);
+        //             reaction.message.react(music.pause)
+        //             resume_song(message, server_queue);
+        //             break; 
+        //         case music.stop:
+        //             stop_song(message, server_queue);
+        //             await reaction.users.remove(user.id);
+        //             break;
+        //         case music.skip:
+        //             skip_song(message, server_queue);
+        //             await reaction.users.remove(user.id);
+        //             break;
+        //         case music.loopone: 
+        //             loop_one(message, server_queue);
+        //             await reaction.users.remove(user.id);
+        //             break;
+        //         case music.loopall:
+        //             loop_all(message, server_queue);
+        //             await reaction.users.remove(user.id);
+        //             break;
+        //         case music.loopstop:
+        //             loop_off(message, server_queue);
+        //             break;
+        //         default:
 
-                    break;
-            }
-        })
+        //             break;
+        //     }
+        // })
     }
 }
 async function menu(message: Message, music: any, queue: any, client: any) {

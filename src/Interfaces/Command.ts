@@ -17,5 +17,6 @@ export interface Command {
     hidden?: boolean;
     disabled?: boolean;
     examples?: string[];
+    cooldown?: any;
     run: Run;
 }

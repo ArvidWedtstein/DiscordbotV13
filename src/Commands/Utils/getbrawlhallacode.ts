@@ -102,7 +102,7 @@ export const command: Command = {
 
             collect.on('collect', async (reaction) => {
                 if (!reaction) return;
-                if (reaction.message.id != msg.id) return
+                if (reaction.message.id != msg.id) return;
                 if (!reaction.isSelectMenu()) return;
 
                 // The line of code under is experimental
