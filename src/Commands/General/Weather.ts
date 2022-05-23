@@ -29,6 +29,14 @@ export const command: Command = {
         
         if (!city) return temporaryMessage(channel, "Please provide a city", 10)
 
+
+        function addHours(numOfHours: number, date = new Date()) {
+            const dateCopy = new Date(date.getTime());
+          
+            dateCopy.setTime(dateCopy.getTime() + numOfHours * 60 * 60 * 1000);
+          
+            return dateCopy;
+        }
         // TODO - Implement PageEmbed to show the weather for the next 2 days and add icons for the weather
         // TODO - Replace this inaccurate API with this:
         // Use this api to get the lat and longitude for the city: https://openweathermap.org/api/geocoding-api / http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=
@@ -64,6 +72,8 @@ export const command: Command = {
             ctx.fillText(`Tid`, 10, startPosY - 40);
             ctx.fillText(`Temp.`, 80, startPosY - 40);
             ctx.fillText(`Nedbør`, 200, startPosY - 40);
+            ctx.fillText(`Wind`, 360, startPosY - 40);
+            ctx.fillText(`Wind dir.`, 500, startPosY - 40);
             const weatherlist: any = []
             timeseries.every((hour: any, i: any) => {
                 const { time, data: hourdata } = hour;
@@ -76,28 +86,46 @@ export const command: Command = {
                     wind_from_direction,
                     wind_speed
                 } = instant.details
+                
+                let d = new Date(time).getHours()
+                if (d === addHours(10).getHours()) return false;
+
                 const { 
                     summary,
                     details
                 } = next_1_hours
                 // Calculate the wind_from_direction degrees to cardinal direction
-                const wind_from_direction_cardinal = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
-                const wind_from_direction_index = Math.round(wind_from_direction / 22.5)
-                const wind_from_cardinal_direction = wind_from_direction_cardinal[wind_from_direction_index]
-                let d = new Date(time).getDate()
-                if (d === new Date().getDate() + 1) return false;
+                const wind_from_direction_cardinal = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+                const wind_from_cardinal_direction = wind_from_direction_cardinal[Math.round(wind_from_direction / 45)]
 
                 weatherlist.push(`**${moment(time).format("HH")}** - ${air_temperature}°C - ${relative_humidity}% - ${wind_from_cardinal_direction} - ${wind_speed} m/s`)
                 
+                // Symbols
+                const symbols = [
+                    { name: "sun", symbol: "☀️" },
+                    { name: "suncloud", symbol: "🌤️"},
+                    { name: "sunmorecloud", symbol: "⛅"},
+                    { name: "partlycloudy_day", symbol: "🌥️"},
+                    { name: "cloudy", symbol: "☁️"},
+                    { name: "sunrain", symbol: "🌦️"},
+                    { name: "lightrain", symbol: "🌦️"},
+                    { name: "rain", symbol: "🌧️"},
+                    { name: "heavyrain", symbol: "🚿"},
+                    { name: "thunderrain", symbol: "⛈️"},
+                    { name: "thunder", symbol: "🌩️"},
+                    { name: "snow", symbol: "🌨️"}
+                ]
+
                 // Row
-                
                 ctx.fillText(`${moment(time).format("HH")}`, 10, startPosY + (i * 40));
                 ctx.fillText(`${air_temperature}°C`, 80, startPosY + (i * 40));
                 ctx.fillText(`${details.precipitation_amount}mm`, 200, startPosY + (i * 40));
+                ctx.fillText(`${symbols.find((s) => s.name === summary.symbol_code) ? symbols.find((s) => s.name === summary.symbol_code)?.symbol : ""}|${wind_speed}m/s`, 360, startPosY + (i * 40));
+                ctx.fillText(`${wind_from_cardinal_direction}`, 500, startPosY + (i * 40));
 
                 ctx.beginPath()
                 ctx.moveTo(10, startPosY + (i * 40)+10);
-                ctx.lineTo(300, startPosY + (i * 40)+10);
+                ctx.lineTo(600, startPosY + (i * 40)+10);
                 ctx.closePath()
                 ctx.stroke();
 
