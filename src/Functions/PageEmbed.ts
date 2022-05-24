@@ -22,7 +22,7 @@ import {
     MessageAttachment,
 } from "discord.js";
 import settingsSchema from "../schemas/settingsSchema";
-
+import { Canvas } from "@napi-rs/canvas"
 
 export interface PageEmbedOptions {
     title?: string;
@@ -45,7 +45,9 @@ export interface PageEmbedOptions {
     reactions?: object;
     settings?: {
         type: string;
-    }
+    };
+    files?: any[];
+    canvas?: Canvas;
 }
 
 
@@ -59,11 +61,19 @@ export class PageEmbed {
         this.currentPage = 0;
         this.component = new MessageActionRow();
     }
-    private generate(page: PageEmbedOptions) {
+    private generate(page: PageEmbedOptions, channel: DMChannel | TextChannel | NewsChannel | ThreadChannel | PartialDMChannel) {
         // Update the footer text to the new page number
-        page.footer = {text: `Page ${this.currentPage+1} of ${this.pages.length}`} 
-        page.image = { url: `attachment://banner.jpg` }
-        return new MessageEmbed(page)
+        if (!page.canvas) {
+            page.footer = {text: `Page ${this.currentPage+1} of ${this.pages.length}`} 
+            page.image = { url: `attachment://banner.jpg` }
+        }
+        
+        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        return { 
+            embeds: page.canvas ? [] : [new MessageEmbed(page)], 
+            components: [this.getRow()],
+            files: page.canvas ? [new MessageAttachment(page.canvas.toBuffer('image/png'), `weatherimage.png`)] : [attachment]
+        }
     }
     async post(message: Message) {
         const { channel, author, guild } = message
@@ -73,8 +83,6 @@ export class PageEmbed {
 
         let page = this.pages[this.currentPage];
         
-        const row = this.getRow() || this.component;
-
         let result: any;
 
         // If settings is specified on one of the pages, then we need to get the settings from the database
@@ -86,14 +94,8 @@ export class PageEmbed {
             }
         }
 
-
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-
-        const messageEmbed = channel.send({ 
-            embeds: [this.generate(page)], 
-            components: [row],
-            files: [attachment]
-        }).then(async (m) => {
+    
+        const messageEmbed = channel.send(this.generate(page, channel)).then(async (m) => {
 
             // Add reactions to the embed
 
@@ -126,11 +128,7 @@ export class PageEmbed {
                     result[page.settings.type] = !result[page.settings.type] // Toggle the setting
 
                     await this.settingsBtn(m, page.settings.type, result)
-                    await m.edit({
-                        embeds: [this.generate(page)], 
-                        components: [await this.component],
-                        files: [attachment]
-                    })
+                    await m.edit(this.generate(page, channel))
                     return;
                 }
 
@@ -151,17 +149,11 @@ export class PageEmbed {
                 if (page.settings) {
                     this.settingsBtn(m, page.settings.type, result)
 
-                    m.edit({ 
-                        embeds: [this.generate(page)], 
-                        components: [await this.component],
-                    })
+                    m.edit(this.generate(page, channel))
                     return
                 }
 
-                await m.edit({ 
-                    embeds: [this.generate(page)], 
-                    components: [await this.component],
-                })
+                await m.edit(this.generate(page, channel))
             })
 
             // When collector has finished, then update guilds settings
@@ -180,7 +172,7 @@ export class PageEmbed {
                 // Disable buttons
                 
                 this.getRow(true)
-                m.edit({ embeds: [this.generate(page)], components: [await this.component] })
+                m.edit(this.generate(page, channel))
                 return
             })
         })     
@@ -225,7 +217,7 @@ export class PageEmbed {
         )
         this.pages[this.currentPage].color = result[setting] == true ? "#ff0000" : "#00ff00"
         this.pages[this.currentPage].author = { name: `${setting}: ${result[setting]}`}
-        message.edit({embeds: [this.pages[this.currentPage]], components: [await this.component]})
+        message.edit(this.generate(this.pages[this.currentPage], message.channel))
         return this.component
     }
 }

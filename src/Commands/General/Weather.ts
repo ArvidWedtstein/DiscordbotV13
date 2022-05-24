@@ -8,8 +8,10 @@ import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
 import { readFile } from 'fs/promises'
-import { PageEmbed, PageEmbedOptions } from 'Functions/PageEmbed'
+import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed'
+import { CustomCanvas } from '../../Functions/Canvas'
 import Canvas, { createCanvas, Image } from '@napi-rs/canvas';
+import { read } from 'fs';
 export const command: Command = {
     name: "weather",
     description: "get the weather for a city",
@@ -37,10 +39,14 @@ export const command: Command = {
           
             return dateCopy;
         }
-        // TODO - Implement PageEmbed to show the weather for the next 2 days and add icons for the weather
-        // TODO - Replace this inaccurate API with this:
-        // Use this api to get the lat and longitude for the city: https://openweathermap.org/api/geocoding-api / http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=
-        // Use then the Yr.no api to get the weather for the lat and longitude: https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=51.5&lon=0
+
+        function calculateWindDirection(degrees: number): string {
+            const wind_from_direction_cardinal = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            const wind_from_cardinal_direction = wind_from_direction_cardinal[Math.round(degrees / 45)]
+            return wind_from_cardinal_direction
+        }
+        
+        
         // Haugesund: https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=59.4138214&lon=5.2680735
         try {
             let { data: geodata } = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${city.toLowerCase()}&limit=5&appid=${process.env.OPENWEATHER_API_KEY}`).then(res => {
@@ -48,35 +54,66 @@ export const command: Command = {
             })
 
             const { name, local_names, lat, lon, country } = geodata[0]
+
             let { data: weatherdata } = await axios.get(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${lon}`, {
                 headers: {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
                 }
             })
+
+            
+
             const { timeseries, meta } = weatherdata.properties;
 
-            const canvas = createCanvas(800, 600);
-            const ctx = canvas.getContext('2d')
+            // let svg = await axios.get('http://localhost:8080/line?values=00,20,30')
+            // console.log(svg.data)
 
-            ctx.fillStyle = '#01B0F1';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.font = '40px sans-serif';
-            ctx.fillStyle = '#ffffff';
-            ctx.fillText(`Weather in ${city}`, 10, 40);
-            ctx.font = '30px sans-serif';
+            // Filter timeseries to only show the weather for today
+            let filteredTimeseries = timeseries.filter((d: any) => {var time = new Date(d.time); return (moment(time).isBefore(moment().endOf('day')) && moment(time).isAfter(moment().startOf('day')))});
+            let filteredTimeseriesTomorrow = timeseries.filter((d: any) => {var time = new Date(d.time); return (moment(time).isAfter(moment().add(1, 'days').startOf('day')) && moment(time).isBefore(moment().add(1, 'days').endOf('day')))});
+
+            filteredTimeseriesTomorrow.splice(0,1)
 
             let startPosY = 140
 
+            const customcanvas = new CustomCanvas(800, 750)
+            customcanvas.rect(0, 0, 800, 750, '#01B0F1')
+            customcanvas.text(`${name}`, 10, 40, '#FFFFFF', '40px sans-serif')
+
+            
+            let rows: any = []
+            // customcanvas.text(`Time`, 10, startPosY - 40);
+            // customcanvas.text(`Temp.`, 80, startPosY - 40);
+            // customcanvas.text(`Rain`, 300, startPosY - 40);
+            // customcanvas.text(`Wind`, 460, startPosY - 40);
+            // customcanvas.text(`Wind dir.`, 600, startPosY - 40);
+
+            const canvas2 = createCanvas(800, 750);
+            const ctx2 = canvas2.getContext("2d")
+
+            
+            ctx2.fillStyle = '#01B0F1';
+            ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
+
+            ctx2.font = '40px sans-serif';
+            ctx2.fillStyle = '#ffffff';
+            ctx2.fillText(`Weather tomorrow`, 10, 40);
+            ctx2.font = '30px sans-serif';
+
+            
+
             // Titles
-            ctx.fillText(`Tid`, 10, startPosY - 40);
-            ctx.fillText(`Temp.`, 80, startPosY - 40);
-            ctx.fillText(`Nedbør`, 200, startPosY - 40);
-            ctx.fillText(`Wind`, 360, startPosY - 40);
-            ctx.fillText(`Wind dir.`, 500, startPosY - 40);
-            const weatherlist: any = []
-            timeseries.every((hour: any, i: any) => {
+            ctx2.fillText(`Time`, 10, startPosY - 40);
+            ctx2.fillText(`Temp.`, 80, startPosY - 40);
+            ctx2.fillText(`Rain`, 300, startPosY - 40);
+            ctx2.fillText(`Wind`, 460, startPosY - 40);
+            ctx2.fillText(`dir.`, 600, startPosY - 40);
+
+            let x = 0
+            for (let hour of filteredTimeseriesTomorrow) {
                 const { time, data: hourdata } = hour;
+
                 const { instant, next_12_hours, next_1_hours, next_6_hours } = hourdata;
                 const { 
                     air_temperature, 
@@ -86,51 +123,117 @@ export const command: Command = {
                     wind_from_direction,
                     wind_speed
                 } = instant.details
-                
-                let d = new Date(time).getHours()
-                if (d === addHours(10).getHours()) return false;
 
-                const { 
+                let {
                     summary,
                     details
                 } = next_1_hours
-                // Calculate the wind_from_direction degrees to cardinal direction
-                const wind_from_direction_cardinal = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-                const wind_from_cardinal_direction = wind_from_direction_cardinal[Math.round(wind_from_direction / 45)]
+    
 
-                weatherlist.push(`**${moment(time).format("HH")}** - ${air_temperature}°C - ${relative_humidity}% - ${wind_from_cardinal_direction} - ${wind_speed} m/s`)
-                
-                // Symbols
-                const symbols = [
-                    { name: "sun", symbol: "☀️" },
-                    { name: "suncloud", symbol: "🌤️"},
-                    { name: "sunmorecloud", symbol: "⛅"},
-                    { name: "partlycloudy_day", symbol: "🌥️"},
-                    { name: "cloudy", symbol: "☁️"},
-                    { name: "sunrain", symbol: "🌦️"},
-                    { name: "lightrain", symbol: "🌦️"},
-                    { name: "rain", symbol: "🌧️"},
-                    { name: "heavyrain", symbol: "🚿"},
-                    { name: "thunderrain", symbol: "⛈️"},
-                    { name: "thunder", symbol: "🌩️"},
-                    { name: "snow", symbol: "🌨️"}
-                ]
-
+                let offsetY = startPosY + (x * 43)
                 // Row
-                ctx.fillText(`${moment(time).format("HH")}`, 10, startPosY + (i * 40));
-                ctx.fillText(`${air_temperature}°C`, 80, startPosY + (i * 40));
-                ctx.fillText(`${details.precipitation_amount}mm`, 200, startPosY + (i * 40));
-                ctx.fillText(`${symbols.find((s) => s.name === summary.symbol_code) ? symbols.find((s) => s.name === summary.symbol_code)?.symbol : ""}|${wind_speed}m/s`, 360, startPosY + (i * 40));
-                ctx.fillText(`${wind_from_cardinal_direction}`, 500, startPosY + (i * 40));
 
+                rows.push([
+                    `${moment(time).format("HH")}`, `${air_temperature}°C`, 
+                    `./img/weather/${summary.symbol_code}.png`,
+                    `${details?.precipitation_amount ? details?.precipitation_amount : "0"}mm`,
+                    `${wind_speed}m/s`,
+                    `${calculateWindDirection(wind_from_direction)}`
+                ])
+                ctx2.fillText(`${moment(time).format("HH")}`, 10, offsetY);
+                ctx2.fillText(`${air_temperature}°C`, 80, offsetY);
+                ctx2.fillText(`${details?.precipitation_amount ? details?.precipitation_amount : "0"}mm`, 300, offsetY);
+                ctx2.fillText(`${wind_speed}m/s`, 460, offsetY);
+                ctx2.fillText(`${calculateWindDirection(wind_from_direction)}`, 600, offsetY);
+                
+                if (summary && summary?.symbol_code) {
+                    let icon = await readFile(`./img/weather/${summary.symbol_code}.png`)
+                    if (icon) {
+                        const weathericon = new Image();
+                        weathericon.src = icon;
+        
+                        ctx2.drawImage(weathericon, 230, offsetY - 40)
+                    }
+                }
+                
+                // Grid lines
+                ctx2.beginPath()
+                ctx2.moveTo(10, offsetY+10);
+                ctx2.lineTo(700, offsetY+10);
+                ctx2.closePath()
+                ctx2.stroke();
+
+                x++;
+            }
+            customcanvas.grid(10, startPosY, [`Time`, `Temp.`, `Rain`, `Wind`, `Wind dir.`], rows, 30)
+
+            // Main Canvas
+            const canvas = createCanvas(800, 750);
+            const ctx = canvas.getContext('2d')
+
+            
+            ctx.fillStyle = '#01B0F1';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = '40px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(`Weather in ${city}`, 10, 40);
+            ctx.font = '30px sans-serif';
+
+            // Titles
+            ctx.fillText(`Time`, 10, startPosY - 40);
+            ctx.fillText(`Temp.`, 80, startPosY - 40);
+            ctx.fillText(`Rain`, 300, startPosY - 40);
+            ctx.fillText(`Wind`, 460, startPosY - 40);
+            ctx.fillText(`Wind dir.`, 600, startPosY - 40);
+            let i = 0
+            for (let hour of filteredTimeseries) {
+                const { time, data: hourdata } = hour;
+
+                const { instant, next_12_hours, next_1_hours, next_6_hours } = hourdata;
+                const { 
+                    air_temperature, 
+                    air_pressure_at_sea_level, 
+                    cloud_area_fraction,
+                    relative_humidity,
+                    wind_from_direction,
+                    wind_speed
+                } = instant.details
+
+                let {
+                    summary,
+                    details
+                } = next_1_hours
+    
+
+                let offsetY = startPosY + (i * 43)
+                // Row
+                ctx.fillText(`${moment(time).format("HH")}`, 10, offsetY);
+                ctx.fillText(`${air_temperature}°C`, 80, offsetY);
+                ctx.fillText(`${details?.precipitation_amount ? details?.precipitation_amount : "0"}mm`, 300, offsetY);
+                ctx.fillText(`${wind_speed}m/s`, 460, offsetY);
+                ctx.fillText(`${calculateWindDirection(wind_from_direction)}`, 600, offsetY);
+                
+                if (summary && summary?.symbol_code) {
+                    let icon = await readFile(`./img/weather/${summary.symbol_code}.png`)
+                    if (icon) {
+                        const weathericon = new Image();
+                        weathericon.src = icon;
+        
+                        ctx.drawImage(weathericon, 230, offsetY - 40)
+                    }
+                }
+                
+                // Grid lines
                 ctx.beginPath()
-                ctx.moveTo(10, startPosY + (i * 40)+10);
-                ctx.lineTo(600, startPosY + (i * 40)+10);
+                ctx.moveTo(10, offsetY+10);
+                ctx.lineTo(700, offsetY+10);
                 ctx.closePath()
                 ctx.stroke();
 
-                return true;
-            })
+                i++;
+            }
+
 
             // Pass the entire Canvas object because you'll need access to its width and context
             const applyText = (canvas: any, text: any) => {
@@ -148,33 +251,24 @@ export const command: Command = {
                 // Return the result to use in the actual canvas
                 return context.font;
             };
-    
             
 
-            const attachment = new MessageAttachment(canvas.toBuffer('image/png'), 'profile-image.png');
-            const embed = new MessageEmbed({
-                color: 0x03a9f4,
-                title: `Weather in ${city}`,
-                description: weatherlist.join('\n'),
-                // fields: [
-                //     { 
-                //         name: `🌡 Temperature:`,
-                //         value: `**${res.data.temperature}**`,
-                //         inline: true
-                //     }, 
-                //     {
-                //         name: `🍃 Wind:`,
-                //         value: `**${res.data.wind}**`,
-                //         inline: true
-                //     }
-                // ],
-                footer: {
-                    text: `Requested by ${author.tag}`,
-                    icon_url: author.displayAvatarURL()
+            const pages: PageEmbedOptions[] = [
+                {
+                    color: client.config.botEmbedHex,
+                    timestamp: new Date(),
+                    canvas: canvas
+                }, {
+                    color: client.config.botEmbedHex,
+                    timestamp: new Date(),
+                    canvas: customcanvas.gen()
                 }
-            })
+            ]  
+            const t = new PageEmbed(pages);
 
-            channel.send({ embeds: [embed], files: [attachment] })
+            await t.post(message)
+
+            // channel.send({ embeds: , files: [attachment] })
         } catch (err) {
             console.log(err)
         }
