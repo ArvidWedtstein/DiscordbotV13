@@ -14,7 +14,6 @@ export const addToCache = async (guildId: any, message: Message, emoji: any, rol
     }
 
     await message.channel.messages.fetch(message.id)
-
     cache[guildId] = array
 } 
 

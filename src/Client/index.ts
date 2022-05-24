@@ -9,6 +9,7 @@ import { REST } from '@discordjs/rest';
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
 import { Routes } from 'discord-api-types/v9';
 import { Registry } from '../Interfaces/Registry';
+
 dotenv.config();
 
 class ExtendedClient extends Client {
@@ -68,6 +69,7 @@ class ExtendedClient extends Client {
         }).catch((err) => {
             console.error('App starting error:', err.stack);
         });
+
 
 
         // ----------------------------

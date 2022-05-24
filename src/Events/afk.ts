@@ -13,7 +13,6 @@ export const event: Event = {
             message.author.bot ||
             !message.guild
         ) return;
-
         // const member = message.mentions.members?.first();
         // if (member) {
         //     const data: any = afk.get(member.id);

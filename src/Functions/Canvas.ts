@@ -66,13 +66,17 @@ export class CustomCanvas {
         })
         rows.forEach(async (row, i) => {
             let offsetY = posY + (i * 43)
+            let img = false
             for (let j = 0; j < row.length; j++) {
+                if (img) offsetY -= posY + (i * 43)
                 if (row[j].includes('./img/')) {
+                    img = true
                     let icon = await readFile(row[j])
                     const weathericon = new Image();
                     weathericon.src = icon;
                     this.context.drawImage(weathericon, 250, offsetY - 40);
-                    row.splice(j, 1)
+                    // row.splice(j, 1)
+
                 } else {
                     this.context.fillText(row[j], ((this.canvas.width / rows.length) * j) + posX, offsetY);
                 }

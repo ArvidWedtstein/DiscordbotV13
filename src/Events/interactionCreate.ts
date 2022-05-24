@@ -9,7 +9,6 @@ import { arg } from 'mathjs';
 export const event: Event = {
     name: "interactionCreate",
     run: async (client: Client, interaction: Interaction) => {
-
         const member = interaction.member as GuildMember;
         const validatePermissions = (permissions: PermissionString[]) => {
             const validPermissions = [
