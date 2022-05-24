@@ -7,6 +7,7 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
+import { cacheSetTTL, cacheSet } from '../../Functions/CacheClient'
 export const command: Command = {
     name: "apod",
     description: "Check out the Astronomy Picture of the Day",
@@ -21,7 +22,7 @@ export const command: Command = {
         const { guild, mentions, author, member, channel } = message;
         //https://api.nasa.gov/
         
-        axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}`).then(res => {
+        axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}`).then((res) => {
             const embed = new MessageEmbed()
                 .setTitle(`Astronomy Picture of the Day`)
                 .setImage(res.data.hdurl)

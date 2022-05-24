@@ -12,6 +12,7 @@ import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed'
 import { CustomCanvas } from '../../Functions/Canvas'
 import Canvas, { createCanvas, Image } from '@napi-rs/canvas';
 import { read } from 'fs';
+import sharp from 'sharp';
 export const command: Command = {
     name: "weather",
     description: "get the weather for a city",
@@ -57,7 +58,7 @@ export const command: Command = {
 
             let { data: weatherdata } = await axios.get(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${lon}`, {
                 headers: {
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
+                    "User-Agent": "Discordbot"
                 }
             })
 
@@ -65,9 +66,7 @@ export const command: Command = {
 
             const { timeseries, meta } = weatherdata.properties;
 
-            // let svg = await axios.get('http://localhost:8080/line?values=00,20,30')
-            // console.log(svg.data)
-
+            
 
             // Filter timeseries to only show the weather for today
             let filteredTimeseries = timeseries.filter((d: any) => {var time = new Date(d.time); return (moment(time).isBefore(moment().endOf('day')) && moment(time).isAfter(moment().startOf('day')))});
@@ -268,7 +267,7 @@ export const command: Command = {
 
             await t.post(message)
 
-            // channel.send({ embeds: , files: [attachment] })
+            // channel.send({ embeds: [], files: [] })
         } catch (err) {
             console.log(err)
         }

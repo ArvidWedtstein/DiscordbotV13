@@ -64,8 +64,9 @@ class ExtendedClient extends Client {
         // ----------------------------
         // Connect to database
         // ----------------------------
-        await mongoose.connect(this.config.mongoURI, options).then(async () => {
-           console.log(`Connected to ${gradient.fruit('Database')}`)
+        await mongoose.connect(this.config.mongoURI, options).then(async (t) => {
+            console.log(t.models)
+            console.log(`Connected to ${gradient.fruit('Database')}`)
         }).catch((err) => {
             console.error('App starting error:', err.stack);
         });

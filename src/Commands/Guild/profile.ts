@@ -6,8 +6,11 @@ import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy'
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
+import APIcacheSchema from '../../schemas/APIcacheSchema';
 import { addXP, getXP, getLevel } from '../../Functions/Level';
 import moment from 'moment';
+import sharp from 'sharp';
+import axios from 'axios';
 export const command: Command = {
     name: "profile",
     description: "Your personal profile",
@@ -42,6 +45,19 @@ export const command: Command = {
             userId,
             guildId
         })
+
+        // Test
+
+        // new APIcacheSchema({
+        //     guildId: guildId,
+        //     deletedAt: new Date()
+        // }).save()
+        if (!results) {
+            new profileSchema({
+                userId,
+                guildId
+            })
+        }
 
 
         let messages = results.messageCount;
@@ -122,13 +138,24 @@ export const command: Command = {
             `${joinedDate ? `〔Joined this server: ${toCodeBlock(joinedDate)}` : ''}`,
         ]
 
+        // let svg = await axios.get('https://arvidgithubembed.herokuapp.com/line?values=00,20,30&backgroundcolor=ff0000')
+
+        // const img = await sharp(Buffer.from(svg.data))
+        //     .png()
+        //     .toBuffer()
+
+
+        // let a = new MessageAttachment(img, 'weather.jpg')
+
         const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
         let embed = new MessageEmbed()
             .setColor(color)
-            .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true})}`})
+            .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true })}`})
             .setDescription(description.join('\n'))
             .setImage('attachment://banner.jpg')
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+
+        
         
         await channel.send({ embeds: [embed], files: [attachment] });
     }

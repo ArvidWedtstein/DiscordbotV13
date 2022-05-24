@@ -7,7 +7,7 @@ import gradient from 'gradient-string';
 import { promisify } from 'util'
 import { createClient } from 'redis'
 
-const client = createClient()
+const client = createClient({})
 
 
 const getAsync = promisify(client.get).bind(client);
@@ -23,7 +23,8 @@ client.on('error', function (error) {
  * Writes strigify data to cache
  * @param {string} key key for the cache entry
  * @param {*} value any object/string/number */
-const cacheSet = async (key: string, value: any) => {
+export const cacheSet = async (key: string, value: any) => {
+    console.log('⚡️  Setting cache entry:', key);
   return await setAsync(key, JSON.stringify(value));
 };
 
@@ -32,7 +33,8 @@ const cacheSet = async (key: string, value: any) => {
  * @param {string} key key for the cache entry
  * @param {*} value any object/string/number
  * @param {number} ttl cache duration in seconds, default 3600 (1h) */
-const cacheSetTTL = async (key: string, value: any, ttl = 3600) => {
+export const cacheSetTTL = async (key: string, value: any, ttl = 3600) => {
+  console.log('⚡️  Setting cache TTL entry:', key);
   return await setexAsync(key, ttl, JSON.stringify(value));
 };
 
@@ -48,7 +50,7 @@ const cacheGet = async (key: string) => {
  * Fetch for the Weather API endpoint
  * @param {string} city - City to be fetched
  */
-const fetchData = async (datakey: string) => {
+export const fetchData = async (datakey: string) => {
   const isCached = await cacheGet(datakey);
 
   if (isCached) {
@@ -60,6 +62,3 @@ const fetchData = async (datakey: string) => {
   }
 };
 
-export default ((msg: any, key: string) => {
-
-})
