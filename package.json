@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest",
-    "postinstall": "npm run build",
+    "postinstall": "tsc",
     "dev": "nodemon ./src/index.ts",
     "start": "node dist/index.js",
     "startts": "ts-node ./src/index.ts",
