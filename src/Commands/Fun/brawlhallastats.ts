@@ -42,8 +42,7 @@ export const command: Command = {
             }
             // guildId
         }).then(async(results) => {
-            const { steamId } = results;
-            let brawlhallaId = results.brawlhallaId;
+            let { steamId, brawlhallaId } = results;
             
 
             if (!results) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a profile. Please create one with -profile`, 50);
@@ -65,7 +64,6 @@ export const command: Command = {
             }
 
 
-            brawlhallaId = results.brawlhallaId;
             if (!brawlhallaId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id connected.`, 50);
 
             function toCodeBlock(str: any) {
