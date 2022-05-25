@@ -36,6 +36,10 @@ const profileSchema = new Schema({
         type: Boolean,
         default: false
     },
+    brawlhallaStats: {
+        type: Boolean,
+        default: false
+    },
     brawlhallacodes: {
         type: [{
             code: {
