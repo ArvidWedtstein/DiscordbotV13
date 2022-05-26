@@ -6,8 +6,8 @@ import { loadColors } from '../Functions/icon';
 import birthday from '../Functions/birthday';
 import path from 'path';
 import moment from 'moment'
-import profileSchema from 'schemas/profileSchema';
-import APIcacheSchema from 'schemas/APIcacheSchema';
+import profileSchema from '../schemas/profileSchema';
+import APIcacheSchema from '../schemas/APIcacheSchema';
 import axios from 'axios';
 export const event: Event = {
     name: "ready",

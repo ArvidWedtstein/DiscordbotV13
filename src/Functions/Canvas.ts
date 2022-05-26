@@ -68,7 +68,10 @@ export class CustomCanvas {
             let offsetY = posY + (i * 43)
             let img = false
             for (let j = 0; j < row.length; j++) {
-                if (img) offsetY -= posY + (i * 43)
+                if (img) {
+                    offsetY -= posY + (i * 43)
+                    img = false;
+                }
                 if (row[j].includes('./img/')) {
                     img = true
                     let icon = await readFile(row[j])
