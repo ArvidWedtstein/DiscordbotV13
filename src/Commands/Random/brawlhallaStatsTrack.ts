@@ -10,10 +10,10 @@ import { addXP, getXP, getLevel } from '../../Functions/Level';
 import moment from 'moment';
 import axios from 'axios';
 export const command: Command = {
-    name: "connectbrawlhalla",
+    name: "brawlhallastatstracker",
     description: "Connect your personal profile to brawlhalla",
     details: "Connect your personal profile to brawlhalla. Your brawlhalla id can be found under the inventory tab in brawlhalla",
-    aliases: ["cntbwl"],
+    aliases: ["bwltracker"],
     ownerOnly: false,
     ClientPermissions: ["SEND_MESSAGES", "SEND_MESSAGES_IN_THREADS", "VIEW_CHANNEL"],
     UserPermissions: ["SEND_MESSAGES"],
