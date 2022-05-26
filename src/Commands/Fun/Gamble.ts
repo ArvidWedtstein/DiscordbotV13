@@ -28,6 +28,8 @@ export const command: Command = {
         
         if (!gambleamount || Number.isNaN(gambleamount)) return temporaryMessage(channel, "Please provide a a valid amount to gamble for", 10)
 
+        if (gambleamount > 200) return temporaryMessage(channel, "You can only gamble for a maximum of 200 coins", 10)
+        if (gambleamount < 25) return temporaryMessage(channel, "The minimum can only gamble for is 25 coins", 10)
         function getRandomIntInclusive(min: number, max: number) {
             min = Math.ceil(min);
             max = Math.floor(max);

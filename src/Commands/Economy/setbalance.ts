@@ -7,12 +7,12 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "setbalance",
-    description: "check my ping",
-    details: "Check the ping of this bot.",
+    description: "set the balance of a user",
+    details: "set the balance of a user",
     aliases: ["setmoney"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", 'ADMINISTRATOR'],
+    UserPermissions: ["SEND_MESSAGES", "ADMINISTRATOR", "MODERATE_MEMBERS"],
+    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "EMBED_LINKS"],
     ownerOnly: false,
     examples: ["setbalance @user <amount>"],
     

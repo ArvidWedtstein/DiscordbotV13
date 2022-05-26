@@ -19,7 +19,7 @@ export const command: Command = {
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
     examples: ["roulette {odd or even}"],
-    
+    cooldown: 60,
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments } = message;
         if (!guild) return

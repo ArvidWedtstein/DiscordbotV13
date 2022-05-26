@@ -39,7 +39,7 @@ export const command: Command = {
         const btn = new MessageButton() 
             .setCustomId('brawlhallabutton')
             .setEmoji('885437713707331634')
-            .setLabel(results.brawlhalla ? 'I do not wish brawlhalla notification plz' : 'I do not wish brawlhalla notification plz')
+            .setLabel(results.brawlhalla ? 'I do wish brawlhalla notification plz' : 'I do not wish brawlhalla notification plz')
             .setStyle(results.brawlhalla ? "SUCCESS" : "DANGER")
         const row = new MessageActionRow().addComponents(btn);
 

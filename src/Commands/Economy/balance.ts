@@ -1,4 +1,4 @@
-import { ColorResolvable, MessageEmbed } from 'discord.js';
+import { ColorResolvable, MessageAttachment, MessageEmbed } from 'discord.js';
 import { Command } from '../../Interfaces';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
@@ -31,7 +31,8 @@ export const command: Command = {
         // Get coins and user defined color
         let coins = await getCoins(guildId, userId);
         let color: ColorResolvable = await getColor(guildId, userId);
-
+        
+        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
         const erlingcoin = client.emojis.cache.get('853928115696828426');
         let embed = new MessageEmbed()
@@ -39,6 +40,7 @@ export const command: Command = {
             .setAuthor({name: `${target.username}`, iconURL: target.displayAvatarURL()})
             .setTitle(`${await language(guild, "BALANCE_TITLE")}`)
             .setDescription(`${await language(guild, "BALANCE_AMOUNT")} **${coins}** ErlingCoin${coins === 1 ? '' : 's'} ${erlingcoin}`)
-        channel.send({embeds: [embed]})
+            .setImage('attachment://banner.jpg')
+        channel.send({embeds: [embed], files: [attachment] });
     }
 }

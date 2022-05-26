@@ -108,8 +108,8 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
 
         message.reply({ embeds: [embed], files: [attachment] }).then((msg) => {
             setTimeout(() => {
-                msg.delete()
-            }, 20000)
+                if (msg.deletable) msg.delete();
+            }, 20000);
         })
 
         // Update level
