@@ -4,6 +4,7 @@ import { Message, PermissionString } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
 import language from '../Functions/language';
 
+let cooldown = new Set();
 export const event: Event = {
     name: "messageCreate",
     run: (client: Client, message: Message) => {
@@ -100,15 +101,14 @@ export const event: Event = {
         }
 
         if (command.cooldown) {
-            let cooldown = new Set();
 
             if(cooldown.has(author.id)) {
-                return channel.send("You can only use this command twice a day.");
+                return temporaryMessage(channel, `This command has a cooldown of ${command.cooldown} seconds.`, 10);
             } else {
                 cooldown.add(author.id);
                 setTimeout(() => {
                     cooldown.delete(author.id);
-                }, 43200000);
+                }, command.cooldown * 1000);
                 // 12 hours
             }
             // https://stackoverflow.com/questions/65978548/how-to-make-max-uses-for-a-command-for-one-person-discord-js

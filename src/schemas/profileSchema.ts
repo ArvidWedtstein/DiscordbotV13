@@ -77,6 +77,8 @@ const profileSchema = new Schema({
         type: Date,
         required: false
     }
+}, {
+    timestamps: true
 })
 const name: string = 'profiles'
 export default models[name] || model(name, profileSchema)

@@ -19,6 +19,7 @@ export const command: Command = {
     UserPermissions: ["SEND_MESSAGES"],
     run: async(client, message, args) => {
         const { guild, mentions, author, channel, content } = message;
+        
 
         if (!guild) return;
         

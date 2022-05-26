@@ -11,13 +11,14 @@ import { PageEmbed } from 'Functions/PageEmbed'
 export const command: Command = {
     name: "gamble",
     description: "lets gamble!",
-    details: "gamble away your coins",
+    details: "gamble away your coins!!",
     aliases: [],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
     examples: ["gamble {amount}"],
+    cooldown: 60,
     run: async(client, message, args) => {
         const { guild, mentions, author, member, channel, attachments } = message;
 
@@ -50,7 +51,7 @@ export const command: Command = {
 
             embed.setDescription(`${author.tag}, **you won ${gambleamount} ErlingCoins!**`)
         } else if (win === 'lost') {
-            addCoins(guild.id, author.id, -gambleamount)
+            addCoins(guild.id, author.id, gambleamount * -1)
             embed.setDescription(`🕵️‍♂️ ${author.tag}, **you lost ${gambleamount} ErlingCoins!**`)
         }
 
