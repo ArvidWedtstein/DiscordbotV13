@@ -22,9 +22,15 @@ export const command: Command = {
 
         if (!guild) return;
         
+        let userId = author.id
+        let m = mentions.users.first();
+        if (m) {
+            userId = m.id;
+            args.shift();
+        }
         
         profileSchema.findOne({
-            userId: author.id,
+            userId: userId,
             guildId: guild.id
         }).then(async(results) => {
             if (!results) return temporaryMessage(channel, 'You do not have a profile. Please create one with -profile', 50);

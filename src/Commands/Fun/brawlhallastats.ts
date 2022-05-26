@@ -9,6 +9,9 @@ import moment from 'moment';
 import icon from '../../Functions/icon';
 import profileSchema from '../../schemas/profileSchema';
 import axios from 'axios';
+import brawlhallalegends from '../../brawlhallalegends.json';
+import { CustomCanvas, Icon } from '../../Functions/Canvas'
+import { readFile } from 'fs';
 
 export const command: Command = {
     name: "brawlhallastats",
@@ -42,11 +45,11 @@ export const command: Command = {
             }
             // guildId
         }).then(async(results) => {
-            let { steamId, brawlhallaId } = results;
             
-
+            
             if (!results) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a profile. Please create one with -profile`, 50);
-            if (!steamId || steamId == undefined) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a steam id connected. Please connect your profile to steam with -connectsteam {steamid}`, 50);
+            if (!results.steamId || results.steamId == undefined) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a steam id connected. Please connect your profile to steam with -connectsteam {steamid}`, 50);
+            let { steamId, brawlhallaId } = results;
             
             if (!brawlhallaId && steamId) {
                 try {
@@ -64,7 +67,7 @@ export const command: Command = {
             }
 
 
-            if (!brawlhallaId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id connected.`, 50);
+            if (!brawlhallaId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id connected. `, 50);
 
             function toCodeBlock(str: any) {
                 return `\`${str}\``
@@ -76,6 +79,9 @@ export const command: Command = {
                         return 0;
                     }
 
+                    // Check if number is in a string
+                    if (typeof a[key] === 'string' && !isNaN(parseFloat(a[key]))) a[key] = parseFloat(a[key]);
+                    if (typeof a[key] === 'string' && !isNaN(parseFloat(b[key]))) b[key] = parseFloat(b[key]);
                     const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
                     const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
 
@@ -96,13 +102,17 @@ export const command: Command = {
                 if (!res.data) return temporaryMessage(channel, 'No results found', 50);
                 const { clan, xp, wins, games, level, legends } = res.data;
 
+                const sum = legends.reduce((accumulator: any, object: any) => {
+                    return accumulator + object.matchtime;
+                }, 0);
 
                 let description = [
                     `〔Clan: ${toCodeBlock(clan.clan_name)}〕`,
                     `〔Wins: ${toCodeBlock(wins)}〕`,
                     `〔Games: ${toCodeBlock(games)}〕`,
                     `〔Level: ${toCodeBlock(level)}〕`,
-                    `〔XP: ${toCodeBlock(xp)}〕\n`
+                    `〔XP: ${toCodeBlock(xp)}〕`,
+                    `〔Total Matchtime: ${toCodeBlock(`${((sum/60) / 60).toFixed(2)} hours`)}〕\n`
                 ]
 
 
@@ -111,7 +121,19 @@ export const command: Command = {
                     let legend = legends.find((legend: any) => legend.legend_name_key == args[0].toLowerCase().trim());
 
                     if (!legend) return temporaryMessage(channel, `No legend with that name found`, 50);
-
+                    
+                    description = description.concat([
+                        `${legend ? `Stats for ${legend.legend_name_key}` : "**Legend with most:**"}`,
+                        `〔Wins: ${toCodeBlock(legend.wins)}〕`,
+                        `〔Matchtime: ${toCodeBlock(`${((legend.matchtime/60) / 60).toFixed(2)} hours`)}〕`,
+                        `〔Damage Dealt: ${toCodeBlock(legend.damagedealt)}〕`,
+                        `〔Games played: ${toCodeBlock(legend.games)}〕`,
+                        `〔Level: ${toCodeBlock(legend.level)}〕`,
+                        `〔XP: ${toCodeBlock(legend.xp)} 〕`,
+                        `〔KOs: ${toCodeBlock(legend.kos)}〕`,
+                        `〔Falls: ${toCodeBlock(legend.falls)}〕`
+                    ])
+                } else {
                     let TopWins = legends.sort(sort('wins', 'desc'))[0];
                     let TopMatchtime = legends.sort(sort('matchtime', 'desc'))[0];
                     let TopDamageDealt = legends.sort(sort('damagedealt', 'desc'))[0];
@@ -120,31 +142,43 @@ export const command: Command = {
                     let TopXP = legends.sort(sort('xp', 'desc'))[0];
                     let TopKOs = legends.sort(sort('kos', 'desc'))[0];
                     let TopFalls = legends.sort(sort('falls', 'desc'))[0];
-                    
+
                     description = description.concat([
-                        `${legend ? `Stats for ${legend.legend_name_key}` : "**Legend with most:**"}`,
-                        `〔Wins: ${toCodeBlock(legend ? legend.wins : `${TopWins.legend_name_key} - ${TopWins.wins}`)}〕`,
-                        `〔Matchtime: ${toCodeBlock(legend ? `${(legend.matchtime/60).toFixed(2)} min` : `${TopMatchtime.legend_name_key} - ${(TopMatchtime.matchtime/60).toFixed(2)} min`)}〕`,
-                        `〔Damage Dealt: ${toCodeBlock(legend ? legend.damagedealt : `${TopDamageDealt.legend_name_key} - ${TopDamageDealt.damagedealt}`)}〕`,
-                        `〔Games played: ${toCodeBlock(legend ? legend.games : `${TopGames.legend_name_key} - ${TopGames.games}`)}〕`,
-                        `〔Level: ${toCodeBlock(legend ? legend.level : `${TopLevel.legend_name_key} - ${TopLevel.level}`)}〕`,
-                        `〔XP: ${toCodeBlock(legend ? legend.xp : `${TopXP.legend_name_key} - ${TopXP.xp}`)} 〕`,
-                        `〔KOs: ${toCodeBlock(legend ? legend.kos : `${TopKOs.legend_name_key} - ${TopKOs.kos}`)}〕`,
-                        `〔Falls: ${toCodeBlock(legend ? legend.falls : `${TopFalls.legend_name_key} - ${TopFalls.falls}`)}〕`
+                        `${"**Legend with most:**"}`,
+                        `〔Wins: ${toCodeBlock(`${TopWins.legend_name_key} - ${TopWins.wins}`)}〕`,
+                        `〔Matchtime: ${toCodeBlock(`${TopMatchtime.legend_name_key} - ${((TopMatchtime.matchtime/60) / 60).toFixed(2)} hours`)}〕`,
+                        `〔Damage Dealt: ${toCodeBlock(`${TopDamageDealt.legend_name_key} - ${TopDamageDealt.damagedealt}`)}〕`,
+                        `〔Games played: ${toCodeBlock(`${TopGames.legend_name_key} - ${TopGames.games}`)}〕`,
+                        `〔Level: ${toCodeBlock(`${TopLevel.legend_name_key} - ${TopLevel.level}`)}〕`,
+                        `〔XP: ${toCodeBlock(`${TopXP.legend_name_key} - ${TopXP.xp}`)} 〕`,
+                        `〔KOs: ${toCodeBlock(`${TopKOs.legend_name_key} - ${TopKOs.kos}`)}〕`,
+                        `〔Falls: ${toCodeBlock(`${TopFalls.legend_name_key} - ${TopFalls.falls}`)}〕`
                     ])
                 }
 
-        
+                let legendsjson = brawlhallalegends
+
+
+                // const customcanvas = new CustomCanvas(800, 750)
+                // customcanvas.rect(0, 0, 800, 750, '#01B0F1')
+                // customcanvas.text(`${u ? u.username : author.username}'s Brawlhalla Stats`, 10, 40, '#FFFFFF', '40px sans-serif')
+                
                 const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-    
+                
+            
+
                 let embed = new MessageEmbed()
                     .setColor(client.config.botEmbedHex)
                     .setAuthor({ name: `${u ? u.username : author.username}'s Brawlhalla Stats`, iconURL: `${u ? u.displayAvatarURL() : author.displayAvatarURL()}` })
                     .setDescription(description.join('\n'))
-                    .setThumbnail(`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLB1letx0NtgkR-wgqOHCsYsISHHfsXepQzjMb3drZA&s`)
+                    .setThumbnail(args[0] ? legendsjson.find((leg) => leg.legend_name_key == args[0].toLowerCase().trim())?.thumbnail || '' : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLB1letx0NtgkR-wgqOHCsYsISHHfsXepQzjMb3drZA&s`)
                     .setImage('attachment://banner.jpg')
-                    .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+                    .setTimestamp()
+                    .setFooter({ text: `Requested by ${author.tag} | ${brawlhallaId}`, iconURL: author.displayAvatarURL() })
+
+                    
                 return channel.send({ embeds: [embed], files: [attachment] })
+                // return channel.send({ embeds: [], files: [new MessageAttachment(customcanvas.gen().toBuffer('image/png'), `brawlhalla.png`)] })
             });
         })
     }
