@@ -9,6 +9,7 @@ import { REST } from '@discordjs/rest';
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
 import { Routes } from 'discord-api-types/v9';
 import { Registry } from '../Interfaces/Registry';
+import { Player } from 'discord-player';
 
 dotenv.config();
 
@@ -17,6 +18,12 @@ class ExtendedClient extends Client {
     public events: Collection<string, Event> = new Collection();
     public aliases: Collection<string, Command> = new Collection();
     public registry = new Registry(this);
+    public player = new Player(this, {
+        ytdlOptions: {
+            quality: 'highestaudio',
+            highWaterMark: 1 << 25
+        }
+    });
     public config: Config = {
         token: process.env.CLIENT_TOKEN, 
         mongoURI: process.env.REMOTE_MONGODB, 
@@ -40,7 +47,8 @@ class ExtendedClient extends Client {
                 Intents.FLAGS.GUILD_INVITES,
                 Intents.FLAGS.GUILD_INTEGRATIONS,
                 Intents.FLAGS.GUILD_MESSAGE_TYPING,
-                Intents.FLAGS.DIRECT_MESSAGE_REACTIONS
+                Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+                Intents.FLAGS.GUILD_VOICE_STATES
             ],
             // messageCacheLifetime: 60,
             // messageSweepInterval: 180,

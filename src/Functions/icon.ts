@@ -10,10 +10,10 @@ const icons: any = color;
 export default (client: Client, guild: any, emojiId: any): GuildEmoji => {
     const selectedColor = guildIcons[guild.id];
     if (!icons[selectedColor][emojiId]) {
-        throw new Error(`Unknown color ID "${emojiId}"`)
+        throw new Error(`Unknown icon ID "${emojiId}"`)
     }
     const emoji = client.emojis.cache.find((e) => e.id === icons[selectedColor][emojiId]);
-    if (!emoji) throw new Error(`Unknown color ID "${emojiId}"`)
+    if (!emoji) throw new Error(`Unknown icon ID "${emojiId}"`)
     return emoji;     
 }
 
