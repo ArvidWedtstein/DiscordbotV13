@@ -5,8 +5,12 @@ const reqString = {
     required: true,
 }
 const reqBool = {
-    type: String,
+    type: Boolean,
     default: true
+}
+const falseBool = {
+    type: String,
+    default: false
 }
 const settingsSchema = new Schema({
     guildId: reqString,
@@ -19,14 +23,8 @@ const settingsSchema = new Schema({
         type: String,
         default: 'ErlingCoin'
     },
-    antijoin: {
-        type: Boolean,
-        default: false,
-    },
-    welcome: {
-        type: Boolean,
-        default: false
-    },
+    antijoin: falseBool,
+    welcome: reqBool,
     iconcolor: {
         type: String,
         default: "purple"
@@ -47,6 +45,27 @@ const settingsSchema = new Schema({
         type: String,
         required: true,
         default: 'english'
+    },
+    ticketSettings: {
+        type: {
+            CategoryId: {
+                type: String,
+            },
+            ChannelId: {
+                type: String,
+            },
+            TranscriptsChannelId: {
+                type: String,
+            }
+        },
+        required: false,
+        default: {
+            CategoryId: "",
+            ChannelId: "",
+            TranscriptsChannelId: ""
+        }
     }
+}, {
+    timestamps: true
 })
 export default model('settings', settingsSchema)

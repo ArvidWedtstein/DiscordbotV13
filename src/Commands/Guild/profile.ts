@@ -6,7 +6,7 @@ import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy'
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
-import APIcacheSchema from '../../schemas/APIcacheSchema';
+import APIcacheSchema from '../../schemas/BrawlhallaAPIcacheSchema';
 import { addXP, getXP, getLevel } from '../../Functions/Level';
 import moment from 'moment';
 import sharp from 'sharp';

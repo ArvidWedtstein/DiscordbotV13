@@ -15,5 +15,5 @@ const BrawlhallaAPICache = new Schema({
     timestamps: true,
     expires: 3600 * 24 * 7
 })
-const name: string = "APIcache"
+const name: string = "BrawlhallaAPIcache"
 export default models[name] || model(name, BrawlhallaAPICache)

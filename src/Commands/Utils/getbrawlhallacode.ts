@@ -115,7 +115,8 @@ export const command: Command = {
                 embed.setDescription(`${name} | \`${code}\``)
                 row.components[0].setDisabled(true)
 
-                results.brawlhallacodes.find((code: any) => code.code === code).redeemed = true;
+                let res = results.brawlhallacodes.find((code: any) => code.code === code)
+                res.redeemed = true;
                 redeemed = true;
                 results.save()
                 reaction.update({ embeds: [embed], components: [row] })

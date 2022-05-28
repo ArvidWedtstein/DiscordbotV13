@@ -57,7 +57,7 @@ export const command: Command = {
 
         if (!guild) return message.reply(`Cannot find guild`);
         
-        const getEmoji = (emojiName: any) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
+        const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
         
         const guildId = guild.id;
         const userId = author.id;
@@ -95,37 +95,13 @@ export const command: Command = {
             })
         }
         function row(paused: boolean) {
-            const row = new MessageActionRow()
-            const playpausebtn = new MessageButton()
-                .setCustomId(paused ? 'play' : 'pause')
-                .setEmoji(icon(client, guild, paused ? 'play' : 'pause').id)
-                .setStyle(2)
-            const skipbtn = new MessageButton()
-                .setCustomId('skip')
-                .setEmoji(icon(client, guild, 'chevronright').id)
-                .setStyle(2)
-            const stopbtn = new MessageButton()
-                .setCustomId('stop')
-                .setEmoji(icon(client, guild, 'musicalnotes').id)
-                .setStyle(2)
-            const looponebtn = new MessageButton()
-                .setCustomId('loopone')
-                .setEmoji(icon(client, guild, 'loopall').id)
-                .setStyle(2)
-            const loopallbtn = new MessageButton()
-                .setCustomId('loopall')
-                .setEmoji(icon(client, guild, 'loopall').id)
-                .setStyle(2)
-
-            row.addComponents(
+            const row = new MessageActionRow().addComponents(
                 genButton(paused ? 'play' : 'pause', icon(client, guild, paused ? 'play' : 'pause').id, "SECONDARY"),
-                playpausebtn,
-                skipbtn,
-                stopbtn,
-                looponebtn,
-                loopallbtn
+                genButton('skip', icon(client, guild, 'chevronright').id, "SECONDARY"),
+                genButton('stop', icon(client, guild, 'musicalnotes').id, "SECONDARY"),
+                genButton('loopone', icon(client, guild, 'loopall').id, "SECONDARY"),
+                genButton('loopall', icon(client, guild, 'loopall').id, "SECONDARY")
             )
-
             return row;
         }
         
@@ -144,7 +120,6 @@ export const command: Command = {
             }).then(x => x.tracks[0])
 
             if (!track) return temporaryMessage(channel, `Could not find a video with the url ${url}`, 30)
-            // queue.createProgressBar();
             await queue.addTrack(track);
 
             embed.setDescription([
@@ -153,6 +128,7 @@ export const command: Command = {
             ].join('\n'))
             embed.setThumbnail(track.thumbnail)
             embed.setAuthor({ name: `ADDED TO QUEUE`, iconURL: author.displayAvatarURL({ dynamic: true })})
+
         } else if (args[0] === 'skip') {
             queue.skip();
         } else if (args[0] === 'stop') {
@@ -175,7 +151,7 @@ export const command: Command = {
                 requestedBy: author,
                 searchEngine: QueryType.YOUTUBE_PLAYLIST
             })
-
+            
             if (!result || result.tracks.length === 0) return temporaryMessage(channel, `Could not find a playlist with the url ${url}`, 30)
 
             const playlist = result.playlist;

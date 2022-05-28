@@ -7,7 +7,7 @@ import birthday from '../Functions/birthday';
 import path from 'path';
 import moment from 'moment'
 import profileSchema from '../schemas/profileSchema';
-import APIcacheSchema from '../schemas/APIcacheSchema';
+import APIcacheSchema from '../schemas/BrawlhallaAPIcacheSchema';
 import axios from 'axios';
 export const event: Event = {
     name: "ready",
