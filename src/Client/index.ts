@@ -7,7 +7,7 @@ import * as dotenv from 'dotenv';
 import * as gradient from 'gradient-string';
 import { REST } from '@discordjs/rest';
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
-import { Routes } from 'discord-api-types/v9';
+import { Routes } from 'discord-api-types/v10';
 import { Registry } from '../Interfaces/Registry';
 import { Player } from 'discord-player';
 
@@ -29,7 +29,7 @@ class ExtendedClient extends Client {
         mongoURI: process.env.REMOTE_MONGODB, 
         prefix: process.env.PREFIX,
         botEmbedHex: "#ff4300",
-        testServer: "916799218092486686",
+        testServer: "848946037628076082",
         invite: "https://discord.com/oauth2/authorize?client_id=787324889634963486&scope=bot&permissions=10200548352",
         owner: "320137922370338818"
     };
@@ -116,12 +116,12 @@ class ExtendedClient extends Client {
         // ----------------------------
         // Load Slash Commands
         // ----------------------------
-        // const rest = new REST({ version: '9' }).setToken(this.config.token || process.env.CLIENT_TOKEN);
+        const rest = new REST({ version: '10' }).setToken(this.config.token);
         const slashCommandPath = path.join(__dirname, "..", "SlashCommands");
         const testcmds: any = []
         const globalcmds: any = []
         readdirSync(slashCommandPath).forEach((dir) => {
-            const commands = readdirSync(`${slashCommandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
+            const commands = readdirSync(`${slashCommandPath}/${dir}`).filter((file) => file.endsWith('.js'));
 
             for (const file of commands) {
                 const { slashCommand } = require(`${slashCommandPath}/${dir}/${file}`);
@@ -173,10 +173,8 @@ class ExtendedClient extends Client {
                 try {
                     console.log('Started refreshing application (/) commands.');
             
-                    // await rest.put(
-                    //     Routes.applicationGuildCommands(this.user?.id || '923144434982465537', this.config.testServer),
-                    //     { body: testcmds }
-                    // )
+                    await rest.put(Routes.applicationGuildCommands(this.application?.id || '923144434982465537', this.config.testServer), { body: testcmds });
+
                     console.log('Successfully reloaded application (/) commands.');
                 } catch (error) {
                     console.error(error);
@@ -189,10 +187,10 @@ class ExtendedClient extends Client {
                 try {
                     console.log('Started refreshing global (/) commands.', this.application?.id);
             
-                    // await rest.put(
-                    //     Routes.applicationCommands(this.application?.id || ''),
-                    //     { body: globalcmds }
-                    // )
+                    await rest.put(
+                        Routes.applicationCommands(this.application?.id || ''),
+                        { body: globalcmds }
+                    )
                     console.log('Successfully reloaded global (/) commands.');
                 } catch (error) {
                     console.error(error);

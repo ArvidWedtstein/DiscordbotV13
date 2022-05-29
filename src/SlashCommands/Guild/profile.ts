@@ -55,7 +55,7 @@ export const slashCommand: SlashCommand = {
             birthday = 'Unknown'
         } else {
             birthday = birthdayresult.birthday;
-            joinedDate = moment(birthdayresult.joinedAt).fromNow()
+            joinedDate = moment(results.joinedAt).fromNow()
         }
         let warntxt = '';
 

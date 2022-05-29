@@ -17,14 +17,18 @@ export const slashCommand: SlashCommand = {
     run: async (client, interaction) => {
         // if (!interaction.isCommand()) return
         if (interaction.isCommand()) return
+
+        
         if (interaction.isUserContextMenu()) {
+
             // const msg = await interaction.channel?.messages.fetch(
             //     interaction.targetId
             // )
             const user = interaction.targetUser
-            interaction.followUp({ content: `.${user.avatarURL()?.toString()}`})
+            await interaction.reply({ content: `.${user.avatarURL()?.toString()}`, fetchReply: true })
+            return
         }
-        if (interaction.isContextMenu()) console.log('context MENU')
+        // if (interaction.isContextMenu()) console.log('context MENU')
         //const subCommand = interaction.options.getSubcommand();
         
     }

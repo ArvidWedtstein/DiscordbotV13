@@ -20,31 +20,33 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, mentions, author, member, channel } = message;
 
-        axios.get('http://api.open-notify.org/iss-now.json').then(res => {
-            let { iss_position } = res.data
-            axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${iss_position.latitude},${iss_position.longitude}&sensor=true&key=${process.env.GOOGLE_API_KEY}`).then(res2 => {
-                let { results } = res2.data
-                let types: any = results[results.length-1].address_components[results[results.length-1].address_components.length-1].types;
 
-                const attachment = new MessageAttachment('./img/iss.jpg', 'iss.jpg') 
-                const embed = new MessageEmbed()
-                    .setAuthor({ name: `International Space Station Location` })
-                    .setThumbnail('attachment://iss.jpg')
-                    .addFields(
-                        {name: "Latitude", value: `${iss_position.latitude}`, inline: true}, 
-                        {name: "Longitude", value: `${iss_position.longitude}`, inline: true}, 
-                        {name: "Country", value: `${types.some((x: any) => x == "country") ? `${results[results.length-1].address_components[0].long_name}` : "In the middle of nowhere"}`, inline: true},
-                    )
-                    .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
-                    .setTimestamp(Date.now())
+        const { data } = await axios.get(`http://api.open-notify.org/iss-now.json`)
+        let { iss_position } = data;
+        let { latitude, longitude } = iss_position;
 
-                channel.send( {embeds: [embed], files: [attachment] });
-            }).catch(err => {
-                console.log(err);
-            });
-        }).catch(err => {
-            console.log(err);
-        })
+        const { data: Countrydata } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${process.env.GOOGLE_API_KEY}`)
+        let { results } = Countrydata;
+        let res = results[results.length-1]
+        let types: any = res.address_components[res.address_components.length-1].types;
+        
+        const attachment = new MessageAttachment('./img/iss.jpg', 'iss.jpg') 
+        const attachment2 = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        const embed = new MessageEmbed()
+            .setAuthor({ name: `International Space Station Location` })
+            .setThumbnail('attachment://iss.jpg')
+            .setImage('attachment://banner.jpg')
+            .addFields(
+                {name: "Latitude", value: `${latitude}`, inline: true}, 
+                {name: "Longitude", value: `${longitude}`, inline: true}, 
+                {name: "Country", value: `${types.some((x: any) => x == "country") ? `${res.address_components[0].long_name}` : "In the middle of nowhere"}`, inline: true},
+            )
+            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+            .setTimestamp(Date.now())
+
+        channel.send( {embeds: [embed], files: [attachment, attachment2] });
+
+        return
     }
 }
 
