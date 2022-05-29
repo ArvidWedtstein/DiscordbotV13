@@ -63,7 +63,6 @@ export const command: Command = {
         let sett = {
             CategoryId: "",
             ChannelId: "",
-            TranscriptsChannelId: ""
         }
 
 
@@ -89,12 +88,6 @@ export const command: Command = {
                 sett.ChannelId = channel.id
             })
         }
-        if (!settings.ticketSettings || !getChannel(settings.ticketSettings.TranscriptsChannelId)) {
-            await guild.channels.create(`transcripts`, { type: "GUILD_TEXT", reason: "Transcripts Channel", parent: category.id }).then((channel) => {
-                sett.TranscriptsChannelId = channel.id
-                // if (channel.parent != category) channel.setParent(category)
-            })
-        }
 
         settings = await settingsSchema.findOneAndUpdate({
             guildId: guildId,
@@ -105,7 +98,6 @@ export const command: Command = {
         })
 
         const channel = await getChannel(sett.ChannelId) as Discord.TextChannel
-        const transcriptsChannel = getChannel(sett.TranscriptsChannelId) as Discord.TextChannel
 
         if (channel) channel.send({ embeds: [embed], components: [row] })
         // let channel: any = guild.channels.cache.find(channel => channel.name === 'tickets');

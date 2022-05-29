@@ -32,6 +32,10 @@ const profileSchema = new Schema({
         type: String,
         required: false
     },
+    clashRoyaleId: {
+        type: String,
+        required: false
+    },
     brawlhalla: {
         type: Boolean,
         default: false

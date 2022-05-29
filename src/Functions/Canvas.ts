@@ -105,7 +105,7 @@ export class CustomCanvas {
                 let icon = await readFile(icons[i].iconPath)
                 const weathericon = new Image();
                 weathericon.src = icon;
-                this.context.drawImage(weathericon, icons[i].posX, offsetY - 40);
+                this.context.drawImage(weathericon, icons[i].posX, offsetY - 40, 64, 64);
             }
             
         })

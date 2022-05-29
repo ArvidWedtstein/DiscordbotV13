@@ -9,7 +9,7 @@ export default (channel: any, text: any, duration = -1) => {
         setTimeout(() => {
             let id = channel.messages.fetch(message.id)
             if (message || id) {
-                message.delete()
+                if (message.deletable) message.delete()
             } else {
                 return
             }

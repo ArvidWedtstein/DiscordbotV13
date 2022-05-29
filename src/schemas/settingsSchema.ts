@@ -61,8 +61,7 @@ const settingsSchema = new Schema({
         required: false,
         default: {
             CategoryId: "",
-            ChannelId: "",
-            TranscriptsChannelId: ""
+            ChannelId: ""
         }
     }
 }, {

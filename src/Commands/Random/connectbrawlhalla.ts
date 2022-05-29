@@ -37,9 +37,11 @@ export const command: Command = {
             if (!results) return temporaryMessage(channel, 'You do not have a profile. Please create one with -profile', 50);
             const { brawlhallaId, steamId } = results;
             
+
             if (!steamId && !args[0]) return temporaryMessage(channel, 'Please provide a steam id or connect to steam with -connectsteam', 50);
             try {
-                
+                // if (args[0].match(/^\d+$/)) return temporaryMessage(channel, 'Please provide a valid steam id', 50);
+
                 axios.get(`https://api.brawlhalla.com/search?steamid=${steamId || args[0]}&api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
                     if (!res.data.brawlhalla_id) return temporaryMessage(channel, 'No results found', 50);
                     if (res.data.brawlhalla_id) {

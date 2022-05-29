@@ -8,7 +8,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import { addXP } from '../../Functions/Level';
 import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
-    name: "getbrawlhallacode",
+    name: "getbrawlhallacode2",
     description: "get Brawlhalla Code",
     details: "get Brawlhalla Code",
     aliases: ["getbwlcode"],
@@ -22,12 +22,12 @@ export const command: Command = {
         if (!guild) return
 
         // Get the users profile from the database
-        const results = await profileSchema.findOne({
+        let results = await profileSchema.findOne({
             userId: author.id,
             guildId: guild.id,
-            brawlhallaCode: { $exists: true }
+            brawlhallacodes: { $exists: true, $ne: [] }
         })
-
+        
         if (!results || !results.brawlhallacodes) return temporaryMessage(channel, `You do not have any brawlhalla codes`, 20);
 
         // Get only the codes that are not already redeemed.
@@ -53,26 +53,21 @@ export const command: Command = {
                 .setImage('attachment://banner.jpg')
                 .setFooter({ text: `Requested by ${author.tag}` })
                 .setTimestamp()
-            return author.send({ embeds: [embed] })
+            return author.send({ embeds: [embed], files: [attachment] })
         }
         
-        let options = []
-        for (let i = 0; i < codes.length; i++) {
-            let option: any = {
-                label: `${codes[i].name}`,
-                value: `${i}`,
-                description: `${codes[i].name}`,
-                // emoji: {
-                //     name: `FeelsGerman`,
-                //     id: "885437713707331634"
-                // }
+        let options: any = []
+        codes.forEach((i: any, code: any) => {
+            if (code.name.length > 0 && code.name != null && code.redeemed == false) {
+                options.push({
+                    label: `${code.name}`,
+                    value: `${i}`,
+                    description: `${code.name}`
+                })
             }
-            // Check if name is empty.
-            if (codes[i].name.length > 0 && codes[i].name != null && codes[i].redeemed == false) {
-                options.push(option)
-            }
-        }
-        let row = new MessageActionRow().addComponents(
+        })
+
+        let row = await new MessageActionRow().addComponents(
             new MessageSelectMenu({
                 customId: 'brawlhalla_code_menu',
                 placeholder: "Select Item",
@@ -88,7 +83,7 @@ export const command: Command = {
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL({ dynamic: true }) })
             .setTimestamp()
         
-        author.send({ embeds: [embed], components: [row] }).then(async (msg) => {
+        author.send({ embeds: [embed], components: [row], files: [attachment] }).then(async (msg) => {
             // Filter for checking that no one unauthorised uses the Select Menu.
             const filter = (i: Interaction) => i.user.id === author.id && 
                 i.isSelectMenu() && 
@@ -105,7 +100,6 @@ export const command: Command = {
                 if (reaction.message.id != msg.id) return;
                 if (!reaction.isSelectMenu()) return;
 
-                // The line of code under is experimental
                 reaction.deferUpdate();
 
                 // Get the name and the code
@@ -115,14 +109,17 @@ export const command: Command = {
                 embed.setDescription(`${name} | \`${code}\``)
                 row.components[0].setDisabled(true)
 
-                let res = results.brawlhallacodes.find((code: any) => code.code === code)
-                res.redeemed = true;
-                redeemed = true;
-                results.save()
-                reaction.update({ embeds: [embed], components: [row] })
+                await profileSchema.findOneAndUpdate({
+                    userId: author.id,
+                    guildId: guild.id,
+                    brawlhallacodes: { $elemMatch: { code: code } }
+                }, {
+                    $set: {
+                        'brawlhallacodes.$.redeemed': true
+                    }
+                })
 
-    
-
+                msg.edit({ embeds: [embed], components: [row] })
                 return
             })
         })

@@ -8,7 +8,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
 import { cacheSetTTL, cacheSet } from '../../Functions/CacheClient'
-import NasaAPIcacheSchema from '../../schemas/NasaAPIcacheSchema';
+import NasaAPIcacheSchema from '../../schemas/24hAPIcacheSchema';
 export const command: Command = {
     name: "apod2",
     description: "Check out the Astronomy Picture of the Day",
@@ -47,6 +47,7 @@ export const command: Command = {
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
 
+        if (Nasa.data.media_type === "video") embed.setURL(Nasa.data.url)
         channel.send( {embeds: [embed] });
     }
 }

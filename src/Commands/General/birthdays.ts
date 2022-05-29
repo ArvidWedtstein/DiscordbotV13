@@ -10,8 +10,8 @@ import moment from 'moment';
 import { blob } from 'stream/consumers';
 export const command: Command = {
     name: "birthdays",
-    description: "see upcomming birthdays",
-    details: "see the upcomming birthdays for the next month",
+    description: "see upcoming birthdays",
+    details: "see the upcoming birthdays for the next month",
     aliases: ["upcommingbirthdays"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
@@ -41,7 +41,7 @@ export const command: Command = {
             const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
             let embed = new MessageEmbed()
-                .setTitle(`Upcomming Birthdays:`)
+                .setTitle(`Upcoming Birthdays:`)
                 .setDescription(`${userList}`)
                 .setImage('attachment://banner.jpg')
                 .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
