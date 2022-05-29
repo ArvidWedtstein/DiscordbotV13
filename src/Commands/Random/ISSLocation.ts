@@ -26,9 +26,9 @@ export const command: Command = {
                 let { results } = res2.data
                 let types: any = results[results.length-1].address_components[results[results.length-1].address_components.length-1].types;
 
-                const attachment = new MessageAttachment('./img/iss.jpg', 'iss.jpg')  // Create an attachment
+                const attachment = new MessageAttachment('./img/iss.jpg', 'iss.jpg') 
                 const embed = new MessageEmbed()
-                    .setAuthor({ name: `International Space Station` })
+                    .setAuthor({ name: `International Space Station Location` })
                     .setThumbnail('attachment://iss.jpg')
                     .addFields(
                         {name: "Latitude", value: `${iss_position.latitude}`, inline: true}, 

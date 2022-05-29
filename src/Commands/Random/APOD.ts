@@ -10,10 +10,10 @@ import axios from 'axios';
 import { cacheSetTTL, cacheSet } from '../../Functions/CacheClient'
 import NasaAPIcacheSchema from '../../schemas/24hAPIcacheSchema';
 export const command: Command = {
-    name: "apod2",
+    name: "apod",
     description: "Check out the Astronomy Picture of the Day",
     details: "Check out the Astronomy Picture of the Day",
-    aliases: ["astronomy_picture_of_the_day2", "astronomypictureoftheday2"],
+    aliases: ["astronomy_picture_of_the_day", "astronomypictureoftheday"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES", "EMBED_LINKS", "VIEW_CHANNEL"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
