@@ -69,7 +69,7 @@ export const event: Event = {
         ) return;
         
         if (interaction.isCommand()) {
-            await interaction.deferReply({ ephemeral: true })
+            // await interaction.deferReply({ ephemeral: true })
             const { commandName, options, guild, channel } = interaction;
 
             if (!commandName) return;
@@ -118,6 +118,17 @@ export const event: Event = {
 
             if (command) command.run(client, interaction);
 
+        }
+        
+        if (interaction.isModalSubmit()) {
+
+            const favoriteColor = interaction.fields.getTextInputValue('favoriteColorInput');
+            const hobbies = interaction.fields.getTextInputValue('hobbiesInput');
+            console.log({ favoriteColor, hobbies });
+
+            interaction.deferUpdate()
+
+            return
         }
     }
 }

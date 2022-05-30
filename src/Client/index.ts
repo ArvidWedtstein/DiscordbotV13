@@ -22,7 +22,8 @@ class ExtendedClient extends Client {
         ytdlOptions: {
             quality: 'highestaudio',
             highWaterMark: 1 << 25
-        }
+        },
+        connectionTimeout: 10000
     });
     public config: Config = {
         token: process.env.CLIENT_TOKEN, 
@@ -172,11 +173,11 @@ class ExtendedClient extends Client {
                     })
                 }
 
-                // if (slashCommand.testOnly) {
-                //     testcmds.push(cmd);
-                // } else if (slashCommand.testOnly == false) {
-                //     globalcmds.push(cmd)
-                // }
+                if (slashCommand.testOnly) {
+                    testcmds.push(cmd);
+                } else if (slashCommand.testOnly == false) {
+                    globalcmds.push(cmd)
+                }
             }
         });
         if (testcmds.length > 0) {

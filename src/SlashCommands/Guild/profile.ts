@@ -19,13 +19,14 @@ export const slashCommand: SlashCommand = {
         }  
     ],
     testOnly: true,
-    run: async (client: any, interaction: any) => {
-        // if (!interaction.isCommand()) return
+    run: async (client: any, interaction) => {
         if (!interaction.isCommand()) return
+        await interaction.deferReply({ ephemeral: true })
 
+        if (!interaction.guild) return;
         const user = interaction.member;
         const userId = user?.user.id;
-        const guildId = interaction.guildId;
+        const guildId = interaction.guild.id;
     
         let xptonextlevel: any = ''
 

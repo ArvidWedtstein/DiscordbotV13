@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "tsc",
     "dev": "nodemon ./src/index.ts",
-    "start": "node dist/index.js",
+    "start": "node --trace-warnings dist/index.js",
     "startshard": "node dist/ShardManager.js",
     "startts": "ts-node ./src/index.ts",
     "build": "tsc",
