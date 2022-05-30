@@ -50,14 +50,26 @@ class ExtendedClient extends Client {
                 Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
                 Intents.FLAGS.GUILD_VOICE_STATES
             ],
-            // messageCacheLifetime: 60,
+            messageCacheLifetime: 60,
             // messageSweepInterval: 180,
-            // restGlobalRateLimit: 180,
-            // shards: 'auto',
-            // restTimeOffset: 0,
-            // restWsBridgeTimeout: 100,
-            // allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true},
-            // partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"]
+            restGlobalRateLimit: 180,
+            shards: 'auto',
+            restTimeOffset: 0, // Enabled speed reacting
+            restWsBridgeTimeout: 100,
+            failIfNotExists: true,
+            
+            allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true},
+            partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"],
+            presence: {
+                status: "online",
+                activities: [
+                    {
+                        type: "PLAYING",
+                        name: "with the bot"
+                    }
+                ],
+                afk: false
+            }
         });
     }
     public async init() {
@@ -73,7 +85,6 @@ class ExtendedClient extends Client {
         // Connect to database
         // ----------------------------
         await mongoose.connect(this.config.mongoURI, options).then(async (t) => {
-            console.log(t.models)
             console.log(`Connected to ${gradient.fruit('Database')}`)
         }).catch((err) => {
             console.error('App starting error:', err.stack);
@@ -197,6 +208,14 @@ class ExtendedClient extends Client {
                 }
             })();
         }
+
+        process.on('unhandledRejection', (reason, p) => {
+            console.log('\n\n\n\n\n=== unhandled Rejection ==='.toUpperCase(), '\nReason: ', reason, '\n=== unhandled Rejection ===\n\n\n\n\n'.toUpperCase());
+        })
+        process.on("uncaughtException", (err, origin) => {
+            console.log('\n\n\n\n\n\n=== uncaught Exception ==='.toUpperCase(),'\nException: ', err.stack ? err.stack : err, '=== uncaught Exception ===\n\n\n\n\n'.toUpperCase())
+        })
+        process.on('uncaughtExceptionMonitor', (err, origin) => { }).on('multipleResolves', (type, promise, reason) => { });
     }
 }
 

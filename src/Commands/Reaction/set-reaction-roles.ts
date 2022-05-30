@@ -17,19 +17,19 @@ export const command: Command = {
     aliases: ["set_reaction_roles"],
     group: "Reaction",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
+    UserPermissions: ["SEND_MESSAGES", "MANAGE_CHANNELS"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["setreactionroles"],
+    examples: ["setreactionroles {emoji} {role}"],
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments } = message;
         if (!guild) return
-        let emoji: any = args.shift()
-        let role: any = args.shift()
-        const displayName = args.join(' ')
+        let emoji: any = args.shift();
+        let role: any = args.shift();
+        const displayName = args.join(' ');
 
-        if (!role) return temporaryMessage(channel, `No role specified`, 5)
+        if (!role) return temporaryMessage(channel, `No role specified`, 15)
 
         if (role.startsWith('<@&')) {
             role = role.substring(3, role.length - 1)

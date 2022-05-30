@@ -9,7 +9,8 @@ export const event: Event = {
     run: async (client, member: GuildMember) => {
         const date1 = Date.now();
         
-        const guild: Guild = member.guild;
+        if (!member) return
+        const { user, guild } = member;
         const guildId = guild.id;
         const setting = await Settingsguild(guild.id, 'welcome');
         if (!setting) return
@@ -17,8 +18,9 @@ export const event: Event = {
         if (!channelId) {
             return
         }
-        const userId = member.user.id;
+        const userId = user.id;
         const channel = guild.channels.cache.get(channelId);
+        
         if (!channel || !channel.isText()) {
             return
         }
