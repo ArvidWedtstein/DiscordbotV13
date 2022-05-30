@@ -174,7 +174,6 @@ export const event: Event = {
                     `${icon(client, queue.guild, 'musicalnotes')} [${Formatters.inlineCode(track.title)}](${track.url})\n`,
                     `Added by: ${track.requestedBy} | Duration: \`> ${track.duration}\` | Position In Queue: \`${queue.getTrackPosition(track)}\``
                 ].join('\n'))
-                .setThumbnail(track.thumbnail)
             metadata.channel.send({ embeds: [embed] });
         });
         
