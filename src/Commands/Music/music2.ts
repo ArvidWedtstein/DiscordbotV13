@@ -9,7 +9,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import { joinVoiceChannel } from '@discordjs/voice';
 import icon from '../../Functions/icon';
 import playlistSchema from '../../schemas/playlist-schema';
-import { QueryType } from 'discord-player';
+import { QueryType, QueueRepeatMode } from 'discord-player';
 import { MessageButtonStyles } from 'discord.js/typings/enums';
 
 let songint = 0
@@ -96,13 +96,18 @@ export const command: Command = {
         }
         function row(paused: boolean) {
             const row = new MessageActionRow().addComponents(
+                genButton(`volumedown`, "🔉", "SECONDARY"),
+                genButton(`back`, icon(client, guild, 'chevronleft').id, "SECONDARY"),
                 genButton(paused ? 'play' : 'pause', icon(client, guild, paused ? 'play' : 'pause').id, "SECONDARY"),
-                genButton('skip', icon(client, guild, 'chevronright').id, "SECONDARY"),
+                genButton(`skip`, icon(client, guild, 'chevronright').id, "SECONDARY"),
+                genButton(`volumeup`, "🔊", "SECONDARY")
+            )
+            const row2 = new MessageActionRow().addComponents(
                 genButton('stop', icon(client, guild, 'musicalnotes').id, "SECONDARY"),
                 genButton('loopone', icon(client, guild, 'loopall').id, "SECONDARY"),
                 genButton('loopall', icon(client, guild, 'loopall').id, "SECONDARY")
             )
-            return row;
+            return [row, row2];
         }
         
         const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
@@ -168,12 +173,14 @@ export const command: Command = {
             if (!result || result.tracks.length === 0) return temporaryMessage(channel, `Could not find something with the url ${url}`, 30)
 
             const track = result.tracks[0];
+
+            
             await queue.addTrack(track);
         }
 
         if (!queue.playing) await queue.play();
 
-        channel.send({ embeds: [embed], files: [attachment], components: [row(queue.playing)] }).then(async(msg) => {
+        channel.send({ embeds: [embed], files: [attachment], components: row(queue.playing) }).then(async(msg) => {
             const filter = (i: Interaction) => i.user.id === author.id;
             let collect = msg.createMessageComponentCollector({
                 filter, 
@@ -186,30 +193,47 @@ export const command: Command = {
                 reaction.deferUpdate();
 
                 switch (reaction.customId) {
+                    case "volumedown": 
+                        queue.setVolume(queue.volume - 10);
+                        console.log(queue.volume)
+                        break;
+                    case "volumeup":
+                        queue.setVolume(queue.volume + 10);
+                        console.log(queue.volume)
+                        break;
+                    case "back":
+
+                        break;
+                    case "skip":
+                        queue.skip();
+                        break;
                     case "play":
                         embed.setDescription(`**[${queue.current.title}]** has been resumed!`)
-                        msg.edit({ embeds: [embed], files: [attachment], components: [row(false)] })
+                        msg.edit({ embeds: [embed], files: [attachment], components: row(false) })
                         await queue.setPaused(false);
                         break;
                     case "pause":
                         queue.setPaused(true);
                         embed.setDescription(`**[${queue.current.title}]** has been paused!`)
-                        msg.edit({ embeds: [embed], files: [attachment], components: [row(true)] })
-                        break;
-                    case "skip":
-                        
+                        msg.edit({ embeds: [embed], files: [attachment], components: row(true) })
                         break;
                     case "stop":
-                        
+                        queue.stop();
                         break;
                     case "loopone":
-                        
+                        queue.setRepeatMode(1);
                         break;
                     case "loopall":
-                        
+                        queue.setRepeatMode(2);
                         break;
                     case "loopstop":
-                        
+                        queue.setRepeatMode(0);
+                        break;
+                    case "shuffle": 
+                        queue.shuffle()
+                        break;
+                    case "clear": 
+                        queue.clear()
                         break;
                 }
                 return

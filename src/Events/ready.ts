@@ -3,6 +3,7 @@ import * as gradient from 'gradient-string';
 import { loadLanguages } from '../Functions/language';
 import { brawlhalla } from '../Functions/brawlhalla';
 import { loadColors } from '../Functions/icon';
+import reactionroles from '../Functions/ReactionRole'
 import birthday from '../Functions/birthday';
 import path from 'path';
 
@@ -24,6 +25,8 @@ export const event: Event = {
         brawlhalla(client);
         // await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
 
+        // Check for reaction roles
+        reactionroles(client);
 
         console.log(`${gradient.atlas(`Commands loaded: ${await client.registry.commands.size}`)}`);
     }

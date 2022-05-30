@@ -3,36 +3,38 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
-import { addToCache, fetchCache } from '../../Functions/reactions';
+import { addToCache, fetchCache } from '../../Functions/ReactionRole';
 import reactionRoleSchema from '../../schemas/reactionRoleSchema';
 
 export const command: Command = {
     name: "setreactionroles",
     description: "setreactionroles",
     details: "setreactionroles",
-    aliases: ["set_reaction_roles"],
+    aliases: ["set_reaction_roles", "setreactionrole"],
     group: "Reaction",
     hidden: false,
     UserPermissions: ["SEND_MESSAGES", "MANAGE_CHANNELS"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["setreactionroles {emoji} {role}"],
+    examples: ["setreactionroles {emoji} {role} {Name (Optional)}"],
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments } = message;
         if (!guild) return
         let emoji: any = args.shift();
         let role: any = args.shift();
-        const displayName = args.join(' ');
+        let displayName = args.join(' ');
 
-        if (!role) return temporaryMessage(channel, `No role specified`, 15)
+        if (message.deletable) message.delete();
+
+        if (!role) return temporaryMessage(channel, `No role specified`, 15);
 
         if (role.startsWith('<@&')) {
-            role = role.substring(3, role.length - 1)
+            role = role.substring(3, role.length - 1);
         }
 
         const newRole = guild.roles.cache.find(r => {
@@ -51,29 +53,51 @@ export const command: Command = {
         }
         const [fetchedMessage] = fetchCache(guild.id)
 
-        if (!fetchedMessage) {
-            message.reply(`error`)
-            return
-        }
+        if (!fetchedMessage) return
 
-        const newLine = `${emoji} ${displayName}`
-        let { content } = fetchedMessage
+        const newLine = `${emoji} - ${displayName.trim().length > 0 ? displayName : role.name}`
 
-        if (content.includes(emoji)) {
-            const split = content.split('\n')
+        let { content, embeds } = fetchedMessage
 
-            for (let a = 0; a < split.length; a++) {
-                if (split[a].includes(emoji)) {
-                    split[a] = newLine
+        if (embeds.length > 0) {
+            const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+            let embed = new MessageEmbed(embeds[0])
+            let { description } = embed
+
+            if (!description) return
+
+            if (description.includes(emoji)) {
+                const lines = description.split('\n');
+
+                for (let a = 0; a < lines.length; a++) {
+                    if (lines[a].includes(emoji)) {
+                        lines[a] = newLine
+                    }
                 }
+                embed.setDescription(lines.join('\n'))
+            } else {
+                description += `\n${newLine}`
+                fetchedMessage.react(emoji)
             }
-            content = split.join('\n')
+            embed.setDescription(description)
+            fetchedMessage.edit({ embeds: [embed] })
         } else {
-            content += `\n${newLine}`
-            fetchedMessage.react(emoji)
+            if (content.includes(emoji)) {
+                const split = content.split('\n')
+    
+                for (let a = 0; a < split.length; a++) {
+                    if (split[a].includes(emoji)) {
+                        split[a] = newLine
+                    }
+                }
+                content = split.join('\n')
+            } else {
+                content += `\n${newLine}`
+                fetchedMessage.react(emoji)
+            }
+    
+            fetchedMessage.edit(content)
         }
-
-        fetchedMessage.edit(content)
 
         const obj = {
             guildId: guild.id,

@@ -65,7 +65,7 @@ class ExtendedClient extends Client {
                 activities: [
                     {
                         type: "PLAYING",
-                        name: "with the bot"
+                        name: "-help"
                     }
                 ],
                 afk: false
@@ -210,10 +210,10 @@ class ExtendedClient extends Client {
         }
 
         process.on('unhandledRejection', (reason, p) => {
-            console.log('\n\n\n\n\n=== unhandled Rejection ==='.toUpperCase(), '\nReason: ', reason, '\n=== unhandled Rejection ===\n\n\n\n\n'.toUpperCase());
+            console.log('\n=== unhandled Rejection ==='.toUpperCase(), '\nReason: ', reason, '\n=== unhandled Rejection ===\n\n\n\n\n'.toUpperCase());
         })
         process.on("uncaughtException", (err, origin) => {
-            console.log('\n\n\n\n\n\n=== uncaught Exception ==='.toUpperCase(),'\nException: ', err.stack ? err.stack : err, '=== uncaught Exception ===\n\n\n\n\n'.toUpperCase())
+            console.log('\n=== uncaught Exception ==='.toUpperCase(),'\nException: ', err.stack ? err.stack : err, '=== uncaught Exception ===\n\n\n\n\n'.toUpperCase())
         })
         process.on('uncaughtExceptionMonitor', (err, origin) => { }).on('multipleResolves', (type, promise, reason) => { });
     }

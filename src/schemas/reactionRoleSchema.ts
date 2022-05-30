@@ -1,5 +1,4 @@
-import { Schema, model } from "mongoose"
-
+import { Schema, model, models } from "mongoose"
 const reqNumber = {
     type: Number,
     required: true
@@ -23,4 +22,5 @@ const reactionroleSchema = new Schema({
     }]
 })
 
-export default model('reaction-role', reactionroleSchema);
+const name: string = 'reaction-roles'
+export default models[name] || model(name, reactionroleSchema)
