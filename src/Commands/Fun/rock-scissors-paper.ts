@@ -62,6 +62,7 @@ export const command: Command = {
                 .addField(result, `${reaction.emoji} vs ${botchoice}`)
             let messageEmbed2 = messageEmbed.edit({ embeds: [embed2] });
             messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+            return
         });
         
     }

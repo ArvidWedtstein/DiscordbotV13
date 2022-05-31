@@ -116,6 +116,7 @@ export const event: Event = {
                     channel.setName(`Skoletime: Fri`);
                 }
             }
+            return
             
         }
     }
