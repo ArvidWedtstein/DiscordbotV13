@@ -32,8 +32,8 @@ export const command: Command = {
                 toggle2,
                 close
             )
-        const attachment = new MessageAttachment('./img/Ukeplan.PNG', 'Ukeplan.PNG')
-        const attachment2 = new MessageAttachment('./img/Ukeplan2.PNG', 'Ukeplan2.PNG')
+        const attachment = new MessageAttachment('./img/Ukeplan.PNG', 'Ukeplan.png')
+        const attachment2 = new MessageAttachment('./img/Ukeplan2.PNG', 'Ukeplan2.png')
 
             
 

@@ -1,6 +1,6 @@
 import Client from '../Client';
 import axios from 'axios';
-import { MessageAttachment, MessageButton, MessageEmbed } from 'discord.js';
+import { Formatters, MessageAttachment, MessageButton, MessageEmbed } from 'discord.js';
 import profileSchema from '../schemas/profileSchema';
 import moment from 'moment';
 import gradient from 'gradient-string';
@@ -178,10 +178,11 @@ export const brawlhalla = (async (client: Client) => {
         .setColor(client.config.botEmbedHex)
         .setTitle(`${greet}, ${member?.user.username}.`)
         .setURL('https://www.twitch.tv/brawlhalla')
-        .setDescription(`${randomMsg}
-        *You can earn up to* ${calculatePoints(stream)} *points by watching this stream!*
-        
-        Brawlhalla's next stream is a ${getStreamDuration(Streams[1])} **${Streams[1].title}**  ${moment(Streams[1].start_time).calendar()}.`)
+        .setDescription([
+          `${randomMsg}`,
+          `*You can earn up to* ${calculatePoints(stream)} *points by watching this stream!*\n`,
+          `Brawlhalla's next stream is a ${getStreamDuration(Streams[1])} **${Streams[1].title}**  ${moment(Streams[1].start_time).calendar()}.`
+        ].join('\n'))
         .setThumbnail(usertwitch.profile_image_url)
         .setImage('attachment://banner.jpg')
         .setFooter({ text: `Sincerely, ${client.user?.username}`, iconURL: client.user?.displayAvatarURL() })

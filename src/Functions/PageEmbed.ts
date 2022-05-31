@@ -23,6 +23,7 @@ import {
 } from "discord.js";
 import settingsSchema from "../schemas/settingsSchema";
 import { Canvas } from "@napi-rs/canvas"
+import { re } from "mathjs";
 
 export interface PageEmbedOptions {
     title?: string;
@@ -55,24 +56,25 @@ export class PageEmbed {
     public pages: PageEmbedOptions[];
     private currentPage: number;
     private component: MessageActionRow;
+    private settings: any;
     constructor(pages: PageEmbedOptions[])
     {
         this.pages = pages
         this.currentPage = 0;
         this.component = new MessageActionRow();
     }
-    private generate(page: PageEmbedOptions, channel: DMChannel | TextChannel | NewsChannel | ThreadChannel | PartialDMChannel) {
+    private generate(page: PageEmbedOptions, channel: DMChannel | TextChannel | NewsChannel | ThreadChannel | PartialDMChannel, disable: boolean = false) {
         // Update the footer text to the new page number
         if (!page.canvas) {
             page.footer = {text: `Page ${this.currentPage+1} of ${this.pages.length}`} 
-            page.image = { url: `attachment://banner.jpg` }
+            page.image = { url: `attachment://banner.gif` }
         }
-        
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        let row = page.settings ? this.settingsBtn(page.settings.type, disable) : this.getRow(disable)
+        const attachment = new MessageAttachment('./img/banner.gif', 'banner.gif');
         return { 
             embeds: page.canvas ? [] : [new MessageEmbed(page)], 
-            components: [this.getRow()],
-            files: page.canvas ? [new MessageAttachment(page.canvas.toBuffer('image/png'), `weatherimage.png`)] : [attachment]
+            components: [this.component],
+            files: page.canvas ? [new MessageAttachment(page.canvas.toBuffer('image/png'), `image.png`)] : [attachment]
         }
     }
     async post(message: Message) {
@@ -92,6 +94,7 @@ export class PageEmbed {
             if (!result) {
                 result = new settingsSchema({ guildId }).save()
             }
+            this.settings = result;
         }
 
     
@@ -124,12 +127,17 @@ export class PageEmbed {
 
                 // Check if setting has been toggled
                 if (page.settings && reaction.customId === `embed_on_${page.settings.type}` || page.settings && reaction.customId === `embed_off_${page.settings.type}`) {
+                    this.settings[page.settings.type] = !this.settings[page.settings.type] // Toggle the setting
+                    result = this.settings
 
-                    result[page.settings.type] = !result[page.settings.type] // Toggle the setting
-
-                    await this.settingsBtn(m, page.settings.type, result)
                     await m.edit(this.generate(page, channel))
-                    return;
+                    return
+                }
+
+                if (reaction.customId === 'embed_save_and_close') {
+                    console.log('save')
+                    this.save(guildId)
+                    return
                 }
 
                 // Check if page has gone over or under the max
@@ -142,37 +150,18 @@ export class PageEmbed {
 
                 // Update the page
                 page = this.pages[this.currentPage];
-               
-
-                this.getRow();
-
-                if (page.settings) {
-                    this.settingsBtn(m, page.settings.type, result)
-
-                    m.edit(this.generate(page, channel))
-                    return
-                }
-
+            
                 await m.edit(this.generate(page, channel))
             })
 
             // When collector has finished, then update guilds settings
             collector.on('end', async (reaction) => {
                 if (this.pages.some(pag => pag.settings)) {
-                    result = await settingsSchema.findOneAndUpdate(
-                        {
-                            guildId,
-                        }, {
-                            result
-                        }, {
-                            upsert: true
-                        }
-                    )
+
+                    this.save(guildId);
                 }
                 // Disable buttons
-                
-                this.getRow(true)
-                m.edit(this.generate(page, channel))
+                m.edit(this.generate(page, channel, true))
                 return
             })
         })     
@@ -192,32 +181,56 @@ export class PageEmbed {
                 disabled: !disabled ? this.currentPage === this.pages.length - 1 : disabled
             })
         )
-        return this.component;
+        return;
     }
-    private async settingsBtn(message: Message, setting: string, result?: any) {
-
+    private async save(guildId: string) {
+        let updates: any = {};
+        let lap = this.pages.filter(pag => pag.settings)
+        let s = lap.map(x => x.settings?.type ? x.settings.type : '')
+        for (let i = 0; i < s.length; i++) {
+            updates[s[i]] = this.settings[s[i]]
+        }
+        console.log(updates)
+        let result = await settingsSchema.findOneAndUpdate(
+            {
+                guildId,
+            }, {
+                $set: updates
+            }, {
+                upsert: true
+            }
+        )
+        this.settings = result;
+    }
+    private async settingsBtn(setting: string, disabled: boolean = false) {
         this.component.setComponents(
             new MessageButton({
                 customId: 'prev_embed',
                 style: "SECONDARY",
                 emoji: "⬅",
-                disabled: this.currentPage === 0
+                disabled: !disabled ? this.currentPage === 0 : disabled
             }),
             new MessageButton({
                 customId: 'next_embed',
                 style: "SECONDARY",
                 emoji: "➡",
-                disabled: this.currentPage === this.pages.length - 1
+                disabled: !disabled ? this.currentPage === this.pages.length - 1 : disabled
             }),
             new MessageButton({
-                customId: result[setting] == true ? `embed_on${setting}` : `embed_off_${setting}`,
-                style: result[setting] == true ? "SUCCESS" : "DANGER",
-                emoji: result[setting] == true ? "✅" : "❌"
+                customId: `embed_save_and_close`,
+                style: "SECONDARY",
+                emoji: "💾",
+                disabled: disabled
+            }),
+            new MessageButton({
+                customId: this.settings[setting] == true ? `embed_on_${setting}` : `embed_off_${setting}`,
+                style: this.settings[setting] == true ? "SUCCESS" : "DANGER",
+                emoji: this.settings[setting] == true ? "✅" : "❌",
+                disabled: disabled
             })
         )
-        this.pages[this.currentPage].color = result[setting] == true ? "#ff0000" : "#00ff00"
-        this.pages[this.currentPage].author = { name: `${setting}: ${result[setting]}`}
-        message.edit(this.generate(this.pages[this.currentPage], message.channel))
-        return this.component
+        this.pages[this.currentPage].color = this.settings[setting] == true ? "#00ff00" : "#ff0000"
+        this.pages[this.currentPage].author = { name: `${setting}: ${this.settings[setting]}`}
+        return
     }
 }

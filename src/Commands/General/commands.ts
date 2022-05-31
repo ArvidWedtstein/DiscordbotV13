@@ -5,7 +5,7 @@ import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy'
 
 export const command: Command = {
     name: "commands",
-    description: "add balance to a user",
+    description: "see a list of all commands",
     aliases: ["commandlist", "botcommands"],
     run: async(client, message, args) => {
         const { guild } = message

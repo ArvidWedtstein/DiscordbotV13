@@ -25,7 +25,6 @@ export const event: Event = {
         client.player.on("trackStart", (queue, track) => {
             const { metadata }: any = queue
             const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-            console.log(`🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
 
             function genButton(id: string, emoji: any, style: ExcludeEnum<typeof MessageButtonStyles, "LINK">) {
                 return new MessageButton({

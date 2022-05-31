@@ -8,7 +8,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import { addXP } from '../../Functions/Level';
 import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
-    name: "getbrawlhallacode2",
+    name: "getbrawlhallacode",
     description: "get Brawlhalla Code",
     details: "get Brawlhalla Code",
     aliases: ["getbwlcode"],

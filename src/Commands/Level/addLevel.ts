@@ -16,7 +16,7 @@ export const command: Command = {
     aliases: ["leveladd"],
     group: "Level",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "BAN_MEMBERS"],
+    UserPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "BAN_MEMBERS", "MANAGE_CHANNELS"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
     examples: ["addlevel <name> | <level>"],

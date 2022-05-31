@@ -28,4 +28,11 @@ export const loadColors = (async (client: Client) => {
 })
 export const setColor = (async (guild: any, iconcolor: any) => {
     guildIcons[guild.id] = iconcolor.toLowerCase();
+    await settingsSchema.findOneAndUpdate({
+        guildId: guild.id
+    }, {
+        iconcolor: iconcolor.toLowerCase()
+    }, {
+        upsert: true
+    })
 })

@@ -1,3 +1,6 @@
+import { Client } from "discord.js"
+
+
 const emojis: any = {
     musicwave: '859394671143026699',
     gear: '862388280763088907',
@@ -20,7 +23,7 @@ const emojis: any = {
     add: '863016985218383922',
     skyrim: '873630321713774602',
     doubt: '858104735978356807',
-    sign: '862398175897583626',
+    dasign: '862398175897583626',
     settings: '862388280763088907',
     secure: '879622426948943882',
     firework: '879649969794088961',
@@ -32,6 +35,6 @@ const emojis: any = {
 
 
 
-export default (client: any, emojiname: any) => {
-    return client.emojis.cache.find(async (e: any) => e.id === emojis[emojiname])
+export default (client: Client, emojiname: any) => {
+    return client.emojis.cache.find((e) => e.id === emojis[emojiname])
 }
