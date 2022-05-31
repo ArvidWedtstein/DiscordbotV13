@@ -185,7 +185,7 @@ class ExtendedClient extends Client {
                 try {
                     console.log('Started refreshing application (/) commands.');
             
-                    await rest.put(Routes.applicationGuildCommands(this.application?.id || '923144434982465537', this.config.testServer), { body: testcmds });
+                    await rest.put(Routes.applicationGuildCommands(this.application?.id || '', this.config.testServer), { body: testcmds });
 
                     console.log('Successfully reloaded application (/) commands.');
                 } catch (error) {
@@ -211,10 +211,10 @@ class ExtendedClient extends Client {
         }
 
         process.on('unhandledRejection', (reason, p) => {
-            console.log('\n=== unhandled Rejection ==='.toUpperCase(), '\nReason: ', reason, '\n=== unhandled Rejection ===\n\n\n\n\n'.toUpperCase());
+            console.log('\n=== unhandled Rejection ==='.toUpperCase(), '\nReason: ', reason);
         })
         process.on("uncaughtException", (err, origin) => {
-            console.log('\n=== uncaught Exception ==='.toUpperCase(),'\nException: ', err.stack ? err.stack : err, '=== uncaught Exception ===\n\n\n\n\n'.toUpperCase())
+            console.log('\n=== uncaught Exception ==='.toUpperCase(),'\nException: ', err.stack ? err.stack : err)
         })
         process.on('uncaughtExceptionMonitor', (err, origin) => { }).on('multipleResolves', (type, promise, reason) => { });
     }
