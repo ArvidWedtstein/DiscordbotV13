@@ -44,7 +44,7 @@ export default (client: Client) => {
       let userId = user.userId;
       let guildId = user.guildId;
 
-      let guild = client.guilds.cache.get(guildId);
+      let guild = await client.guilds.cache.get(guildId);
 
       if (!guild) return;
       let channel = guild.channels.cache.find(x => x.name === "nyheter") || guild.rulesChannel;
@@ -68,9 +68,9 @@ export default (client: Client) => {
         .setTimestamp()
   
       if (!channel || !channel.isText()) return birthdayUser.send({ embeds: [embed], files: [attachment] });
-
-      channel.send({ embeds: [embed], files: [attachment] }).then((message: Message) => {
-        addXP(guildId, userId, 5000, message)
+      
+      channel.send({ embeds: [embed], files: [attachment] }).then(async (message) => {
+        await addXP(guildId, userId, 5000, message)
       })
     }
   })
