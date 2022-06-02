@@ -8,9 +8,9 @@ import temporaryMessage from '../../Functions/temporary-message';
 import { MessageButtonStyles } from 'discord.js/typings/enums';
 import settingsSchema from '../../schemas/settingsSchema';
 export const command: Command = {
-    name: "ticket2",
+    name: "ticket",
     description: "send a ticket",
-    aliases: ["helpticket2"],
+    aliases: ["helpticket"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES", "ADMINISTRATOR"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY"],

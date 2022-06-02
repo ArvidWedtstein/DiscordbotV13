@@ -5,6 +5,7 @@ import icon from "./icon";
 import language from "./language";
 import { addXP, getLevel } from "./Level";
 import * as gradient from 'gradient-string';
+import moment from "moment";
 
 export default (client: Client) => {
 
@@ -17,14 +18,10 @@ export default (client: Client) => {
   const checkBirthday = (async () => {
     console.log(`${gradient.instagram(`Checking for birthdays`)}`);
 
-    const date = new Date()
-    let dformat = [
-      date.getDate(),
-      date.getMonth()+1,
-    ].join('/')+''
-    
+    let dformat = moment().format('DD/MM')
     // Find all users with birthdays on this day
-    let users = await profileSchema.find({ birthday: dformat })
+    // let users = await profileSchema.find({ birthday: dformat })
+    let users = await profileSchema.find({ birthday: { $regex: dformat } })
     
     // If there are no users with birthdays on this day
     if (users.length < 1) return;
@@ -50,9 +47,7 @@ export default (client: Client) => {
       let guild = client.guilds.cache.get(guildId);
 
       if (!guild) return;
-      let channel = guild.publicUpdatesChannel;
-
-      
+      let channel = guild.channels.cache.find(x => x.name === "nyheter") || guild.rulesChannel;
 
       let birthdayUser = client.users.cache.get(userId) || guild.members.cache.get(userId);
 
@@ -72,7 +67,7 @@ export default (client: Client) => {
         .setFooter({ text: `This birthday wish was brought to you by ${client.user?.username}` })
         .setTimestamp()
   
-      if (!channel) return birthdayUser.send({ embeds: [embed], files: [attachment] });
+      if (!channel || !channel.isText()) return birthdayUser.send({ embeds: [embed], files: [attachment] });
 
       channel.send({ embeds: [embed], files: [attachment] }).then((message: Message) => {
         addXP(guildId, userId, 5000, message)

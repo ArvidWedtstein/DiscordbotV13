@@ -120,6 +120,7 @@ class ExtendedClient extends Client {
         const eventPath = path.join(__dirname, "..", "Events");
         readdirSync(eventPath).forEach(async (file) => {
             const { event } = await import(`${eventPath}/${file}`);
+            if (!event) return;
             this.events.set(event.name, event);
             this.on(event.name, event.run.bind(null, this));
         })
