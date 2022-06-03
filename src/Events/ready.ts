@@ -1,7 +1,7 @@
 import { Event } from '../Interfaces';
 import * as gradient from 'gradient-string';
 import { loadLanguages } from '../Functions/language';
-import { brawlhalla } from '../Functions/brawlhalla';
+import { BrawlhallaStream } from '../Functions/BrawlhallaStream';
 import { loadColors } from '../Functions/icon';
 import reactionroles from '../Functions/ReactionRole'
 import birthday from '../Functions/birthday';
@@ -22,7 +22,7 @@ export const event: Event = {
         birthday(client);
 
         // Check for brawlhalla stream
-        brawlhalla(client);
+        BrawlhallaStream(client);
         // await client.guilds?.cache.get('524951977243836417')?.commands.set(arrayOfSlashCommands);
 
         // Check for reaction roles

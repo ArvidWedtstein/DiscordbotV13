@@ -4,29 +4,30 @@ import { Formatters, MessageAttachment, MessageButton, MessageEmbed } from 'disc
 import profileSchema from '../schemas/profileSchema';
 import moment from 'moment';
 import gradient from 'gradient-string';
-export const brawlhalla = (async (client: Client) => {
-  
-  interface Stream {
-    id: string;
-    start_time: string;
-    end_time: string;
-    title: string;
-    canceled_until: string;
-    category: { id: string; name: string };
-    is_recurring: boolean;
-  }
-  interface TwitchUser {
-    id: string;
-    login: string;
-    display_name: string;
-    type: string;
-    broadcaster_type: string;
-    description: string;
-    profile_image_url: string;
-    offline_image_url: string;
-    view_count: number;
-    created_at: string;
-  }
+
+
+export interface Stream {
+  id: string;
+  start_time: string;
+  end_time: string;
+  title: string;
+  canceled_until: string;
+  category: { id: string; name: string };
+  is_recurring: boolean;
+}
+export interface TwitchUser {
+  id: string;
+  login: string;
+  display_name: string;
+  type: string;
+  broadcaster_type: string;
+  description: string;
+  profile_image_url: string;
+  offline_image_url: string;
+  view_count: number;
+  created_at: string;
+}
+export const BrawlhallaStream = (async (client: Client) => {
 
   let lastStream: Stream = {} as Stream;
 
@@ -38,27 +39,41 @@ export const brawlhalla = (async (client: Client) => {
   const RunDaily = (async () => {
     let user = 'brawlhalla'
     try {
-      axios.get(`https://api.twitch.tv/helix/users?login=${user}`, {
-        headers: {
-          'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
-          'Client-ID': process.env.TWITCH_CLIENT_ID || ''
-        }
-      }).then((res) => {
-        twitchuser = res.data.data[0];
-        axios.get(`https://api.twitch.tv/helix/schedule?broadcaster_id=${res.data.data[0].id}`, {
+      if (user != 'brawlhalla') {
+        let { data: userdata } = await axios.get(`https://api.twitch.tv/helix/users?login=${user}`, {
           headers: {
             'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
-            'Client-ID': process.env.TWITCH_CLIENT_ID || ''
+            'Client-ID': process.env.TWITCH_CLIENT_ID || '',
           }
-        }).then((resp) => {
-          streams = resp.data.data.segments;
-          if (intervalID) clearInterval(intervalID);
-          // streams[0].start_time = moment().format('YYYY-MM-DD HH:mm:ss');
+        });
+        twitchuser = userdata.data[0];
+      } else {
+        twitchuser = {
+          id: '75346877',
+          login: 'brawlhalla',
+          display_name: 'Brawlhalla',
+          type: '',
+          broadcaster_type: 'partner',
+          description: 'Welcome to Brawlhalla: the free to play platform fighter with full cross-play on PlayStation, Xbox, Nintendo Switch, Steam, iOS, and Android! Check out the Stream Schedule to know when to watch: https://www.brawlhalla.com/schedule/ ',
+          profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/501d25e0-fa79-4fb0-b9d5-c60797608823-profile_image-300x300.png',
+          offline_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/92adea76-a5b9-4404-97f4-7cf296c6af63-channel_offline_image-1920x1080.jpeg',
+          view_count: 32694000,
+          created_at: '2014-11-16T22:23:31Z'
+        }
+      }
+      let { data: streamdata } = await axios.get(`https://api.twitch.tv/helix/schedule?broadcaster_id=${twitchuser.id}`, {
+        headers: {
+          'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
+          'Client-ID': process.env.TWITCH_CLIENT_ID || '',
+        }
+      });
 
-          CheckForStream(streams, twitchuser);
-          intervalID = setInterval(CheckForStream, (60 * 1000), streams, twitchuser);
-        })
-      })
+      streams = streamdata.data.segments;
+      if (intervalID) clearInterval(intervalID);
+      // streams[0].start_time = moment().format('YYYY-MM-DD HH:mm:ss');
+
+      CheckForStream(streams, twitchuser);
+      intervalID = setInterval(CheckForStream, (60 * 1000), streams, twitchuser);
     } catch (err) {
       console.log(err)
     }
@@ -70,29 +85,15 @@ export const brawlhalla = (async (client: Client) => {
     const date = new Date()
     let hours = date.getHours()
     let stream = Streams[0]
-    if (stream.is_recurring) {
-      if (stream.canceled_until) {
-        if (moment(stream.canceled_until).isAfter(moment())) {
-          return;
-        }
-      }
-      if (moment(stream.start_time).isAfter(moment())) {
-        return;
-      }
-      if (moment(stream.end_time).isBefore(moment())) {
-        return;
-      }
-    } else {
-      if (moment(stream.start_time).isAfter(moment())) {
-        return;
-      }
-      if (moment(stream.end_time).isBefore(moment())) {
-        return;
-      }
+    
+    if (stream.canceled_until) {
+      if (moment(stream.canceled_until).isAfter(moment())) return;
     }
-    if (stream.id == lastStream.id || stream.start_time == lastStream.start_time) {
-      return;
-    }
+    if (moment(stream.start_time).isAfter(moment())) return;
+    if (moment(stream.start_time).isBefore(moment())) return console.log('Stream has not started yet');
+    if (moment(stream.end_time).isBefore(moment())) return;
+
+    if (stream.id == lastStream.id || stream.start_time == lastStream.start_time) return;
 
     lastStream = stream;
 

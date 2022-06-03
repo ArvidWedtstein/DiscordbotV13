@@ -1,11 +1,5 @@
 import { Event } from '../Interfaces';
 import * as gradient from 'gradient-string';
-import { loadLanguages } from '../Functions/language';
-import { brawlhalla } from '../Functions/brawlhalla';
-import { loadColors } from '../Functions/icon';
-import reactionroles from '../Functions/ReactionRole'
-import birthday from '../Functions/birthday';
-import path from 'path';
 import icon from '../Functions/icon';
 import { Formatters, Interaction, MessageAttachment, MessageButton, MessageEmbed, ExcludeEnum, MessageActionRow, Message } from 'discord.js';
 import { MessageButtonStyles } from 'discord.js/typings/enums';

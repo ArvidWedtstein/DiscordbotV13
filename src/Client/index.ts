@@ -185,11 +185,11 @@ class ExtendedClient extends Client {
         if (testcmds.length > 0) {
             (async () => {
                 try {
-                    console.log('Started refreshing application (/) commands.');
-            
-                    await rest.put(Routes.applicationGuildCommands(this.application?.id || '', this.config.testServer), { body: testcmds });
+                    console.log('Started refreshing application (/) commands.', this.user?.id);
+                    
+                    if (this.user?.id) await rest.put(Routes.applicationGuildCommands(this.user?.id || '', this.config.testServer), { body: testcmds });
 
-                    console.log('Successfully reloaded application (/) commands.');
+                    if (this.user?.id) console.log('Successfully reloaded application (/) commands.');
                 } catch (error) {
                     console.error(error);
                 }
@@ -199,10 +199,10 @@ class ExtendedClient extends Client {
         if (globalcmds.length > 0) {
             (async () => {
                 try {
-                    console.log('Started refreshing global (/) commands.', this.application?.id);
+                    console.log('Started refreshing global (/) commands.', this.user?.id);
             
                     await rest.put(
-                        Routes.applicationCommands(this.application?.id || ''),
+                        Routes.applicationCommands(this.user?.id || ''),
                         { body: globalcmds }
                     )
                     console.log('Successfully reloaded global (/) commands.');
