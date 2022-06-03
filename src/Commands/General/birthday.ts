@@ -63,32 +63,16 @@ export const command: Command = {
         
         const userId = user?.id;
         const proresult = await profileSchema.updateMany({ userId }, { $set: { birthday } });
-        // const profileresult = await profileSchema.findOneAndUpdate({
-        //     guildId,
-        //     userId
-        // }, {
-        //     $set: {
-        //         birthday
-        //     }
-        // }, {
-        //     upsert: true,
-        // })
-        
-        // if (!profileresult) {
-        //     new profileSchema({
-        //         guildId,
-        //         userId,
-        //         $set: {
-        //             birthday
-        //         }
-        //     })
-        // }
+
 
         const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
         
         let embed = new MessageEmbed()
             .setColor(client.config.botEmbedHex)
-            .setAuthor({ name: `${user?.user.username}'s ${language(guild, 'BIRTHDAY_CHANGE')} ${birthday}`, iconURL: user?.user.displayAvatarURL({ dynamic: true})})
+            .setAuthor({ 
+                name: `${user?.user.username}'s ${language(guild, 'BIRTHDAY_CHANGE')} ${birthday}`, 
+                iconURL: user?.user.displayAvatarURL({ dynamic: true})
+            })
             .setImage('attachment://banner.jpg')
 
         return message.reply({ 

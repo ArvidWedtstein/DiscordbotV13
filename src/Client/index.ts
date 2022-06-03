@@ -75,16 +75,17 @@ class ExtendedClient extends Client {
     }
     public async init() {
         this.login(this.config.token);
-        let options = {
-            "keepAlive": true,
-            "useNewUrlParser": true,
-            "useUnifiedTopology": true
-        }
+        
 
 
         // ----------------------------
         // Connect to database
         // ----------------------------
+        let options = {
+            "keepAlive": true,
+            "useNewUrlParser": true,
+            "useUnifiedTopology": true
+        }
         await mongoose.connect(this.config.mongoURI, options).then(async (t) => {
             console.log(`Connected to ${gradient.fruit('Database')}`)
         }).catch((err) => {

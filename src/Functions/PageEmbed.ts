@@ -103,13 +103,7 @@ export class PageEmbed {
             // Add reactions to the embed
 
             // TODO - Handle emoji reactions seperately
-            
-            // if (page.reactions && await Object.values(page.reactions).length > 0) {
-            //     for (let i = 0; i < Object.values(page.reactions).length; i++) {
-            //         let emoji: any = Object.values(page.reactions)[i];
-            //         m.react(emoji)
-            //     }
-            // }
+
 
             const filter = (i: Interaction) => i.user.id === author.id;
 
