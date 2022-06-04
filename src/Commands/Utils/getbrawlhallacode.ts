@@ -8,7 +8,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import { addXP } from '../../Functions/Level';
 import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
-    name: "getbrawlhallacode",
+    name: "getbrawlhallacode2",
     description: "get Brawlhalla Code",
     details: "get Brawlhalla Code",
     aliases: ["getbwlcode"],
@@ -57,8 +57,8 @@ export const command: Command = {
         }
         
         let options: any = []
-        codes.forEach((i: any, code: any) => {
-            if (code.name.length > 0 && code.name != null && code.redeemed == false) {
+        codes.forEach((code: any, i: any) => {
+            if (code.name && code.name != null && code.redeemed == false) {
                 options.push({
                     label: `${code.name}`,
                     value: `${i}`,
