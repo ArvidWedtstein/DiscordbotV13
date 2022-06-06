@@ -12,7 +12,7 @@ import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed';
 
 export const command: Command = {
     name: "settings",
-    description: "settings",
+    description: "change the settings of your guild",
     details: "settings",
     aliases: ["setting"],
     hidden: false,
@@ -38,20 +38,7 @@ export const command: Command = {
         
         const guildId = guild.id
         // message.delete()
-        let emojicharacters: any = emojiCharacters
-        
-        const desc: any = {
-            1: `${language(guild, 'EMOTE_SYSTEM')}`,
-            2: `${language(guild, 'ECONOMY_SYSTEM')}`,
-            3: `${language(guild, 'SWEARFILTER_SYSTEM')}`,
-            4: `${language(guild, 'TICKET_SYSTEM')}`,
-            5: `${language(guild, 'MODERATION_SYSTEM')}`,
-            6: `${language(guild, 'ANTIJOIN_SYSTEM')}`,
-            7: `${language(guild, 'WELCOME_SYSTEM')}`
-        }
-        let page = 0;
-        const settingicon = icon(client, guild, 'settings');
-        
+
         const sign = boticons(client, 'right2');
 
         const categories = [
@@ -88,7 +75,8 @@ export const command: Command = {
         
 
         const toggleIcons: any[] = [on, off];
-        const t = new PageEmbed(pages);
+        const t = new PageEmbed()
+            .addPages(pages);
 
         await t.post(message)
 

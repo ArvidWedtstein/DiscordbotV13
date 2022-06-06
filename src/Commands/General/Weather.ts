@@ -134,7 +134,8 @@ export const command: Command = {
                     canvas: customcanvas2.gen()
                 }
             ]  
-            const t = new PageEmbed(pages);
+            const t = new PageEmbed()
+                .addPages(pages);
 
             await t.post(message)
 

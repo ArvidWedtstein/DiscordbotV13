@@ -20,10 +20,15 @@ import {
     Guild,
     MessageEmbedOptions,
     MessageAttachment,
+    MessageSelectMenuOptions,
+    MessageSelectOptionData,
+    MessageSelectMenu,
+    MessageActionRowComponent,
+    MessageActionRowComponentResolvable,
 } from "discord.js";
 import settingsSchema from "../schemas/settingsSchema";
-import { Canvas } from "@napi-rs/canvas"
-import { re } from "mathjs";
+import { Canvas } from "@napi-rs/canvas";
+
 
 export interface PageEmbedOptions {
     title?: string;
@@ -49,31 +54,63 @@ export interface PageEmbedOptions {
     };
     files?: any[];
     canvas?: Canvas;
+    selectMenuItemID?: string;
 }
 
+export interface PageEmbedSettings {
+    pages?: PageEmbedOptions[];
+    selectMenu?: MessageSelectMenuOptions | null
+}
 
 export class PageEmbed {
-    public pages: PageEmbedOptions[];
-    private currentPage: number;
-    private component: MessageActionRow;
-    private settings: any;
-    constructor(pages: PageEmbedOptions[])
+    constructor(data?: PageEmbedSettings)
+    // constructor(pages: PageEmbedOptions[])
     {
-        this.pages = pages
+        this.pages = data?.pages || [];
+        this.selectMenu = data?.selectMenu ? new MessageActionRow({ components: [
+            new MessageSelectMenu(data.selectMenu)
+        ]}) : null;
         this.currentPage = 0;
         this.component = new MessageActionRow();
     }
-    private generate(page: PageEmbedOptions, channel: DMChannel | TextChannel | NewsChannel | ThreadChannel | PartialDMChannel, disable: boolean = false) {
+    private pages: PageEmbedOptions[];
+    private currentPage: number;
+    private component: MessageActionRow;
+    private settings: any;
+    private selectMenu: MessageActionRow<MessageSelectMenu, MessageSelectMenu, { components: MessageSelectMenu[] }> | null;
+
+    public addPage(page: PageEmbedOptions): this {
+        this.pages.push(page);
+        return this
+    };
+    public addPages(pages: PageEmbedOptions[]): this {
+        this.pages = pages;
+        return this
+    };
+    public addSelectMenu(options: MessageSelectMenuOptions): this {
+        this.selectMenu = new MessageActionRow({ components: [
+            new MessageSelectMenu(options)
+        ]});
+
+        return this
+    };
+    public setPage(page: number): this {
+        this.currentPage = page;
+        return this
+    };
+    private generate(page: PageEmbedOptions, disable: boolean = false) {
+        
         // Update the footer text to the new page number
         if (!page.canvas) {
             page.footer = {text: `Page ${this.currentPage+1} of ${this.pages.length}`} 
             page.image = { url: `attachment://banner.gif` }
         }
-        let row = page.settings ? this.settingsBtn(page.settings.type, disable) : this.getRow(disable)
+        page.settings ? this.settingsBtn(page.settings.type, disable) : this.getRow(disable)
+        // this.selectMenu || this.component,
         const attachment = new MessageAttachment('./img/banner.gif', 'banner.gif');
         return { 
             embeds: page.canvas ? [] : [new MessageEmbed(page)], 
-            components: [this.component],
+            components: [this.selectMenu || this.component, this.component],
             files: page.canvas ? [new MessageAttachment(page.canvas.toBuffer('image/png'), `image.png`)] : [attachment]
         }
     }
@@ -98,7 +135,7 @@ export class PageEmbed {
         }
 
     
-        const messageEmbed = channel.send(this.generate(page, channel)).then(async (m) => {
+        const messageEmbed = channel.send(this.generate(page)).then(async (m) => {
 
             // Add reactions to the embed
 
@@ -124,12 +161,19 @@ export class PageEmbed {
                     this.settings[page.settings.type] = !this.settings[page.settings.type] // Toggle the setting
                     result = this.settings
 
-                    await m.edit(this.generate(page, channel))
+                    await m.edit(this.generate(page))
+                    return
+                }
+
+                if (reaction.isSelectMenu() && page.selectMenuItemID && this.pages.some(x => x.selectMenuItemID === reaction.values[0])) {
+                    if (this.pages.filter(x => x.selectMenuItemID === reaction.values[0]).length > 1) throw new Error('Multiple pages with the same select menu item ID is not allowed');
+                    this.currentPage = this.pages.findIndex(p => p.selectMenuItemID === reaction.values[0])
+                    page = this.pages[this.currentPage]
+                    await m.edit(this.generate(page))
                     return
                 }
 
                 if (reaction.customId === 'embed_save_and_close') {
-                    console.log('save')
                     this.save(guildId)
                     return
                 }
@@ -145,7 +189,7 @@ export class PageEmbed {
                 // Update the page
                 page = this.pages[this.currentPage];
             
-                await m.edit(this.generate(page, channel))
+                await m.edit(this.generate(page))
             })
 
             // When collector has finished, then update guilds settings
@@ -155,7 +199,7 @@ export class PageEmbed {
                     this.save(guildId);
                 }
                 // Disable buttons
-                m.edit(this.generate(page, channel, true))
+                m.edit(this.generate(page, true))
                 return
             })
         })     

@@ -83,7 +83,7 @@ export const command: Command = {
                 timestamp: new Date(),
             })
         })
-        const t = new PageEmbed(pages);
+        const t = new PageEmbed({ pages });
 
         await t.post(message)
     }

@@ -8,10 +8,11 @@ import temporaryMessage from '../../Functions/temporary-message';
 import icon from '../../Functions/icon';
 import boticons from '../../Functions/boticons';
 import emojiCharacters from '../../Functions/emojiCharacters';
+import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed';
 export const command: Command = {
     name: "help",
     description: "get some help",
-    aliases: ["plzhelp"],
+    aliases: ["plzhelp", 'h'],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
@@ -26,6 +27,7 @@ export const command: Command = {
         const getEmoji = (emojiName: any) => {
             return icon(client, guild, emojiName)
         }
+
 
         let embedcolor: any = await getColor(guildId, userId);
 
@@ -57,6 +59,25 @@ export const command: Command = {
 
         const categories: any = client.registry.groups.map((f) => f.name)
 
+        const pages: PageEmbedOptions[] = [
+            {
+                color: client.config.botEmbedHex,
+                title: `${language(guild, 'HELP_TITLE')}`,
+                description: `${categories.join('\n')}`,
+                // selectMenu: {
+                //     items: [{
+                        
+                //     }]
+                // }
+            }
+        ]
+
+        const t = new PageEmbed({
+            pages: pages
+        })
+
+        await t.post(message)
+
         let options: any[] = [{
             label: 'Home',
             description: 'Overview over the categories',
@@ -69,9 +90,10 @@ export const command: Command = {
         }]
 
         let embed = new MessageEmbed({
+            // type: "image",
             color: embedcolor,
-            title: `${getEmoji("help")}${emojiCharacters.squareleft}${await language(guild, 'HELP_TITLE')}${emojiCharacters.squareright}`,
-            description: `${boticons(client, 'ticket')}${await language(guild, 'HELP_TICKET')}\n[Invite](https://discord.gg/ysfgqV7QFM)`,
+            title: `${getEmoji("help")}${emojiCharacters.squareleft}${language(guild, 'HELP_TITLE')}${emojiCharacters.squareright}`,
+            description: `${boticons(client, 'ticket')}${language(guild, 'HELP_TICKET')}\n[Invite](https://discord.gg/ysfgqV7QFM)`,
             footer: { text: `${client.config.prefix}help <cmd> to see more details - 0/${categories.length}` },
             fields: [{name: `__**Home - ${0}**__`, value: 'This page', inline: true}]
         })

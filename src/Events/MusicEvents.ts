@@ -29,6 +29,7 @@ export const event: Event = {
             }
 
             function row(playing: boolean, repeatMode: QueueRepeatMode) {
+                // TODO - Add button that opens modal to add new song to the list.
                 const upperRow = new MessageActionRow().addComponents(
                     genButton(`volumedown`, "🔉", "SECONDARY"),
                     genButton(`back`, icon(client, queue.guild, 'chevronleft').id, "SECONDARY"),
