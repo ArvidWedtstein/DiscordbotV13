@@ -59,7 +59,8 @@ export interface PageEmbedOptions {
 
 export interface PageEmbedSettings {
     pages?: PageEmbedOptions[];
-    selectMenu?: MessageSelectMenuOptions | null
+    selectMenu?: MessageSelectMenuOptions | null;
+    timeout?: number;
 }
 
 export class PageEmbed {
@@ -77,7 +78,7 @@ export class PageEmbed {
     private currentPage: number;
     private component: MessageActionRow;
     private settings: any;
-    private selectMenu: MessageActionRow<MessageSelectMenu, MessageSelectMenu, { components: MessageSelectMenu[] }> | null;
+    private selectMenu: any | null;
 
     public addPage(page: PageEmbedOptions): this {
         this.pages.push(page);
@@ -105,12 +106,16 @@ export class PageEmbed {
             page.footer = {text: `Page ${this.currentPage+1} of ${this.pages.length}`} 
             page.image = { url: `attachment://banner.gif` }
         }
-        page.settings ? this.settingsBtn(page.settings.type, disable) : this.getRow(disable)
+
+        page.settings ? this.getRow(disable, page.settings.type) : this.getRow(disable)
+        this.selectMenu ? this.selectMenu?.components.every((c: any) => c.setDisabled(disable)) : null
         // this.selectMenu || this.component,
         const attachment = new MessageAttachment('./img/banner.gif', 'banner.gif');
+        let components = [this.component];
+        this.selectMenu ? components.push(this.selectMenu) : null
         return { 
             embeds: page.canvas ? [] : [new MessageEmbed(page)], 
-            components: [this.selectMenu || this.component, this.component],
+            components: components,
             files: page.canvas ? [new MessageAttachment(page.canvas.toBuffer('image/png'), `image.png`)] : [attachment]
         }
     }
@@ -204,7 +209,7 @@ export class PageEmbed {
             })
         })     
     }
-    private getRow(disabled: boolean = false) {
+    private getRow(disabled: boolean = false, setting?: string) {
         this.component.setComponents(
             new MessageButton({
                 customId: 'prev_embed',
@@ -219,6 +224,24 @@ export class PageEmbed {
                 disabled: !disabled ? this.currentPage === this.pages.length - 1 : disabled
             })
         )
+        if (setting) {
+            this.component.addComponents(
+                new MessageButton({
+                    customId: `embed_save_and_close`,
+                    style: "SECONDARY",
+                    emoji: "💾",
+                    disabled: disabled
+                }),
+                new MessageButton({
+                    customId: this.settings[setting] == true ? `embed_on_${setting}` : `embed_off_${setting}`,
+                    style: this.settings[setting] == true ? "SUCCESS" : "DANGER",
+                    emoji: this.settings[setting] == true ? "✅" : "❌",
+                    disabled: disabled
+                })
+            )
+            this.pages[this.currentPage].color = this.settings[setting] == true ? "#00ff00" : "#ff0000"
+            this.pages[this.currentPage].author = { name: `${setting}: ${this.settings[setting]}`}
+        }
         return;
     }
     private async save(guildId: string) {
@@ -228,7 +251,7 @@ export class PageEmbed {
         for (let i = 0; i < s.length; i++) {
             updates[s[i]] = this.settings[s[i]]
         }
-        console.log(updates)
+
         let result = await settingsSchema.findOneAndUpdate(
             {
                 guildId,

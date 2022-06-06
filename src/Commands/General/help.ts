@@ -59,24 +59,19 @@ export const command: Command = {
 
         const categories: any = client.registry.groups.map((f) => f.name)
 
-        const pages: PageEmbedOptions[] = [
-            {
-                color: client.config.botEmbedHex,
-                title: `${language(guild, 'HELP_TITLE')}`,
-                description: `${categories.join('\n')}`,
-                // selectMenu: {
-                //     items: [{
-                        
-                //     }]
-                // }
-            }
-        ]
+        // const pages: PageEmbedOptions[] = [
+        //     {
+        //         color: client.config.botEmbedHex,
+        //         title: `${language(guild, 'HELP_TITLE')}`,
+        //         description: `${categories.join('\n')}`,
+        //     }
+        // ]
 
-        const t = new PageEmbed({
-            pages: pages
-        })
+        // const t = new PageEmbed({
+        //     pages: pages
+        // })
 
-        await t.post(message)
+        // await t.post(message)
 
         let options: any[] = [{
             label: 'Home',

@@ -68,7 +68,7 @@ export const command: Command = {
                     color: client.config.botEmbedHex,
                     title: `${language(guild, 'HELP_TITLE')}2`,
                     description: `Test2`,
-                    selectMenuItemID: 'test',
+                    selectMenuItemID: '2test2',
                 },
             ]
         })
