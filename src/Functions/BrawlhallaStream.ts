@@ -90,7 +90,6 @@ export const BrawlhallaStream = (async (client: Client) => {
       if (moment(stream.canceled_until).isAfter(moment())) return;
     }
     if (moment(stream.start_time).isAfter(moment())) return;
-    if (moment(stream.start_time).isBefore(moment())) return console.log('Stream has not started yet');
     if (moment(stream.end_time).isBefore(moment())) return;
 
     if (stream.id == lastStream.id || stream.start_time == lastStream.start_time) return;
