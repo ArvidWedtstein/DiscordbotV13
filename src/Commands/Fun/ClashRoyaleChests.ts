@@ -39,13 +39,14 @@ export const command: Command = {
             userId: res.userId
         })
         
+        //heroku addons:destroy proximo
         
         if (!Royale) { // || moment(Royale.createdAt).isBefore(moment().startOf('day'))
             
             try {
-
                 const { data } = await axios.get(`https://api.clashroyale.com/v1/players/${userId}/upcomingchests`, {
                     headers: {
+                        "Accept": "application/json",
                         "Authorization": `Bearer ${process.env.CLASH_ROYALE_API_KEY}`
                     }
                 })
@@ -65,8 +66,9 @@ export const command: Command = {
                     }).save()
                 }
                 Royale = await newRoyale
-            } catch (error: any) {
-                return console.log(`Error: ${error?.data}`)
+            } catch (error) {
+                message.reply('Command is currently out of service due to IP Issues. Please try again later.')
+                return console.log(`Error: ${error}`)
             }
         }
 
