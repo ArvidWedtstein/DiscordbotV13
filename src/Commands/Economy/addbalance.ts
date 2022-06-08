@@ -9,7 +9,16 @@ export const command: Command = {
     name: "addbalance",
     description: "add balance to a user",
     aliases: ["addbal"],
-    UserPermissions: ['BAN_MEMBERS'],
+    UserPermissions: ['ADMINISTRATOR'],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     run: async(client, message, args) => {
         const { guild, channel, mentions, author } = message
         if (!guild || !channel) return;

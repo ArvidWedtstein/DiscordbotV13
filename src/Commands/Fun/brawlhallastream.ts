@@ -12,7 +12,15 @@ export const command: Command = {
     aliases: ["brawlhallatwitch"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     ownerOnly: false,
     examples: ["brawlhallastream"],
     

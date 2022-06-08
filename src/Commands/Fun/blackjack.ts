@@ -6,6 +6,15 @@ export const command: Command = {
     name: "blackjack",
     aliases: ["black"],
     description: "play blackjack",
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     run: async(client, message, args) => {
         const { author, guild, channel } = message;
 

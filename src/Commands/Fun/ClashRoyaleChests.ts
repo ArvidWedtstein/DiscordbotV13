@@ -41,29 +41,34 @@ export const command: Command = {
         })
         
 
-        if (!Royale || moment(Royale.createdAt).isBefore(moment().startOf('day'))) {
+        if (!Royale) { // || moment(Royale.createdAt).isBefore(moment().startOf('day'))
             
-            const { data } = await axios.get(`https://api.clashroyale.com/v1/players/${userId}/upcomingchests`, {
-                headers: {
-                    "Authorization": `Bearer ${process.env.CLASH_ROYALE_API_KEY}`
-                }
-            })
+            try {
 
-            let newRoyale = await APIcacheSchema.findOneAndUpdate({
-                type: "clashroyalechests",
-                userId: res.userId
-            }, {
-                data: data
-            })
+                const { data } = await axios.get(`https://api.clashroyale.com/v1/players/${userId}/upcomingchests`, {
+                    headers: {
+                        "Authorization": `Bearer ${process.env.CLASH_ROYALE_API_KEY}`
+                    }
+                })
 
-            if (!newRoyale) {
-                newRoyale = new APIcacheSchema({
+                let newRoyale = await APIcacheSchema.findOneAndUpdate({
                     type: "clashroyalechests",
-                    userId: res.userId,
+                    userId: res.userId
+                }, {
                     data: data
-                }).save()
+                })
+
+                if (!newRoyale) {
+                    newRoyale = new APIcacheSchema({
+                        type: "clashroyalechests",
+                        userId: res.userId,
+                        data: data
+                    }).save()
+                }
+                Royale = await newRoyale
+            } catch (error) {
+                return console.log(`Error: ${error}`)
             }
-            Royale = await newRoyale
         }
 
         const row = new MessageActionRow()

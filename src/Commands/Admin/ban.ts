@@ -10,9 +10,7 @@ export const command: Command = {
     description: "lets you ban a user",
     details: "lets you ban a user from the server",
     group: "Admin",
-    UserPermissions: [
-        "BAN_MEMBERS"
-    ],
+    UserPermissions: ["BAN_MEMBERS"],
     ClientPermissions: [
         'SEND_MESSAGES',
         'ADD_REACTIONS',

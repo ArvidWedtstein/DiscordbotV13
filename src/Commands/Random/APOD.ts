@@ -26,7 +26,6 @@ export const command: Command = {
         let Nasa = await NasaAPIcacheSchema.findOne({
             type: "apod"
         })
-
         if (!Nasa || moment(Nasa.data.date).isBefore(moment().startOf('day'))) {
             if (Nasa && moment(Nasa.data.date).isBefore(moment().startOf('day'))) {
                 await NasaAPIcacheSchema.deleteOne({
@@ -41,14 +40,18 @@ export const command: Command = {
             Nasa = await newNasa
         }
         
+        const { data: { date, explanation, hdurl, media_type, service_version, title, url } } = Nasa;
+
         const embed = new MessageEmbed()
             .setTitle(`Astronomy Picture of the Day`)
-            .setImage(Nasa.data.hdurl)
+            .setDescription(`${title}`)
+            .setImage(hdurl)
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
-            .setTimestamp()
+            .setTimestamp(date)
 
-        if (Nasa.data.media_type === "video") embed.setURL(Nasa.data.url)
-        channel.send( {embeds: [embed] });
+        if (media_type === "video") embed.setURL(url)
+
+        return channel.send( {embeds: [embed] });
     }
 }
 

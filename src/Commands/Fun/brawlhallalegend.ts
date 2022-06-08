@@ -18,7 +18,15 @@ export const command: Command = {
     details: "See description of a brawlhalla legend",
     aliases: ["bwllegend"],
     ownerOnly: false,
-    ClientPermissions: ["SEND_MESSAGES", "SEND_MESSAGES_IN_THREADS", "VIEW_CHANNEL"],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     UserPermissions: ["SEND_MESSAGES"],
     examples: [`-brawlhallalegend {legend name}`],
     run: async(client, message, args) => {

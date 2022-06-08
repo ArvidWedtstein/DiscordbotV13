@@ -12,7 +12,15 @@ export const command: Command = {
     aliases: ["setmoney"],
     hidden: false,
     UserPermissions: ["SEND_MESSAGES", "ADMINISTRATOR", "MODERATE_MEMBERS"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "EMBED_LINKS"],
+    ClientPermissions: [
+        'SEND_MESSAGES',
+        'ADD_REACTIONS',
+        'ATTACH_FILES',
+        'EMBED_LINKS',
+        'MANAGE_MESSAGES',
+        'READ_MESSAGE_HISTORY',
+        'VIEW_CHANNEL'
+    ],
     ownerOnly: false,
     examples: ["setbalance @user <amount>"],
     

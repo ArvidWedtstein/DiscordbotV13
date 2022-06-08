@@ -30,6 +30,7 @@ export const command: Command = {
         if (mentions.users.first()) {
             args.shift();
         }
+        
         const joined = args.join(" ");
         const split = joined.trim().split("/");
         let [ day, month, year ]: any = split;

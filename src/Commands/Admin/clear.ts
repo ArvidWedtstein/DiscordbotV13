@@ -8,6 +8,7 @@ import settingsSchema from '../../schemas/settingsSchema';
 export const command: Command = {
     name: "clear",
     description: "clear messages in a channel",
+    details: "clear a specific amount of messages in a channel",
     group: __dirname.toLowerCase(),
     UserPermissions: [
         "MANAGE_MESSAGES"
@@ -21,6 +22,7 @@ export const command: Command = {
         'READ_MESSAGE_HISTORY',
         'VIEW_CHANNEL'
     ],
+    examples: ["clear {amount}"],
     run: async(client, message, args: any) => {
         const { guild, author, mentions, channel } = message
         if (!guild) return;

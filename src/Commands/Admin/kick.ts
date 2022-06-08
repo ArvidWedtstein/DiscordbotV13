@@ -9,7 +9,7 @@ import settingsSchema from '../../schemas/settingsSchema';
 
 export const command: Command = {
     name: "kick",
-    description: "test",
+    description: "lets you kick a unwanted user",
     aliases: [],
     group: __dirname,
     UserPermissions: ["KICK_MEMBERS"],

@@ -14,7 +14,15 @@ export const command: Command = {
   aliases: ["resetmoney"],
   hidden: false,
   UserPermissions: ["ADMINISTRATOR"],
-  ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+  ClientPermissions: [
+    'SEND_MESSAGES',
+    'ADD_REACTIONS',
+    'ATTACH_FILES',
+    'EMBED_LINKS',
+    'MANAGE_MESSAGES',
+    'READ_MESSAGE_HISTORY',
+    'VIEW_CHANNEL'
+],
   ownerOnly: false,
   run: async(client, message, args) => {
     const { guild, channel, author, mentions, member } = message;
