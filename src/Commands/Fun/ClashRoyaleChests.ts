@@ -66,7 +66,7 @@ export const command: Command = {
                 }
                 Royale = await newRoyale
             } catch (error: any) {
-                return console.log(`Error: ${error?.message}`)
+                return console.log(`Error: ${error?.data.reason}\n${error?.data.message}`)
             }
         }
 
