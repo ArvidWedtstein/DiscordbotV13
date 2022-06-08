@@ -33,7 +33,7 @@ export const command: Command = {
         if (!city) return temporaryMessage(channel, "Please provide a city", 10)
 
         function calculateWindDirection(degrees: number): string {
-            const wind_from_direction_cardinal = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            const wind_from_direction_cardinal = ["↑N", "↗NE", "→E", "↘SE", "↓S", "↙SW", "←W", "↖NW"]
             const wind_from_cardinal_direction = wind_from_direction_cardinal[Math.round(degrees / 45)]
             return wind_from_cardinal_direction
         }

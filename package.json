@@ -10,7 +10,8 @@
     "startshard": "node dist/ShardManager.js",
     "startts": "ts-node ./src/index.ts",
     "build": "tsc",
-    "buildts": "tsc && npm run start"
+    "buildts": "tsc && npm run start",
+    "test": "jest"
   },
   "engines": {
     "npm": ">=7.0.0",
