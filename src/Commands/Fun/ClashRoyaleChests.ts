@@ -39,7 +39,7 @@ export const command: Command = {
             userId: res.userId
         })
         
-
+        
         if (!Royale) { // || moment(Royale.createdAt).isBefore(moment().startOf('day'))
             
             try {
@@ -65,8 +65,8 @@ export const command: Command = {
                     }).save()
                 }
                 Royale = await newRoyale
-            } catch (error) {
-                return console.log(`Error: ${error}`)
+            } catch (error: any) {
+                return console.log(`Error: ${error?.message}`)
             }
         }
 
