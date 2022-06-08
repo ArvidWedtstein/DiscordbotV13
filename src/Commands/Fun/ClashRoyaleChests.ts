@@ -7,7 +7,6 @@ import Discord, { Client, Intents, Constants, Interaction, MessageActionRow, Mes
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
-import { cacheSetTTL, cacheSet } from '../../Functions/CacheClient'
 import APIcacheSchema from '../../schemas/24hAPIcacheSchema';
 import profileSchema from '../../schemas/profileSchema';
 
