@@ -214,10 +214,10 @@ class ExtendedClient extends Client {
         }
 
         process.on('unhandledRejection', (reason, p) => {
-            console.log('\n=== unhandled Rejection ==='.toUpperCase(), '\nReason: ', reason);
+            console.log('\n=== Unhandled Rejection ==='.toUpperCase(), '\nReason: ', reason);
         })
         process.on("uncaughtException", (err, origin) => {
-            console.log('\n=== uncaught Exception ==='.toUpperCase(),'\nException: ', err.stack ? err.stack : err)
+            console.log('\n=== Uncaught Exception ==='.toUpperCase(),'\nException: ', err.stack ? err.stack : err)
         })
         process.on('uncaughtExceptionMonitor', (err, origin) => { }).on('multipleResolves', (type, promise, reason) => { });
     }
