@@ -39,7 +39,7 @@ export const BrawlhallaStream = (async (client: Client) => {
   const RunDaily = (async () => {
     let user = 'brawlhalla'
     try {
-      if (user != 'brawlhalla') {
+      if (user != 'brawlhall') {
         let { data: userdata } = await axios.get(`https://api.twitch.tv/helix/users?login=${user}`, {
           headers: {
             'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
@@ -75,7 +75,7 @@ export const BrawlhallaStream = (async (client: Client) => {
       CheckForStream(streams, twitchuser);
       intervalID = setInterval(CheckForStream, (60 * 1000), streams, twitchuser);
     } catch (err) {
-      console.log(err)
+      console.log(`BrawlhallaStream Error: ${err}`)
     }
 
     setTimeout(RunDaily, (86400 * 1000)) // Runs every 24 hours

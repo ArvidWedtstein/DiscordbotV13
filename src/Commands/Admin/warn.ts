@@ -61,17 +61,41 @@ export const command: Command = {
             .setColor(client.config.botEmbedHex)
             .setDescription(description)
             .setFooter({ text: `Warned by: ${author}`, iconURL: author.displayAvatarURL() })
-        target.send({ embeds: [embedLogg] })
 
-        await profileSchema.findByIdAndUpdate({
+        await profileSchema.updateOne({
             guildId,
             userId
         }, {
             $push: {
                 warns: warning
-            }
+            },
+            $currentDate: { lastModified: true }
         }).catch((error) => {
+            embedLogg.setDescription(`Error while updating profile of user (${target.id})\n${error}`)
+            embedLogg.setFooter({ text: `Error occured at: `})
+            embedLogg.setTimestamp()
+            message.reply({ embeds: [embedLogg] })
             console.log(`Error while updating profile of user (${target.id})\n`, error);
+            return 
         })
+
+        // Old Update Profile. (Not used anymore) UpdateOne saves time since findOneAndUpdate returns the document.
+
+        // await profileSchema.findOneAndUpdate({
+        //     guildId,
+        //     userId
+        // }, {
+        //     $push: {
+        //         warns: warning
+        //     }
+        // }).catch((error) => {
+        //     embedLogg.setDescription(`Error while updating profile of user (${target.id})\n${error}`)
+        //     embedLogg.setFooter({ text: `Error occured at: `})
+        //     embedLogg.setTimestamp()
+        //     message.reply({ embeds: [embedLogg] })
+        //     console.log(`Error while updating profile of user (${target.id})\n`, error);
+        //     return 
+        // })
+        target.send({ embeds: [embedLogg] })
     }
 }

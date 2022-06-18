@@ -38,15 +38,17 @@ export const command: Command = {
             guildId: guildId,
             messageCount: { $gt: 0, $exists: true }
         })
-        const gwresult = await profileSchema.find({
-            guildId: guildId,
-            guessedWords: { $exists: true }
-        })
-        let msgnmb = 0;
-        for (let k = 0; k < msgresult.length; k++) {
-            const { messageCount = 0 } = msgresult[k]
-            msgnmb += messageCount
-        }
+        // const gwresult = await profileSchema.find({
+        //     guildId: guildId,
+        //     guessedWords: { $exists: true, $not: null }
+        // })
+
+        let msgnmb = msgresult.reduce((accumulator, object) => {
+            return accumulator + object.messageCount;
+        }, 0);
+        console.log('Messages: ', msgnmb)
+
+        
 
         // Get server boosters
         let nitroboosters: any = 0;
@@ -82,11 +84,11 @@ export const command: Command = {
                     value: `${msgnmb}`,
                     inline: false
                 },
-                {
-                    name: `Words Guessed:`,
-                    value: `${msgnmb}`,
-                    inline: false
-                },
+                // {
+                //     name: `Words Guessed:`,
+                //     value: `${msgnmb}`,
+                //     inline: false
+                // },
                 {
                     name: `Server Booster${nitroboosters === 1 ? '' : 's'}:`,
                     value: `${nitroboosters}`,
