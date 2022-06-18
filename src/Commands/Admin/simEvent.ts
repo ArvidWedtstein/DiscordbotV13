@@ -9,7 +9,7 @@ import settingsSchema from '../../schemas/settingsSchema';
 
 export const command: Command = {
     name: "simulateevent",
-    description: "unban a user",
+    description: "simulate a event",
     aliases: ["simevent"],
     group: __dirname,
     UserPermissions: ["BAN_MEMBERS"],

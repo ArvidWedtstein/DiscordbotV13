@@ -35,7 +35,7 @@ export const command: Command = {
 
         args.shift();
         const reason = args.join(' ')
-        member?.ban({days: parseInt(days), reason: reason});
+        member?.ban({ days: parseInt(days), reason: reason});
         const embed = new MessageEmbed()
             .setAuthor({name: `${member?.user.tag}`, iconURL: client.user?.displayAvatarURL()})
             .setDescription(`got banned by ${author.tag} for ${reason} (${days})`)
