@@ -3,7 +3,6 @@ import Client from '../Client';
 import { Message, MessageEmbed } from 'discord.js';
 import afk from '../Collection';
 import moment from 'moment';
-import { time } from '@discordjs/builders';
 import temporaryMessage from '../Functions/temporary-message';
 
 export const event: Event = {
@@ -20,7 +19,8 @@ export const event: Event = {
     }
     const allowedusers = [
         'Bass_Gamer',
-        'DianDaldedom'
+        'Lunatone',
+        'Chestnut'
     ]
     const alertreasons = [
         'destroyed',
@@ -35,7 +35,7 @@ export const event: Event = {
         if (msgarray[0] == 'Your') {
             let embed = new MessageEmbed()
                 .setTitle(`Dino Killed`)
-                .setDescription(`Our ${msg.substring(5, msg.indexOf('-'))} got killed by a ${msgarray[11]}`)
+                .setDescription(`Our ${msg.substring(5, msg.indexOf('-'))} got killed by a ${msgarray[11]} <@988253566605099008>`)
             let msgembed = message.channel.send({ embeds: [embed] });
             return
         }
@@ -44,13 +44,13 @@ export const event: Event = {
                 if (msg.includes(allowedusers[x])) {
                     if (msgarray[1] == allowedusers[i]) {
                         if (msgarray[8] == allowedusers[i]) return;
-                        message.channel.send(`<@${guild.ownerId}>, we're getting attacked.`);
+                        message.channel.send(`<@988253566605099008>, we're getting attacked.`);
                         return
                     }
                     return
                 } else {
                     if (msg.includes('destroyed')) {
-                        message.channel.send(`<@${guild.ownerId}>, we're getting attacked.`);
+                        message.channel.send(`<@988253566605099008>, we're getting attacked.`);
                         return
                     }
                 }
