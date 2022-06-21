@@ -38,12 +38,23 @@ export const BrawlhallaStream = (async (client: Client) => {
 
   const RunDaily = (async () => {
     let user = 'brawlhalla'
+    // https://id.twitch.tv/oauth2/token
+    // let h = await axios.get(`https://id.twitch.tv/oauth2/validate`, {
+    //     headers: {
+    //       'Authorization': `OAuth ${process.env.TWITCH_ACCESS_TOKEN}`,
+    //     }
+    //   });
+    // console.log(h.data)
     try {
-      if (user != 'brawlhall') {
+      // https://id.twitch.tv/oauth2/validate - validate token
+
+      // Refresh Access token: https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${process.env.TWITCH_CLIENT_ID}&redirect_uri=https://arvidw.space&scope=channel%3Amanage%3Apolls+channel%3Aread%3Apolls
+      
+      if (user != 'brawlhalla') {
         let { data: userdata } = await axios.get(`https://api.twitch.tv/helix/users?login=${user}`, {
           headers: {
             'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
-            'Client-ID': process.env.TWITCH_CLIENT_ID || '',
+            'Client-Id': process.env.TWITCH_CLIENT_ID || '',
           }
         });
         twitchuser = userdata.data[0];
@@ -64,7 +75,7 @@ export const BrawlhallaStream = (async (client: Client) => {
       let { data: streamdata } = await axios.get(`https://api.twitch.tv/helix/schedule?broadcaster_id=${twitchuser.id}`, {
         headers: {
           'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
-          'Client-ID': process.env.TWITCH_CLIENT_ID || '',
+          'Client-Id': process.env.TWITCH_CLIENT_ID || '',
         }
       });
 
