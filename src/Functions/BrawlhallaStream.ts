@@ -46,7 +46,7 @@ export const BrawlhallaStream = (async (client: Client) => {
     //   });
     // console.log(h.data)
     try {
-      // https://id.twitch.tv/oauth2/validate - validate token
+      // https://id.twitch.tv/oauth2/validate - validate tokenw
 
       // Refresh Access token: https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${process.env.TWITCH_CLIENT_ID}&redirect_uri=https://arvidw.space&scope=channel%3Amanage%3Apolls+channel%3Aread%3Apolls
       
