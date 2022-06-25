@@ -10,6 +10,8 @@ import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.
 import { Routes } from 'discord-api-types/v10';
 import { Registry } from '../Interfaces/Registry';
 import { Player } from 'discord-player';
+import express from 'express';
+
 
 dotenv.config();
 
@@ -25,6 +27,7 @@ class ExtendedClient extends Client {
         },
         connectionTimeout: 10000
     });
+
     public config: Config = {
         token: process.env.CLIENT_TOKEN, 
         mongoURI: process.env.REMOTE_MONGODB, 
@@ -76,8 +79,17 @@ class ExtendedClient extends Client {
     public async init() {
         this.login(this.config.token);
         
+        
+        const api = express();
 
+        api.get('/', (req: any, res: any) => {
+            console.log(req)
+            return res.send('Received a GET HTTP method');
+        });
 
+        api.listen(process.env.PORT, () =>
+            console.log(`Example app listening on port ${process.env.PORT}!`),
+        );
         // ----------------------------
         // Connect to database
         // ----------------------------

@@ -36,24 +36,67 @@ export const BrawlhallaStream = (async (client: Client) => {
 
   let intervalID: any;
 
+  let TwitchAccessToken = '';
+
+  const getToken = (url: string, callback: any) => {
+    axios({
+      method: 'post',
+      url: url,
+      data: {
+        client_id: process.env.TWITCH_CLIENT_ID,
+        client_secret: process.env.TWITCH_CLIENT_SECRET,
+        grant_type: 'client_credentials'
+      }
+    }).then(async (res) => {
+      callback(res);
+    });
+  }
+
+  const validateToken = (token: string): boolean => {
+    if (token === '') return false;
+    axios({
+      method: 'get',
+      url: 'https://id.twitch.tv/oauth2/validate',
+      headers: {
+        Authorization: `OAuth ${token}`
+      }
+    }).then(async (res) => {
+      if (res.status != 200) return false;
+    }).catch(async (err) => {
+      console.log(err);
+      return false;
+    });
+    return true;
+  }
+
+  const getBrawlhallaCodes = (broadcaster_id: any) => {
+    axios({
+      method: 'get',
+      url: `https://api.twitch.tv/helix/channel_points/custom_rewards`,
+      params: {
+        broadcaster_id: broadcaster_id
+        //id
+      }
+    }).then(async (res) => {
+      console.log(res.data)
+    })
+  }
+
   const RunDaily = (async () => {
     let user = 'brawlhalla'
-    // https://id.twitch.tv/oauth2/token
-    // let h = await axios.get(`https://id.twitch.tv/oauth2/validate`, {
-    //     headers: {
-    //       'Authorization': `OAuth ${process.env.TWITCH_ACCESS_TOKEN}`,
-    //     }
-    //   });
-    // console.log(h.data)
-    try {
-      // https://id.twitch.tv/oauth2/validate - validate tokenw
 
-      // Refresh Access token: https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${process.env.TWITCH_CLIENT_ID}&redirect_uri=https://arvidw.space&scope=channel%3Amanage%3Apolls+channel%3Aread%3Apolls
-      
+    
+    if (!validateToken(TwitchAccessToken)) {
+      getToken(`https://id.twitch.tv/oauth2/token`, async (res: any) => {
+        TwitchAccessToken = res.data.access_token;
+      });
+    }
+    
+    try {
       if (user != 'brawlhalla') {
         let { data: userdata } = await axios.get(`https://api.twitch.tv/helix/users?login=${user}`, {
           headers: {
-            'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
+            'Authorization': `Bearer ${TwitchAccessToken}`,
             'Client-Id': process.env.TWITCH_CLIENT_ID || '',
           }
         });
@@ -74,14 +117,14 @@ export const BrawlhallaStream = (async (client: Client) => {
       }
       let { data: streamdata } = await axios.get(`https://api.twitch.tv/helix/schedule?broadcaster_id=${twitchuser.id}`, {
         headers: {
-          'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
+          'Authorization': `Bearer ${TwitchAccessToken}`,
           'Client-Id': process.env.TWITCH_CLIENT_ID || '',
         }
       });
 
       streams = streamdata.data.segments;
       if (intervalID) clearInterval(intervalID);
-      // streams[0].start_time = moment().format('YYYY-MM-DD HH:mm:ss');
+      // streams[0].start_time = moment().format('YYYY-MM-DD HH:mm:ss'); // For Debugging
 
       CheckForStream(streams, twitchuser);
       intervalID = setInterval(CheckForStream, (60 * 1000), streams, twitchuser);
@@ -154,13 +197,15 @@ export const BrawlhallaStream = (async (client: Client) => {
       "Good Evening",
       ...greetings
     ]
-
+    let getRandom = (arr: string[]) => {
+      return arr[Math.floor(Math.random() * arr.length)]
+    }
     if (hours < 12) {
-      greet = greetings1[Math.floor(Math.random()*greetings1.length)];;
+      greet = getRandom(greetings1);
     } else if (hours >= 12 && hours <= 17) {
-      greet = greetings2[Math.floor(Math.random()*greetings2.length)];
+      greet = getRandom(greetings2);
     } else if (hours >= 17 && hours <= 24) {
-      greet = greetings3[Math.floor(Math.random()*greetings3.length)];
+      greet = getRandom(greetings3);
     }
       
     uniqueUsers.forEach(async (user) => {
@@ -179,11 +224,11 @@ export const BrawlhallaStream = (async (client: Client) => {
       ]
 
       // Get a random message.
-      let randomMsg = messages[Math.floor(Math.random()*messages.length)]
+      let randomMsg = getRandom(messages)
         .replaceAll('INSERT_STREAM_LENGTH', `${getStreamDuration(stream)}`);
 
       // Create new MessageAttachment for the border at the bottom of the embed.
-      const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+      const attachment = new MessageAttachment('./img/banner.gif', 'banner.gif');
       
       let embed = new MessageEmbed()
         .setColor(client.config.botEmbedHex)
@@ -195,7 +240,7 @@ export const BrawlhallaStream = (async (client: Client) => {
           `Brawlhalla's next stream is a ${getStreamDuration(Streams[1])} **${Streams[1].title}**  ${moment(Streams[1].start_time).calendar()}.`
         ].join('\n'))
         .setThumbnail(usertwitch.profile_image_url)
-        .setImage('attachment://banner.jpg')
+        .setImage('attachment://banner.gif')
         .setFooter({ text: `Sincerely, ${client.user?.username}`, iconURL: client.user?.displayAvatarURL() })
         .setTimestamp()
 
