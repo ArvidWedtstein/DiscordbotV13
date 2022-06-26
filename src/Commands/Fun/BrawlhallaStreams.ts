@@ -35,7 +35,7 @@ export const command: Command = {
             
       let { data: streamdata } = await axios.get(`https://api.twitch.tv/helix/schedule?broadcaster_id=75346877`, {
         headers: {
-          'Authorization': `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
+          'Authorization': `Bearer ${client.config.BrawlhallaToken}`,
           'Client-ID': process.env.TWITCH_CLIENT_ID || '',
         }
       });

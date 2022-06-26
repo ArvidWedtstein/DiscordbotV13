@@ -8,4 +8,5 @@ export interface Config {
     testServer: string;
     invite?: string;
     owner?: string;
+    BrawlhallaToken?: string;
 }
