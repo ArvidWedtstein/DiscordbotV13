@@ -39,11 +39,9 @@ export const BrawlhallaStream = (async (client: Client) => {
   const RunDaily = (async () => {
     let user = 'brawlhalla'
 
-    if (!ValidateToken(client.config.BrawlhallaToken || "")) {
-      GetToken(`https://id.twitch.tv/oauth2/token`, async (res: any) => {
-        client.config.BrawlhallaToken = res.data.access_token;
-      });
-    }
+    GetToken(client, async (res: any) => {
+      client.config.BrawlhallaToken = res.data.access_token;
+    });
     
     try {
       if (user != 'brawlhalla') {
