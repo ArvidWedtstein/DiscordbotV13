@@ -42,14 +42,14 @@ getToken(`https://id.twitch.tv/oauth2/token`, async (res) => {
   console.log("BRAWLHALLAUSERDATA: ", userdata)
   userId = userdata.data[0].id
   token = res.data.access_token
-  // userid: 260636456
-  let { data: codestatus } = await axios.get(`https://api.twitch.tv/helix/users/extensions/list`, {
-    headers: {
-      'Authorization': `Bearer sgcy6slsv7gnlk1udrwww55rf2f2ve`,
-      'Client-Id': process.env.TWITCH_CLIENT_ID2 || '',
-    }
-  })
-  console.log("CODESTATUS: ", codestatus)
+
+  // let { data: codestatus } = await axios.get(`https://api.twitch.tv/helix/channel_points/custom_rewards?broadcaster_id=75346877`, {
+  //   headers: {
+  //     'Authorization': `Bearer ${token}`,
+  //     'Client-Id': process.env.TWITCH_CLIENT_ID2 || '',
+  //   }
+  // })
+  // console.log("CODESTATUS: ", codestatus)
 });
 
 const getBrawlhallaCodes = (broadcaster_id, code) => {
@@ -72,8 +72,8 @@ const getBrawlhallaCodes = (broadcaster_id, code) => {
   });
 }
 
-// https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=uqnsk5yj9lia12ocjv2clf2lodsgh3&redirect_uri=http://localhost:3000&scope=channel%3Aread%3Aredemptions+user%3Aread%3Abroadcast
-// getBrawlhallaCodes('274637212');
+let url = `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${process.env.TWITCH_CLIENT_ID2}&redirect_uri=http://localhost:3000&scope=channel%3Aread%3Aredemptions+user%3Aread%3Abroadcast`
+console.log(url)
 
 const app = express();
 app.get('/', async (req, res) => { 
