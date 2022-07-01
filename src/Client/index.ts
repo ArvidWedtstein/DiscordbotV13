@@ -10,6 +10,7 @@ import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.
 import { Routes } from 'discord-api-types/v10';
 import { Registry } from '../Interfaces/Registry';
 import { Player } from 'discord-player';
+import { GetToken } from '../Functions/TwitchTokenManager';
 
 
 dotenv.config();
@@ -34,7 +35,8 @@ class ExtendedClient extends Client {
         botEmbedHex: "#ff4300",
         testServer: "848946037628076082",
         invite: "https://discord.com/oauth2/authorize?client_id=787324889634963486&scope=bot&permissions=10200548352",
-        owner: "320137922370338818"
+        owner: "320137922370338818",
+        BrawlhallaToken: ""
     };
     public constructor() {
         super({ 
@@ -94,7 +96,7 @@ class ExtendedClient extends Client {
 
         // AGSIOS Clyent https://betterprogramming.pub/how-to-write-clean-api-calls-with-axios-ddbc7df4256c
 
-
+        
         // ----------------------------
         // Load Commands
         // ----------------------------

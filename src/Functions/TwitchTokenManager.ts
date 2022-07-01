@@ -2,7 +2,9 @@ import axios from 'axios';
 import Client from '../Client';
 
 export const GetToken = (client: Client, callback: (result: any) => void) => {
-  if (ValidateToken(client.config.BrawlhallaToken || "")) return callback({ data: { access_token: client.config.BrawlhallaToken } });
+  if (ValidateToken(client.config.BrawlhallaToken || "")) {
+    return callback({ data: { access_token: client.config.BrawlhallaToken } });
+  }
 
   axios({
     method: 'post',
@@ -13,7 +15,8 @@ export const GetToken = (client: Client, callback: (result: any) => void) => {
       grant_type: 'client_credentials'
     }
   }).then(async (res) => {
-    return callback(res);
+    if (ValidateToken(res.data.access_token)) return callback(res);
+    else return callback({ data: { access_token: client.config.BrawlhallaToken } });
   });
 }
 
