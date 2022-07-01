@@ -40,6 +40,7 @@ export const BrawlhallaStream = (async (client: Client) => {
     let user = 'brawlhalla'
 
     GetToken(client, async (res: any) => {
+      if (!res.data.access_token) throw new Error('No token found.');
       client.config.BrawlhallaToken = res.data.access_token;
     });
     
@@ -81,6 +82,7 @@ export const BrawlhallaStream = (async (client: Client) => {
       CheckForStream(streams);
       intervalID = setInterval(CheckForStream, (60 * 1000), streams);
     } catch (err) {
+      console.error(err)
       console.log(`BrawlhallaStream Error: ${err}`)
     }
 
