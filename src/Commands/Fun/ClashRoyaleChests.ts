@@ -39,32 +39,37 @@ export const command: Command = {
             userId: res.userId
         })
 
+        const getChestData = (async (ClashRoyaleUserId: string) => {
+            const { data } = await axios.get(`https://api.clashroyale.com/v1/players/${ClashRoyaleUserId}/upcomingchests`, {
+                proxy: {
+                    protocol: 'http',
+                    host: process.env.FIXIE_HOST || '',
+                    port: 80,
+                    auth: {
+                        username: 'fixie',
+                        password: process.env.FIXIE_TOKEN || ''
+                    }
+                },
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${process.env.CLASH_ROYALE_API_KEY}`,                        
+                }
+            })
+
+            let newRoyale = await APIcacheSchema.findOneAndUpdate({
+                type: "clashroyalechests",
+                userId: res.userId
+            }, {
+                data: data
+            })
+
+            return { newRoyale, data }
+        });
         
         if (!Royale) { // || moment(Royale.createdAt).isBefore(moment().startOf('day'))
-            
-            try {
-                const { data } = await axios.get(`https://api.clashroyale.com/v1/players/${userId}/upcomingchests`, {
-                    proxy: {
-                        protocol: 'http',
-                        host: process.env.FIXIE_URL || 'test',
-                        port: 80,
-                        auth: {
-                            username: 'fixie',
-                            password: process.env.FIXIE_TOKEN || 'test'
-                        }
-                    },
-                    headers: {
-                        "Accept": "application/json",
-                        "Authorization": `Bearer ${process.env.CLASH_ROYALE_API_KEY}`,                        
-                    }
-                })
 
-                let newRoyale = await APIcacheSchema.findOneAndUpdate({
-                    type: "clashroyalechests",
-                    userId: res.userId
-                }, {
-                    data: data
-                })
+            try {
+                let { newRoyale, data } = await getChestData(userId);
 
                 if (!newRoyale) {
                     newRoyale = new APIcacheSchema({
@@ -116,18 +121,8 @@ export const command: Command = {
                 reaction.deferUpdate();
 
                 row.components[0].setDisabled(true)
-
-                const { data } = await axios.get(`https://api.clashroyale.com/v1/players/${userId}/upcomingchests`, {
-                    headers: {
-                        "Authorization": `Bearer ${process.env.CLASH_ROYALE_API_KEY}`
-                    }
-                })
-                const newRoyale = await APIcacheSchema.findOneAndUpdate({
-                    type: "clashroyalechests",
-                    userId: res.userId
-                }, {
-                    data: data
-                })
+                
+                const { newRoyale, data } = await getChestData(userId);
                 
                 embed.setDescription(`${data.items.map((chest: any) => `+${chest.index} - ${chest.name}`).join("\n")}`)
 
@@ -138,7 +133,6 @@ export const command: Command = {
 
             // When collector has finished, then update guilds settings
             collector.on('end', async (reaction) => {
-
                 return
             })
         })
