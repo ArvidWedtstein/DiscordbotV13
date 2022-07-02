@@ -48,7 +48,7 @@ export const command: Command = {
 
         if (!member) return
 
-        const warning = {
+        const warns = {
             author: member.user.tag,
             timestamp: new Date().getTime(),
             reason
@@ -68,7 +68,7 @@ export const command: Command = {
             userId
         }, {
             $push: {
-                warns: warning
+                warns
             },
             // $currentDate: { lastModified: true }
         }).catch((error) => {
