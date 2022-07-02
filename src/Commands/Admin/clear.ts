@@ -26,7 +26,7 @@ export const command: Command = {
     run: async(client, message, args: any) => {
         const { guild, author, mentions, channel } = message
         if (!guild) return;
-        const guildId = guild?.id
+        const guildId = guild.id
         const setting = await Settings(message, 'moderation');
         if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
         
@@ -42,9 +42,10 @@ export const command: Command = {
             })
         });
         let result = await settingsSchema.findOne({
-            guildId
+            guildId,
+            serverlog: { $exists: true }
         })
-        if (!result.serverlog) return
+        if (!result) return
 
         const logchannel = guild.channels.cache.find(channel => channel.id === result.serverlog);
         if (!logchannel?.manageable) return;

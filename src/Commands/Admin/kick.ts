@@ -26,7 +26,7 @@ export const command: Command = {
         message.delete()
         const { guild, author, mentions, channel } = message
         if (!guild) return;
-        const guildId = guild?.id
+        const guildId = guild.id;
         const setting = await Settings(message, 'moderation');
         if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`, 10);
         
@@ -56,8 +56,8 @@ export const command: Command = {
 
         targetMember?.kick(reason);
 
-        if (!result.serverlog) return 
-        const logchannel = guild.channels.cache.find(channel => channel.id === result.serverlog);
+        if (!result?.serverlog) return 
+        const logchannel = guild.channels.cache.find(channel => channel.id === result?.serverlog);
         if (!logchannel) return;
         if (!logchannel.isText()) return
         let logembed = new MessageEmbed()

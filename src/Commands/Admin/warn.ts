@@ -69,7 +69,7 @@ export const command: Command = {
             $push: {
                 warns: warning
             },
-            $currentDate: { lastModified: true }
+            // $currentDate: { lastModified: true }
         }).catch((error) => {
             embedLogg.setDescription(`Error while updating profile of user (${target.id})\n${error}`)
             embedLogg.setFooter({ text: `Error occured at: `})
