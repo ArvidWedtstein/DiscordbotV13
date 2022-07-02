@@ -45,8 +45,13 @@ export const command: Command = {
             try {
                 const { data } = await axios.get(`https://api.clashroyale.com/v1/players/${userId}/upcomingchests`, {
                     proxy: {
+                        protocol: 'http',
                         host: process.env.FIXIE_URL || 'test',
-                        port: 80
+                        port: 80,
+                        auth: {
+                            username: 'fixie',
+                            password: process.env.FIXIE_TOKEN || 'test'
+                        }
                     },
                     headers: {
                         "Accept": "application/json",
