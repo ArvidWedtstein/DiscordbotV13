@@ -38,17 +38,19 @@ export const command: Command = {
         })
         if (check.brawlhallacodes.find((x:any) => x.code === code)) return temporaryMessage(channel, `Code already exists`, 10);
         
+        let brawlhallacodes = {
+            code: code,
+            name: args.join(' '),
+            redeemed: false
+        }
+
         // $AddToSet operator adds a value to an array unless the value is already present
         const results = await profileSchema.findOneAndUpdate({
             userId: author.id,
             guildId: guild.id
         }, {
             $push: {
-                brawlhallacodes: {
-                    code: code,
-                    name: args.join(' '),
-                    redeemed: false
-                }
+                brawlhallacodes
             }
         })
 

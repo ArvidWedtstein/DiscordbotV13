@@ -29,10 +29,11 @@ export const command: Command = {
         
 
         let result = await settingsSchema.findOne({
-            guildId
+            guildId,
+            levels: { $exists: true }
         })
 
-        const compare = (obj1: any, obj2: any) => { return obj1.level - obj2.level; }
+        const compare = (obj1: any, obj2: any) => { return obj1?.level - obj2?.level; }
         let sortedLevels = result.levels.sort(compare)
         
         let desc: any = []

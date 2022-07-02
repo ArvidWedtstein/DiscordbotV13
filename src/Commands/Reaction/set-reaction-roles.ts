@@ -109,7 +109,7 @@ export const command: Command = {
             ...obj,
             $addToSet: {
                 roles: {
-                    emoji,
+                    emoji: emoji,
                     roleId: role.id
                 }
             }
@@ -117,6 +117,5 @@ export const command: Command = {
             upsert: true
         })
         addToCache(guild.id, fetchedMessage, emoji, role.id)
-        
     }
 }
