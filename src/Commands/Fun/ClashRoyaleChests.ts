@@ -44,9 +44,13 @@ export const command: Command = {
             
             try {
                 const { data } = await axios.get(`https://api.clashroyale.com/v1/players/${userId}/upcomingchests`, {
+                    proxy: {
+                        host: process.env.FIXIE_URL || 'test',
+                        port: 80
+                    },
                     headers: {
                         "Accept": "application/json",
-                        "Authorization": `Bearer ${process.env.CLASH_ROYALE_API_KEY}`
+                        "Authorization": `Bearer ${process.env.CLASH_ROYALE_API_KEY}`,                        
                     }
                 })
 
@@ -67,7 +71,7 @@ export const command: Command = {
                 Royale = await newRoyale
             } catch (error) {
                 message.reply('Command is currently out of service due to IP Issues. Please try again later.')
-                return console.log(`Error: ${error}`)
+                return console.error(`Error: ${error}`)
             }
         }
 
