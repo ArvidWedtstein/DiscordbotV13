@@ -47,7 +47,7 @@ export const command: Command = {
         })
         if (!result) return
 
-        const logchannel = guild.channels.cache.find(channel => channel.id === result.serverlog);
+        const logchannel = guild.channels.cache.find(channel => channel.id === result?.serverlog);
         if (!logchannel?.manageable) return;
         if (!logchannel.isText()) return
         let logembed = new MessageEmbed()

@@ -46,9 +46,10 @@ export const command: Command = {
         const userId = target.id
         const reason = args.join(' ')
 
+        if (!member) return
 
         const warning = {
-            author: member?.user.tag,
+            author: member.user.tag,
             timestamp: new Date().getTime(),
             reason
         }

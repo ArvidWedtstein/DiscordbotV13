@@ -6,11 +6,13 @@ const reqString = {
 }
 const reqBool = {
     type: Boolean,
-    default: true
+    default: true,
+    required: false
 }
 const falseBool = {
     type: String,
-    default: false
+    default: false,
+    required: false
 }
 const settingsSchema = new Schema({
     guildId: reqString,
@@ -27,7 +29,8 @@ const settingsSchema = new Schema({
     welcome: reqBool,
     iconcolor: {
         type: String,
-        default: "purple"
+        default: "purple",
+        required: false
     },
     serverlog: {
         type: String,
@@ -43,7 +46,7 @@ const settingsSchema = new Schema({
     },
     language: {
         type: String,
-        required: true,
+        required: false,
         default: 'english'
     },
     ticketSettings: {

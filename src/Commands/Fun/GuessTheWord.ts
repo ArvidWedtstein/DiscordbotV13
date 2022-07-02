@@ -249,7 +249,7 @@ export const command: Command = {
                 var duration = moment.duration(end.diff(now));
 
                 // 
-                let guessedWord = {
+                let guessedWord: any = {
                     word: word,
                     scrambledWord: scrambledWord,
                     time: duration.asSeconds()

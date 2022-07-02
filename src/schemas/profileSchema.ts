@@ -62,6 +62,7 @@ const profileSchema = new Schema({
     warns: {
         type: [Object],
         default: [],
+        required: false
     },
     items: {
         type: [Object],
