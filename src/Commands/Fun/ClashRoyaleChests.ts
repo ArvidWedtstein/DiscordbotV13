@@ -38,8 +38,7 @@ export const command: Command = {
             type: "clashroyalechests",
             userId: res.userId
         })
-        
-        //heroku addons:destroy proximo
+
         
         if (!Royale) { // || moment(Royale.createdAt).isBefore(moment().startOf('day'))
             
