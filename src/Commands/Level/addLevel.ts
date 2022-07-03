@@ -31,7 +31,7 @@ export const command: Command = {
         let tokens = args.join(' ').split(delimiter).slice(start)
         let level = tokens.join(delimiter).trim(); 
              
-        if (level.slice(-1) != "0") return temporaryMessage(channel, `Level must be tenable (10,20,30...)`, 10)
+        if (level.slice(-1) != "0") return temporaryMessage(channel, `Level must be tenable (10,20,30...) | Syntax: *${command.examples}*`, 10)
 
         let tokens2 = args.join(' ').split(delimiter).slice(0, start);
         let levelname = tokens2.join(delimiter).trim(); 

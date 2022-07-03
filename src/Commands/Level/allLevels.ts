@@ -35,10 +35,9 @@ export const command: Command = {
 
         const compare = (obj1: any, obj2: any) => { return obj1?.level - obj2?.level; }
         let sortedLevels = result.levels.sort(compare)
-        
-        let desc: any = []
-        sortedLevels.forEach((level: any) => {
-            desc.push(`${level.name} (Lvl ${level.level})`)
+
+        let desc: any = sortedLevels.map((level: any) => {
+            return `${level.name} (Lvl ${level.level})`
         });
         
         const embed = new MessageEmbed()
@@ -46,6 +45,6 @@ export const command: Command = {
             .setDescription(desc.join('\n'))
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({ embeds: [embed] });
+        channel.send({ embeds: [embed] });
     }
 }

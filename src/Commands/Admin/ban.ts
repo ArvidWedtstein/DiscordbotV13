@@ -5,6 +5,8 @@ import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
+
 export const command: Command = {
     name: "ban",
     description: "lets you ban a user",
@@ -23,13 +25,13 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, author, mentions, channel } = message
         if (!guild) return;
-        const guildId = guild?.id
+
         const setting = await Settings(message, 'moderation');
         
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
 
         const member = mentions.members?.first();
-        if (!member) return message.reply('couldnt find member')
+        if (!member) return ErrorEmbed(message, client, command, "Please mention a user to ban");
         args.shift();
         const days = args[0];
 
@@ -41,6 +43,6 @@ export const command: Command = {
             .setDescription(`got banned by ${author.tag} for ${reason} (${days})`)
             .setFooter({ text: `Executed by ${author.tag}` })
             .setTimestamp()
-        channel.send({ embeds: [embed] });
+        return channel.send({ embeds: [embed] });
     }
 }

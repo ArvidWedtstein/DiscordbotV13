@@ -10,9 +10,8 @@ import axios from 'axios';
 import { readFile } from 'fs/promises'
 import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed'
 import { CustomCanvas, Icon } from '../../Functions/Canvas'
-import { read } from 'fs';
-import sharp from 'sharp';
-import icon from 'Functions/icon';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
+
 export const command: Command = {
     name: "weather",
     description: "get the weather for a city",
@@ -22,15 +21,16 @@ export const command: Command = {
     UserPermissions: ["SEND_MESSAGES"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
     ownerOnly: false,
-    examples: ["weather {city}"],
+    examples: ["weather <city>"],
+
     run: async(client, message, args) => {
         const { guild, mentions, author, member, channel, attachments } = message;
 
-        if (!guild) return
-        
+        if (!guild) return;
         let city = args[0];
 
-        if (!city) return temporaryMessage(channel, "Please provide a city", 10)
+        // if (!city) return temporaryMessage(channel, "Please provide a city", 10)
+        if (!city) return ErrorEmbed(message, client, command, "Please provide a city")
 
         function calculateWindDirection(degrees: number): string {
             // const wind_from_direction_cardinal = ["↑N", "↗NE", "→E", "↘SE", "↓S", "↙SW", "←W", "↖NW"]

@@ -14,11 +14,13 @@ import axios from 'axios';
 export const command: Command = {
     name: "profile",
     description: "Your personal profile",
-    details: "You profile. contains stats about you.",
+    details: "Your profile. Contains stats about you.",
     aliases: ["p"],
     ownerOnly: false,
     ClientPermissions: ["SEND_MESSAGES", "SEND_MESSAGES_IN_THREADS", "VIEW_CHANNEL"],
     UserPermissions: ["SEND_MESSAGES"],
+    examples: ["-profile <username?>"],
+
     run: async(client, message, args) => {
         const { guild, mentions, author, channel } = message;
 

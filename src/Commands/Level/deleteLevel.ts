@@ -19,7 +19,7 @@ export const command: Command = {
     UserPermissions: ["SEND_MESSAGES", "BAN_MEMBERS"],
     ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "MANAGE_ROLES"],
     ownerOnly: false,
-    examples: ["deletelevel <name>"],
+    examples: ["deletelevel <name> <level>"],
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments } = message;
@@ -27,12 +27,15 @@ export const command: Command = {
         
         const guildId = guild.id;
         
+        let levelInt = args[args.length-1];
+        if (!levelInt || Number.isNaN(levelInt)) return message.channel.send(`Please provide a level number after the name.`);
+        args.pop();
         let level = args.join(' ')
 
         let result = await settingsSchema.findOneAndUpdate({
             guildId
         }, {
-            $pull: { levels: { name: level } }
+            $pull: { levels: { name: level, level: levelInt } }
         })
 
         const embed = new MessageEmbed()
