@@ -33,7 +33,9 @@ export const command: Command = {
         if (!city) return temporaryMessage(channel, "Please provide a city", 10)
 
         function calculateWindDirection(degrees: number): string {
-            const wind_from_direction_cardinal = ["↑N", "↗NE", "→E", "↘SE", "↓S", "↙SW", "←W", "↖NW"]
+            // const wind_from_direction_cardinal = ["↑N", "↗NE", "→E", "↘SE", "↓S", "↙SW", "←W", "↖NW"]
+            const wind_from_direction_cardinal = ["↓", "↙", "←", "↖", "↑", "↗", "→", "↘"]
+            // ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"]
             const wind_from_cardinal_direction = wind_from_direction_cardinal[Math.round(degrees / 45)]
             return wind_from_cardinal_direction
         }
@@ -46,9 +48,9 @@ export const command: Command = {
 
             const { name, local_names, lat, lon, country } = geodata[0]
 
-            let { data: weatherdata } = await axios.get(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${lon}`, {
+            let { data: weatherdata } = await axios.get(`https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${lat}&lon=${lon}`, {
                 headers: {
-                    "User-Agent": "Discordbot"
+                    "User-Agent": "Discordbot Arvid W."
                 }
             })
 
@@ -83,7 +85,8 @@ export const command: Command = {
                     cloud_area_fraction,
                     relative_humidity,
                     wind_from_direction,
-                    wind_speed
+                    wind_speed,
+                    wind_speed_of_gust
                 } = instant.details
 
                 let {
@@ -93,18 +96,19 @@ export const command: Command = {
 
                 icons.push({
                     iconPath: `./img/weather/${summary.symbol_code}.png`,
-                    posX: 250,
+                    // posX: 250,
+                    posX: 300,
                 })
+
                 rows.push([
                     `${moment(time).format("HH")}`, 
                     `${air_temperature}°C`, 
-                    `${details?.precipitation_amount ? details?.precipitation_amount : "0"}mm`,
-                    `${wind_speed}m/s`,
-                    `${calculateWindDirection(wind_from_direction)}`
+                    `${details?.precipitation_amount ? details?.precipitation_amount : "0"}`,
+                    `${wind_speed} (${wind_speed_of_gust}) ${calculateWindDirection(wind_from_direction)}`,
                 ])
             }
 
-            const titles = [`Time`, `Temp.`, `Rain`, `Wind`, `Wind dir.`]
+            const titles = [`Time`, `Temp.`, `Rain mm`, `Wind(gust) m/s`]
 
             let rows: any = [titles]
             let icons: Icon[] = []
