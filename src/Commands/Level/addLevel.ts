@@ -10,7 +10,7 @@ import icon from '../../Functions/icon';
 import settingsSchema from '../../schemas/settingsSchema';
 
 export const command: Command = {
-    name: "addlevel",
+    name: "addlevel2",
     description: "add/create a new level",
     details: "add/create a new level. I will automatically create a role for your level. You can customize the role as you want.",
     aliases: ["leveladd"],
@@ -36,11 +36,20 @@ export const command: Command = {
         let tokens2 = args.join(' ').split(delimiter).slice(0, start);
         let levelname = tokens2.join(delimiter).trim(); 
 
+        // Function for automatically adding level 
+        // let { levels } = await settingsSchema.findOne({
+        //     guildId,
+        //     levels: { $exists: true, $ne: [] }
+        // });
+        // let sortedLevels = levels.sort((obj1: any, obj2: any) => { return obj1?.level - obj2?.level; })
+        // let s = sortedLevels[sortedLevels.length - 1].level + 10
+
         const role = guild.roles.create({ name: `${levelname} (Lvl ${level})`, color: '#ff0000', hoist: true, position: 1 });
 
         let levelsobj = {name: `${levelname}`, level: `${level}`, role: (await role).id}
+    
 
-        let result = await settingsSchema.findOneAndUpdate({
+        let result = await settingsSchema.updateOne({
             guildId
         }, {
             $addToSet: {
@@ -48,10 +57,11 @@ export const command: Command = {
             }
         })
 
+
         if (!result) {
             result = await new settingsSchema({
                 guildId,
-                levels: [{name: `${levelname}`, level: `${level}`}]
+                levels: [{name: `${levelname}`, level: `${level}`, role: (await role).id}]
             }).save()
         }
         
@@ -59,6 +69,6 @@ export const command: Command = {
             .setTitle(`Created new level: ${levelname} (${level})`)
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
-        message.channel.send({embeds: [embed]});
+        return channel.send({embeds: [embed]});
     }
 }

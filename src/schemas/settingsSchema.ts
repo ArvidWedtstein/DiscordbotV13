@@ -41,19 +41,7 @@ const settingsSchema = new Schema({
         required: false
     },
     levels: {
-        type: [
-            {
-                name: {
-                    type: String
-                },
-                level: {
-                    type: String
-                },
-                role: {
-                    type: String
-                }
-            }
-        ],
+        type: Array,
         required: false
     },
     language: {
