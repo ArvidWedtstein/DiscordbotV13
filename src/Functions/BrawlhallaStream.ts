@@ -47,7 +47,7 @@ export const BrawlhallaStream = (async (client: Client) => {
         client.config.BrawlhallaToken = res.data.access_token;
         token = res.data.access_token;
 
-        if (user != 'brawlhalla') {
+        if (user != 'brawlhall') {
           let { data: userdata } = await axios.get(`https://api.twitch.tv/helix/users?login=${user}`, {
             headers: {
               'Authorization': `Bearer ${client.config.BrawlhallaToken}`,
