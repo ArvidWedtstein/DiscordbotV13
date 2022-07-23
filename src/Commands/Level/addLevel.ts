@@ -59,10 +59,10 @@ export const command: Command = {
 
 
         if (!result) {
-            result = await new settingsSchema({
+            result = new settingsSchema({
                 guildId,
                 levels: [{name: `${levelname}`, level: `${level}`, role: (await role).id}]
-            }).save()
+            }).save().catch((err: any) => console.log(err))
         }
         
         const embed = new MessageEmbed()

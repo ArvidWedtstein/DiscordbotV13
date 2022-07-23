@@ -28,7 +28,7 @@ export const command: Command = {
 
         const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
 
-        const getChannel = (channelId: string) => guild.channels.cache.get(channelId);
+        const getChannel = (channelId: any) => guild.channels.cache.get(channelId);
 
         function genButton(id: string, label: string, emoji: any, style: ExcludeEnum<typeof MessageButtonStyles, "LINK">) {
             return new MessageButton({
