@@ -67,7 +67,7 @@ export const command: Command = {
             ChannelId: "",
         }
 
-
+        if (!settings) return
         if (!settings.ticketSettings || !getChannel(settings.ticketSettings.CategoryId)) {
             await guild.channels.create(`Ticket System`, { type: "GUILD_CATEGORY", reason: "Ticket System" }).then(async (channel) => {
                 sett.CategoryId = channel.id
