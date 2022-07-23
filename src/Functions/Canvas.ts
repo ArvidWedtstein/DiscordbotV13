@@ -81,7 +81,7 @@ export class CustomCanvas {
                 fontBoundingBoxAscent,
                 fontBoundingBoxDescent
             } = this.context.measureText(text.text);
-            console.log(fontBoundingBoxAscent, fontBoundingBoxDescent)
+            // console.log(fontBoundingBoxAscent, fontBoundingBoxDescent)
             let padding = text.padding || { top: 0, left: 0 };
             let { left = 0, top = 0 } = padding;
             X += left;
