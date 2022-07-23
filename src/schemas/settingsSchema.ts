@@ -23,7 +23,8 @@ const settingsSchema = new Schema({
     moderation: reqBool,
     currency: {
         type: String,
-        default: 'ErlingCoin'
+        default: 'ErlingCoin',
+        required: false
     },
     antijoin: falseBool,
     welcome: reqBool,
@@ -52,12 +53,15 @@ const settingsSchema = new Schema({
     ticketSettings: {
         type: {
             CategoryId: {
+                required: false,
                 type: String,
             },
             ChannelId: {
+                required: false,
                 type: String,
             },
             TranscriptsChannelId: {
+                required: false,
                 type: String,
             }
         },
