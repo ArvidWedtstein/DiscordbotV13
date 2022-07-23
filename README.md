@@ -116,7 +116,7 @@ https://discord.gg/4Km3YdSjKX
 
 <h2 align="left">TODO</h2>
 
-<blockquote>
+<!-- <blockquote>
 Implement Unit Testing - Test individual functions and classes in the functions folder
 Implement Integration Testing - Test multiple units together | For example: Test how well two functions work together.
 Implement End-To-End Testing - Runs the bot in a simulated environment and attempts to emulate the actual use and behaviour of the bot (Cypress??)
@@ -125,4 +125,4 @@ Maybe implement System Testing - Tests that the bot works on actual servers (Oth
 Maybe implement Smoke Testing - A smoke test runs the most important tests first to make sure the bot isn't on fire before proceeding with the rest of the tests
 
 
-</blockquote>
+</blockquote> -->
