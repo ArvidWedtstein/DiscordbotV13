@@ -53,6 +53,7 @@ export const command: Command = {
 
         let settings = await settingsSchema.findOne({
             guildId: guildId,
+            ticketSettings: { $exists: true, $ne: null }
         })
 
         if (!settings) {
@@ -67,13 +68,13 @@ export const command: Command = {
         }
 
 
-        if (!settings?.ticketSettings || !getChannel(settings?.ticketSettings?.CategoryId)) {
+        if (!settings.ticketSettings || !getChannel(settings.ticketSettings.CategoryId)) {
             await guild.channels.create(`Ticket System`, { type: "GUILD_CATEGORY", reason: "Ticket System" }).then(async (channel) => {
                 sett.CategoryId = channel.id
             })
         }
         const category = await getChannel(sett?.CategoryId) as Discord.CategoryChannel
-        if (!settings?.ticketSettings || !getChannel(settings?.ticketSettings?.ChannelId)) {
+        if (!settings?.ticketSettings || !sett.CategoryId) {
             await guild.channels.create(`open-a-ticket`, { 
                 type: "GUILD_TEXT", 
                 reason: "Ticket channel", 
