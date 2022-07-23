@@ -60,6 +60,7 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
             guildId
         })
     
+        if (!guildSettings) return
         
         
         let { xp, level } = result
