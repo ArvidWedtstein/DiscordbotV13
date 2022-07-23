@@ -32,7 +32,7 @@ export const command: Command = {
             levels: { $exists: true }
         })
 
-        if (!result || !result.levels) return
+        if (!result || !result?.levels) return
 
         let sortedLevels = result.levels.sort((obj1: any, obj2: any) => { return obj1?.level - obj2?.level; })
 
