@@ -7,7 +7,6 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
-import { readFile } from 'fs/promises'
 import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed'
 import { CustomCanvas, Icon } from '../../Functions/Canvas'
 import { ErrorEmbed } from '../../Functions/ErrorEmbed';
@@ -61,8 +60,14 @@ export const command: Command = {
             
 
             // Filter timeseries to only show the weather for today
-            let filteredTimeseries = timeseries.filter((d: any) => {var time = new Date(d.time); return (moment(time).isBefore(moment().endOf('day')) && moment(time).isAfter(moment().startOf('day')))});
-            let filteredTimeseriesTomorrow = timeseries.filter((d: any) => {var time = new Date(d.time); return (moment(time).isAfter(moment().add(1, 'days').startOf('day')) && moment(time).isBefore(moment().add(1, 'days').endOf('day')))});
+            let filteredTimeseries = timeseries.filter((d: any) => {
+                var time = new Date(d.time); 
+                return (moment(time).isBefore(moment().endOf('day')) && moment(time).isAfter(moment().startOf('day')))
+            });
+            let filteredTimeseriesTomorrow = timeseries.filter((d: any) => {
+                var time = new Date(d.time); 
+                return (moment(time).isAfter(moment().add(1, 'days').startOf('day')) && moment(time).isBefore(moment().add(1, 'days').endOf('day')))
+            });
 
             let startPosY = 140
 

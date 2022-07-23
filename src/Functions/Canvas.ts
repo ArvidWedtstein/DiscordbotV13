@@ -32,6 +32,22 @@ export type Icon = {
     iconPath: string;
     posX: number;
 }
+export type TextArraySettings = {
+    text: string;
+    font: string;
+    padding?: {
+        top?: number;
+        left?: number;
+    }; // padding top and left
+}
+export type Column = {
+    text: string;
+    font: string;
+    padding?: {
+        top?: number;
+        left?: number;
+    }; // padding top and left
+}
 export class CustomCanvas {
     public canvas: Canvas;
     public context: SKRSContext2D;
@@ -41,11 +57,37 @@ export class CustomCanvas {
         this.canvas = createCanvas(width, height)
         this.context = this.canvas.getContext('2d')
     }
-
     rect(posX: number, posY: number, width: number, height: number, color?: string) {
         this.context.fillStyle = color || this.defaultFill;
         this.context.fillRect(posX, posY, width, height);
         this.context.fillStyle = this.defaultFill;
+    }
+    row(posX: number, posY: number, width: number, cols: any[]) {
+        let colwidth = (width - posX) / cols.length;
+        cols.forEach((col: any, index: number) => {
+            this.rect(posX + (colwidth * index), posY, colwidth, 100);
+        });
+        // TODO - Make row with cols and classes like bootstrap
+    }
+    textArray(textArray: TextArraySettings[], posX: number, posY: number) {
+        // TODO - Make function that aligns text under each other by measuring the text height and width
+        let Y = posY;
+        let X = posX;
+        textArray.forEach((text, index) => {
+            this.context.font = text.font || "12px Arial";
+            let { 
+                actualBoundingBoxLeft, 
+                actualBoundingBoxRight,
+                fontBoundingBoxAscent,
+                fontBoundingBoxDescent
+            } = this.context.measureText(text.text);
+            console.log(fontBoundingBoxAscent, fontBoundingBoxDescent)
+            let padding = text.padding || { top: 0, left: 0 };
+            let { left = 0, top = 0 } = padding;
+            X += left;
+            Y += top;
+            this.context.fillText(text.text, X, Y + (index * fontBoundingBoxAscent) + top);
+        })
     }
     text(text: string, posX: number, posY: number, color?: string, font?: string, align?: CanvasTextAlign) {
         this.context.fillStyle = color || this.defaultFill;

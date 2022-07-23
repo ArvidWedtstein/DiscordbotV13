@@ -88,7 +88,7 @@ export const BrawlhallaStream = (async (client: Client) => {
       console.error(err)
       console.log(`BrawlhallaStream Error: ${err}`)
     }
-
+    console.log(`${gradient.instagram(`Checking for brawlhalla streams...`)}`);
     setTimeout(RunDaily, (86400 * 1000)) // Runs every 24 hours
   })
 
@@ -204,6 +204,5 @@ export const BrawlhallaStream = (async (client: Client) => {
       member?.send({ embeds: [embed], files: [attachment] })
     })
   })
-  console.log(`${gradient.instagram(`Checking for brawlhalla streams...`)}`);
   RunDaily()
 })
