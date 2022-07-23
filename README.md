@@ -35,6 +35,10 @@ Download, and type `npm run dev` or `npm run start` in console, and hit enter.
 ```java
 - NASA Api
 - Brawlhalla API
+- Clash Of Clans API
+- Clash Royale API
+- Twitch API
+- Metrologisk Institutt API
 ```
 
 ## Features
