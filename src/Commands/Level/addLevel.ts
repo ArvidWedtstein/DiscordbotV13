@@ -44,7 +44,7 @@ export const command: Command = {
         // let sortedLevels = levels.sort((obj1: any, obj2: any) => { return obj1?.level - obj2?.level; })
         // let s = sortedLevels[sortedLevels.length - 1].level + 10
 
-        const role = guild.roles.create({ name: `${levelname} (Lvl ${level})`, color: '#ff0000', hoist: true, position: 1 });
+        const role = await guild.roles.create({ name: `${levelname} (Lvl ${level})`, color: '#ff0000', hoist: true, position: 1 });
 
         let levelsobj = {name: `${levelname}`, level: `${level}`, role: (await role).id}
     
@@ -57,11 +57,14 @@ export const command: Command = {
             }
         })
 
-
         if (!result) {
+            /* settingsSchema.create({
+                guildId,
+                levels: [[{name: `${levelname}`, level: `${level}`, role: (await role).id}]]
+            }) */
             result = new settingsSchema({
                 guildId,
-                levels: [{name: `${levelname}`, level: `${level}`, role: (await role).id}]
+                levels: [{name: `${levelname}`, level: `${level}`, role: (role).id}]
             }).save().catch((err: any) => console.log(err))
         }
         

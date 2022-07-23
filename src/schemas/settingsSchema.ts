@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose"
+import { Schema, model, models } from "mongoose"
 
 const reqString = {
     type: String,
@@ -52,18 +52,8 @@ const settingsSchema = new Schema({
     },
     ticketSettings: {
         type: {
-            CategoryId: {
-                required: false,
-                type: String,
-            },
-            ChannelId: {
-                required: false,
-                type: String,
-            },
-            TranscriptsChannelId: {
-                required: false,
-                type: String,
-            }
+            CategoryId: String,
+            ChannelId: String
         },
         required: false,
         default: {
@@ -74,4 +64,6 @@ const settingsSchema = new Schema({
 }, {
     timestamps: true
 })
-export default model('settings', settingsSchema)
+
+const name: string = 'settings'
+export default models[name] || model(name, settingsSchema)
