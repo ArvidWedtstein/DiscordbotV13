@@ -35,6 +35,9 @@ export const event: Event = {
             guildId: guild.id
         })
 
+        if (!settings) return 
+        if (!settings.ticketSystem) return
+        
         const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
 
         await guild.channels.create(`${customId}-${ID}`, {
