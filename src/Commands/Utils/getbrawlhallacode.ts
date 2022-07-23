@@ -57,8 +57,10 @@ export const command: Command = {
         }
         
         let options: any = []
-        codes.forEach((code: any, i: any) => {
-            if (code.name && code.name != null && code.redeemed == false) {
+
+        let last25Codes = codes.slice(-25);
+        last25Codes.forEach((code: any, i: any) => {
+            if (i < 25 && code.name && code.name != null && code.redeemed == false) {
                 options.push({
                     label: `${code.name}`,
                     value: `${i}`,
