@@ -105,7 +105,7 @@ export const command: Command = {
                 reaction.deferUpdate();
 
                 // Get the name and the code
-                let { name, code, redeemed } = codes[reaction.values[0]];
+                let { name, code, redeemed } = last25Codes[reaction.values[0]];
 
                 // Edit the MessageEmbed and disable the Select Menu
                 embed.setDescription(`${name} | \`${code}\``)
