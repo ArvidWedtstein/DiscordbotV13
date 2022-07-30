@@ -94,7 +94,6 @@ export const BrawlhallaStream = (async (client: Client) => {
   })
 
   const CheckForStream = (async (Streams: Stream[]) => {
-    console.log('Checking for stream...')
     const date = new Date()
     let hours = date.getHours()
     let stream = Streams[0] // Next stream
@@ -106,7 +105,7 @@ export const BrawlhallaStream = (async (client: Client) => {
     if (moment(stream.start_time).isAfter(moment().minutes(0).seconds(0).milliseconds(0).toISOString())) return;
     if (moment(stream.end_time).isBefore(moment())) stream = Streams[1] // Next stream;
 
-    if (stream.id == lastStream.id) return console.log('No new stream found.');
+    if (stream.id == lastStream.id) return console.log('Stream with same id found.');
 
     lastStream = stream;
 
