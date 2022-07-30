@@ -7,6 +7,7 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import { addXP } from '../../Functions/Level';
 import profileSchema from '../../schemas/profileSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "brawlhallacode",
     description: "Brawlhalla Code",
@@ -20,27 +21,36 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, channel, author } = message;
         if (!guild) return
-        
+
+
+        // Make sure code doesn't get left in chat for everyone to read.
+        message.delete();
+
+
+        const capWords = (arr: any) => {
+            return arr.map((el: any) => {
+              return el.toLowerCase().charAt(0).toUpperCase() + el.toLowerCase().slice(1).toLowerCase();
+            });
+        }
+
         let codeRegex = new RegExp(/[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}/g);
         let code = args[0];
-        if (!code || !codeRegex.test(code)) return temporaryMessage(channel, `Invalid Code | ABCDEF-GHIJKL {Name}`, 10)
+        if (!code || !codeRegex.test(code)) return ErrorEmbed(message, client, command, `Invalid Code | ABCDEF-GHIJKL {Name}`);
 
         args.shift()
 
-        if (args.join(' ').length < 1) {
-            message.delete();
-            return temporaryMessage(channel, `Name is not long enough`, 10)
-        }
+        if (args.join(' ').length < 1) return ErrorEmbed(message, client, command, `Name is not long enough`);
 
         const check = await profileSchema.findOne({
             userId: author.id,
             guildId: guild.id
         })
-        if (check.brawlhallacodes.find((x:any) => x.code === code)) return temporaryMessage(channel, `Code already exists`, 10);
+
+        if (check.brawlhallacodes.find((x:any) => x.code === code)) return ErrorEmbed(message, client, command, `That code already exists`);
         
         let brawlhallacodes = {
             code: code,
-            name: args.join(' '),
+            name: capWords(args).join(' '),
             redeemed: false
         }
 
@@ -53,9 +63,6 @@ export const command: Command = {
                 brawlhallacodes
             }
         })
-
-        // Make sure code doesn't get left in chat for everyone to read.
-        message.delete();
 
         return channel.send('Added your brawlhalla code!')
     }

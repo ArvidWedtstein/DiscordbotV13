@@ -7,6 +7,7 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Mess
 import temporaryMessage from '../../Functions/temporary-message';
 import { addXP } from '../../Functions/Level';
 import profileSchema from '../../schemas/profileSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "getbrawlhallacode",
     description: "get Brawlhalla Code",
@@ -19,31 +20,44 @@ export const command: Command = {
     examples: ["getbrawlhallacode"],
     run: async(client, message, args) => {
         const { guild, channel, author } = message;
-        if (!guild) return
+        if (!guild || !guild.id) return ErrorEmbed(message, client, command, `Command cannot be used outside of a guild.`);
 
         // Get the users profile from the database
         let results = await profileSchema.findOne({
             userId: author.id,
             guildId: guild.id,
             brawlhallacodes: { $exists: true, $ne: [] }
-        })
+        });
+
+    
         
-        if (!results || !results.brawlhallacodes) return temporaryMessage(channel, `You do not have any brawlhalla codes`, 20);
+        if (!results || !results.brawlhallacodes) return ErrorEmbed(message, client, command, `You do not have any brawlhalla codes`);
+        
+        const groupData = (d: any) => {
+            let g = Object.entries(d.reduce((r: any, c: any) => (r[c.name]=[...r[c.name]||[], c],r), {}))
+            return g.reduce((r: any, c: any) => (
+                r.push({name: c[0], items: c[1]}), r), []);
+        }
+
 
         // Get only the codes that are not already redeemed.
         let codes = results.brawlhallacodes.filter((unfilteredcodes: any) => unfilteredcodes.redeemed == false);
 
+        let groupedCodes = groupData(codes);
 
+        
         // MessageAttachment for the bottom border banner
         const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
 
         // If random is selected
         if (args[0] && args[0].toLowerCase() === 'random') {
             args.shift()
-            let rand = Math.floor(Math.random()*codes.length)
-            let chosencode = codes[rand];
+            let rand = Math.floor(Math.random() * groupedCodes.length)
+            // let rand = Math.floor(Math.random()*codes.length)
+            let chosencode = groupedCodes[rand].items.pop();
 
-            codes[rand].redeemed = true;
+            groupedCodes[rand].items.find((item: any) => item.code === chosencode.code).redeemed = true;
+            // codes[rand].redeemed = true;
 
             results.save()
 
@@ -58,7 +72,16 @@ export const command: Command = {
         
         let options: any = []
 
-        let last25Codes = codes.slice(-25);
+        groupedCodes.map((code: any, i: any) => {
+            options.push({
+                label: `${code.name}`,
+                description: `${code.items.length}x left`,
+                value: `${i}`
+            })
+        });
+
+
+        /* let last25Codes = codes.slice(-25);
         last25Codes.forEach((code: any, i: any) => {
             if (i < 25 && code.name && code.name != null && code.redeemed == false) {
                 options.push({
@@ -67,7 +90,7 @@ export const command: Command = {
                     description: `${code.name}`
                 })
             }
-        })
+        }) */
 
         let row = await new MessageActionRow().addComponents(
             new MessageSelectMenu({
@@ -105,7 +128,9 @@ export const command: Command = {
                 reaction.deferUpdate();
 
                 // Get the name and the code
-                let { name, code, redeemed } = last25Codes[reaction.values[0]];
+                let { name, code, redeemed } = groupedCodes[reaction.values[0]].items.pop();
+                // let { name, code, redeemed } = last25Codes[reaction.values[0]];
+
 
                 // Edit the MessageEmbed and disable the Select Menu
                 embed.setDescription(`${name} | \`${code}\``)

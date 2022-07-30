@@ -1,4 +1,4 @@
-const axios = require('axios');
+/* const axios = require('axios');
 require('dotenv').config();
 const express = require('express');
 
@@ -98,4 +98,4 @@ app.get('/', async (req, res) => {
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
-});
+}); */

@@ -72,7 +72,7 @@ export const BrawlhallaStream = (async (client: Client) => {
         // Get Schedule
         let { data: streamdata } = await axios.get(`https://api.twitch.tv/helix/schedule?broadcaster_id=75346877`, {
           headers: {
-            'Authorization': `Bearer ${token || client.config.BrawlhallaToken}`,
+            'Authorization': `Bearer ${token}`,
             'Client-Id': process.env.TWITCH_CLIENT_ID || '',
           }
         });
@@ -89,7 +89,8 @@ export const BrawlhallaStream = (async (client: Client) => {
       console.log(`BrawlhallaStream Error: ${err}`)
     }
     console.log(`${gradient.instagram(`Checking for brawlhalla streams...`)}`);
-    setTimeout(RunDaily, (86400 * 1000)) // Runs every 24 hours
+    setTimeout(RunDaily, (43200 * 1000)) // Runs every 12 hours
+    /* setTimeout(RunDaily, (86400 * 1000)) // Runs every 24 hours */
   })
 
   const CheckForStream = (async (Streams: Stream[]) => {
