@@ -103,7 +103,7 @@ export const BrawlhallaStream = (async (client: Client) => {
       if (moment(stream.canceled_until).isAfter(moment())) return;
     }
     if (moment(stream.start_time).isAfter(moment().minutes(0).seconds(0).milliseconds(0).toISOString())) return;
-    if (moment(stream.end_time).isBefore(moment())) stream = Streams[1] // Next stream;
+    if (moment(stream.end_time).isBefore(moment())) return 
 
     if (stream.id == lastStream.id) return console.log('Stream with same id found.');
 
