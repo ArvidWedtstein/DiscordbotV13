@@ -97,7 +97,7 @@ export const BrawlhallaStream = (async (client: Client) => {
     const date = new Date()
     let hours = date.getHours()
     let stream = Streams[0] // Next stream
-    console.log(Streams)
+
     
     if (stream.canceled_until) {
       if (moment(stream.canceled_until).isAfter(moment())) return;
