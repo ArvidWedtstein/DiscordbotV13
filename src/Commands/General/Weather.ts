@@ -111,7 +111,7 @@ export const command: Command = {
                     `${moment(time).format("HH")}`, 
                     `${air_temperature}°C`, 
                     `${details?.precipitation_amount ? details?.precipitation_amount : "0"}`,
-                    `${wind_from_direction} (${wind_speed_of_gust}) ${calculateWindDirection(wind_from_direction)}`,
+                    `${wind_speed} (${wind_speed_of_gust}) ${calculateWindDirection(wind_from_direction)}`,
                 ])
             }
 
