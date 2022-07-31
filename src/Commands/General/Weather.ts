@@ -33,9 +33,11 @@ export const command: Command = {
 
         function calculateWindDirection(degrees: number): string {
             // const wind_from_direction_cardinal = ["↑N", "↗NE", "→E", "↘SE", "↓S", "↙SW", "←W", "↖NW"]
-            const wind_from_direction_cardinal = ["↓", "↙", "←", "↖", "↑", "↗", "→", "↘"]
+            const wind_from_direction_arrow = ["↓", "↙", "←", "↖", "↑", "↗", "→", "↘"]
             // ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"]
-            const wind_from_cardinal_direction = wind_from_direction_cardinal[Math.round(degrees / 45)]
+            let val = Math.round(degrees / 45)
+            /* const wind_from_cardinal_direction = wind_from_direction_arrow[Math.round(degrees / 45)] */
+            const wind_from_cardinal_direction = wind_from_direction_arrow[val % 8]
             return wind_from_cardinal_direction
         }
         
@@ -109,7 +111,7 @@ export const command: Command = {
                     `${moment(time).format("HH")}`, 
                     `${air_temperature}°C`, 
                     `${details?.precipitation_amount ? details?.precipitation_amount : "0"}`,
-                    `${wind_speed} (${wind_speed_of_gust}) ${calculateWindDirection(wind_from_direction)}`,
+                    `${wind_from_direction} (${wind_speed_of_gust}) ${calculateWindDirection(wind_from_direction)}`,
                 ])
             }
 
