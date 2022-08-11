@@ -64,7 +64,7 @@ export default (client: Client) => {
           .setColor('#ff0000')
           .setTitle(`:champagne:${await language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)
           .setThumbnail(birthdayUser.displayAvatarURL())
-          .setDescription(`<@${userId}> ${await language(guild, 'BIRTHDAY_USER')}\n||@everyone||\n${await language(guild, 'PROMOTE_USER')} to <@${userId}>! (+**5000**xp) `)
+          .setDescription(`<@${userId}> ${await language(guild, 'BIRTHDAY_USER')}\n||.||\n${await language(guild, 'PROMOTE_USER')} to <@${userId}>! (+**5000**xp) `)
           .setImage('attachment://banner.jpg')
           .setFooter({ text: `This birthday wish was brought to you by ${client.user?.username}` })
           .setTimestamp()
