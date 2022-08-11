@@ -115,7 +115,7 @@ export const command: Command = {
                 ])
             }
 
-            const titles = [`Time`, `Temp.`, `Rain mm`, `Wind(gust) m/s`]
+            const titles = [`Time`, `Temp.`, `Rain mm`, `Wind(gust) m/s`];
 
             let rows: any = [titles]
             let icons: Icon[] = []
