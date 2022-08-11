@@ -60,9 +60,9 @@ export default (client: Client) => {
 
       let embed = new MessageEmbed()
         .setColor('#ff0000')
-        .setTitle(`:champagne:${language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)
+        .setTitle(`:champagne:${await language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)
         .setThumbnail(birthdayUser.displayAvatarURL())
-        .setDescription(`<@${userId}> ${language(guild, 'BIRTHDAY_USER')}\n||@everyone||\n${language(guild, 'PROMOTE_USER')} to <@${userId}>! (+**5000**xp) `)
+        .setDescription(`<@${userId}> ${await language(guild, 'BIRTHDAY_USER')}\n||@everyone||\n${await language(guild, 'PROMOTE_USER')} to <@${userId}>! (+**5000**xp) `)
         .setImage('attachment://banner.jpg')
         .setFooter({ text: `This birthday wish was brought to you by ${client.user?.username}` })
         .setTimestamp()
@@ -70,7 +70,7 @@ export default (client: Client) => {
       if (!channel || !channel.isText()) return birthdayUser.send({ embeds: [embed], files: [attachment] });
       
       channel.send({ embeds: [embed], files: [attachment] }).then(async (message) => {
-        await addXP(guildId, userId, 5000, message)
+        /* await addXP(guildId, userId, 5000, message) */
       })
     }
   })
