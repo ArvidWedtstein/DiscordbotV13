@@ -19,8 +19,10 @@ export const command: Command = {
     ownerOnly: false,
     run: async(client, message, args) => {
         const { guild, channel, author } = message
-
-        profileSchema.find({ guildId: guild?.id, birthday: { $ne: "1/1", $exists: true } }).then(async users => {
+            
+        if (!guild) return;
+        
+        profileSchema.find({ guildId: { $eq: guild.id }, birthday: { $ne: "1/1", $exists: true } }).then(async users => {
 
             // Sort birthdays
             let birthdays = users.sort((a, b) => {

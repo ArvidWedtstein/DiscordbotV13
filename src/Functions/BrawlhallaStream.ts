@@ -47,7 +47,7 @@ export const BrawlhallaStream = (async (client: Client) => {
         client.config.BrawlhallaToken = res.data.access_token;
         token = res.data.access_token;
 
-        if (user != 'brawlhall') {
+        if (user != 'brawlhalla') {
           let { data: userdata } = await axios.get(`https://api.twitch.tv/helix/users?login=${user}`, {
             headers: {
               'Authorization': `Bearer ${client.config.BrawlhallaToken}`,
@@ -99,13 +99,22 @@ export const BrawlhallaStream = (async (client: Client) => {
     let stream = Streams[0] // Next stream
 
     
-    if (stream.canceled_until) {
-      if (moment(stream.canceled_until).isAfter(moment())) return;
-    }
-    if (moment(stream.start_time).isAfter(moment().minutes(0).seconds(0).milliseconds(0).toISOString())) return;
-    if (moment(stream.end_time).isBefore(moment())) return 
+    const checkStreamTime = ((streamData: Stream) => {
+      
+      if (streamData.canceled_until) {
+        if (moment(streamData.canceled_until).isAfter(moment())) return false; // Figs
+      }
+      if (moment(streamData.start_time).isAfter(moment().minutes(0).seconds(0).milliseconds(0).toISOString())) return false;
+      if (moment(streamData.end_time).isBefore(moment())) return false; 
+      // if (moment(streamData.end_time).isBefore(moment())) return checkStreamTime(streamData); // check if works
+      if (moment().format('hh:mm').isBetween(streamData.start_time, streamData.end_time) return true;
+      
+      return true;
+    });
+    
+    if (!checkStreamTime(stream)) return;
 
-    if (stream.id == lastStream.id) return console.log('Stream with same id found.');
+    if (stream.id === lastStream.id) return console.log('Stream with same id found.');
 
     lastStream = stream;
 
