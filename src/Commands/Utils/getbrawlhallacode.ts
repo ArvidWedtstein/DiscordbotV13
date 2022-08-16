@@ -149,6 +149,11 @@ export const command: Command = {
                 msg.edit({ embeds: [embed], components: [row] })
                 return
             })
+            collect.on('end', async (collected) => {
+                row.components[0].setDisabled(true)
+                msg.edit({ embeds: [embed], components: [row] })
+                return
+            })
         })
     }
 }
