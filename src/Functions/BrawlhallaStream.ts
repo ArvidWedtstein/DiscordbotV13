@@ -107,7 +107,7 @@ export const BrawlhallaStream = (async (client: Client) => {
       if (moment(streamData.start_time).isAfter(moment().minutes(0).seconds(0).milliseconds(0).toISOString())) return false;
       if (moment(streamData.end_time).isBefore(moment())) return false; 
       // if (moment(streamData.end_time).isBefore(moment())) return checkStreamTime(streamData); // check if works
-      if (moment().format('hh:mm').isBetween(streamData.start_time, streamData.end_time) return true;
+      if (moment().isBetween(streamData.start_time, streamData.end_time)) return true;
       
       return true;
     });
