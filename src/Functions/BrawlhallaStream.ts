@@ -183,7 +183,7 @@ export const BrawlhallaStream = (async (client: Client) => {
       let member = guild.members.cache.find((member) => member.id === user.userId)
 
       let messages = [
-        `I have the pleasure to inform you that **Brawlhalla** currently is streaming a INSERT_STREAM_LENGTH long \n**${stream.title}**,\nlive on Twitch.`,
+        `I have the pleasure to inform you that *Brawlhalla* currently is streaming a INSERT_STREAM_LENGTH long \n**${stream.title}**,\nlive on Twitch.`,
         `Did you know?!? **Brawlhalla** is live! YES. You heard right! Brawlhalla is streaming a INSERT_STREAM_LENGTH long \n**${stream.title}**\nright now on twitch!`,
         `Hey, just wanted to let you know that **Brawlhalla** is currently streaming a INSERT_STREAM_LENGTH long \n**${stream.title}**.\nHave a good day 😊`,
         `Hey there fella, just wanna let ya know that **Brawlhalla** is streaming a \n**${stream.title}**.\nHave a nice one.
