@@ -8,6 +8,8 @@ import { QueueRepeatMode } from 'discord-player';
 export const event: Event = {
     name: "ready",
     run: async (client) => {
+
+        return 
         const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
         client.player.on("error", (queue, error) => {
             console.log(`[${queue.guild.name}] Error emitted from the queue: ${error.message}`);
