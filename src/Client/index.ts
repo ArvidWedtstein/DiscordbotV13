@@ -9,7 +9,7 @@ import { REST } from '@discordjs/rest';
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
 import { Routes } from 'discord-api-types/v10';
 import { Registry } from '../Interfaces/Registry';
-import { Player } from 'discord-player';
+// import { Player } from 'discord-player';
 import { GetToken } from '../Functions/TwitchTokenManager';
 
 
@@ -20,13 +20,13 @@ class ExtendedClient extends Client {
     public events: Collection<string, Event> = new Collection();
     public aliases: Collection<string, Command> = new Collection();
     public registry = new Registry(this);
-    public player = new Player(this, {
-        ytdlOptions: {
-            quality: 'highestaudio',
-            highWaterMark: 1 << 25
-        },
-        connectionTimeout: 10000
-    });
+    // public player = new Player(this, {
+    //     ytdlOptions: {
+    //         quality: 'highestaudio',
+    //         highWaterMark: 1 << 25
+    //     },
+    //     connectionTimeout: 10000
+    // });
 
     public config: Config = {
         token: process.env.CLIENT_TOKEN, 
