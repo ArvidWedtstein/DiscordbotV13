@@ -8,8 +8,8 @@ import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Moda
 import temporaryMessage from '../../Functions/temporary-message';
 import icon from '../../Functions/icon';
 import playlistSchema from '../../schemas/playlist-schema';
-import { QueryType, QueueRepeatMode } from 'discord-player';
-// import { MessageButtonStyles } from 'discord.js/typings/enums';
+// import { QueryType, QueueRepeatMode } from 'discord-player';
+import { MessageButtonStyles } from 'discord.js/typings/enums';
 
 export const command: Command = {
     name: "music2",
