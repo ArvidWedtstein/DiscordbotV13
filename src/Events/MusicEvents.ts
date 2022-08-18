@@ -10,7 +10,7 @@ export const event: Event = {
     run: async (client) => {
 
 
-        const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
+        /* const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
         client.player.on("error", (queue, error) => {
             console.log(`[${queue.guild.name}] Error emitted from the queue: ${error.message}`);
         });
@@ -192,7 +192,7 @@ export const event: Event = {
             setTimeout(() => {
                 queue.destroy(true)
             }, 10000)
-        });
+        }); */
 
     }
 }
