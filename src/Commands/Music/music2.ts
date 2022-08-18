@@ -35,7 +35,7 @@ export const command: Command = {
     examples: ["music"],
     
     run: async(client, message, args) => {
-        /* const { guild, channel, author, member, mentions } = message;
+        const { guild, channel, author, member, mentions } = message;
 
         if (!guild) return message.reply(`Cannot find guild`);
         
@@ -143,6 +143,6 @@ export const command: Command = {
         if (!queue.playing) await queue.play();
 
 
-        return */
+        return
     }
 }
