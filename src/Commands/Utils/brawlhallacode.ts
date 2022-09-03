@@ -48,6 +48,8 @@ export const command: Command = {
 
         if (check.brawlhallacodes.find((x:any) => x.code === code)) return ErrorEmbed(message, client, command, `That code already exists`);
         
+        if(args[0] === "Esport") args[0] = "Esports"
+        
         let brawlhallacodes = {
             code: code,
             name: capWords(args).join(' '),
