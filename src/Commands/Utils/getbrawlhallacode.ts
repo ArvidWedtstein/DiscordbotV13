@@ -96,7 +96,7 @@ export const command: Command = {
             new MessageSelectMenu({
                 customId: 'brawlhalla_code_menu',
                 placeholder: "Select Item",
-                options: options,
+                options: options.slice(0, 25),
                 maxValues: 1,
                 minValues: 1
             })
