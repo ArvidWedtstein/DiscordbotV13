@@ -9,6 +9,7 @@ import { REST } from '@discordjs/rest';
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
 import { Routes } from 'discord-api-types/v10';
 import { Registry } from '../Interfaces/Registry';
+import { generateDependencyReport } from '@discordjs/voice'
 // import { Player } from 'discord-player';
 import { GetToken } from '../Functions/TwitchTokenManager';
 
@@ -214,6 +215,11 @@ class ExtendedClient extends Client {
                 }
             })();
         }
+        
+        // ----------------------------
+        // Generate Dependency Report
+        // ----------------------------
+        console.log(generateDependencyReport());
 
         process.on('unhandledRejection', (reason, p) => {
             console.log('\n=== Unhandled Rejection ==='.toUpperCase(), '\nReason: ', reason);
