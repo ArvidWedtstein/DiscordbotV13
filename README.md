@@ -5,7 +5,7 @@ Memebot to discord V13
 Runs on DiscordJS V13
 
 ## How to use
-Download, and type `npm run dev` or `npm run start` in console, and hit enter.
+Download, and type `npm run dev` or `npm run start` in console, and hit enter
 
 ##
 
@@ -126,3 +126,7 @@ Maybe implement Smoke Testing - A smoke test runs the most important tests first
 
 
 </blockquote> -->
+
+
+https://discordjs.guide/creating-your-bot/command-handling.html#individual-command-files
+https://discordjs.guide/interactions/slash-commands.html#registering-slash-commands
