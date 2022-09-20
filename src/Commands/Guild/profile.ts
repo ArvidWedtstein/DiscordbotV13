@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 import APIcacheSchema from '../../schemas/BrawlhallaAPIcacheSchema';
@@ -147,10 +147,10 @@ export const command: Command = {
         //     .toBuffer()
 
 
-        // let a = new MessageAttachment(img, 'weather.jpg')
+        // let a = new AttachmentBuilder(img, 'weather.jpg')
 
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-        let embed = new MessageEmbed()
+        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        let embed = new EmbedBuilder()
             .setColor(color)
             .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true })}`})
             .setDescription(description.join('\n'))

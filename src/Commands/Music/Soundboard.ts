@@ -4,7 +4,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Modal, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Message, Interaction, ExcludeEnum, MessageAttachment, MessageButtonStyleResolvable } from 'discord.js';
+import Discord, { Client, Modal, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Message, Interaction, ExcludeEnum, AttachmentBuilder, MessageButtonStyleResolvable } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import icon from '../../Functions/icon';
 import playlistSchema from '../../schemas/playlist-schema';

@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import language, { insert } from '../../Functions/language';
 import { Settings } from '../../Functions/settings';

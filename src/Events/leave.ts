@@ -1,7 +1,7 @@
 import { Event } from '../Interfaces';
 import * as gradient from 'gradient-string';
 import language, { loadLanguages } from '../Functions/language';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Guild, GuildMember } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Guild, GuildMember } from 'discord.js';
 import profileSchema from '../schemas/profileSchema';
 import { Settingsguild } from '../Functions/settings';
 export const event: Event = {
@@ -23,7 +23,7 @@ export const event: Event = {
         }
         if (!channel.viewable || !channel.isText()) return
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({ name: `${language(guild, 'LEAVE')} ${member.user.tag} 😪`, iconURL: member.user.displayAvatarURL() })
             .setFooter({ text: `Detected by ${client.user?.tag}` })
         channel.send({ embeds: [embed] })

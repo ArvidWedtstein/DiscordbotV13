@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, User, GuildMember, GuildListMembersOptions } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder, User, GuildMember, GuildListMembersOptions } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 
@@ -60,18 +60,18 @@ export const command: Command = {
 
         msg = `${spots[0]} ${spots[1]} ${spots[2]}\n${spots[3]} ${spots[4]} ${spots[5]}\n${spots[6]} ${spots[7]} ${spots[8]}`
         
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setColor('#ff4300')
             .setTitle(`Tic Tac Toe`)
             .setDescription(`${msg}`)
             .setFooter({ text: 'Write a number to mark your spot' })
 
-        let messageEmbed = await channel.send({ embeds: [embed] })
+        let msgEmbed = await channel.send({ embeds: [embed] })
         
         games[channel.id] = {
             message,
             stage: 'game',
-            messageEmbed,
+            EmbedBuilder,
             spots: spots,
             gamespots: gamespots,
             p1,
@@ -80,7 +80,7 @@ export const command: Command = {
         }
         const filter = (m: any) => m.author.id === author.id || m.author.id === member.id
 
-        if (!channel.isText()) return
+        if (!channel.isTextBased()) return
         
         const collector = channel.createMessageCollector({
             filter, 
@@ -141,7 +141,7 @@ export const command: Command = {
                     spots1 = game.gamespots
                     spots1.splice(spots1.indexOf(transform[spot]), 1, "❌");
                     msg = `${spots1[0]} ${spots1[1]} ${spots1[2]}\n${spots1[3]} ${spots1[4]} ${spots1[5]}\n${spots1[6]} ${spots1[7]} ${spots1[8]}`
-                    let embed2 = new MessageEmbed()
+                    let embed2 = new EmbedBuilder()
                         .setColor('#ff4300')
                         .setAuthor({ name: `Turn: ${game.p2}` })
                         .setTitle(`Tic Tac Toe`)
@@ -159,7 +159,7 @@ export const command: Command = {
                     
                     spots1.splice(spots1.indexOf(transform[spot]), 1, "⭕");
                     msg = `${spots1[0]} ${spots1[1]} ${spots1[2]}\n${spots1[3]} ${spots1[4]} ${spots1[5]}\n${spots1[6]} ${spots1[7]} ${spots1[8]}`
-                    let embed2 = new Discord.MessageEmbed()
+                    let embed2 = new Discord.EmbedBuilder()
                         .setColor('#ff4300')
                         .setAuthor({ name: `Turn: ${game.p1}` })
                         .setTitle(`Tic Tac Toe`)

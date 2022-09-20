@@ -1,11 +1,10 @@
 import { 
-    MessageEmbed, 
+    EmbedBuilder, 
     EmbedAuthorData, 
-    EmbedFieldData, 
+    EmbedField, 
     EmbedFooterData, 
     ColorResolvable, 
-    MessageEmbedImage, 
-    MessageEmbedThumbnail, 
+    EmbedImageData,
     GuildEmoji, 
     TextChannel, 
     PartialDMChannel, 
@@ -14,20 +13,21 @@ import {
     ThreadChannel, 
     ReactionEmoji,
     Message,
-    MessageActionRow,
-    MessageButton,
     Interaction,
     Guild,
-    MessageEmbedOptions,
-    MessageAttachment,
-    MessageSelectMenuOptions,
-    MessageSelectOptionData,
-    MessageSelectMenu,
+    AttachmentBuilder,
     MessageActionRowComponent,
     MessageActionRowComponentResolvable,
+    ActionRowBuilder,
+    SelectMenuBuilder,
+    ButtonBuilder,
+    SelectMenuOptionBuilder,
+    SelectMenuComponentData,
+    MessageEditOptions,
 } from "discord.js";
 import settingsSchema from "../schemas/settingsSchema";
 import { Canvas } from "@napi-rs/canvas";
+import { MessageOptions } from "child_process";
 
 
 export interface PageEmbedOptions {
@@ -36,14 +36,10 @@ export interface PageEmbedOptions {
     url?: string;
     timestamp?: Date | number;
     color?: ColorResolvable;
-    fields?: EmbedFieldData[];
-    author?: { 
-        name: string;
-        url?: string;
-        iconURL?: string;
-    };
-    thumbnail?: MessageEmbedThumbnail;
-    image?: MessageEmbedImage;
+    fields?: EmbedField[];
+    author?: EmbedAuthorData
+    thumbnail?: EmbedImageData;
+    image?: EmbedImageData;
     footer?: { 
         text: string;
         iconURL?: string;
@@ -59,24 +55,24 @@ export interface PageEmbedOptions {
 
 export interface PageEmbedSettings {
     pages?: PageEmbedOptions[];
-    selectMenu?: MessageSelectMenuOptions | null;
+    selectMenu?: SelectMenuOptionBuilder | null;
     timeout?: number;
 }
 
 export class PageEmbed {
-    constructor(data?: PageEmbedSettings)
+    constructor(data?: any)
     // constructor(pages: PageEmbedOptions[])
     {
         this.pages = data?.pages || [];
-        this.selectMenu = data?.selectMenu ? new MessageActionRow({ components: [
-            new MessageSelectMenu(data.selectMenu)
+        this.selectMenu = data?.selectMenu ? new ActionRowBuilder({ components: [
+            new SelectMenuBuilder(data.selectMenu)
         ]}) : null;
         this.currentPage = 0;
-        this.component = new MessageActionRow();
+        this.component = new ActionRowBuilder();
     }
     private pages: PageEmbedOptions[];
     private currentPage: number;
-    private component: MessageActionRow;
+    private component: ActionRowBuilder;
     private settings: any;
     private selectMenu: any | null;
 
@@ -88,9 +84,9 @@ export class PageEmbed {
         this.pages = pages;
         return this
     };
-    public addSelectMenu(options: MessageSelectMenuOptions): this {
-        this.selectMenu = new MessageActionRow({ components: [
-            new MessageSelectMenu(options)
+    public addSelectMenu(options: SelectMenuComponentData): this {
+        this.selectMenu = new ActionRowBuilder({ components: [
+            new SelectMenuBuilder(options)
         ]});
 
         return this
@@ -99,7 +95,7 @@ export class PageEmbed {
         this.currentPage = page;
         return this
     };
-    private generate(page: PageEmbedOptions, disable: boolean = false) {
+    private generate(page: any, disable: boolean = false) {
         
         // Update the footer text to the new page number
         if (!page.canvas) {
@@ -110,14 +106,15 @@ export class PageEmbed {
         page.settings ? this.getRow(disable, page.settings.type) : this.getRow(disable)
         this.selectMenu ? this.selectMenu?.components.every((c: any) => c.setDisabled(disable)) : null
         // this.selectMenu || this.component,
-        const attachment = new MessageAttachment('./img/banner.gif', 'banner.gif');
+        const attachment = new AttachmentBuilder('./img/banner.gif');
         let components = [this.component];
         this.selectMenu ? components.push(this.selectMenu) : null
-        return { 
-            embeds: page.canvas ? [] : [new MessageEmbed(page)], 
+        let d: any = { 
+            embeds: page.canvas ? [] : [new EmbedBuilder(page)], 
             components: components,
-            files: page.canvas ? [new MessageAttachment(page.canvas.toBuffer('image/png'), `image.png`)] : [attachment]
+            files: page.canvas ? [new AttachmentBuilder(page.canvas.toBuffer('image/png'))] : [attachment]
         }
+        return d
     }
     async post(message: Message) {
         const { channel, author, guild } = message
@@ -128,6 +125,7 @@ export class PageEmbed {
         let page = this.pages[this.currentPage];
         
         let result: any;
+
 
         // If settings is specified on one of the pages, then we need to get the settings from the database
         if (this.pages.some(pag => pag.settings)) {
@@ -140,7 +138,7 @@ export class PageEmbed {
         }
 
     
-        const messageEmbed = channel.send(this.generate(page)).then(async (m) => {
+        const EmbedBuilder = channel.send(this.generate(page)).then(async (m) => {
 
             // Add reactions to the embed
 
@@ -211,30 +209,30 @@ export class PageEmbed {
     }
     private getRow(disabled: boolean = false, setting?: string) {
         this.component.setComponents(
-            new MessageButton({
+            new ButtonBuilder({
                 customId: 'prev_embed',
-                style: "SECONDARY",
+                style: 2,
                 emoji: "⬅",
                 disabled: !disabled ? this.currentPage === 0 : disabled
             }),
-            new MessageButton({
+            new ButtonBuilder({
                 customId: 'next_embed',
-                style: "SECONDARY",
+                style: 2,
                 emoji: "➡",
                 disabled: !disabled ? this.currentPage === this.pages.length - 1 : disabled
             })
         )
         if (setting) {
             this.component.addComponents(
-                new MessageButton({
+                new ButtonBuilder({
                     customId: `embed_save_and_close`,
-                    style: "SECONDARY",
+                    style: 2,
                     emoji: "💾",
                     disabled: disabled
                 }),
-                new MessageButton({
+                new ButtonBuilder({
                     customId: this.settings[setting] == true ? `embed_on_${setting}` : `embed_off_${setting}`,
-                    style: this.settings[setting] == true ? "SUCCESS" : "DANGER",
+                    style: this.settings[setting] == true ? 3 : 4,
                     emoji: this.settings[setting] == true ? "✅" : "❌",
                     disabled: disabled
                 })
@@ -265,27 +263,27 @@ export class PageEmbed {
     }
     private async settingsBtn(setting: string, disabled: boolean = false) {
         this.component.setComponents(
-            new MessageButton({
+            new ButtonBuilder({
                 customId: 'prev_embed',
-                style: "SECONDARY",
+                style: 2,
                 emoji: "⬅",
                 disabled: !disabled ? this.currentPage === 0 : disabled
             }),
-            new MessageButton({
+            new ButtonBuilder({
                 customId: 'next_embed',
-                style: "SECONDARY",
+                style: 2,
                 emoji: "➡",
                 disabled: !disabled ? this.currentPage === this.pages.length - 1 : disabled
             }),
-            new MessageButton({
+            new ButtonBuilder({
                 customId: `embed_save_and_close`,
-                style: "SECONDARY",
+                style: 2,
                 emoji: "💾",
                 disabled: disabled
             }),
-            new MessageButton({
+            new ButtonBuilder({
                 customId: this.settings[setting] == true ? `embed_on_${setting}` : `embed_off_${setting}`,
-                style: this.settings[setting] == true ? "SUCCESS" : "DANGER",
+                style: this.settings[setting] == true ? 3 : 4,
                 emoji: this.settings[setting] == true ? "✅" : "❌",
                 disabled: disabled
             })

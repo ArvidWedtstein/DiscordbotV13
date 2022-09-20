@@ -1,4 +1,4 @@
-import { ColorResolvable, MessageAttachment, MessageEmbed } from 'discord.js';
+import { ColorResolvable, AttachmentBuilder, EmbedBuilder } from 'discord.js';
 import { Command } from '../../Interfaces';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
@@ -32,10 +32,10 @@ export const command: Command = {
         let coins = await getCoins(guildId, userId);
         let color: ColorResolvable = await getColor(guildId, userId);
         
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
 
         const erlingcoin = client.emojis.cache.get('853928115696828426');
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setColor(color)
             .setAuthor({name: `${target.username}`, iconURL: target.displayAvatarURL()})
             .setTitle(`${await language(guild, "BALANCE_TITLE")}`)

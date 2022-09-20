@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import math, { re } from 'mathjs';
 
@@ -24,15 +24,15 @@ export const command: Command = {
 
         const emojis = ['✊', '🤚', '✌️']
         
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
         .setColor("BLURPLE")
         .setTitle(`${language(guild, 'RPS_TITLE')}`)
        
-        let messageEmbed = await channel.send({ embeds: [embed] });
+        let EmbedBuilder = await channel.send({ embeds: [embed] });
         
-        messageEmbed.react(emojis[0]);
-        messageEmbed.react(emojis[1]);
-        messageEmbed.react(emojis[2]);
+        EmbedBuilder.react(emojis[0]);
+        EmbedBuilder.react(emojis[1]);
+        EmbedBuilder.react(emojis[2]);
         
         const getResult = (reaction: any, botChoice: any) => {
             if ((reaction === emojis[0] && botChoice === emojis[2]) ||
@@ -56,12 +56,12 @@ export const command: Command = {
 
             const result = getResult(reaction.emoji.name, botchoice)
             
-            let embed2 = new Discord.MessageEmbed()
+            let embed2 = new Discord.EmbedBuilder()
                 .setColor("DARKER_GREY")
                 .setTitle(`${language(guild, 'RPS_TITLE')}`)
                 .addField(result, `${reaction.emoji} vs ${botchoice}`)
-            let messageEmbed2 = messageEmbed.edit({ embeds: [embed2] });
-            messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+            let EmbedBuilder2 = EmbedBuilder.edit({ embeds: [embed2] });
+            EmbedBuilder.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
             return
         });
         

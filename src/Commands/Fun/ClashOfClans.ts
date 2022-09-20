@@ -6,7 +6,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
@@ -53,7 +53,7 @@ export const command: Command = {
                     userdata.push({name: `${user.name}`, value: `${user.league.name}`})
                 });
                 let thumbnail = res.data.items[0].league.iconUrls.medium
-                const embed = new MessageEmbed({
+                const embed = new EmbedBuilder({
                     title: `Clash Of Clans`,
                     fields: userdata,
                     thumbnail: thumbnail,

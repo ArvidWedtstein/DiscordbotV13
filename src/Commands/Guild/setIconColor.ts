@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction, ButtonInteraction, CacheType, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Interaction, ButtonInteraction, CacheType, AttachmentBuilder, ComponentType } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon, { setColor } from '../../Functions/icon';
@@ -28,9 +28,9 @@ export const command: Command = {
         // TODO - Add this to settings menu
         let colors: any = colorss
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder<ButtonBuilder>()
         for (let i = 0; i < colors.colors.length; i++) {
-            let col = new MessageButton()
+            let col = new ButtonBuilder()
                 .setEmoji(colors[colors.colors[i]].checkmark)
                 .setLabel(colors.colors[i])
                 .setStyle(3)
@@ -40,20 +40,20 @@ export const command: Command = {
 
         const filter = (i: any) => i.user.id === author.id && i.isButton();
         
-        const close = new MessageButton()
+        const close = new ButtonBuilder()
             .setEmoji('❌')
             .setStyle(1)
             .setCustomId('close')
         row.addComponents(close)
 
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg')
-        let embed = new MessageEmbed()
+        const attachment = new AttachmentBuilder('./img/banner.jpg')
+        let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setTitle(`Icon Color`)
             .setDescription(`Please select the color you want the guild's icons to look like`)
             .setImage('attachment://banner.jpg')
 
-        let messageEmbed = await channel.send({
+        let embedmsg = await channel.send({
             embeds: [embed],
             components: [row],
             files: [attachment]
@@ -62,7 +62,7 @@ export const command: Command = {
                 filter,
                 max: 1,
                 time: 1000 * 60 * 5,
-                componentType: 'BUTTON'
+                componentType: ComponentType.Button
             })
     
             collector.on('collect', (reaction) => {

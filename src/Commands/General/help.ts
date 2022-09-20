@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu, MessageSelectMenuOptions, MessageSelectOption, MessageSelectOptionData, Interaction } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, SelectMenuOptionBuilder, MessageSelectOption, Interaction, SelectMenuBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import icon from '../../Functions/icon';
 import boticons from '../../Functions/boticons';
@@ -25,7 +25,8 @@ export const command: Command = {
         const userId = author.id;
 
         const getEmoji = (emojiName: any) => {
-            return icon(client, guild, emojiName)
+            let d: any = icon(client, guild, emojiName)
+            return d
         }
 
 
@@ -39,7 +40,7 @@ export const command: Command = {
             
             const { name, description, details, UserPermissions, aliases, group } = chosencmd;
 
-            let embed = new MessageEmbed({
+            let embed = new EmbedBuilder({
                 title: `${getEmoji("help")} ${language(guild, 'HELP_TITLE')} - ${name}`,
                 description: `${details ? details : description}`,
                 fields: [
@@ -47,9 +48,9 @@ export const command: Command = {
                     {name: `**Aliases**`, value: `\`${aliases ? aliases : 'None'}\``},
                     {name: `**Permissions Needed**`, value: `\`${UserPermissions ? UserPermissions.join(',') : 'None'}\``}
                 ],
-                footer: {"text": `Requested By ${author.tag}`, iconURL: author.displayAvatarURL({format: "png", dynamic: true})}
+                footer: {"text": `Requested By ${author.tag}`, iconURL: author.displayAvatarURL()}
             })
-            let messageEmbed = channel.send({ embeds: [embed] });
+            let msgembed = channel.send({ embeds: [embed] });
             return
         }
 
@@ -84,7 +85,7 @@ export const command: Command = {
             }
         }]
 
-        let embed = new MessageEmbed({
+        let embed = new EmbedBuilder({
             // type: "image",
             color: embedcolor,
             title: `${getEmoji("help")}${emojiCharacters.squareleft}${language(guild, 'HELP_TITLE')}${emojiCharacters.squareright}`,
@@ -94,7 +95,7 @@ export const command: Command = {
         })
 
         categories.map((f: any, i: any) => {
-            embed.addField(`__**${capitalizeFirstLetter(f)} - ${i + 1}**__`, `${language(guild, 'HELP_LIST')} ${f.name} commands`, true)
+            embed.addFields([{name: `__**${capitalizeFirstLetter(f)} - ${i + 1}**__`, value: `${language(guild, 'HELP_LIST')} ${f.name} commands`, inline: true}])
             
             let option = {
                 label: `${capitalizeFirstLetter(f)}`,
@@ -109,9 +110,9 @@ export const command: Command = {
             return option
         })
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder<SelectMenuBuilder>()
             .addComponents(
-                new MessageSelectMenu({
+                new SelectMenuBuilder({
                     customId: 'Menu',
                     placeholder: "Select Category",
                     options: options,
@@ -119,24 +120,24 @@ export const command: Command = {
                     minValues: 1
                 })
             )
-        const rowbtn = new MessageActionRow()
+        const rowbtn = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(
-                new MessageButton({
+                new ButtonBuilder({
                     customId: 'helpleft',
                     disabled: false,
                     label: "",
                     emoji: getEmoji("chevronleft"),
-                    style: "PRIMARY"
+                    style: 1
                 }),
-                new MessageButton({
+                new ButtonBuilder({
                     customId: 'helpright',
                     disabled: false,
                     label: "",
                     emoji: getEmoji("chevronright"),
-                    style: "PRIMARY"
+                    style: 1
                 })
             )
-        let messageEmbed = await channel.send({
+        let msgembed = await channel.send({
             embeds: [embed], 
             components: [row, rowbtn]
         }).then((msg) => {
@@ -151,14 +152,14 @@ export const command: Command = {
             
             // Function for updating help embed as page changes
             const helpembed = (async (description: any, page: any, content: any) => {
-                let embedMain = new MessageEmbed()
+                let embedMain = new EmbedBuilder()
                     .setTitle(`${await getEmoji("help")} ${await language(guild, 'HELP_TITLE')} - ${await capitalizeFirstLetter(description)}`)
                     .setColor(embedcolor)
                     .setFooter({ text: `${await language(guild, 'HELP_PAGE')} ${page}/${categories.length}`})
     
                     if (content) {
                         content.forEach((command: any) => {
-                            embedMain.addField('> ' + command.name, `${command.description}`, true)
+                            embedMain.addFields([{name: '> ' + command.name, value: `${command.description}`, inline: true}])
                         });
                     }
                 await msg.edit({ embeds: [embedMain] });

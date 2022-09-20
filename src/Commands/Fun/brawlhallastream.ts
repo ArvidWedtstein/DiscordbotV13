@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Interaction, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 export const command: Command = {
@@ -44,16 +44,16 @@ export const command: Command = {
             }).save()
         }
 
-        const btn = new MessageButton() 
+        const btn = new ButtonBuilder() 
             .setCustomId('brawlhallabutton')
             .setEmoji('885437713707331634')
             .setLabel(results.brawlhalla ? 'I do wish brawlhalla notification plz' : 'I do not wish brawlhalla notification plz')
-            .setStyle(results.brawlhalla ? "SUCCESS" : "DANGER")
-        const row = new MessageActionRow().addComponents(btn);
+            .setStyle(results.brawlhalla ? 3 : 4)
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(btn);
 
 
         const embed = (data: any) => {
-            const currentembed = new MessageEmbed()
+            const currentembed = new EmbedBuilder()
                 .setAuthor({name: `${author.username}`, iconURL: author.displayAvatarURL()})
                 .setTitle(data ? `is now registered to recieve brawlhalla notifications`: `is not registered to recieve brawlhalla notifications`)
                 .setImage('attachment://banner.jpg')
@@ -61,7 +61,7 @@ export const command: Command = {
                 .setTimestamp()
             return currentembed
         }
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
         channel.send({ 
             embeds: [embed(results.brawlhalla)], 
             files: [attachment],

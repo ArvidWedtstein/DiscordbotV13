@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import { addXP } from '../../Functions/Level';
 export const command: Command = {
@@ -38,14 +38,14 @@ export const command: Command = {
 
         let color = await getColor(guildId, userId)
         
-        const btn = new MessageButton()
+        const btn = new ButtonBuilder()
             .setCustomId('daily')
             .setLabel(`Click to claim your XP`)
             .setEmoji('💸')
-            .setStyle('SUCCESS')
-        const row = new MessageActionRow()
+            .setStyle(3)
+        const row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(btn)
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(color)
             .setDescription(`Click here to get your daily ${xpreward} XP reward!`)
             .setFooter({ text: `Requested By ${author.tag}`, iconURL: author.displayAvatarURL() })

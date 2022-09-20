@@ -4,12 +4,12 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, Modal, TextInputComponent, ModalActionRowComponent, MessageButton, MessageEmbed, Message, Interaction, ExcludeEnum, MessageAttachment, MessageButtonStyleResolvable, Formatters } from 'discord.js';
+import Discord, { Client, Constants, Collection, TextInputComponent, ModalActionRowComponent, EmbedBuilder, Message, Interaction, AttachmentBuilder, Formatters } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import icon from '../../Functions/icon';
 import playlistSchema from '../../schemas/playlist-schema';
 // import { QueryType, QueueRepeatMode } from 'discord-player';
-import { MessageButtonStyles } from 'discord.js/typings/enums';
+
 
 export const command: Command = {
     name: "music2",
@@ -99,7 +99,7 @@ export const command: Command = {
             return [row, row2];
         }
         
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
 
         if (args[0] === 'play') {
             if (!args[1]) return temporaryMessage(channel, `You need to specify a url or search term!`, 30)

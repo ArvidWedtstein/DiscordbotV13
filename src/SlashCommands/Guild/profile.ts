@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, ContextMenuInteraction, MessageEmbed } from "discord.js";
+import { APIEmbedField, CommandInteraction, ContextMenuCommandInteraction, EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } from "discord.js";
 import moment from "moment";
 import { getCoins, getColor } from "../../Functions/economy";
 import { getLevel, getXP } from "../../Functions/Level";
@@ -8,12 +8,12 @@ import profileSchema from "../../schemas/profileSchema";
 export const slashCommand: SlashCommand = {
     name: "profile",
     description: "get the profile of a user",
-    type: "CHAT_INPUT",
+    type: ApplicationCommandType.User,
     permissions: ["ADMINISTRATOR"],
     options: [
         {
             name: "user",
-            type: "USER",
+            type: ApplicationCommandOptionType.User,
             description: "user you want to get profile of",
             required: false
         }  
@@ -87,23 +87,24 @@ export const slashCommand: SlashCommand = {
 
 
 
-        
-        let embed = new MessageEmbed()
+        const fields: APIEmbedField[] = []
+        if (birthday) fields.push({ name: 'Birthday🎂: ', value: birthday, inline: true })
+        if (Coins) fields.push({ name: `ErlingCoin${Coins === 1 ? '' : 's'}${erlingcoin}: `, value: `\`${Coins}\`.` })
+        if (userlevel && userlevel != null) fields.push({ name: 'Level:', value: `\`${userlevel}\``, inline: true })
+        if (xp) fields.push({ name: 'XP: ', value: `\`${xp.toString()}\``, inline: true })
+        if (xptonextlevel) fields.push({ name: 'XP To Next Level: ', value: (xptonextlevel - xp).toString(), inline: true })
+        if (messages) fields.push({ name: "Messages Sent: ", value: `\`${messages}\`.` })
+        if (warntxt) fields.push({ name: "Warns: ", value: warntxt })
+        if (joinedDate) fields.push({ name: "Joined this server: ", value: `${joinedDate}.` })
+
+        let embed = new EmbedBuilder()
             .setColor(color)
             .setAuthor({name: `${user?.user.username}'s Profile`})
             //.addField('Joined Discord: ', user.createdAt)
-        if (birthday) embed.addField('Birthday🎂: ', birthday, true)
-        if (Coins) embed.addField(`ErlingCoin${Coins === 1 ? '' : 's'}${erlingcoin}: `, `\`${Coins}\`.`)
-        if (userlevel && userlevel != null) embed.addField('Level:', `\`${userlevel}\``, true)
-        if (xp) embed.addField('XP: ', `\`${xp.toString()}\``, true)
-        if (xptonextlevel) embed.addField('XP To Next Level: ', (xptonextlevel - xp).toString(), true)
-        if (messages) embed.addField("Messages Sent: ", `\`${messages}\`.`)
-        if (warntxt) embed.addField("Warns: ", warntxt)
-        if (joinedDate) embed.addField("Joined this server: ", `${joinedDate}.`)
-        
-        
+        if (birthday) embed.addFields(fields)
+
         //.addField("Roles" , rolemap)
-        let messageEmbed = await interaction.editReply({ embeds: [embed] });
+        let EmbedBuilder = await interaction.editReply({ embeds: [embed] });
         
     }
     

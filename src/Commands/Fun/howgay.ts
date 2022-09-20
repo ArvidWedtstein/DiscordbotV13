@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, EmojiIdentifierResolvable } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, EmojiIdentifierResolvable } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "howgay",
@@ -35,11 +35,11 @@ export const command: Command = {
             `opinion`
         ]
         let randomMsg = messages[Math.floor(Math.random()*messages.length)];
-        let embed = new Discord.MessageEmbed()
+        let embed = new Discord.EmbedBuilder()
                 .setColor('#ff00ff')
                 .setTitle('Gayness Meter')
                 .setDescription(`According to my ${randomMsg}, ${member}.\nis ${gay}% gay`)
-        let messageEmbed = await message.channel.send({embeds: [embed]}).then(embedMessage => {
+        let EmbedBuilder = await message.channel.send({embeds: [embed]}).then(embedMessage => {
             if (gay > 60) {
                 embedMessage.react(emoji)
             }

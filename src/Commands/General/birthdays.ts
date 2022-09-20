@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 import moment from 'moment';
@@ -40,9 +40,9 @@ export const command: Command = {
                 return `${moment(bdDate).isBefore(new Date()) ? "" : `${user.userId == author.id ? `**${guild?.members.cache.get(user.userId)?.user.username} - ${user.birthday}**` : `${guild?.members.cache.get(user.userId)?.user.username} - ${user.birthday}`}`}`
             }).join('\n')
 
-            const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+            const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
 
-            let embed = new MessageEmbed()
+            let embed = new EmbedBuilder()
                 .setTitle(`Upcoming Birthdays:`)
                 .setDescription(`${userList}`)
                 .setImage('attachment://banner.jpg')

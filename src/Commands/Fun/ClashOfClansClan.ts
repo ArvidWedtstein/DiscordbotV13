@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
@@ -72,7 +72,7 @@ export const command: Command = {
                 if (res.status === 500) return
                 let clandata: Clan = res.data;
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setThumbnail(clandata.badgeUrls.small)
                     .setTitle(`${clandata.name}`)
                     .setDescription(clandata.description)

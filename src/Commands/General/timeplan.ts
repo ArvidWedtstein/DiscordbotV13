@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment, ButtonInteraction, MessageComponentInteraction } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder, ButtonInteraction, MessageComponentInteraction } from 'discord.js';
 export const command: Command = {
     name: "timeplan",
     description: "shows timeplan",
@@ -13,27 +13,27 @@ export const command: Command = {
         const { guild, channel, author } = message
         const guildId = guild?.id
         const d = new Date()
-        const toggle = new MessageButton()
+        const toggle = new ButtonBuilder()
             .setLabel(`Page 1`)
             .setStyle(3)
             .setCustomId('1')
-        const toggle2 = new MessageButton()
+        const toggle2 = new ButtonBuilder()
             .setLabel(`Page 2`)
             .setStyle(1)
             .setCustomId('2')
-        const close = new MessageButton()
+        const close = new ButtonBuilder()
             .setStyle(2)
             .setEmoji('❌')
             .setCustomId('3')
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(
                 toggle, 
                 toggle2,
                 close
             )
-        const attachment = new MessageAttachment('./img/Ukeplan.PNG', 'Ukeplan.png')
-        const attachment2 = new MessageAttachment('./img/Ukeplan2.PNG', 'Ukeplan2.png')
+        const attachment = new AttachmentBuilder('./img/Ukeplan.PNG')
+        const attachment2 = new AttachmentBuilder('./img/Ukeplan2.PNG')
 
             
 

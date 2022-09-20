@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildMember, EmbedFieldData } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, EmbedFieldData } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 export const command: Command = {
@@ -26,7 +26,7 @@ export const command: Command = {
             presence.push({name: `${act.type.toLowerCase()} ${act.name}`, value: `\`\`\`autohotkey\n${act.details ? `Song: ${act.details}` : ``}\n${act.state ? `Artist: '${act.state}'` : ``}\n${act.assets ? `Album: [${act.assets.largeText}]` : ``}\n${moment(act.createdTimestamp).fromNow()}\`\`\``})
             presence.push({name: `\u200b`, value: `\u200b`})
         })
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({name: `${usermember?.user.username}'s Presence`, iconURL: member?.displayAvatarURL()})
             .addFields(presence)
             .setFooter({ text: `Requested by ${author.tag}`})

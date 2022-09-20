@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import settingsSchema from '../../schemas/settingsSchema';
 
@@ -36,7 +36,7 @@ export const command: Command = {
         if(!target) return message.reply(`${language(guild, 'VALID_USER')}`);
         const member = guild.members.cache.get(target.id);
         
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setAuthor({ name: `${author.username} nicknamed`, iconURL: `${author.displayAvatarURL()}` })
             .setFooter({ text: `${member?.user.username} to ${args.join(' ')}` })
         message.reply({ embeds: [embed] })

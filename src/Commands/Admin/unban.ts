@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import settingsSchema from '../../schemas/settingsSchema';
 
@@ -41,7 +41,7 @@ export const command: Command = {
             guild.members.unban(bUser.user)
 
             // Log action
-            let logembed = new Discord.MessageEmbed()
+            let logembed = new Discord.EmbedBuilder()
                 .setColor(client.config.botEmbedHex)
                 .setAuthor({ name: `${bUser.user}`, iconURL: bUser.user.displayAvatarURL() })
                 .setDescription(`${language(guild, 'BAN_UNBAN')}`)

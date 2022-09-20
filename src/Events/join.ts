@@ -1,7 +1,7 @@
 import { Event } from '../Interfaces';
 import * as gradient from 'gradient-string';
 import language, { loadLanguages } from '../Functions/language';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Guild, GuildMember } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Guild, GuildMember } from 'discord.js';
 import profileSchema from '../schemas/profileSchema';
 import { Settingsguild } from '../Functions/settings';
 export const event: Event = {
@@ -36,7 +36,7 @@ export const event: Event = {
         })
 
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({ name: `${language(guild, 'WELCOME')} ${member.user.tag}`, iconURL: member.user.displayAvatarURL() })
             .setDescription(`${language(guild, 'WELCOME_RULES')}`)
             .setFooter({ text: `New member detected by ${client.user?.tag}` })

@@ -1,4 +1,4 @@
-import { Message, MessageAttachment, MessageEmbed, RoleResolvable } from 'discord.js';
+import { Message, AttachmentBuilder, EmbedBuilder, RoleResolvable } from 'discord.js';
 import fs from 'fs';
 import profileSchema from '../schemas/profileSchema';
 import settingsSchema from '../schemas/settingsSchema';
@@ -103,9 +103,9 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
                 `${insert(guild, 'LEVEL_YOU_NOW_NEED', getNeededXP(level))}.`
             ]
     
-            const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+            const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
     
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(description.join('\n'))
                 .setImage('attachment://banner.jpg')
                 .setFooter({ text: `${member.user.tag}`, iconURL: member.displayAvatarURL() })

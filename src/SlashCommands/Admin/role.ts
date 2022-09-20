@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, ContextMenuInteraction, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { CommandInteraction, ContextMenuCommandInteraction, EmbedBuilder, ApplicationCommandOptionType, ApplicationCommandType } from "discord.js";
 import temporaryMessage from "../../Functions/temporary-message";
 import { SlashCommand } from '../../Interfaces';
 
@@ -8,7 +8,7 @@ const actions = ['give', 'remove', 'has']
 export const slashCommand: SlashCommand = {
     name: "role",
     description: "roles",
-    type: "CHAT_INPUT",
+    type: ApplicationCommandType.ChatInput,
     permissions: ['KICK_MEMBERS', 'MUTE_MEMBERS'],
     ClientPermissions: ['MUTE_MEMBERS', 'KICK_MEMBERS'],
     testOnly: true,
@@ -16,7 +16,7 @@ export const slashCommand: SlashCommand = {
         {
             name: "action",
             description: "The action to perform",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
             choices: actions.map((action) => ({
                 name: action,
@@ -26,13 +26,13 @@ export const slashCommand: SlashCommand = {
         {
             name: "user",
             description: "The user to perform the action on",
-            type: "USER",
+            type: ApplicationCommandOptionType.User,
             required: true
         },  
         {
             name: "role",
             description: "The role to perform the action on",
-            type: "ROLE",
+            type:ApplicationCommandOptionType.User,
             required: true
         }  
     ],

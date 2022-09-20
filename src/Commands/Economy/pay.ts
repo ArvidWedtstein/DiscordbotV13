@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "pay",
@@ -73,9 +73,9 @@ export const command: Command = {
                 coinsToGive
             )
 
-            const attachment = new MessageAttachment(`./img/ErlingCoinSpin.gif`, `ErlingCoinSpin.gif`);
-            const border = new MessageAttachment(`./img/banner.jpg`, `banner.jpg`);
-            let embed = new MessageEmbed()
+            const attachment = new AttachmentBuilder(`./img/ErlingCoinSpin.gif`);
+            const border = new AttachmentBuilder(`./img/banner.jpg`);
+            let embed = new EmbedBuilder()
                 .setTitle('Transaction')
                 .setDescription(`${language(guild, 'ECONOMY_PAY')} **${target.username}** ${coinsToGive} ErlingCoins!
                 \n${language(guild, 'ECONOMY_PAYLEFT')} ${remainingCoins} ErlingCoins!`)

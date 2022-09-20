@@ -1,4 +1,4 @@
-import { Client, Message, MessageAttachment, MessageEmbed } from "discord.js";
+import { Client, Message, AttachmentBuilder, EmbedBuilder } from "discord.js";
 import profileSchema from "../schemas/profileSchema";
 import boticons from "./boticons";
 import icon from "./icon";
@@ -55,12 +55,12 @@ export default (client: Client) => {
       
       // TODO: Send the user a private message with the birthday message if user is not found.
 
-      const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+      const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
 
 
       setTimeout(async () => {
         if (!birthdayUser) return;
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
           .setColor('#ff0000')
           .setTitle(`:champagne:${await language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)
           .setThumbnail(birthdayUser.displayAvatarURL())
@@ -125,9 +125,9 @@ export default (client: Client) => {
       if (results.birthday == '1/1') return;
       if (results.birthday !== birthday) return;
 
-      const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+      const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
 
-      let embedCom = new MessageEmbed()
+      let embedCom = new EmbedBuilder()
         .setColor('#ff0000')
         .setTitle(`:champagne:${language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)
         .setThumbnail(member.user.displayAvatarURL())
@@ -144,13 +144,13 @@ export default (client: Client) => {
           let str1 = last?.substring(0, last.indexOf(" "))
           let str2 = embedCom?.description?.substring(0, embedCom.description.indexOf(" "))
 
-          // Checks if the last sent messageembed description is the same as the current one so the message does not get sent twice
+          // Checks if the last sent EmbedBuilder description is the same as the current one so the message does not get sent twice
           if (str1 == str2) return;
-          let messageEmbed = lastMessage?.channel.send({ embeds: [embedCom], files: [attachment] }).then((message: Message) => {
+          let EmbedBuilder = lastMessage?.channel.send({ embeds: [embedCom], files: [attachment] }).then((message: Message) => {
             addXP(guildId, userId, 5000, message)
           })
         } else {
-          let messageEmbed = lastMessage?.channel.send({ embeds: [embedCom], files: [attachment] }).then((message: Message) => {
+          let EmbedBuilder = lastMessage?.channel.send({ embeds: [embedCom], files: [attachment] }).then((message: Message) => {
             addXP(guildId, userId, 5000, message)
           })
         }

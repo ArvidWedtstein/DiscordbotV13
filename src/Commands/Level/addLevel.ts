@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
@@ -68,7 +68,7 @@ export const command: Command = {
             }).save().catch((err: any) => console.log(err))
         }
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`Created new level: ${levelname} (${level})`)
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()

@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import language, { insert } from '../../Functions/language';
 import { Settings } from '../../Functions/settings';
@@ -33,7 +33,7 @@ export const command: Command = {
         if (!reason) return message.reply("Please provide a reason");
         const member = guild.members.cache.get(user.id)
         member?.timeout(length*1000, reason);
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle("Mute")
             .setDescription(`${user.username} was given a **${length}** timeout for **${reason}**`)
             .setFooter({ text: "Today at " })

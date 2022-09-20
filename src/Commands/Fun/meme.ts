@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import axios from 'axios';
 export const command: Command = {
@@ -21,7 +21,7 @@ export const command: Command = {
         const { author, channel } = message;
         const meme = await axios.get('https://meme-api.herokuapp.com/gimme')
         const { postLink, subreddit, title, url, nsfw, spoiler, author: memeauthor, ups, preview } = meme.data;
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({name: `Author: ${memeauthor} | Subreddit: ${subreddit}`, iconURL: preview[0]})
             .setTitle(`${title}`)
             .setImage(`${url}`)

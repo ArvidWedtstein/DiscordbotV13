@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Interaction, MessageActionRow, MessageButton, MessageEmbed, GuildMember, EmbedFieldData, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Interaction, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
@@ -85,18 +85,18 @@ export const command: Command = {
             }
         }
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(
-                new MessageButton({
+                new ButtonBuilder({
                     label: "Refresh",
                     emoji: "🔄",
-                    style: "SECONDARY",
+                    style: 2,
                     customId: "refresh"
                 })
             )
 
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`Your upcoming chests`)
             .setColor(res.color || client.config.botEmbedHex)
             .setDescription(`${Royale.data.items.map((chest: any) => `+${chest.index} - ${chest.name}`).join("\n")}`)

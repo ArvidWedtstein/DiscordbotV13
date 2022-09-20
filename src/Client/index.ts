@@ -1,4 +1,4 @@
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, ApplicationCommandOption } from 'discord.js';
+import Discord, { Client, GatewayIntentBits, Constants, Collection, Partials, EmbedBuilder, ApplicationCommandOption, ApplicationCommandOptionType, ApplicationCommandType, ActivityType } from 'discord.js';
 import mongoose, { connect, mongo } from 'mongoose';
 import path from 'path';
 import { readdirSync } from 'fs';
@@ -6,7 +6,6 @@ import { Command, SlashCommand, Event, Config } from '../Interfaces';
 import * as dotenv from 'dotenv';
 import * as gradient from 'gradient-string';
 import { REST } from '@discordjs/rest';
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums';
 import { Routes } from 'discord-api-types/v10';
 import { Registry } from '../Interfaces/Registry';
 // import { Player } from 'discord-player';
@@ -41,35 +40,35 @@ class ExtendedClient extends Client {
     public constructor() {
         super({ 
             intents: [
-                Intents.FLAGS.GUILDS, 
-                Intents.FLAGS.GUILD_MESSAGES,
-                Intents.FLAGS.GUILD_MEMBERS,
-                Intents.FLAGS.GUILD_PRESENCES,
-                Intents.FLAGS.GUILD_BANS,
-                Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-                Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-                Intents.FLAGS.GUILD_SCHEDULED_EVENTS,
-                Intents.FLAGS.GUILD_INVITES,
-                Intents.FLAGS.GUILD_INTEGRATIONS,
-                Intents.FLAGS.GUILD_MESSAGE_TYPING,
-                Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-                Intents.FLAGS.GUILD_VOICE_STATES
+                GatewayIntentBits.Guilds, 
+                GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildPresences,
+                GatewayIntentBits.GuildBans,
+                GatewayIntentBits.GuildMessageReactions,
+                GatewayIntentBits.GuildEmojisAndStickers,
+                GatewayIntentBits.GuildScheduledEvents,
+                GatewayIntentBits.GuildInvites,
+                GatewayIntentBits.GuildIntegrations,
+                GatewayIntentBits.GuildMessageTyping,
+                GatewayIntentBits.DirectMessageReactions,
+                GatewayIntentBits.GuildVoiceStates
             ],
-            messageCacheLifetime: 60,
+            //messageCacheLifetime: 60,
             // messageSweepInterval: 180,
-            restGlobalRateLimit: 180,
+            // restGlobalRateLimit: 180,
             shards: 'auto',
-            restTimeOffset: 0, // Enabled speed reacting
-            restWsBridgeTimeout: 100,
+            // restTimeOffset: 0, // Enabled speed reacting
+            // restWsBridgeTimeout: 100,
             failIfNotExists: true,
             
             allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true},
-            partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"],
+            partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember, Partials.User],
             presence: {
                 status: "online",
                 activities: [
                     {
-                        type: "PLAYING",
+                        type: ActivityType.Playing,
                         name: "-help"
                     }
                 ],
@@ -186,33 +185,29 @@ class ExtendedClient extends Client {
             }
         });
         if (testcmds.length > 0) {
-            (async () => {
-                try {
-                    console.log('Started refreshing application (/) commands.', this.user?.id);
-                    
-                    if (this.user?.id) await rest.put(Routes.applicationGuildCommands(this.user?.id || '', this.config.testServer), { body: testcmds });
+            try {
+                console.log('Started refreshing application (/) commands.', this.application?.id);
+                
+                rest.put(Routes.applicationGuildCommands(this.user?.id || '', this.config.testServer), { body: testcmds });
 
-                    if (this.user?.id) console.log('Successfully reloaded application (/) commands.');
-                } catch (error) {
-                    console.error(error);
-                }
-            })();
+                if (this.user?.id) console.log('Successfully reloaded application (/) commands.');
+            } catch (error) {
+                console.error(error);
+            }
         }
         
         if (globalcmds.length > 0) {
-            (async () => {
-                try {
-                    console.log('Started refreshing global (/) commands.', this.user?.id);
-            
-                    await rest.put(
-                        Routes.applicationCommands(this.user?.id || ''),
-                        { body: globalcmds }
-                    )
-                    console.log('Successfully reloaded global (/) commands.');
-                } catch (error) {
-                    console.error(error);
-                }
-            })();
+            try {
+                console.log('Started refreshing global (/) commands.', this.application?.id);
+        
+                rest.put(
+                    Routes.applicationCommands(this.user?.id || ''),
+                    { body: globalcmds }
+                )
+                console.log('Successfully reloaded global (/) commands.');
+            } catch (error) {
+                console.error(error);
+            }
         }
 
         process.on('unhandledRejection', (reason, p) => {

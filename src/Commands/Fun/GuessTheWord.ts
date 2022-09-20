@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
@@ -206,7 +206,7 @@ export const command: Command = {
 
 
         
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setAuthor({ name: `Guess the Word!` })
             .setTitle(`Word: \`${scrambledWord}\``)
@@ -214,7 +214,7 @@ export const command: Command = {
             .setFooter({ text: `Requested by ${author.tag} | Answer with -word {the word}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
         
-        let messageEmbed = channel.send({ embeds: [embed] })
+        let EmbedBuilder = channel.send({ embeds: [embed] })
         
         var now = moment(new Date()); // date when the game starts. Is used to calculate the time used to solve the word
 

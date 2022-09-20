@@ -1,6 +1,6 @@
 import { Event, Command, SlashCommand} from '../Interfaces';
 import Client from '../Client';
-import { Interaction, Message, CommandInteraction, GuildMember, PermissionString, ExcludeEnum, MessageEmbed, MessageActionRow, MessageButton, ButtonInteraction } from 'discord.js';
+import { Interaction, Message, CommandInteraction, GuildMember, PermissionString, ExcludeEnum, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonInteraction } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
 import { MessageButtonStyles } from 'discord.js/typings/enums';
 import language from '../Functions/language';
@@ -23,7 +23,7 @@ export const event: Event = {
 
         if (!Object(await member.permissions).has("ADMINISTRATOR")) return temporaryMessage(channel, `${language(guild, 'PERMISSION_ERROR')}`, 10);
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
         
         const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);

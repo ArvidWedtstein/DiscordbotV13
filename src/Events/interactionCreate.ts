@@ -1,6 +1,6 @@
 import { Event, Command, SlashCommand} from '../Interfaces';
 import Client from '../Client';
-import { Interaction, Message, CommandInteraction, GuildMember, PermissionString } from 'discord.js';
+import { Interaction, Message, CommandInteraction, GuildMember, PermissionsString } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
 import language from '../Functions/language';
 import { arg } from 'mathjs';
@@ -10,7 +10,7 @@ export const event: Event = {
     name: "interactionCreate",
     run: async (client: Client, interaction: Interaction) => {
         const member = interaction.member as GuildMember;
-        const validatePermissions = (permissions: PermissionString[]) => {
+        const validatePermissions = (permissions: PermissionsString[]) => {
             const validPermissions = [
                 'CREATE_INSTANT_INVITE',
                 'KICK_MEMBERS',
@@ -82,11 +82,11 @@ export const event: Event = {
                 })
             }
 
-            if (command?.ClientPermissions && guild.me?.permissions) {
-                validatePermissions(guild.me?.permissions.toArray());
+            if (command?.ClientPermissions && guild.members.me?.permissions) {
+                validatePermissions(guild?.members?.me?.permissions.toArray());
                 
                 command?.ClientPermissions.forEach(async (perm) => {
-                    if (!guild!.me!.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'CLIENTPERMISSION_ERROR')}`);
+                    if (!guild!.members.me!.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'CLIENTPERMISSION_ERROR')}`);
                 })
             }
 
@@ -94,7 +94,7 @@ export const event: Event = {
             if (command) (command as SlashCommand).run(client, interaction);
         };
         if (interaction.isButton()) return
-        if (interaction.isContextMenu() || interaction.isUserContextMenu()) {
+        if (interaction.isContextMenuCommand() || interaction.isUserContextMenuCommand()) {
             interaction.deferReply({ ephemeral: false });
 
             const { commandName, options, guild, channel } = interaction;
@@ -108,11 +108,11 @@ export const event: Event = {
                 })
             }
 
-            if (command?.ClientPermissions && guild.me?.permissions) {
-                validatePermissions(guild.me?.permissions.toArray());
+            if (command?.ClientPermissions && guild.members.me?.permissions) {
+                validatePermissions(guild.members.me?.permissions.toArray());
                 
                 command?.ClientPermissions.forEach(async (perm) => {
-                    if (!guild?.me?.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'CLIENTPERMISSION_ERROR')}`);;
+                    if (!guild?.members.me?.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'CLIENTPERMISSION_ERROR')}`);;
                 })
             }
 

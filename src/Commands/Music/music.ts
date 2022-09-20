@@ -7,7 +7,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Message, Interaction, MessageReaction, User } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Message, Interaction, MessageReaction, User } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import { joinVoiceChannel } from '@discordjs/voice';
 import icon from '../../Functions/icon';
@@ -162,7 +162,7 @@ export const command: Command = {
                     // If there already is a song in the quene
                     server_queue.songs.push(song);
                     
-                    let embed = new MessageEmbed()
+                    let embed = new EmbedBuilder()
                         .setColor('#ff0000')
                         .setTitle(`📥 **${song?.title}** ${language(guild, 'MUSIC_ADDQUEUE')}.`)
                         .setThumbnail(song?.img)
@@ -288,24 +288,24 @@ export const command: Command = {
 async function menu(message: Message, music: any, queue: any, client: any) {
     const { guild, author, channel } = message
     
-    const row = new MessageActionRow()
-    const playbtn = new MessageButton()
+    const row = new ActionRowBuilder<ButtonBuilder>()
+    const playbtn = new ButtonBuilder()
         .setCustomId('play')
         .setEmoji(icon(client, guild, 'play').id)
         .setStyle(2)
-    const skipbtn = new MessageButton()
+    const skipbtn = new ButtonBuilder()
         .setCustomId('skip')
         .setEmoji(music.skip.id)
         .setStyle(2)
-    const stopbtn = new MessageButton()
+    const stopbtn = new ButtonBuilder()
         .setCustomId('stop')
         .setEmoji(music.stop.id)
         .setStyle(2)
-    const looponebtn = new MessageButton()
+    const looponebtn = new ButtonBuilder()
         .setCustomId('loopone')
         .setEmoji(music.loopone.id)
         .setStyle(2)
-    const loopallbtn = new MessageButton()
+    const loopallbtn = new ButtonBuilder()
         .setCustomId('loopall')
         .setEmoji(icon(client, guild, 'loopall').id)
         .setStyle(2)
@@ -317,8 +317,8 @@ async function menu(message: Message, music: any, queue: any, client: any) {
         looponebtn,
         loopallbtn
     )
-    let embed = new MessageEmbed()
-        .setColor('BLURPLE')
+    let embed = new EmbedBuilder()
+        .setColor("#000000")
         .setTitle(`${language(guild, 'MUSIC_MENU')}`)
         .setDescription(queue.songs[0].duration.timestamp)
         .setFooter({ text: `${author.username}`, iconURL: `${author.displayAvatarURL()}` })
@@ -327,7 +327,7 @@ async function menu(message: Message, music: any, queue: any, client: any) {
         embed.setThumbnail(queue.songs[0].img)
     }
 
-    let messageEmbed = await channel.send({
+    let msgembed = await channel.send({
         embeds: [embed],
         components: [row]
     }).then((message) => {
@@ -385,15 +385,15 @@ async function video_player(message: Message, song: any, client: any) {
         });
         
     
-    let embed = new MessageEmbed()
-        .setColor('BLURPLE')
+    let embed = new EmbedBuilder()
+        .setColor("#000000")
         .setTitle(`**${language(guild, 'MUSIC_NOWPLAYING')}**`)
         .setDescription(`${icon(client, guild, 'audiowave')}`)
         //.addField(`c`, `**${song.title}** (${song.duration.seconds})`, true)
         .setFooter({ text: `${song.title} (${song.duration.timestamp})` })
         .setThumbnail(song.img)
         .setURL(song.url)
-    let messageEmbed = await server_queue.text_channel.send({ embeds: [embed] });
+    let msgembed = await server_queue.text_channel.send({ embeds: [embed] });
 
     return
 }

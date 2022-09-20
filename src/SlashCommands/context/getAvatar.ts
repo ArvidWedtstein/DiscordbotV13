@@ -1,10 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, ContextMenuInteraction } from "discord.js";
+import { ApplicationCommandType, CommandInteraction, ContextMenuCommandInteraction } from "discord.js";
 import { SlashCommand } from '../../Interfaces';
 export const slashCommand: SlashCommand = {
     name: "getavatar",
     // description: "getavatar",
-    type: "USER",
+    type: ApplicationCommandType.User,
     permissions: ["ADMINISTRATOR"],
     // options: [
     //     {
@@ -15,11 +15,10 @@ export const slashCommand: SlashCommand = {
     // ],
     testOnly: true,
     run: async (client, interaction) => {
-        // if (!interaction.isCommand()) return
-        if (interaction.isCommand()) return
+        if (!interaction.isUserContextMenuCommand()) return
 
         
-        if (interaction.isUserContextMenu()) {
+        if (interaction.isUserContextMenuCommand()) {
 
             // const msg = await interaction.channel?.messages.fetch(
             //     interaction.targetId

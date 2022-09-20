@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
@@ -171,11 +171,11 @@ export const command: Command = {
                 // customcanvas.rect(0, 0, 800, 750, '#01B0F1')
                 // customcanvas.text(`${u ? u.username : author.username}'s Brawlhalla Stats`, 10, 40, '#FFFFFF', '40px sans-serif')
                 
-                const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+                const attachment = new AttachmentBuilder('./img/banner.jpg');
                 
             
 
-                let embed = new MessageEmbed()
+                let embed = new EmbedBuilder()
                     .setColor(client.config.botEmbedHex)
                     .setAuthor({ name: `${u ? u.username : author.username}'s Brawlhalla Stats`, iconURL: `${u ? u.displayAvatarURL() : author.displayAvatarURL()}` })
                     .setDescription(description.join('\n'))
@@ -186,7 +186,7 @@ export const command: Command = {
 
                     
                 return channel.send({ embeds: [embed], files: [attachment] })
-                // return channel.send({ embeds: [], files: [new MessageAttachment(customcanvas.gen().toBuffer('image/png'), `brawlhalla.png`)] })
+                // return channel.send({ embeds: [], files: [new AttachmentBuilder(customcanvas.gen().toBuffer('image/png'), `brawlhalla.png`)] })
             });
         })
     }

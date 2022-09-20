@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
@@ -115,8 +115,8 @@ export const command: Command = {
             await getStats(user2Profile, character)
         ]
 
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-        let embed = new MessageEmbed()
+        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setAuthor({ name: `${usr1.username}'s & ${usr2.username}'s Stats for ${character}` })
             .setDescription(description.join('\n'))

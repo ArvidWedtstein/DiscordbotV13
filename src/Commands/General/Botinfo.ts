@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "botinfo",
@@ -26,7 +26,7 @@ export const command: Command = {
 
 
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({ name: `${user.tag}`, iconURL: `${user.displayAvatarURL()}` })
             .setThumbnail(user.displayAvatarURL())
             .setColor(client.config.botEmbedHex)

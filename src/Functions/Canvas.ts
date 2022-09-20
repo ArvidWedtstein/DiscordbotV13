@@ -1,11 +1,8 @@
 import { 
-    MessageEmbed, 
+    EmbedBuilder, 
     EmbedAuthorData, 
-    EmbedFieldData, 
     EmbedFooterData, 
     ColorResolvable, 
-    MessageEmbedImage, 
-    MessageEmbedThumbnail, 
     GuildEmoji, 
     TextChannel, 
     PartialDMChannel, 
@@ -14,12 +11,9 @@ import {
     ThreadChannel, 
     ReactionEmoji,
     Message,
-    MessageActionRow,
-    MessageButton,
     Interaction,
     Guild,
-    MessageEmbedOptions,
-    MessageAttachment,
+    AttachmentBuilder,
 } from "discord.js";
 import settingsSchema from "../schemas/settingsSchema";
 import { Canvas, createCanvas, Image, SKRSContext2D } from '@napi-rs/canvas';

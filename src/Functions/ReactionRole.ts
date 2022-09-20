@@ -1,4 +1,4 @@
-import { Client, Message, MessageAttachment, MessageEmbed, MessageReaction, PartialMessageReaction, PartialUser, User } from "discord.js";
+import { Client, Message, AttachmentBuilder, EmbedBuilder, MessageReaction, PartialMessageReaction, PartialUser, User } from "discord.js";
 import reactionRoleSchema from "../schemas/reactionRoleSchema";
 
 

@@ -1,6 +1,6 @@
 import { Event, Command} from '../Interfaces';
 import Client from '../Client';
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, EmbedBuilder } from 'discord.js';
 import afk from '../Collection';
 import moment from 'moment';
 import temporaryMessage from '../Functions/temporary-message';
@@ -34,7 +34,7 @@ export const event: Event = {
         // for (let i = 0; i < alertreasons.length; i++) {
         //     // Tribe dino has been killed
         //     if (msgarray[0] == 'Your') {
-        //         let embed = new MessageEmbed()
+        //         let embed = new EmbedBuilder()
         //             .setTitle(`Dino Killed`)
         //             .setDescription(`Our ${msg.substring(5, msg.indexOf('-'))} got killed by a ${msgarray[11]} <@988253566605099008>`)
         //         let msgembed = message.channel.send({ embeds: [embed] });

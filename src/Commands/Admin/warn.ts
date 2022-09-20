@@ -4,7 +4,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from "../../schemas/profileSchema";
 export const command: Command = {
@@ -58,7 +58,7 @@ export const command: Command = {
             `${insert(guild, 'BAN_REASON', reason)}`
         ].join('\n')
 
-        let embedLogg = new MessageEmbed() 
+        let embedLogg = new EmbedBuilder() 
             .setColor(client.config.botEmbedHex)
             .setDescription(description)
             .setFooter({ text: `Warned by: ${author}`, iconURL: author.displayAvatarURL() })

@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "askformoney",
@@ -45,12 +45,12 @@ export const command: Command = {
         if (coinsToAsk < 0) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_VALID')}`, 10);
         const yes = '<:yes:807175712515162183>'
         const no = '<:no:807175696555573278>'
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setDescription(`${await language(guild, 'ECONOMY_ASKFORMONEY')} ${coinsToAsk} ErlingCoins, <@${target.id}>`)
             .setAuthor({ name: author.username, iconURL: author.displayAvatarURL() })
             .setFooter({ text: `${await language(guild, 'ECONOMY_ASKFORMONEYYESNO')}. ${d.toLocaleTimeString()}` })
-        let messageEmbed = await channel.send({ embeds: [embed] }).then((msg) => {
+        let msgembed = await channel.send({ embeds: [embed] }).then((msg) => {
             msg.react(yes);
             msg.react(no);
 
@@ -73,7 +73,7 @@ export const command: Command = {
                     const coinsOwned = await getCoins(guildId, target.id)
                     if (coinsOwned < coinsToAsk) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToAsk} ErlingCoins!`,10);
 
-                    let embed = new MessageEmbed()
+                    let embed = new EmbedBuilder()
                         .setColor('#10ff00')
                         .setTitle(`${await language(guild, 'PAY_ACCEPT')}`)
                         .setDescription(`${await language(guild, 'ECONOMY_ASKFORMONEY')} ${coinsToAsk} ErlingCoins, <@${target.id}>`)
@@ -98,7 +98,7 @@ export const command: Command = {
                     }, 8200);
                 }
                 if (reaction.emoji.name === 'no') {
-                    let embed = new Discord.MessageEmbed()
+                    let embed = new Discord.EmbedBuilder()
                     .setColor('#ff0000')
                     .setTitle(`${await language(guild, 'PAY_DENIED')}`)
                     .setDescription(`${await language(guild, 'ECONOMY_ASKFORMONEY')} ${coinsToAsk} ErlingCoins, <@${target.id}>`)

@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildMember, EmbedFieldData, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, EmbedFieldData, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
@@ -31,7 +31,7 @@ export const command: Command = {
         var weekNumber = Math.ceil(days / 7);
         
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setTitle(`Current Week Of The Year`)
             .setDescription(`The current week of the year is **${weekNumber}**`)

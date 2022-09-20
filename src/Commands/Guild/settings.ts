@@ -4,7 +4,7 @@ import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import settingsSchema from '../../schemas/settingsSchema';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildEmoji } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildEmoji } from 'discord.js';
 import emojiCharacters from '../../Functions/emojiCharacters';
 import icon from '../../Functions/icon';
 import boticons from '../../Functions/boticons';
@@ -80,37 +80,37 @@ export const command: Command = {
 
         await t.post(message)
 
-        // let embed = new MessageEmbed()
+        // let embed = new EmbedBuilder()
         //     .setColor(client.config.botEmbedHex)
         //     .setTitle(`${emojiCharacters['archleft']}${capitalizeFirstLetter(language(guild, 'SETTINGS'))}${emojiCharacters['archright']}`)
         //     // .addFields(SettingsList)
         //     .setDescription(SettingsList.join('\n'))
         //     .setFooter({text: `${language(guild, 'HELP_PAGE')} - ${page}/${SettingsList.length}`})
-        // let messageEmbed = await channel.send({embeds: [embed]})
+        // let EmbedBuilder = await channel.send({embeds: [embed]})
  
         
 
         // if (!left || !right) return console.log('no emoji found');
         // try {
-		// 	await messageEmbed.react(left);
-        //     await messageEmbed.react(right);
+		// 	await EmbedBuilder.react(left);
+        //     await EmbedBuilder.react(right);
 		// } catch (error) {
 		// 	console.error('One of the emojis failed to react:', error);
 		// }
         
 
         // const updateEmbed = (async (color: any, category: string, emojis: any = [], toggleemoji: any, pageint: number) => {
-        //     let embed2 = new Discord.MessageEmbed()
+        //     let embed2 = new Discord.EmbedBuilder()
         //         .setColor(color)
         //         .setTitle(`${capitalizeFirstLetter(category)} system ${language(guild, 'SETTINGS')} ${toggleemoji}`)
         //         .setDescription(`${language(guild, 'SETTINGS_REACT')} ${capitalizeFirstLetter(category)} system\n__${desc[pageint]}__`)
         //         .setFooter({text: `${language(guild, 'HELP_PAGE')} - ${pageint}/7`})
-        //     let messageEmbeds = await messageEmbed.edit({embeds: [embed2]});
+        //     let EmbedBuilders = await EmbedBuilder.edit({embeds: [embed2]});
             
-        //     //messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+        //     //EmbedBuilder.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
 
         //     emojis.forEach(async (emoji: any) => {
-        //         messageEmbed.react(emoji);
+        //         EmbedBuilder.react(emoji);
         //     })
         // })
             
@@ -125,7 +125,7 @@ export const command: Command = {
         //     }
         //     let emojis = []
         //     if (reaction.message.channel.id == channel.id) {
-        //         if (reaction.message.id != messageEmbed.id) return
+        //         if (reaction.message.id != EmbedBuilder.id) return
 
 
         //         let result = await settingsSchema.findOne({
@@ -149,7 +149,7 @@ export const command: Command = {
         //             antijoin: result.antijoin,
         //             welcome: result.welcome
         //         }
-        //         // messageEmbed.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+        //         // EmbedBuilder.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
         //         await reaction.users.remove(user.id);
         //         if (reaction.emoji.id == left) {
         //             if (page == 0) {     
@@ -235,15 +235,15 @@ export const command: Command = {
         //         switch (page) { // Update embed for each page.
         //             case 0:
         //                 await reaction.users.remove(user?.id);
-        //                 embed = new Discord.MessageEmbed()
+        //                 embed = new Discord.EmbedBuilder()
         //                     .setColor("#00ff00")
         //                     .setTitle(`${capitalizeFirstLetter(language(guild, 'SETTINGS'))}`)
         //                     .setDescription(`${settingicon} ${language(guild, 'SETTINGS_DESC')}\n\n\n${desc}`)
         //                     .setFooter({ text: `${language(guild, 'HELP_PAGE')} - ${page}/${categories.length + 1}` })
-        //                 await messageEmbed.edit({embeds: [embed]});
+        //                 await EmbedBuilder.edit({embeds: [embed]});
                         
-        //                 // messageEmbed.react(left)
-        //                 // messageEmbed.react(right)
+        //                 // EmbedBuilder.react(left)
+        //                 // EmbedBuilder.react(right)
         //                 //await reaction.users.remove(user.id);
         //                 //reaction.message.reactions.valueOf(2).delete()
         //                 break;

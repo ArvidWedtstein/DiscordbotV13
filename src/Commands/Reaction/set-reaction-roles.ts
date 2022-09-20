@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
@@ -60,8 +60,8 @@ export const command: Command = {
         let { content, embeds } = fetchedMessage
 
         if (embeds.length > 0) {
-            const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-            let embed = new MessageEmbed(embeds[0])
+            const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+            let embed = new EmbedBuilder(embeds[0])
             let { description } = embed
 
             if (!description) return

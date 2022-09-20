@@ -2,7 +2,7 @@ import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
@@ -67,16 +67,16 @@ export const command: Command = {
             description.push(`${letterToEmoji(alphabet[i])} ${choices[i]}`)
         }
 
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setDescription(description.join('\n'))
             .setFooter({ text: `Poll ID: ${pollId}` })
-        let messageEmbed = await message.channel.send({ embeds: [embed] });
+        let EmbedBuilder = await message.channel.send({ embeds: [embed] });
 
         let answers: any = {}
         for (let i = 0; i < choices.length; i++) {
             if (alphabet[i]) {
-                messageEmbed.react(letterToEmoji(alphabet[i]))
+                EmbedBuilder.react(letterToEmoji(alphabet[i]))
                 answers[alphabet[i]] = 0
             }
         }
@@ -136,11 +136,11 @@ export const command: Command = {
             for (const [key, value] of Object.entries(answers)) {
                 description.push(`${letterToEmoji(key)} [${value} • ${percentage(value, sum(Object.values(answers)))}%]`)
             }
-            let embedfinal = new MessageEmbed()
+            let embedfinal = new EmbedBuilder()
                 .setColor(client.config.botEmbedHex)
                 .setDescription(description.join('\n'))
                 .setFooter({ text: `Poll ID: ${pollId}` })
-            messageEmbed.edit({ embeds: [embedfinal] })
+            EmbedBuilder.edit({ embeds: [embedfinal] })
         }, parseInt(time.trim()) * (1000 * 60))
         
     }

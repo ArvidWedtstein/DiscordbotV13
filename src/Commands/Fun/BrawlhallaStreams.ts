@@ -1,5 +1,5 @@
 import { Command } from '../../Interfaces';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Interaction, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import { Stream, TwitchUser } from '../../Functions/BrawlhallaStream';
 import profileSchema from '../../schemas/profileSchema';
@@ -61,8 +61,8 @@ export const command: Command = {
     });
 
 
-    // Create new MessageAttachment for the border at the bottom of the embed.
-    const attachment = new MessageAttachment('./img/banner.gif', 'banner.gif');
+    // Create new AttachmentBuilder for the border at the bottom of the embed.
+    const attachment = new AttachmentBuilder('./img/banner.gif', 'banner.gif');
     
     let streamString = streams.map((stream: Stream) => {
       const { title, start_time, end_time, is_recurring, category } = stream;
@@ -71,7 +71,7 @@ export const command: Command = {
       return `*${moment(start_time).format('DD.MM, HH:mm')}* - ${getStreamDuration(stream)} **${title}**`
     });
     
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
       .setColor(client.config.botEmbedHex)
       .setTitle(`Brawlhalla's Upcoming Streams`)
       .setURL('https://www.twitch.tv/brawlhalla')

@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import axios from 'axios';
 export const command: Command = {
@@ -25,7 +25,7 @@ export const command: Command = {
         axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${args[0]}`).then((res) => {
             res.data.forEach(async (word: any) => {
                 const { meanings, word: dictword, origin } = word;
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setTitle(`Dictionary | ${args[0]}`)
                     .setDescription(`Word: ${dictword} [${meanings[0].partOfSpeech}]\n
                     **Definition**: ${meanings[0].definitions[0].definition}
@@ -37,7 +37,7 @@ export const command: Command = {
                 channel.send({ embeds: [embed] });
             });
         }).catch((err) => {
-            const errorembed = new MessageEmbed()
+            const errorembed = new EmbedBuilder()
                 .setTitle(err.response.data.title)
                 .setDescription(`${err.response.data.message}\n\n${err.response.data.resolution}`)
             temporaryMessage(channel, errorembed, 10);

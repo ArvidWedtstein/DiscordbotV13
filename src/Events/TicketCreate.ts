@@ -1,8 +1,8 @@
 import { Event, Command, SlashCommand} from '../Interfaces';
 import Client from '../Client';
-import { Interaction, Message, CommandInteraction, GuildMember, PermissionString, ExcludeEnum, MessageEmbed, MessageActionRow, MessageButton } from 'discord.js';
+import { Interaction, Message, CommandInteraction, GuildMember, EmbedBuilder, ActionRowBuilder, ChannelType, PermissionFlagsBits, ButtonStyle, ButtonBuilder } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
-import { MessageButtonStyles } from 'discord.js/typings/enums';
+
 import language from '../Functions/language';
 import { arg } from 'mathjs';
 import TicketSchema from '../schemas/TicketSchema';
@@ -22,8 +22,8 @@ export const event: Event = {
 
         const ID = Math.floor(Math.random() * 9000) + 10000;
 
-        function genButton(id: string, label: string, emoji: any, style: ExcludeEnum<typeof MessageButtonStyles, "LINK">) {
-            return new MessageButton({
+        function genButton(id: string, label: string, emoji: any, style: ButtonStyle) {
+            return new ButtonBuilder({
                 customId: id,
                 label: label,
                 emoji: emoji,
@@ -40,18 +40,33 @@ export const event: Event = {
 
         const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
 
-        await guild.channels.create(`${customId}-${ID}`, {
-            type: "GUILD_TEXT",
+        await guild.channels.create({
+            name: `${customId}-${ID}`, 
+            type: ChannelType.GuildText,
             parent: settings.ticketSettings.CategoryId,
             permissionOverwrites: [
                 {
                     id: member.user.id,
-                    allow: ["VIEW_CHANNEL", "SEND_MESSAGES", "ADD_REACTIONS", "ATTACH_FILES", "EMBED_LINKS", "READ_MESSAGE_HISTORY"],
+                    allow: [
+                        PermissionFlagsBits.ViewChannel, 
+                        PermissionFlagsBits.SendMessages, 
+                        PermissionFlagsBits.AddReactions, 
+                        PermissionFlagsBits.AttachFiles, 
+                        PermissionFlagsBits.EmbedLinks,
+                        PermissionFlagsBits.ReadMessageHistory
+                    ],
                     deny: []
                 },
                 {
                     id: guild.roles.everyone.id,
-                    deny: ["VIEW_CHANNEL", "SEND_MESSAGES", "ADD_REACTIONS", "ATTACH_FILES", "EMBED_LINKS", "READ_MESSAGE_HISTORY"],
+                    deny: [
+                        PermissionFlagsBits.ViewChannel, 
+                        PermissionFlagsBits.SendMessages, 
+                        PermissionFlagsBits.AddReactions, 
+                        PermissionFlagsBits.AttachFiles, 
+                        PermissionFlagsBits.EmbedLinks,
+                        PermissionFlagsBits.ReadMessageHistory
+                    ],
                     allow: []
                 }
             ]
@@ -64,19 +79,20 @@ export const event: Event = {
                 Type: customId,
             }).save().catch((err: any) => console.log(err));
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor(client.config.botEmbedHex)
                 .setAuthor({ name: `${guild.name} | Ticket: ${ID}`, iconURL: guild.iconURL() || client.user?.displayAvatarURL() })
                 .setDescription(`Please wait patiently for a staff member to respond to your ticket, in the meantime, please describe your ${language(guild, "TICKET_ISSUE")} below.`)
                 .setFooter({ text: `The buttons below are Staff Only Buttons` })
 
-            const row = new MessageActionRow()
+            const row = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(
-                    genButton("closeticket", "Save & Close Ticket", "💾", MessageButtonStyles.PRIMARY),
-                    genButton("lockticket", "Lock Ticket", "🔒", MessageButtonStyles.SECONDARY),
-                    genButton("unlockticket", "Unlock Ticket", "🔓", MessageButtonStyles.SUCCESS),
+                    genButton("closeticket", "Save & Close Ticket", "💾", ButtonStyle.Primary),
+                    genButton("lockticket", "Lock Ticket", "🔒", ButtonStyle.Secondary),
+                    genButton("unlockticket", "Unlock Ticket", "🔓", ButtonStyle.Success),
                 )
             
+            if (!channel.isTextBased()) return
             channel.send({
                 embeds: [embed],
                 components: [row]

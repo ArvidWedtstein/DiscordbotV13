@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildMember, EmbedFieldData, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, EmbedFieldData, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
@@ -30,9 +30,9 @@ export const command: Command = {
         let res = results[results.length-1]
         let types: any = res.address_components[res.address_components.length-1].types;
         
-        const attachment = new MessageAttachment('./img/iss.jpg', 'iss.jpg') 
-        const attachment2 = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-        const embed = new MessageEmbed()
+        const attachment = new AttachmentBuilder('./img/iss.jpg', 'iss.jpg') 
+        const attachment2 = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const embed = new EmbedBuilder()
             .setAuthor({ name: `International Space Station Location` })
             .setThumbnail('attachment://iss.jpg')
             .setImage('attachment://banner.jpg')

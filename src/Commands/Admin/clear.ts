@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import language, { insert } from '../../Functions/language';
 import { Settings } from '../../Functions/settings';
@@ -50,7 +50,7 @@ export const command: Command = {
         const logchannel = guild.channels.cache.find(channel => channel.id === result?.serverlog);
         if (!logchannel?.manageable) return;
         if (!logchannel.isText()) return
-        let logembed = new MessageEmbed()
+        let logembed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setAuthor({ name: `${author.username} cleared ${args[0]} messages`, iconURL: author.displayAvatarURL() })
         logchannel.send({ embeds: [logembed] });

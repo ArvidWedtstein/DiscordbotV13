@@ -3,9 +3,10 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder, Interaction, ActionRowBuilder, ButtonBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import math, { re } from 'mathjs';
+import { Embed } from '@discordjs/builders';
 
 export const command: Command = {
     name: "calculator",
@@ -31,12 +32,12 @@ export const command: Command = {
         const guildId = guild?.id
 
         let button: any = new Array([], [], [], [], [])
-        let row: MessageActionRow[] = []
+        let row: ActionRowBuilder<ButtonBuilder>[] = []
         let text = ["clear", "(", ")", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", ".", "0", "00", "="]
         let current = 0;
 
         const addRow = (btns: any) => {
-            let row1 = new MessageActionRow()
+            let row1 = new ActionRowBuilder<ButtonBuilder>()
             for (let btn of btns) {
                 row1.addComponents(btn)
             }
@@ -48,7 +49,7 @@ export const command: Command = {
             else if (label === "=") style = "SUCCESS"
             else if (isNaN(label)) style = "DANGER"
 
-            const btn = new MessageButton()
+            const btn = new ButtonBuilder()
                 .setLabel(label)
                 .setStyle(style)
                 .setCustomId("cal" + label)
@@ -71,7 +72,7 @@ export const command: Command = {
             }
         }
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor("#0000ff")
             .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
             .setDescription("```0```")
@@ -84,7 +85,7 @@ export const command: Command = {
             let isWrong = false;
             let time = 60000;
             let value = ""
-            let embed1 = new MessageEmbed()
+            let embed1 = new EmbedBuilder()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
                 .setColor("#0000FF")
 

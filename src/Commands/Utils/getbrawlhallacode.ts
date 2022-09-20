@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction, MessageAttachment, MessageSelectMenu } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Interaction, AttachmentBuilder, SelectMenuBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import { addXP } from '../../Functions/Level';
 import profileSchema from '../../schemas/profileSchema';
@@ -46,8 +46,8 @@ export const command: Command = {
         let groupedCodes = groupData(codes);
 
         
-        // MessageAttachment for the bottom border banner
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        // AttachmentBuilder for the bottom border banner
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
 
         // If random is selected
         if (args[0] && args[0].toLowerCase() === 'random') {
@@ -61,7 +61,7 @@ export const command: Command = {
 
             results.save()
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle(`${author.tag}'s Brawlhalla Code`)
                 .setDescription(`${chosencode.name} | \`${chosencode.code}\``)
                 .setImage('attachment://banner.jpg')
@@ -92,8 +92,8 @@ export const command: Command = {
             }
         }) */
 
-        let row = await new MessageActionRow().addComponents(
-            new MessageSelectMenu({
+        let row = await new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+            new SelectMenuBuilder({
                 customId: 'brawlhalla_code_menu',
                 placeholder: "Select Item",
                 options: options.slice(0, 25),
@@ -102,10 +102,10 @@ export const command: Command = {
             })
         )
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`${author.tag}'s Brawlhalla Codes`)
             .setImage('attachment://banner.jpg')
-            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL({ dynamic: true }) })
+            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
         
         author.send({ embeds: [embed], components: [row], files: [attachment] }).then(async (msg) => {
@@ -132,7 +132,7 @@ export const command: Command = {
                 // let { name, code, redeemed } = last25Codes[reaction.values[0]];
 
 
-                // Edit the MessageEmbed and disable the Select Menu
+                // Edit the EmbedBuilder and disable the Select Menu
                 embed.setDescription(`${name} | \`${code}\``)
                 row.components[0].setDisabled(true)
 

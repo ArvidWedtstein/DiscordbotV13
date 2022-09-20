@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import temporaryMessage from '../../Functions/temporary-message';
-import { MessageAttachment, MessageEmbed } from 'discord.js';
+import { AttachmentBuilder, EmbedBuilder } from 'discord.js';
 
 export const command: Command = {
     name: "addbalance",
@@ -38,9 +38,9 @@ export const command: Command = {
         const userId = mention.id
 
         const newCoins = await addCoins(guildId, userId, coins)
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
     
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setDescription(`${language(guild, 'ECONOMY_PAY')} <@${userId}> ${coins} ErlingCoins. \n<@${userId}>, ${language(guild, 'ECONOMY_PAYLEFT')} ${newCoins} ErlingCoins!`)
             .setImage('attachment://banner.jpg')

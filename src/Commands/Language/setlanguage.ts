@@ -2,7 +2,7 @@ import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { setLanguage } from '../../Functions/language';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import settingsSchema from '../../schemas/settingsSchema';
 export const command: Command = {
@@ -29,27 +29,27 @@ export const command: Command = {
         const getEmoji = (emojiName: any) => client.emojis.cache.find((emoji) => emoji.name === emojiName)
         const guildId = guild?.id;
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setEmoji('🇬🇧')
                     .setStyle(3)
                     .setCustomId('lang_gb'),
-                new MessageButton()
+                new ButtonBuilder()
                     .setEmoji('🇩🇪')
                     .setStyle(3)
                     .setCustomId('lang_de'),
-                new MessageButton()
+                new ButtonBuilder()
                     .setEmoji('🇳🇴')
                     .setStyle(3)
                     .setCustomId('lang_no'),
-                new MessageButton()
+                new ButtonBuilder()
                     .setEmoji('❌')
                     .setStyle(3)
                     .setCustomId('lang_close')
             )
-        let embed = new MessageEmbed()
-            .setColor("DARKER_GREY")
+        let embed = new EmbedBuilder()
+            .setColor("#333333")
             .setTitle(`Language`)
             .setDescription(`Select Language\nNot all translations may be correct`)
             /*.addFields(
@@ -57,13 +57,13 @@ export const command: Command = {
                 {name: language[1], value: `Norwegian`},
                 {name: language[2], value: `English`},
             )*/
-        let messageEmbed = await channel.send({
+        let msgembed = await channel.send({
             embeds: [embed],
             components: [row]
         })
 
         const filter = (i: Interaction) => i.user.id === author.id;
-        let collect = messageEmbed.createMessageComponentCollector({
+        let collect = msgembed.createMessageComponentCollector({
             filter, 
             max: 1,
             time: 60000
@@ -74,7 +74,7 @@ export const command: Command = {
 
             switch (reaction.customId) {
                 case "lang_de":
-                    let embedDE = new MessageEmbed()
+                    let embedDE = new EmbedBuilder()
                         .setTitle(`Language`)
                         .setDescription(`Language set to German${language[0]}`)
                         .addFields(
@@ -93,7 +93,7 @@ export const command: Command = {
                     })
                     break;
                 case "lang_no":
-                    let embedNO = new MessageEmbed()
+                    let embedNO = new EmbedBuilder()
                         .setTitle(`Language`)
                         .setDescription(`Language set to Norwegian${language[1]}`)
                         .addFields(
@@ -112,7 +112,7 @@ export const command: Command = {
                     })
                     break;
                 case "lang_gb":
-                    let embedeng = new MessageEmbed()
+                    let embedeng = new EmbedBuilder()
                         .setTitle(`Language`)
                         .setDescription(`Language set to English${language[2]}`)
                         .addFields(

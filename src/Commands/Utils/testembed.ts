@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Interaction, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Interaction, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import { addXP } from '../../Functions/Level';
 import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed';
@@ -82,8 +82,8 @@ export const command: Command = {
         //     .setStyle('SUCCESS')
         // const row = new MessageActionRow()
         //     .addComponents(btn)
-        // const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
-        // const embed = new MessageEmbed()
+        // const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        // const embed = new EmbedBuilder()
         //     .setColor(color)
         //     .setDescription(`jjj`)
         //     .setImage('attachment://banner.jpg')

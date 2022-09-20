@@ -1,5 +1,5 @@
 import { Command } from '../../Interfaces';
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { text } from 'stream/consumers';
 
 export const command: Command = {
@@ -139,7 +139,7 @@ export const command: Command = {
             
             txt.push(rules.join('\n'));
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle("Blackjack")
                 .setDescription(txt.join('\n'))
                 .setThumbnail("https://images-ext-1.discordapp.net/external/EWCXIQ_PqlxJwZx-yXLU_DNZv65J3kl3o8xxJZJaoPI/https/images.emojiterra.com/mozilla/512px/1f0cf.png?width=456&height=456")
@@ -211,7 +211,7 @@ export const command: Command = {
                 
                 txt = genText(txt, players);
 
-                // const embed = new MessageEmbed()
+                // const embed = new EmbedBuilder()
                 //     .setTitle("Blackjack")
                 //     .setDescription(txt.join('\n'))
                 //     .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
@@ -224,7 +224,7 @@ export const command: Command = {
                 txt = genText(txt, players);
                 txt.push(...rules.slice(0, -1));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setTitle("Blackjack")
                     .setDescription(txt.join('\n'))
                     .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
@@ -299,7 +299,7 @@ export const command: Command = {
                 txt.push(``);
             }
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle("Blackjack")
                 .setDescription(txt.join('\n'))
                 .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })

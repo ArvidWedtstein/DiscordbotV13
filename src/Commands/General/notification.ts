@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, MessageAttachment, Interaction } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 import moment from 'moment';
@@ -22,7 +22,7 @@ export const command: Command = {
 
         if (!guild) return;
 
-        const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
 
         // TODO - Create either select menu with the notification settings or buttons. Toggle emoji of button/menuitem to show/hide.
         // or create a PageEmbed with a page to toggle each notification
@@ -31,15 +31,15 @@ export const command: Command = {
             guildId: guild.id
         })
 
-        let row = new MessageActionRow()
+        let row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('brawlhalla_notification')
                     .setLabel(results.brawlhalla ? 'I do not wish brawlhalla notification plz' : 'I do wish brawlhalla notification plz')
-                    .setStyle(results.brawlhalla ? "DANGER" : "SUCCESS")
+                    .setStyle(results.brawlhalla ? 4 : 3)
                     .setEmoji('885437713707331634')
             )
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setTitle(`Notifications`)
             .setDescription(`This command is still in progress.`)
             .setImage('attachment://banner.jpg')
@@ -62,7 +62,7 @@ export const command: Command = {
                 }
                 if (m.customId === 'brawlhalla_notification') {
                     row.components[0].setDisabled(true)
-                    let embed = new MessageEmbed()
+                    let embed = new EmbedBuilder()
                         .setTitle(`Notifications`)
                         .setDescription(`Brawlhalla Notification was turned ${results.brawlhalla ? 'off' : 'on'}`)
                         .setImage('attachment://banner.jpg')

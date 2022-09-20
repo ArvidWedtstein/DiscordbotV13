@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
@@ -37,8 +37,8 @@ export const command: Command = {
 
         args.shift();
         const reason = args.join(' ')
-        member?.ban({ days: parseInt(days), reason: reason});
-        const embed = new MessageEmbed()
+        member?.ban({ deleteMessageDays: parseInt(days), reason: reason});
+        const embed = new EmbedBuilder()
             .setAuthor({name: `${member?.user.tag}`, iconURL: client.user?.displayAvatarURL()})
             .setDescription(`got banned by ${author.tag} for ${reason} (${days})`)
             .setFooter({ text: `Executed by ${author.tag}` })

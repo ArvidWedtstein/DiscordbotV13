@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, User, GuildMember, GuildListMembersOptions } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, User, GuildMember, GuildListMembersOptions } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 
@@ -47,7 +47,7 @@ export const command: Command = {
         })
         
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`${User1?.user.username} vs ${User2?.user.username}`)
             .setFooter({ text: `Requested by ${message.author.tag}`})
             .addFields(

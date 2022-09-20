@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
@@ -29,7 +29,7 @@ export const command: Command = {
             return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
         }
         const emoji = client.emojis.cache.get('862437381684330597')
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setTitle(`${emoji} You rolled a ***${getRandomIntInclusive(1, 6)}***`)
             .setFooter({ text: `Dice rolled by ${author.tag}`, iconURL: author.displayAvatarURL() })

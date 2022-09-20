@@ -1,9 +1,8 @@
 import { Event } from '../Interfaces';
 import * as gradient from 'gradient-string';
 import icon from '../Functions/icon';
-import { Formatters, Interaction, MessageAttachment, MessageButton, MessageEmbed, ExcludeEnum, MessageActionRow, Message } from 'discord.js';
-import { MessageButtonStyles } from 'discord.js/typings/enums';
-import { QueueRepeatMode } from 'discord-player';
+import { Formatters, Interaction, AttachmentBuilder, EmbedBuilder, Message } from 'discord.js';
+
 
 export const event: Event = {
     name: "ready",
@@ -20,7 +19,7 @@ export const event: Event = {
         
         client.player.on("trackStart", (queue, track) => {
             const { metadata }: any = queue
-            const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+            const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
 
             function genButton(id: string, emoji: any, style: ExcludeEnum<typeof MessageButtonStyles, "LINK">) {
                 return new MessageButton({
@@ -50,7 +49,7 @@ export const event: Event = {
                 return [upperRow, lowerRow];
             }
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor(client.config.botEmbedHex)
                 .setAuthor({ name: `NOW PLAYING`, iconURL: track.requestedBy.displayAvatarURL({ dynamic: true })})
                 .setDescription(`${getEmoji('RGB_sheep')} [${Formatters.inlineCode(track.title)}](${track.url})\n`)
@@ -163,7 +162,7 @@ export const event: Event = {
             const { metadata }: any = queue
             console.log('trackAdd')
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor(client.config.botEmbedHex)
                 .setAuthor({ name: `ADDED TO QUEUE`, iconURL: track.requestedBy.displayAvatarURL({ dynamic: true })})
                 .setDescription([

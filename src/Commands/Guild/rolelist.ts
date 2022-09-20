@@ -2,7 +2,7 @@ import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import moment from 'moment';
 export const command: Command = {
     name: "roles",
@@ -16,7 +16,7 @@ export const command: Command = {
             .join(", \n");
             if (rolemap.length > 1024) rolemap = "Too many roles to display";
             if (!rolemap) rolemap = "No roles";
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle('Server Roles')
             .addField("Role List" , rolemap)
         channel.send({embeds: [embed]});

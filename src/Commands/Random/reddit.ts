@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import api from 'imageapi.js';
 export const command: Command = {
@@ -24,7 +24,7 @@ export const command: Command = {
         let subreddit = subreddits[Math.floor(Math.random()*(subreddits.length))]
         console.log(subreddit)
         let img = await api(subreddit)
-        const embedreddit = new MessageEmbed()
+        const embedreddit = new EmbedBuilder()
             .setTitle(`Meme`)
             // .setURL(`https://reddit.com/r/${subreddit}`)
             .setColor('#000000')

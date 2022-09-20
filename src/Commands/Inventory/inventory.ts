@@ -1,5 +1,5 @@
 import { Command } from '../../Interfaces';
-import { Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Client, CommandInteraction, Message, MessageAttachment } from 'discord.js';
+import { Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Client, CommandInteraction, Message, AttachmentBuilder } from 'discord.js';
 import { getItems, giveItem, addItem, removeItem } from '../../Functions/UserInventory';
 import language from '../../Functions/language';
 import itemlist from '../../items.json';
@@ -55,16 +55,16 @@ export const command: Command = {
       return arr.length = 0
     }
     
-    const attachment = new MessageAttachment('./img/banner.jpg', 'banner.jpg');
+    const attachment = new AttachmentBuilder('./img/banner.jpg');
 
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
       .setColor('#ff4300')
       .setAuthor({name: `${target.username}'s ${await language(guild, 'INVENTORY_TITLE')}`, iconURL: target.displayAvatarURL()})
       .setDescription(itemtxt.join('\n'))
       .setImage('attachment://banner.jpg')
       .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
     
-    let messageEmbed = await channel.send({ embeds: [embed], files: [attachment] });
+    let msgembed = await channel.send({ embeds: [embed], files: [attachment] });
     emptyarray(itemtxt);
     itemtxt = ''
     count = {}

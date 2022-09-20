@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildMember, MessageSelectMenu } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, SelectMenuBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import { lang } from 'moment';
 export const command: Command = {
@@ -28,15 +28,15 @@ export const command: Command = {
             .map(r => roles.push({label: r.name, description: r.id, value: r.id}))
             .join(",");
 
-        const roleSelect = new MessageActionRow()
+        const roleSelect = new ActionRowBuilder<SelectMenuBuilder>()
             .addComponents(
-                new MessageSelectMenu() 
+                new SelectMenuBuilder() 
                     .setCustomId('rolesRemove')
                     .setMaxValues(1)
                     .setMinValues(1)
                     .setOptions(roles.splice(0, 25))
             )
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({name: `Choose role for ${member?.user.tag}`, iconURL: member?.user.displayAvatarURL()})
             .setFooter({ text: `Executed by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
@@ -46,14 +46,13 @@ export const command: Command = {
             if (!button.isSelectMenu()) return;
             
             if (button.customId != 'rolesRemove') return;
-            await button.deferUpdate();
             
             if (button.member?.user.id != author.id) return;
-            
+
 
             const chosenrole = guild.roles.cache.find((r) => r.id === button.values[0])
-            if (!chosenrole) return button.reply(`${await language(guild, 'ROLE_NOTFOUND')}`);
-            member?.roles.remove(chosenrole, 'yEs')
+            if (!chosenrole) await button.reply({ content: `${await language(guild, 'ROLE_NOTFOUND')}` });
+            if (chosenrole) member?.roles.remove(chosenrole)
             setTimeout(() => {
                 roleSelect.components[0].setDisabled(true)
             }, 60 * 1000)

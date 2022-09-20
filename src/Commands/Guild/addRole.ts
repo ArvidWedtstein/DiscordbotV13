@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildMember, MessageSelectMenu } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, SelectMenuBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 export const command: Command = {
     name: "addrole",
@@ -28,16 +28,16 @@ export const command: Command = {
             .join(",");
         
 
-        const roleSelect = new MessageActionRow()
+        const roleSelect = new ActionRowBuilder<SelectMenuBuilder>()
             .addComponents(
-                new MessageSelectMenu() 
+                new SelectMenuBuilder() 
                     .setCustomId('rolesSelect')
                     .setPlaceholder('Select role')
                     .setMaxValues(1)
                     .setMinValues(1)
                     .addOptions(roles.splice(0, 25))
             )
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({name: `Choose role for ${member?.user.username}`, iconURL: member?.user.displayAvatarURL()})
             .setFooter({ text: `Executed by ${author.tag}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
@@ -47,17 +47,17 @@ export const command: Command = {
             if (!button.isSelectMenu()) return;
             
             if (button.customId != 'rolesSelect') return;
-            await button.deferUpdate();
+            // await button.deferUpdate();
             
             if (button.member?.user.id != author.id) return;
             
 
             const chosenrole = guild.roles.cache.find((r) => r.id === button.values[0])
-            if (!chosenrole) return button.reply(`${await language(guild, 'ROLE_NOTFOUND')}`);
-            member?.roles.add(chosenrole, 'yEs')
-            setTimeout(() => {
-                roleSelect.components[0].setDisabled(true)
-            }, 60 * 1000)
+            if (!chosenrole) await button.reply({ content: `${await language(guild, 'ROLE_NOTFOUND')}` });
+            // member?.roles.add(chosenrole, 'yEs')
+            // setTimeout(() => {
+            //     roleSelect.components[0].setDisabled(true)
+            // }, 60 * 1000)
         });
     }
 }

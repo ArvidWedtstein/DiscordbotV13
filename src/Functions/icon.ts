@@ -1,4 +1,4 @@
-import { GuildEmoji, MessageEmbed } from "discord.js";
+import { GuildEmoji, EmbedBuilder } from "discord.js";
 import Client from '../Client';
 import settingsSchema from "../schemas/settingsSchema"
 import color, { colors, blue, yellow, red, purple } from '../icons.json';

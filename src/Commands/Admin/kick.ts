@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import settingsSchema from '../../schemas/settingsSchema';
 
@@ -45,7 +45,7 @@ export const command: Command = {
         let result = await settingsSchema.findOne({
             guildId
         })
-        let userembed = new MessageEmbed()
+        let userembed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setTitle(`Important Message`)
             .setDescription(`I'm sorry to inform you that you have been forcefully removed from **${guild.name}**.
@@ -59,8 +59,8 @@ export const command: Command = {
         if (!result?.serverlog) return 
         const logchannel = guild.channels.cache.find(channel => channel.id === result?.serverlog);
         if (!logchannel) return;
-        if (!logchannel.isText()) return
-        let logembed = new MessageEmbed()
+        if (!logchannel.isTextBased()) return
+        let logembed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setAuthor({ name: `${author.username}`, iconURL: author.displayAvatarURL() })
             .setDescription(`kicked\n\n${language(guild, 'BAN_REASON')}: ${reason}`)

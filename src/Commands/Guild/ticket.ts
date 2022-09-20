@@ -3,10 +3,11 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, Message, Interaction, ExcludeEnum, MessageAttachment, MessageButtonStyleResolvable } from 'discord.js';
+import Discord, { ButtonStyle, Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Message, Interaction, AttachmentBuilder, ChannelType, PermissionsBitField, PermissionFlagsBits } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
-import { MessageButtonStyles } from 'discord.js/typings/enums';
+
 import settingsSchema from '../../schemas/settingsSchema';
+import { Channel } from 'diagnostics_channel';
 
 export const command: Command = {
     name: "ticket",
@@ -30,8 +31,8 @@ export const command: Command = {
 
         const getChannel = (channelId: any) => guild.channels.cache.get(channelId);
 
-        function genButton(id: string, label: string, emoji: any, style: ExcludeEnum<typeof MessageButtonStyles, "LINK">) {
-            return new MessageButton({
+        function genButton(id: string, label: string, emoji: any, style: ButtonStyle) {
+            return new ButtonBuilder({
                 customId: id,
                 label: label,
                 emoji: emoji,
@@ -39,16 +40,16 @@ export const command: Command = {
             })
         }
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setAuthor({ name: `${guild.name}`, iconURL: guild.iconURL() || client.user?.displayAvatarURL() })
             .setDescription(`Open a ticket to discuss any of the issues listed on the bottom`)
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(
-                genButton("userticket", "User Report", getEmoji("really"), MessageButtonStyles.PRIMARY),
-                genButton("bugticket", "Bug Report", getEmoji("really"), MessageButtonStyles.SECONDARY),
-                genButton("otherticket", "Other Report", getEmoji("really"), MessageButtonStyles.SUCCESS),
+                genButton("userticket", "User Report", getEmoji("really"), ButtonStyle.Primary),
+                genButton("bugticket", "Bug Report", getEmoji("really"), ButtonStyle.Secondary),
+                genButton("otherticket", "Other Report", getEmoji("really"), ButtonStyle.Success),
             )
 
         let settings = await settingsSchema.findOne({
@@ -69,21 +70,30 @@ export const command: Command = {
 
         if (!settings) return
         if (!settings.ticketSettings || !getChannel(settings.ticketSettings.CategoryId)) {
-            await guild.channels.create(`Ticket System`, { type: "GUILD_CATEGORY", reason: "Ticket System" }).then(async (channel) => {
+            await guild.channels.create({name: `Ticket System`, type: ChannelType.GuildCategory }).then(async (channel) => {
                 sett.CategoryId = channel.id
             })
         }
         const category = await getChannel(sett?.CategoryId) as Discord.CategoryChannel
         if (!settings?.ticketSettings || !sett.CategoryId) {
-            await guild.channels.create(`open-a-ticket`, { 
-                type: "GUILD_TEXT", 
+            await guild.channels.create({ 
+                name: `open-a-ticket`, 
+                type: ChannelType.GuildText, 
                 reason: "Ticket channel", 
                 parent: category.id,
                 topic: "Open a ticket",
                 permissionOverwrites: [
                     {
                         id: guild.roles.everyone.id,
-                        deny: ["SEND_MESSAGES", "USE_APPLICATION_COMMANDS", "ADMINISTRATOR", "EMBED_LINKS", "ATTACH_FILES", "CREATE_PUBLIC_THREADS", "CREATE_PRIVATE_THREADS"]
+                        deny: [
+                            PermissionFlagsBits.SendMessages, 
+                            PermissionFlagsBits.UseApplicationCommands, 
+                            PermissionFlagsBits.Administrator,
+                            PermissionFlagsBits.EmbedLinks,
+                            PermissionFlagsBits.AttachFiles,
+                            PermissionFlagsBits.CreatePublicThreads,
+                            PermissionFlagsBits.CreatePrivateThreads
+                        ]
                     }
                 ]
             }).then(async (channel) => {

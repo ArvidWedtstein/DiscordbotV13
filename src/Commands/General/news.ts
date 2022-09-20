@@ -2,7 +2,7 @@ import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 export const command: Command = {
     name: "news",
     description: "write a newspost",

@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Intents, Constants, Collection, MessageActionRow, MessageButton, MessageEmbed, GuildMember, EmbedFieldData, MessageAttachment } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, EmbedFieldData, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import { evaluate } from 'mathjs';
 
@@ -37,7 +37,7 @@ export const command: Command = {
             collected.each(m => m.content.includes('=') ? equationArgs.push(m.content.trim().replace('=', '')) : equationArgs.push(m.content.trim()))
             equationArgs = equationArgs.join(' ')
             try {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setColor(client.config.botEmbedHex)
                     .setDescription([
                         `Your Question 🤡: *${equationArgs}*`,
@@ -53,7 +53,7 @@ export const command: Command = {
             
         });
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setTitle(`Meth`)
             .setDescription(`You have 5 minutes to write the equation.`)
