@@ -1,6 +1,6 @@
 import { Event, Command} from '../Interfaces';
 import Client from '../Client';
-import { Message, PermissionsString, PermissionFlagsBits } from 'discord.js';
+import { Message, PermissionsString, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
 import language from '../Functions/language';
 
@@ -8,17 +8,24 @@ let cooldown = new Set();
 export const event: Event = {
     name: "messageCreate",
     run: (client: Client, message: Message) => {
-        const { author, content, guild, member, channel } = message;
+        const { author, content, guild, member, channel, system, guildId } = message;
         if (
+            system || 
             author.bot ||
+            author.system ||
+            !guildId ||
             !guild ||
+            message.interaction ||
             !content.startsWith(client.config.prefix)
-        ) return;
+        ) return
 
         // Custom stian command. Just for fun.
+        console.log('x')
+        console.log(content)
         if (content.startsWith("-stian")) return message.channel.send("<:gifflar:844852887389863947>");
 
         const validatePermissions = (permissions: PermissionsString[]) => {
+            
             const validPermissions: PermissionsString[] = [
                 'CreateInstantInvite',
                 'KickMembers',

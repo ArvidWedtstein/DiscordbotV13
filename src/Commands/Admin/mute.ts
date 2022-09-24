@@ -8,14 +8,14 @@ export const command: Command = {
     name: "mute",
     description: "mute a user",
     group: __dirname.toLowerCase(),
-    UserPermissions: ["MUTE_MEMBERS"],
+    UserPermissions: ["MuteMembers"],
     ClientPermissions: [
         'SendMessages',
         'AddReactions',
-        'ATTACH_FILES',
+        'AttachFiles',
         'EmbedLinks',
-        'MANAGE_MESSAGES',
-        'READ_MESSAGE_HISTORY',
+        'ManageMessages',
+        'ReadMessageHistory',
         'ViewChannel'
     ],
     run: async(client, message, args) => {

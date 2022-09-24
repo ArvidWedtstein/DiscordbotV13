@@ -13,7 +13,7 @@ export const command: Command = {
     details: "testreactiontime",
     aliases: ["testreactiontiming"],
     hidden: true,
-    UserPermissions: ["ADMINISTRATOR"],
+    UserPermissions: ["Administrator"],
     ClientPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
     ownerOnly: true,
     examples: ["testembed"],

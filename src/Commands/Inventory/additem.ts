@@ -16,7 +16,7 @@ export const command: Command = {
     aliases: ["itemadd"],
     group: "Inventory",
     hidden: false,
-    UserPermissions: ["ADMINISTRATOR"],
+    UserPermissions: ["Administrator"],
     ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["additem @user item"],

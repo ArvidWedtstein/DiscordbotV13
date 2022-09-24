@@ -15,7 +15,7 @@ export const command: Command = {
     details: "Connect your personal profile to steam",
     aliases: ["steam"],
     ownerOnly: false,
-    ClientPermissions: ["SendMessages", "SEND_MESSAGES_IN_THREADS", "ViewChannel"],
+    ClientPermissions: ["SendMessages", "SendMessagesInThreads", "ViewChannel"],
     UserPermissions: ["SendMessages"],
     run: async(client, message, args) => {
         const { guild, mentions, author, channel, content } = message;

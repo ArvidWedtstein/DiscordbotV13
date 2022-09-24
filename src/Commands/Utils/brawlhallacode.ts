@@ -14,7 +14,7 @@ export const command: Command = {
     details: "Brawlhalla Code",
     aliases: ["bwlcode", "addbrawlhallacode"],
     hidden: true,
-    UserPermissions: ["ADMINISTRATOR"],
+    UserPermissions: ["Administrator"],
     ClientPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
     ownerOnly: true,
     examples: ["brawlhallacode {code} {name}"],

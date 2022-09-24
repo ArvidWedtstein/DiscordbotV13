@@ -16,7 +16,7 @@ export const command: Command = {
     aliases: ["itemgive"],
     group: "Inventory",
     hidden: false,
-    UserPermissions: ["READ_MESSAGE_HISTORY"],
+    UserPermissions: ["ReadMessageHistory"],
     ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["giveitem @user item"],

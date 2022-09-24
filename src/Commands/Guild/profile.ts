@@ -17,7 +17,7 @@ export const command: Command = {
     details: "Your profile. Contains stats about you.",
     aliases: ["p", "me"],
     ownerOnly: false,
-    ClientPermissions: ["SendMessages", "SEND_MESSAGES_IN_THREADS", "ViewChannel"],
+    ClientPermissions: ["SendMessages", "SendMessagesInThreads", "ViewChannel"],
     UserPermissions: ["SendMessages"],
     examples: ["-profile <username?>"],
 

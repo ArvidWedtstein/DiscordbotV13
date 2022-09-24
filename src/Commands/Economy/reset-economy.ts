@@ -13,14 +13,14 @@ export const command: Command = {
   details: "Reset the whole economy of this guild",
   aliases: ["resetmoney"],
   hidden: false,
-  UserPermissions: ["ADMINISTRATOR"],
+  UserPermissions: ["Administrator"],
   ClientPermissions: [
     'SendMessages',
     'AddReactions',
-    'ATTACH_FILES',
+    'AttachFiles',
     'EmbedLinks',
-    'MANAGE_MESSAGES',
-    'READ_MESSAGE_HISTORY',
+    'ManageMessages',
+    'ReadMessageHistory',
     'ViewChannel'
 ],
   ownerOnly: false,

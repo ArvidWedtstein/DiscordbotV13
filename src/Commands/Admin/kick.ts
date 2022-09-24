@@ -12,14 +12,14 @@ export const command: Command = {
     description: "lets you kick a unwanted user",
     aliases: [],
     group: __dirname,
-    UserPermissions: ["KICK_MEMBERS"],
+    UserPermissions: ["KickMembers"],
     ClientPermissions: [
         'SendMessages',
         'AddReactions',
-        'ATTACH_FILES',
+        'AttachFiles',
         'EmbedLinks',
-        'MANAGE_MESSAGES',
-        'READ_MESSAGE_HISTORY',
+        'ManageMessages',
+        'ReadMessageHistory',
         'ViewChannel'
     ],
     run: async(client, message, args) => {

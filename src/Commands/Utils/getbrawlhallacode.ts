@@ -14,7 +14,7 @@ export const command: Command = {
     details: "get Brawlhalla Code",
     aliases: ["getbwlcode"],
     hidden: true,
-    UserPermissions: ["ADMINISTRATOR"],
+    UserPermissions: ["Administrator"],
     ClientPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
     ownerOnly: true,
     examples: ["getbrawlhallacode"],

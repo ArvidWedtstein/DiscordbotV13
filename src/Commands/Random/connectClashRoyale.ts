@@ -15,8 +15,8 @@ export const command: Command = {
     details: "Connect your personal profile to clash royale. Your clash royale id can be found under the profile tab in clash royale",
     aliases: ["cntcr", "cntclashroyale"],
     ownerOnly: false,
-    ClientPermissions: ["SendMessages", "SEND_MESSAGES_IN_THREADS", "ViewChannel"],
-    UserPermissions: ["SendMessages", "ViewChannel", "ATTACH_FILES", "EmbedLinks"],
+    ClientPermissions: ["SendMessages", "SendMessagesInThreads", "ViewChannel"],
+    UserPermissions: ["SendMessages", "ViewChannel", "AttachFiles", "EmbedLinks"],
     run: async(client, message, args) => {
         const { guild, mentions, author, channel, content } = message;
         

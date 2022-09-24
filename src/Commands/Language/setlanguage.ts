@@ -13,7 +13,7 @@ export const command: Command = {
     hidden: false,
     UserPermissions: [
         "SendMessages", 
-        'ADMINISTRATOR'
+        'Administrator'
     ],
     ClientPermissions: [
         "SendMessages", 

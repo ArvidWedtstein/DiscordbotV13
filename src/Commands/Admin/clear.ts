@@ -11,15 +11,15 @@ export const command: Command = {
     details: "clear a specific amount of messages in a channel",
     group: __dirname.toLowerCase(),
     UserPermissions: [
-        "MANAGE_MESSAGES"
+        "ManageMessages"
     ],
     ClientPermissions: [
         'SendMessages',
         'AddReactions',
-        'ATTACH_FILES',
+        'AttachFiles',
         'EmbedLinks',
-        'MANAGE_MESSAGES',
-        'READ_MESSAGE_HISTORY',
+        'ManageMessages',
+        'ReadMessageHistory',
         'ViewChannel'
     ],
     examples: ["clear {amount}"],

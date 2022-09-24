@@ -16,7 +16,7 @@ export const command: Command = {
     aliases: ["iconcolor"],
     group: "Guild",
     hidden: false,
-    UserPermissions: ["SendMessages", "MANAGE_GUILD"],
+    UserPermissions: ["SendMessages", "ManageGuild"],
     ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["seticoncolor"],

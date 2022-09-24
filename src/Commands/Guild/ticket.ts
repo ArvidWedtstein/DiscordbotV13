@@ -14,8 +14,8 @@ export const command: Command = {
     description: "send a ticket",
     aliases: ["helpticket"],
     hidden: false,
-    UserPermissions: ["SendMessages", "ADMINISTRATOR"],
-    ClientPermissions: ["SendMessages", "AddReactions", "ViewChannel", "READ_MESSAGE_HISTORY"],
+    UserPermissions: ["SendMessages", "Administrator"],
+    ClientPermissions: ["SendMessages", "AddReactions", "ViewChannel", "ReadMessageHistory"],
     ownerOnly: false,
     examples: ["ticket"],
     

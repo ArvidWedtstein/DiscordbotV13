@@ -1,4 +1,4 @@
-import Discord, { Client, GatewayIntentBits, Constants, Collection, Partials, EmbedBuilder, ApplicationCommandOption, ApplicationCommandOptionType, ApplicationCommandType, ActivityType } from 'discord.js';
+import Discord, { Routes, Client, GatewayIntentBits, Constants, Collection, Partials, EmbedBuilder, ApplicationCommandOption, ApplicationCommandOptionType, ApplicationCommandType, ActivityType } from 'discord.js';
 import mongoose, { connect, mongo } from 'mongoose';
 import path from 'path';
 import { readdirSync } from 'fs';
@@ -6,7 +6,6 @@ import { Command, SlashCommand, Event, Config } from '../Interfaces';
 import * as dotenv from 'dotenv';
 import * as gradient from 'gradient-string';
 import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v10';
 import { Registry } from '../Interfaces/Registry';
 import { generateDependencyReport } from '@discordjs/voice'
 // import { Player } from 'discord-player';
@@ -53,7 +52,8 @@ class ExtendedClient extends Client {
                 GatewayIntentBits.GuildIntegrations,
                 GatewayIntentBits.GuildMessageTyping,
                 GatewayIntentBits.DirectMessageReactions,
-                GatewayIntentBits.GuildVoiceStates
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.MessageContent
             ],
             //messageCacheLifetime: 60,
             // messageSweepInterval: 180,
@@ -64,7 +64,13 @@ class ExtendedClient extends Client {
             failIfNotExists: true,
             
             allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true},
-            partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember, Partials.User],
+            partials: [
+                Partials.Message, 
+                Partials.Channel, 
+                Partials.Reaction, 
+                Partials.GuildMember, 
+                Partials.User
+            ],
             presence: {
                 status: "online",
                 activities: [
@@ -142,52 +148,29 @@ class ExtendedClient extends Client {
 
             for (const file of commands) {
                 const { slashCommand } = require(`${slashCommandPath}/${dir}/${file}`);
-                let commandtypes = [
-                    'CHAT_INPUT',
-                    'USER',
-                    'MESSAGE'
-                ]
-                let commandoptiontypes = [
-                    "SUB_COMMAND",
-                    "SUB_COMMAND_GROUP",
-                    "STRING",
-                    "INTEGER",
-                    "BOOLEAN",
-                    "USER",
-                    "CHANNEL",
-                    "ROLE",
-                    "MENTIONABLE",
-                    "NUMBER"
-                ]
-                let cmd: any = slashCommand;
-                this.slashCommands.set(slashCommand.name, slashCommand);
 
-                cmd.type = commandtypes.indexOf(slashCommand.type)+1;
-
-                if (slashCommand.type === "CHAT_INPUT") {
-                    cmd.description = slashCommand.description;
-                }
-                if (cmd.options) {
-                    cmd.options.forEach((option: any) => {
-                        if (option.options) {
-                            option.options.forEach((option2: any) => {
-                                option2.type = commandoptiontypes.indexOf(option2.type)+1
-                            })
-                        }
-                        option.type = commandoptiontypes.indexOf(option.type)+1
-                    })
-                }
-
-                if (slashCommand.testOnly) {
-                    testcmds.push(cmd);
-                } else if (slashCommand.testOnly == false) {
-                    globalcmds.push(cmd)
+                if (slashCommand.name == 'profile') {
+                    this.slashCommands.set(slashCommand.name, slashCommand);
+                    const cmd = Object.assign({}, slashCommand);
+                    delete cmd.run
+                    delete cmd.permissions
+                    delete cmd.type
+                    delete cmd.testOnly
+                    delete cmd.options
+                    
+    
+                    if (slashCommand.testOnly) {
+                        testcmds.push(cmd);
+                    } else if (slashCommand.testOnly == false) {
+                        globalcmds.push(cmd)
+                    }
                 }
             }
         });
+
         if (testcmds.length > 0) {
             try {
-                console.log('Started refreshing application (/) commands.', this.application?.id);
+                console.log('Started refreshing application (/) commands.', this.user?.id);
                 
                 rest.put(Routes.applicationGuildCommands(this.user?.id || '', this.config.testServer), { body: testcmds });
 
@@ -199,7 +182,7 @@ class ExtendedClient extends Client {
         
         if (globalcmds.length > 0) {
             try {
-                console.log('Started refreshing global (/) commands.', this.application?.id);
+                console.log('Started refreshing global (/) commands.', this.user?.id);
         
                 rest.put(
                     Routes.applicationCommands(this.user?.id || ''),

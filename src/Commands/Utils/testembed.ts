@@ -13,7 +13,7 @@ export const command: Command = {
     details: "testembed",
     aliases: ["testingembed"],
     hidden: true,
-    UserPermissions: ["ADMINISTRATOR"],
+    UserPermissions: ["Administrator"],
     ClientPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
     ownerOnly: true,
     examples: ["testembed"],

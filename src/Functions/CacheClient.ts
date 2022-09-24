@@ -1,6 +1,6 @@
 import Client from '../Client';
 import axios from 'axios';
-import { AttachmentBuilder, MessageButton, EmbedBuilder } from 'discord.js';
+import { AttachmentBuilder, EmbedBuilder } from 'discord.js';
 import profileSchema from '../schemas/profileSchema';
 import moment from 'moment';
 import gradient from 'gradient-string';

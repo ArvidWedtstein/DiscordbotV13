@@ -9,8 +9,8 @@ export const slashCommand: SlashCommand = {
     name: "role",
     description: "roles",
     type: ApplicationCommandType.ChatInput,
-    permissions: ['KICK_MEMBERS', 'MUTE_MEMBERS'],
-    ClientPermissions: ['MUTE_MEMBERS', 'KICK_MEMBERS'],
+    permissions: ['KickMembers', 'MuteMembers'],
+    ClientPermissions: ['MuteMembers', 'KickMembers'],
     testOnly: true,
     options: [
         {

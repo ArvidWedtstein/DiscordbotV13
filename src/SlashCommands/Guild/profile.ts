@@ -9,19 +9,19 @@ export const slashCommand: SlashCommand = {
     name: "profile",
     description: "get the profile of a user",
     type: ApplicationCommandType.User,
-    permissions: ["ADMINISTRATOR"],
+    permissions: ["Administrator"],
     options: [
         {
             name: "user",
-            type: ApplicationCommandOptionType.User,
+            type: 1, // 6
             description: "user you want to get profile of",
             required: false
         }  
     ],
-    testOnly: true,
+    testOnly: false,
     run: async (client: any, interaction) => {
-        if (!interaction.isCommand()) return
-        await interaction.deferReply({ ephemeral: true })
+        if (!interaction.isCommand()) return 
+        //await interaction.deferReply({ ephemeral: true })
 
         if (!interaction.guild) return;
         const user = interaction.member;
@@ -35,6 +35,7 @@ export const slashCommand: SlashCommand = {
             userId,
             guildId
         })
+
         let messages = '';
         if (!results) {
             messages = '0'
@@ -56,7 +57,7 @@ export const slashCommand: SlashCommand = {
             birthday = 'Unknown'
         } else {
             birthday = birthdayresult.birthday;
-            joinedDate = moment(results.joinedAt).fromNow()
+            joinedDate = moment(results.joinedAt ? results.joinedAt : results.createdAt).fromNow()
         }
         let warntxt = '';
 
@@ -98,13 +99,13 @@ export const slashCommand: SlashCommand = {
         if (joinedDate) fields.push({ name: "Joined this server: ", value: `${joinedDate}.` })
 
         let embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor('Aqua') // color
             .setAuthor({name: `${user?.user.username}'s Profile`})
             //.addField('Joined Discord: ', user.createdAt)
         if (birthday) embed.addFields(fields)
 
         //.addField("Roles" , rolemap)
-        let EmbedBuilder = await interaction.editReply({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
         
     }
     

@@ -12,17 +12,17 @@ export const command: Command = {
     description: "simulate a event",
     aliases: ["simevent"],
     group: __dirname,
-    UserPermissions: ["BAN_MEMBERS"],
+    UserPermissions: ["BanMembers"],
     ClientPermissions: [
         'SendMessages',
         'AddReactions',
-        'ATTACH_FILES',
+        'AttachFiles',
         'EmbedLinks',
-        'MANAGE_MESSAGES',
-        'READ_MESSAGE_HISTORY',
+        'ManageMessages',
+        'ReadMessageHistory',
         'ViewChannel',
-        'BAN_MEMBERS',
-        'MODERATE_MEMBERS'
+        'BanMembers',
+        'ModerateMembers'
     ],
     run: async(client, message, args) => {
         const { guild, author, mentions, channel } = message

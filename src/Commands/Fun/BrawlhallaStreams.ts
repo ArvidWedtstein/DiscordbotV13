@@ -16,10 +16,10 @@ export const command: Command = {
   ClientPermissions: [
     'SendMessages',
     'AddReactions',
-    'ATTACH_FILES',
+    'AttachFiles',
     'EmbedLinks',
-    'MANAGE_MESSAGES',
-    'READ_MESSAGE_HISTORY',
+    'ManageMessages',
+    'ReadMessageHistory',
     'ViewChannel'
 ],
   ownerOnly: false,
@@ -62,7 +62,7 @@ export const command: Command = {
 
 
     // Create new AttachmentBuilder for the border at the bottom of the embed.
-    const attachment = new AttachmentBuilder('./img/banner.gif', 'banner.gif');
+    const attachment = new AttachmentBuilder('./img/banner.gif');
     
     let streamString = streams.map((stream: Stream) => {
       const { title, start_time, end_time, is_recurring, category } = stream;

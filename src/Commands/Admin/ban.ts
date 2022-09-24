@@ -12,14 +12,14 @@ export const command: Command = {
     description: "lets you ban a user",
     details: "lets you ban a user from the server",
     group: "Admin",
-    UserPermissions: ["BAN_MEMBERS"],
+    UserPermissions: ["BanMembers"],
     ClientPermissions: [
         'SendMessages',
         'AddReactions',
-        'ATTACH_FILES',
+        'AttachFiles',
         'EmbedLinks',
-        'MANAGE_MESSAGES',
-        'READ_MESSAGE_HISTORY',
+        'ManageMessages',
+        'ReadMessageHistory',
         'ViewChannel'
     ],
     run: async(client, message, args) => {

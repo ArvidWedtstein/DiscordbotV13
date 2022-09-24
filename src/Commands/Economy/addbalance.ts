@@ -9,14 +9,14 @@ export const command: Command = {
     name: "addbalance",
     description: "add balance to a user",
     aliases: ["addbal"],
-    UserPermissions: ['ADMINISTRATOR'],
+    UserPermissions: ['Administrator'],
     ClientPermissions: [
         'SendMessages',
         'AddReactions',
-        'ATTACH_FILES',
+        'AttachFiles',
         'EmbedLinks',
-        'MANAGE_MESSAGES',
-        'READ_MESSAGE_HISTORY',
+        'ManageMessages',
+        'ReadMessageHistory',
         'ViewChannel'
     ],
     run: async(client, message, args) => {

@@ -11,7 +11,7 @@ export interface SlashCommand {
     group?: string;
     ClientPermissions?: PermissionsString[];
     permissions?: PermissionsString[];
-    type: ApplicationCommandType;
+    type?: ApplicationCommandType;
     testOnly?: boolean;
     options?: ApplicationCommandOption[];   
     run: Run;

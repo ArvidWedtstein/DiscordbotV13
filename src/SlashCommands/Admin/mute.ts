@@ -4,8 +4,8 @@ import { SlashCommand } from '../../Interfaces';
 export const slashCommand: SlashCommand = {
     name: "mute",
     type: ApplicationCommandType.User,
-    permissions: ['KICK_MEMBERS', 'MUTE_MEMBERS'],
-    ClientPermissions: ['MUTE_MEMBERS', 'KICK_MEMBERS'],
+    permissions: ['KickMembers', 'MuteMembers'],
+    ClientPermissions: ['MuteMembers', 'KickMembers'],
     testOnly: true,
     run: async (client, interaction) => {
         // if (!interaction.isCommand()) return

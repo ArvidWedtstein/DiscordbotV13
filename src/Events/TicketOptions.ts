@@ -71,9 +71,9 @@ export const event: Event = {
                     //     ViewChannel: false,
                     //     SendMessages: false,
                     //     AddReactions: false,
-                    //     ATTACH_FILES: false,
+                    //     AttachFiles: false,
                     //     EmbedLinks: false,
-                    //     READ_MESSAGE_HISTORY: false
+                    //     ReadMessageHistory: false
                     // })
 
                     return interaction.reply({

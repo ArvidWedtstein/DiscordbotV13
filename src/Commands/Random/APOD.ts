@@ -10,7 +10,7 @@ import axios from 'axios';
 import { cacheSetTTL, cacheSet } from '../../Functions/CacheClient'
 import NasaAPIcacheSchema from '../../schemas/24hAPIcacheSchema';
 export const command: Command = {
-    name: "apod",
+    name: "apod2",
     description: "Check out the Astronomy Picture of the Day",
     details: "Check out the Astronomy Picture of the Day",
     aliases: ["astronomy_picture_of_the_day", "astronomypictureoftheday"],
@@ -50,8 +50,7 @@ export const command: Command = {
             .setTimestamp(date)
 
         if (media_type === "video") embed.setURL(url)
-        let msgs = Array.from(channel.messages.cache.keys())
-        console.log(msgs)
+
         return channel.send( {embeds: [embed] });
     }
 }

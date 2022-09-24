@@ -17,7 +17,7 @@ export const command: Command = {
     aliases: ["set_reaction", "set-reaction"],
     group: "Reaction",
     hidden: false,
-    UserPermissions: ["SendMessages", "MANAGE_CHANNELS", "AddReactions", "MANAGE_ROLES"],
+    UserPermissions: ["SendMessages", "ManageChannels", "AddReactions", "ManageRoles"],
     ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["setreaction {channel} {message}"],
