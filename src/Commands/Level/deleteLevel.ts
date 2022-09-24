@@ -16,8 +16,8 @@ export const command: Command = {
     aliases: ["removelevel"],
     group: "Level",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "BAN_MEMBERS"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "MANAGE_ROLES"],
+    UserPermissions: ["SendMessages", "BAN_MEMBERS"],
+    ClientPermissions: ["SendMessages", "AddReactions", "MANAGE_ROLES"],
     ownerOnly: false,
     examples: ["deletelevel <name> <level>"],
     

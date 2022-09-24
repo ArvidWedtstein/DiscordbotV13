@@ -14,13 +14,13 @@ export const command: Command = {
         "MANAGE_MESSAGES"
     ],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     examples: ["clear {amount}"],
     run: async(client, message, args: any) => {
@@ -49,7 +49,7 @@ export const command: Command = {
 
         const logchannel = guild.channels.cache.find(channel => channel.id === result?.serverlog);
         if (!logchannel?.manageable) return;
-        if (!logchannel.isText()) return
+        if (!logchannel.isTextBased()) return
         let logembed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setAuthor({ name: `${author.username} cleared ${args[0]} messages`, iconURL: author.displayAvatarURL() })

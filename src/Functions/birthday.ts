@@ -55,7 +55,7 @@ export default (client: Client) => {
       
       // TODO: Send the user a private message with the birthday message if user is not found.
 
-      const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+      const attachment = new AttachmentBuilder('./img/banner.jpg');
 
 
       setTimeout(async () => {
@@ -69,7 +69,7 @@ export default (client: Client) => {
           .setFooter({ text: `This birthday wish was brought to you by ${client.user?.username}` })
           .setTimestamp()
     
-        if (!channel || !channel.isText()) return birthdayUser.send({ embeds: [embed], files: [attachment] });
+        if (!channel || !channel.isTextBased()) return birthdayUser.send({ embeds: [embed], files: [attachment] });
         
         channel.send({ embeds: [embed], files: [attachment] }).then(async (message) => {
           await addXP(guildId, userId, 5000, message)
@@ -78,88 +78,6 @@ export default (client: Client) => {
       
     }
   })
-
-
-  // OLD BIRTHDAY CHECKER
-  const checkForBirthday = async () => {
-    const list = client.guilds.cache.get('524951977243836417');
-    if (!list) return;
-    list.members.cache.each(async (member) => {
-      const { user, guild } = member;
-      const userId = user.id
-      const guildId = guild.id;
-      let news = guild.channels.cache.find(channel => channel.name === 'nyheter');
-      
-      if (!news || !news.isText() || news.isVoice() || news.isThread()) {
-        const name = `${language(guild, 'NEWS_CHANNELNAME')}`
-        guild.channels.create(name, {
-          topic: "News"
-        })
-        
-        news = guild.channels.cache.find(channel => channel.name === `${language(guild, 'NEWS_CHANNELNAME')}`);
-        if (!news) return;
-        
-      }
-      if (
-        news.isThread() || 
-        news.isVoice() || 
-        !news.isText() || 
-        !news || 
-        !news.manageable
-       ) return;
-
-      
-      const results = await profileSchema.findOne({
-        userId
-      })
-
-      if (!results) return
-
-      let d = new Date,
-      dformat = [
-        d.getDate(),
-        d.getMonth()+1,
-      ].join('/')+''
-      const birthday = dformat;
-      
-      if (results.birthday == '1/1') return;
-      if (results.birthday !== birthday) return;
-
-      const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
-
-      let embedCom = new EmbedBuilder()
-        .setColor('#ff0000')
-        .setTitle(`:champagne:${language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)
-        .setThumbnail(member.user.displayAvatarURL())
-        .setDescription(`<@${results.userId}> ${language(guild, 'BIRTHDAY_USER')}\n@everyone\n${language(guild, 'PROMOTE_USER')} to <@${results.userId}>! (+5000xp) `)
-        .setImage('attachment://banner.jpg')
-
-      news?.messages.fetch({ limit: 1 }).then(async (messages) => {
-        let lastMessage = messages.first();
-        
-        if (!lastMessage) return; 
-        if (lastMessage?.embeds[0]) {
-          // check if last embed is same as current to prevent double birthday announcement
-          let last = lastMessage.embeds[0].description
-          let str1 = last?.substring(0, last.indexOf(" "))
-          let str2 = embedCom?.description?.substring(0, embedCom.description.indexOf(" "))
-
-          // Checks if the last sent EmbedBuilder description is the same as the current one so the message does not get sent twice
-          if (str1 == str2) return;
-          let EmbedBuilder = lastMessage?.channel.send({ embeds: [embedCom], files: [attachment] }).then((message: Message) => {
-            addXP(guildId, userId, 5000, message)
-          })
-        } else {
-          let EmbedBuilder = lastMessage?.channel.send({ embeds: [embedCom], files: [attachment] }).then((message: Message) => {
-            addXP(guildId, userId, 5000, message)
-          })
-        }
-    
-      })
-    }); 
-    console.log(`${gradient.instagram(`Checking for birthdays`)}`);
-  };
-
   checkBirthday();
 
   // Run checkForBirthday every 12 hours

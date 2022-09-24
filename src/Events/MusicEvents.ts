@@ -19,7 +19,7 @@ export const event: Event = {
         
         client.player.on("trackStart", (queue, track) => {
             const { metadata }: any = queue
-            const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+            const attachment = new AttachmentBuilder('./img/banner.jpg');
 
             function genButton(id: string, emoji: any, style: ExcludeEnum<typeof MessageButtonStyles, "LINK">) {
                 return new MessageButton({

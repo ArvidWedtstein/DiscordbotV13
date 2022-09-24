@@ -21,7 +21,7 @@ export const event: Event = {
         if (!channel) {
             return
         }
-        if (!channel.viewable || !channel.isText()) return
+        if (!channel.viewable || !channel.isTextBased()) return
 
         const embed = new EmbedBuilder()
             .setAuthor({ name: `${language(guild, 'LEAVE')} ${member.user.tag} 😪`, iconURL: member.user.displayAvatarURL() })

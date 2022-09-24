@@ -1,8 +1,7 @@
 import { Event, Command, SlashCommand} from '../Interfaces';
 import Client from '../Client';
-import { Interaction, Message, CommandInteraction, GuildMember, PermissionString, ExcludeEnum, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonInteraction } from 'discord.js';
+import { Interaction, Message, CommandInteraction, GuildMember, PermissionsString, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonInteraction } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
-import { MessageButtonStyles } from 'discord.js/typings/enums';
 import language from '../Functions/language';
 import { arg } from 'mathjs';
 import TicketSchema from '../schemas/TicketSchema';
@@ -17,11 +16,12 @@ export const event: Event = {
 
         if (!guild) return
         if (!member) return
-        if (!channel || !channel.isText()) return
+        if (!channel) return
+        if (!channel.isTextBased()) return
 
         if (!["closeticket", "lockticket", "unlockticket"].includes(customId)) return
 
-        if (!Object(await member.permissions).has("ADMINISTRATOR")) return temporaryMessage(channel, `${language(guild, 'PERMISSION_ERROR')}`, 10);
+        if (!Object(await member.permissions).has("Administrator")) return temporaryMessage(channel, `${language(guild, 'PERMISSION_ERROR')}`, 10);
 
         const embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
@@ -43,8 +43,8 @@ export const event: Event = {
                         Closed: true
                     })
                     // discord-html-transcripts?
-                    
-                    guild.members.cache.get(ticket.userId)?.send({ content: `Your ticket has been closed by ${member}\n${channel.messages.cache.map((msg) => msg).join('\n')}` })
+                    let msgs = Array.from(channel.messages.cache.keys())
+                    guild.members.cache.get(ticket.userId)?.send({ content: `Your ticket has been closed by ${member}\n${msgs.join('\n')}` })
 
                     interaction.reply({
                         embeds: [embed.setDescription(`Ticket closed\nChannel will be deleted in 10 seconds`)]
@@ -68,11 +68,11 @@ export const event: Event = {
 
                     embed.setDescription(`🔒 | Ticket is now locked for reviewing.`)
                     // channel.permissionOverwrites.edit(guild.roles.everyone, {
-                    //     VIEW_CHANNEL: false,
-                    //     SEND_MESSAGES: false,
-                    //     ADD_REACTIONS: false,
+                    //     ViewChannel: false,
+                    //     SendMessages: false,
+                    //     AddReactions: false,
                     //     ATTACH_FILES: false,
-                    //     EMBED_LINKS: false,
+                    //     EmbedLinks: false,
                     //     READ_MESSAGE_HISTORY: false
                     // })
 

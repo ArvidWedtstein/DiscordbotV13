@@ -53,8 +53,8 @@ export const command: Command = {
     details: "get clash of clans clan info",
     aliases: ["clashofclansclan"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["clashofclansclan <tag>"],
     

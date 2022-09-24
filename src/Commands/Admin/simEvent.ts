@@ -14,13 +14,13 @@ export const command: Command = {
     group: __dirname,
     UserPermissions: ["BAN_MEMBERS"],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL',
+        'ViewChannel',
         'BAN_MEMBERS',
         'MODERATE_MEMBERS'
     ],

@@ -14,13 +14,13 @@ export const command: Command = {
     group: __dirname,
     UserPermissions: ["MANAGE_NICKNAMES"],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     run: async(client, message, args) => {
         message.delete()

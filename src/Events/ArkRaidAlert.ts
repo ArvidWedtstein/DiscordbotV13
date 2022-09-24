@@ -10,7 +10,7 @@ export const event: Event = {
     run: (client: Client, message: Message) => {
         // const { guild } = message
         // if (!guild) return;
-        // if (!guild?.me?.permissions.toArray().includes('SEND_MESSAGES')) return;
+        // if (!guild?.me?.permissions.toArray().includes('SendMessages')) return;
         // const guildId = guild.id;  
         // if (message.author.username != "Drinkledonk") return;
         // if (guildId != '524951977243836417') return;

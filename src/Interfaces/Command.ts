@@ -1,5 +1,5 @@
 import Client from '../Client';
-import { Message, PermissionString } from 'discord.js';
+import { Message, PermissionsString } from 'discord.js';
 
 interface Run {
     (client: Client, message: Message, args: string[]): any;
@@ -11,8 +11,8 @@ export interface Command {
     aliases?: string[];
     details?: string;
     group?: any;
-    UserPermissions?: PermissionString[];
-    ClientPermissions?: PermissionString[];
+    UserPermissions?: PermissionsString[];
+    ClientPermissions?: PermissionsString[];
     ownerOnly?: boolean;
     hidden?: boolean;
     disabled?: boolean;

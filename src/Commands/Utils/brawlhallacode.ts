@@ -15,7 +15,7 @@ export const command: Command = {
     aliases: ["bwlcode", "addbrawlhallacode"],
     hidden: true,
     UserPermissions: ["ADMINISTRATOR"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "EMBED_LINKS"],
+    ClientPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
     ownerOnly: true,
     examples: ["brawlhallacode {code} {name}"],
     run: async(client, message, args) => {

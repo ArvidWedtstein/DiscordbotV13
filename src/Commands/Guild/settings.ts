@@ -16,8 +16,8 @@ export const command: Command = {
     details: "settings",
     aliases: ["setting"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "MANAGE_GUILD"],
-    ClientPermissions: ["SEND_MESSAGES", "SEND_MESSAGES_IN_THREADS", "VIEW_CHANNEL"],
+    UserPermissions: ["SendMessages", "MANAGE_GUILD"],
+    ClientPermissions: ["SendMessages", "SEND_MESSAGES_IN_THREADS", "ViewChannel"],
     run: async(client, message, args) => {
         const { guild, channel, author, mentions } = message
 

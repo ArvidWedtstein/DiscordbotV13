@@ -12,12 +12,12 @@ export const command: Command = {
     aliases: ["setlang"],
     hidden: false,
     UserPermissions: [
-        "SEND_MESSAGES", 
+        "SendMessages", 
         'ADMINISTRATOR'
     ],
     ClientPermissions: [
-        "SEND_MESSAGES", 
-        "ADD_REACTIONS"
+        "SendMessages", 
+        "AddReactions"
     ],
     ownerOnly: false,
     examples: ["setlanguage <language>"],

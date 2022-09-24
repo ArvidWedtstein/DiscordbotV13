@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, APIEmbedField } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import axios from 'axios';
 export const command: Command = {
@@ -12,8 +12,8 @@ export const command: Command = {
     details: "Check the dictionary of this bot.",
     aliases: ["ordbok"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["dictionary <word>"],
     
@@ -31,9 +31,8 @@ export const command: Command = {
                     **Definition**: ${meanings[0].definitions[0].definition}
                     ${meanings[0].definitions[0].example ? `**Example**: ${meanings[0].definitions[0].example}` : ''}\n\n`)
                     .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
-                    if (origin) {
-                        embed.addField(`Origin:`, `${origin}`)
-                    }
+                    if (origin) embed.addFields({ name: `Origin:`, value: `${origin}` })
+                    
                 channel.send({ embeds: [embed] });
             });
         }).catch((err) => {

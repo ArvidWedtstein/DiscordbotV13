@@ -18,7 +18,7 @@ export const command: Command = {
             if (!rolemap) rolemap = "No roles";
         const embed = new EmbedBuilder()
             .setTitle('Server Roles')
-            .addField("Role List" , rolemap)
+            .addFields("Role List" , rolemap)
         channel.send({embeds: [embed]});
     }
 }

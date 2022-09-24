@@ -15,8 +15,8 @@ export const command: Command = {
     details: "Connect your personal profile to brawlhalla. Your brawlhalla id can be found under the inventory tab in brawlhalla",
     aliases: ["bwltracker"],
     ownerOnly: false,
-    ClientPermissions: ["SEND_MESSAGES", "SEND_MESSAGES_IN_THREADS", "VIEW_CHANNEL"],
-    UserPermissions: ["SEND_MESSAGES"],
+    ClientPermissions: ["SendMessages", "SEND_MESSAGES_IN_THREADS", "ViewChannel"],
+    UserPermissions: ["SendMessages"],
     run: async(client, message, args) => {
         const { guild, mentions, author, channel, content } = message;
 

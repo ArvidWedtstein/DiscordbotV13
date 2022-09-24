@@ -14,7 +14,7 @@ export const command: Command = {
     aliases: ["testreactiontiming"],
     hidden: true,
     UserPermissions: ["ADMINISTRATOR"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "EMBED_LINKS"],
+    ClientPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
     ownerOnly: true,
     examples: ["testembed"],
     

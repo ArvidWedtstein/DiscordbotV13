@@ -15,10 +15,10 @@ export const command: Command = {
     name: "profile",
     description: "Your personal profile",
     details: "Your profile. Contains stats about you.",
-    aliases: ["p"],
+    aliases: ["p", "me"],
     ownerOnly: false,
-    ClientPermissions: ["SEND_MESSAGES", "SEND_MESSAGES_IN_THREADS", "VIEW_CHANNEL"],
-    UserPermissions: ["SEND_MESSAGES"],
+    ClientPermissions: ["SendMessages", "SEND_MESSAGES_IN_THREADS", "ViewChannel"],
+    UserPermissions: ["SendMessages"],
     examples: ["-profile <username?>"],
 
     run: async(client, message, args) => {
@@ -149,7 +149,7 @@ export const command: Command = {
 
         // let a = new AttachmentBuilder(img, 'weather.jpg')
 
-        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
         let embed = new EmbedBuilder()
             .setColor(color)
             .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true })}`})

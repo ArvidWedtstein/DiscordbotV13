@@ -14,8 +14,8 @@ export const command: Command = {
     details: "see the upcoming birthdays for the next month",
     aliases: ["upcommingbirthdays"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     run: async(client, message, args) => {
         const { guild, channel, author } = message
@@ -40,7 +40,7 @@ export const command: Command = {
                 return `${moment(bdDate).isBefore(new Date()) ? "" : `${user.userId == author.id ? `**${guild?.members.cache.get(user.userId)?.user.username} - ${user.birthday}**` : `${guild?.members.cache.get(user.userId)?.user.username} - ${user.birthday}`}`}`
             }).join('\n')
 
-            const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+            const attachment = new AttachmentBuilder('./img/banner.jpg');
 
             let embed = new EmbedBuilder()
                 .setTitle(`Upcoming Birthdays:`)

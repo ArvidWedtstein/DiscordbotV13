@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, EmbedFieldData, AttachmentBuilder } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import { ErrorEmbed } from '../../Functions/ErrorEmbed';
@@ -16,8 +16,8 @@ export const command: Command = {
     details: "insert detailed description here",
     aliases: ["weatheronmars", "weathermars"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["marsweather"],
     run: async(client, message, args) => {

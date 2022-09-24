@@ -17,8 +17,8 @@ export const command: Command = {
     aliases: ["crchest", "crchests"],
     group: 'fun',
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "EMBED_LINKS", "VIEW_CHANNEL"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages", "EmbedLinks", "ViewChannel"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["clashroyalechests {userid}"],
     run: async(client, message, args) => {

@@ -12,8 +12,8 @@ export const command: Command = {
     details: "Check the ping of this bot.",
     aliases: ["memez"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["meme"],
     

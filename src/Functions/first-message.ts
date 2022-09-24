@@ -12,7 +12,7 @@ const addReactions = (message: Message, reactions: any) => {
 export default async (client: Client, id: any, text: any, reactions = [], menu: any) => {
     const channel = await client.channels.fetch(id)
     menu = menu || ''
-    if (!channel?.isText()) return
+    if (!channel?.isTextBased()) return
     channel?.messages?.fetch().then((messages) => {
         
         if (messages.size === 0) {

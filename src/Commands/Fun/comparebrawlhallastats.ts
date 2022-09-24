@@ -17,8 +17,8 @@ export const command: Command = {
     aliases: ["cmpbwlstats"],
     group: "Fun",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["comparebrawlhallastats @user character"],
     
@@ -115,7 +115,7 @@ export const command: Command = {
             await getStats(user2Profile, character)
         ]
 
-        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
         let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setAuthor({ name: `${usr1.username}'s & ${usr2.username}'s Stats for ${character}` })

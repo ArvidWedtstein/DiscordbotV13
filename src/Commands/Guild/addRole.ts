@@ -10,8 +10,8 @@ export const command: Command = {
     description: "add a role to a user",
     aliases: ["adduserrole"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["addrole @user @role"],
     

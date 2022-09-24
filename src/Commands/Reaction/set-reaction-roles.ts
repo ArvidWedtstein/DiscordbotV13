@@ -17,8 +17,8 @@ export const command: Command = {
     aliases: ["set_reaction_roles", "setreactionrole"],
     group: "Reaction",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "MANAGE_CHANNELS"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages", "MANAGE_CHANNELS"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["setreactionroles {emoji} {role} {Name (Optional)}"],
     
@@ -60,9 +60,10 @@ export const command: Command = {
         let { content, embeds } = fetchedMessage
 
         if (embeds.length > 0) {
-            const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+            const attachment = new AttachmentBuilder('./img/banner.jpg');
             let embed = new EmbedBuilder(embeds[0])
-            let { description } = embed
+
+            let { description } = embed.data
 
             if (!description) return
 

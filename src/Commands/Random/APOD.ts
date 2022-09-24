@@ -3,7 +3,7 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, EmbedFieldData, AttachmentBuilder } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
@@ -15,8 +15,8 @@ export const command: Command = {
     details: "Check out the Astronomy Picture of the Day",
     aliases: ["astronomy_picture_of_the_day", "astronomypictureoftheday"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "EMBED_LINKS", "VIEW_CHANNEL"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages", "EmbedLinks", "ViewChannel"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["apod"],
     run: async(client, message, args) => {
@@ -50,7 +50,8 @@ export const command: Command = {
             .setTimestamp(date)
 
         if (media_type === "video") embed.setURL(url)
-
+        let msgs = Array.from(channel.messages.cache.keys())
+        console.log(msgs)
         return channel.send( {embeds: [embed] });
     }
 }

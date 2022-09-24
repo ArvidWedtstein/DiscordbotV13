@@ -14,8 +14,8 @@ export const command: Command = {
     details: "Choose what you want to get notified about.",
     aliases: ["notifications"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     run: async(client, message, args) => {
         const { guild, channel, author } = message

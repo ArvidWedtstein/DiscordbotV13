@@ -1,6 +1,6 @@
 import { Event, Command} from '../Interfaces';
 import Client from '../Client';
-import { Message, PermissionString } from 'discord.js';
+import { Message, PermissionsString, PermissionFlagsBits } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
 import language from '../Functions/language';
 
@@ -18,51 +18,50 @@ export const event: Event = {
         // Custom stian command. Just for fun.
         if (content.startsWith("-stian")) return message.channel.send("<:gifflar:844852887389863947>");
 
-        const validatePermissions = (permissions: PermissionString[]) => {
-            const validPermissions = [
-                'CREATE_INSTANT_INVITE',
-                'KICK_MEMBERS',
-                'BAN_MEMBERS',
-                'ADMINISTRATOR',
-                'MANAGE_CHANNELS',
-                'MANAGE_GUILD',
-                'ADD_REACTIONS',
-                'VIEW_AUDIT_LOG',
-                'PRIORITY_SPEAKER',
-                'STREAM',
-                'VIEW_CHANNEL',
-                'SEND_MESSAGES',
-                'SEND_TTS_MESSAGES',
-                'MANAGE_MESSAGES',
-                'EMBED_LINKS',
-                'ATTACH_FILES',
-                'READ_MESSAGE_HISTORY',
-                'MENTION_EVERYONE',
-                'USE_EXTERNAL_EMOJIS',
-                'VIEW_GUILD_INSIGHTS',
-                'CONNECT',
-                'SPEAK',
-                'MUTE_MEMBERS',
-                'DEAFEN_MEMBERS',
-                'MOVE_MEMBERS',
-                'USE_VAD',
-                'CHANGE_NICKNAME',
-                'MANAGE_NICKNAMES',
-                'MANAGE_ROLES',
-                'MANAGE_WEBHOOKS',
-                'MANAGE_EMOJIS_AND_STICKERS',
-                'USE_APPLICATION_COMMANDS',
-                'REQUEST_TO_SPEAK',
-                'MANAGE_EVENTS',
-                'MANAGE_THREADS',
-                'USE_PUBLIC_THREADS',
-                'USE_PRIVATE_THREADS',
-                'CREATE_PUBLIC_THREADS',
-                'CREATE_PRIVATE_THREADS',
-                'USE_EXTERNAL_STICKERS',
-                'SEND_MESSAGES_IN_THREADS',
-                'START_EMBEDDED_ACTIVITIES',
-                'MODERATE_MEMBERS'
+        const validatePermissions = (permissions: PermissionsString[]) => {
+            const validPermissions: PermissionsString[] = [
+                'CreateInstantInvite',
+                'KickMembers',
+                'BanMembers',
+                'Administrator',
+                'ManageChannels',
+                'ManageGuild',
+                'AddReactions',
+                'ViewAuditLog',
+                'PrioritySpeaker',
+                'Stream',
+                'ViewChannel',
+                'SendMessages',
+                'SendTTSMessages',
+                'ManageMessages',
+                'EmbedLinks',
+                'AttachFiles',
+                'ReadMessageHistory',
+                'MentionEveryone',
+                'UseExternalEmojis',
+                'ViewGuildInsights',
+                'Connect',
+                'Speak',
+                'MuteMembers',
+                'DeafenMembers',
+                'MoveMembers',
+                'UseVAD',
+                'ChangeNickname',
+                'ManageNicknames',
+                'ManageRoles',
+                'ManageWebhooks',
+                'ManageEmojisAndStickers',
+                'UseApplicationCommands',
+                'RequestToSpeak',
+                'ManageEvents',
+                'ManageThreads',
+                'CreatePublicThreads',
+                'CreatePrivateThreads',
+                'UseExternalStickers',
+                'SendMessagesInThreads',
+                'CreateInstantInvite',
+                'ModerateMembers',
+                'UseEmbeddedActivities'
             ]
             for (const permission of permissions) {
                 if (!validPermissions.includes(permission)) {
@@ -96,12 +95,11 @@ export const event: Event = {
             // Validate Permissions
             validatePermissions(command.ClientPermissions);
             command?.ClientPermissions.forEach(async (p) => {
-                if (!guild?.me?.permissions.toArray().includes(p)) return temporaryMessage(channel, `${language(guild, 'CLIENTPERMISSION_ERROR')}`);
+                if (!guild.members.me?.permissions.toArray().includes(p)) return temporaryMessage(channel, `${language(guild, 'CLIENTPERMISSION_ERROR')}`);
             })
         }
 
         if (command.cooldown) {
-
             if(cooldown.has(author.id)) {
                 return temporaryMessage(channel, `This command has a cooldown of ${command.cooldown} seconds.`, 10);
             } else {

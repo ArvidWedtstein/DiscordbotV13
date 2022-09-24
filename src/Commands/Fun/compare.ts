@@ -13,8 +13,8 @@ export const command: Command = {
     aliases: ["memecompare"],
     group: __dirname,
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["compare @user"],
     

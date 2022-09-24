@@ -18,8 +18,8 @@ export const command: Command = {
     aliases: ["gtw"],
     group: "Fun",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["guesstheword {category}"],
     
@@ -214,7 +214,7 @@ export const command: Command = {
             .setFooter({ text: `Requested by ${author.tag} | Answer with -word {the word}`, iconURL: author.displayAvatarURL() })
             .setTimestamp()
         
-        let EmbedBuilder = channel.send({ embeds: [embed] })
+        let dm = channel.send({ embeds: [embed] })
         
         var now = moment(new Date()); // date when the game starts. Is used to calculate the time used to solve the word
 
@@ -243,46 +243,41 @@ export const command: Command = {
         // }, 60*1000);
 
         collector.on('end', async (collected, reason) => {
-            console.log(reason)
-            if (reason === 'correct') {
-                var end = moment(new Date()); // another date
-                var duration = moment.duration(end.diff(now));
-
-                // 
-                let guessedWord: any = {
-                    word: word,
-                    scrambledWord: scrambledWord,
-                    time: duration.asSeconds()
-                }
-                await profileSchema.findOneAndUpdate({
-                    userId: guessedUser.id,
-                    guildId: guild.id
-                }, {
-                    $push: {
-                        guessedWords: guessedWord
+            switch(reason) {
+                case 'correct':
+                    var end = moment(new Date()); // another date
+                    var duration = moment.duration(end.diff(now));
+    
+                    let guessedWord: any = {
+                        word: word,
+                        scrambledWord: scrambledWord,
+                        time: duration.asSeconds()
                     }
-                })
-
-                // Reward the user with some erlingcoins
-                addCoins(guild.id, guessedUser.id, 25)
-
-                embed.setTitle(`${icon(client, guild, 'checkmark')} ${guessedUser.username} guessed the word in ${duration.asSeconds()} seconds! 🎉`);
-                embed.setDescription(`**You got 25 ${getEmoji('ErlingCoinSpin')} in reward!**\nThe correct word was: **${word}**`);
-                channel.send({ embeds: [embed] })
-            } else if (reason === 'incorrect') {
-                embed.setTitle(`${author.username} failed to guess the word! 😭`);
-                embed.setDescription(`The correct word was: **${word}**`);
-                channel.send({ embeds: [embed] })
-            } else {
-                embed.setTitle(`No one managed to put the letters in the right order! 😥`);
-                embed.setDescription(`Letters were: **${scrambledWord}**\nRight order: **${word}**`);
-                channel.send({ embeds: [embed] })
+                    await profileSchema.findOneAndUpdate({
+                        userId: guessedUser.id,
+                        guildId: guild.id
+                    }, {
+                        $push: {
+                            guessedWords: guessedWord
+                        }
+                    })
+    
+                    // Reward the user with some erlingcoins
+                    addCoins(guild.id, guessedUser.id, 25)
+    
+                    embed.setTitle(`${icon(client, guild, 'checkmark')} ${guessedUser.username} guessed the word in ${duration.asSeconds()} seconds! 🎉`);
+                    embed.setDescription(`**You got 25 ${getEmoji('ErlingCoinSpin')} in reward!**\nThe correct word was: **${word}**`);
+                case 'incorrect':
+                    embed.setTitle(`${author.username} failed to guess the word! 😭`);
+                    embed.setDescription(`The correct word was: **${word}**`);
+                default:
+                    embed.setTitle(`No one managed to put the letters in the right order! 😥`);
+                    embed.setDescription(`Letters were: **${scrambledWord}**\nRight order: **${word}**`);
             }
+            channel.send({ embeds: [embed] })
             word = "";
         })
-
         return
-        
     }
 }
 

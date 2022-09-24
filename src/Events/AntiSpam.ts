@@ -1,6 +1,6 @@
 import { Event, Command} from '../Interfaces';
 import Client from '../Client';
-import { Message, PermissionString } from 'discord.js';
+import { Message } from 'discord.js';
 import temporaryMessage from '../Functions/temporary-message';
 import language from '../Functions/language';
 const usersMap = new Map();
@@ -42,7 +42,7 @@ export const event: Event = {
                         
                         setTimeout(async () => {                    
                             member?.roles.add(mute2);
-                            const highestrole = guild.me?.roles.highest;
+                            const highestrole = guild.roles.highest;
                             if (!highestrole) return
                             await mute2.setPosition(highestrole.position - 1);
                             setTimeout(() => {

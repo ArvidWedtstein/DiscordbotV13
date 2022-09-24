@@ -17,8 +17,8 @@ export const command: Command = {
     aliases: ["set_reaction", "set-reaction"],
     group: "Reaction",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "MANAGE_CHANNELS", "ADD_REACTIONS", "MANAGE_ROLES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages", "MANAGE_CHANNELS", "AddReactions", "MANAGE_ROLES"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["setreaction {channel} {message}"],
     
@@ -30,13 +30,13 @@ export const command: Command = {
         const { channels } = mentions
         const targetChannel = channels.first() || channel
 
-        if (!targetChannel.isText()) return
+        if (!targetChannel.isTextBased()) return
 
         if (channels.first()) args.shift()
 
         const text = args.join(' ')
 
-        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
 
         const embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)

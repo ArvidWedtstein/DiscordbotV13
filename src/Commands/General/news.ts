@@ -2,7 +2,7 @@ import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } from 'discord.js';
 export const command: Command = {
     name: "news",
     description: "write a newspost",
@@ -32,9 +32,8 @@ export const command: Command = {
             // const { text = ''} = json
             console.log(json)
             targetChannel.send({content: "News", embeds: [json]});
-            if (targetChannel.type === 'GUILD_NEWS') {
-                message.crosspost()
-            }
+            
+            if (targetChannel.type === ChannelType.GuildAnnouncement) message.crosspost()
         } catch(error:any) {
             message.reply(`${await language(guild, 'JSON_INVALID')} ${error.message}`)
         }

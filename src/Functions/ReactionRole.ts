@@ -14,7 +14,8 @@ export const addToCache = async (guildId: string, message: Message, emoji?: any,
     }
 
     // if (!message) return await reactionRoleSchema.deleteOne({ guildId: guildId })
-    await message.channel.messages.fetch(message.id, {
+    await message.channel.messages.fetch({
+        message: message.id, 
         cache: true,
         force: true
     })
@@ -35,7 +36,7 @@ const handleReaction = async (reaction: MessageReaction | PartialMessageReaction
         return
     }
 
-    if (fetchedMessage.id === message.id && guild.me?.permissions.has('MANAGE_ROLES')) {
+    if (fetchedMessage.id === message.id && guild.members.me?.permissions.has('ManageRoles')) {
         const toCompare = reaction.emoji.id || reaction.emoji.name
 
         for (const key of Object.keys(roles)) {
@@ -73,12 +74,13 @@ export default async (client: Client) => {
         const channel = await guild.channels.cache.get(channelId)
 
         // Delete reactionRole document if the channel no longer exists
-        if (!channel || !channel.isText()) return await reactionRoleSchema.deleteOne({ channelId })
+        if (!channel || !channel.isTextBased()) return await reactionRoleSchema.deleteOne({ channelId })
         
         try {
             const cacheMessage = true
             const skipCache = true
-            const fetchedMessage = await channel.messages.fetch(messageId, {
+            const fetchedMessage = await channel.messages.fetch({
+                message: messageId,
                 cache: cacheMessage,
                 force: skipCache
             })

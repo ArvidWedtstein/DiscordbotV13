@@ -8,15 +8,15 @@ export const command: Command = {
     name: "balance",
     aliases: ["bal"],
     description: "check your balance",
-    UserPermissions: ["SEND_MESSAGES"],
+    UserPermissions: ["SendMessages"],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     run: async(client, message, args) => {
         const { guild, author, mentions, channel } = message
@@ -32,7 +32,7 @@ export const command: Command = {
         let coins = await getCoins(guildId, userId);
         let color: ColorResolvable = await getColor(guildId, userId);
         
-        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
 
         const erlingcoin = client.emojis.cache.get('853928115696828426');
         let embed = new EmbedBuilder()

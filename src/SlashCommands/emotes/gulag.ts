@@ -5,7 +5,7 @@ export const slashCommand: SlashCommand = {
     name: "gulag",
     // description: "getavatar",
     type: ApplicationCommandType.User,
-    permissions: ["EMBED_LINKS"],
+    permissions: ["EmbedLinks"],
     // options: [
     //     {
     //         name: "test",

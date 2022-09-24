@@ -21,7 +21,7 @@ export const event: Event = {
         const userId = user.id;
         const channel = guild.channels.cache.get(channelId);
         
-        if (!channel || !channel.isText()) {
+        if (!channel || !channel.isTextBased()) {
             return
         }
         const result = await profileSchema.findOneAndUpdate({

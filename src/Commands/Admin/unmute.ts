@@ -11,18 +11,18 @@ export const command: Command = {
     aliases: ["removemute"],
     group: __dirname.toLowerCase(),
     UserPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'MUTE_MEMBERS'
     ],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     run: async(client, message, args) => {
         const { guild, author, mentions, channel } = message

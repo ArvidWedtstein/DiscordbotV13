@@ -11,15 +11,15 @@ export const command: Command = {
     details: "Check the ping of this bot.",
     aliases: ["givemoney"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
+    UserPermissions: ["SendMessages"],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     ownerOnly: false,
     examples: ["pay @user <amount>"],

@@ -11,8 +11,8 @@ export const command: Command = {
     description: "remove a users role",
     aliases: ["removeuserrole"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", 'MANAGE_ROLES'],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages", 'MANAGE_ROLES'],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["addrole @user @role"],
     

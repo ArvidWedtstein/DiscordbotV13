@@ -11,13 +11,13 @@ export const command: Command = {
     aliases: ["addbal"],
     UserPermissions: ['ADMINISTRATOR'],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     run: async(client, message, args) => {
         const { guild, channel, mentions, author } = message
@@ -38,7 +38,7 @@ export const command: Command = {
         const userId = mention.id
 
         const newCoins = await addCoins(guildId, userId, coins)
-        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
     
         let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)

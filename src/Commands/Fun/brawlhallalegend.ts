@@ -19,15 +19,15 @@ export const command: Command = {
     aliases: ["bwllegend"],
     ownerOnly: false,
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
-    UserPermissions: ["SEND_MESSAGES"],
+    UserPermissions: ["SendMessages"],
     examples: [`-brawlhallalegend {legend name}`],
     run: async(client, message, args) => {
         const { guild, mentions, author, channel, content } = message;

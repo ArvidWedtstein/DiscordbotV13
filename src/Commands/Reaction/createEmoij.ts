@@ -15,8 +15,8 @@ export const command: Command = {
     aliases: ["makeemoji"],
     group: "Reaction",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["createemoji <attachment>"],
     run: async(client, message, args) => {
@@ -29,7 +29,7 @@ export const command: Command = {
 
         // Create Emoji
         guild.emojis
-            .create(url, name)
+            .create({ name: name, attachment: url, reason: `😈` })
             .then((emoji) => {
                 const embed = new EmbedBuilder()
                     .setAuthor({name: `Created new emoji: ${emoji.name}`, iconURL: client.user?.displayAvatarURL()})

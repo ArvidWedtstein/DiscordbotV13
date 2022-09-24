@@ -12,15 +12,15 @@ export const command: Command = {
   group: __dirname.toLowerCase(),
   hidden: false,
   ownerOnly: false,
-  UserPermissions: ["SEND_MESSAGES"],
+  UserPermissions: ["SendMessages"],
   ClientPermissions: [
-    'SEND_MESSAGES',
-    'ADD_REACTIONS',
+    'SendMessages',
+    'AddReactions',
     'ATTACH_FILES',
-    'EMBED_LINKS',
+    'EmbedLinks',
     'MANAGE_MESSAGES',
     'READ_MESSAGE_HISTORY',
-    'VIEW_CHANNEL',
+    'ViewChannel',
   ],
   run: async(client, message, args) => {
     const { guild, mentions, author, channel } = message

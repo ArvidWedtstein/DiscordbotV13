@@ -11,8 +11,8 @@ export const command: Command = {
     description: "check your league stats",
     group: __dirname,
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages", "AddReactions"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["leagueoflegends"],
     run: async(client, message, args) => {

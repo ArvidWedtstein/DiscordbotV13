@@ -15,13 +15,13 @@ export const command: Command = {
   hidden: false,
   UserPermissions: ["ADMINISTRATOR"],
   ClientPermissions: [
-    'SEND_MESSAGES',
-    'ADD_REACTIONS',
+    'SendMessages',
+    'AddReactions',
     'ATTACH_FILES',
-    'EMBED_LINKS',
+    'EmbedLinks',
     'MANAGE_MESSAGES',
     'READ_MESSAGE_HISTORY',
-    'VIEW_CHANNEL'
+    'ViewChannel'
 ],
   ownerOnly: false,
   run: async(client, message, args) => {

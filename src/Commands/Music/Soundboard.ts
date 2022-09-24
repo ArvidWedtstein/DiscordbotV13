@@ -4,12 +4,12 @@ import { Settings } from '../../Functions/settings';
 import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
-import Discord, { Client, Modal, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Message, Interaction, ExcludeEnum, AttachmentBuilder, MessageButtonStyleResolvable } from 'discord.js';
+import Discord, { ButtonStyle, Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Message, Interaction, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import icon from '../../Functions/icon';
 import playlistSchema from '../../schemas/playlist-schema';
-import { QueryType, QueueRepeatMode } from 'discord-player';
-import { MessageButtonStyles } from 'discord.js/typings/enums';
+// import { QueryType, QueueRepeatMode } from 'discord-player';
+
 import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, StreamType, createAudioResource, AudioPlayerStatus, getVoiceConnection, VoiceConnectionStatus, entersState } from '@discordjs/voice';
 import { join } from 'path';
 export const command: Command = {
@@ -19,18 +19,18 @@ export const command: Command = {
     aliases: [],
     hidden: true,
     disabled: false,
-    UserPermissions: ["SEND_MESSAGES", "CONNECT", "MANAGE_CHANNELS"],
+    UserPermissions: ["SendMessages", "CONNECT", "MANAGE_CHANNELS"],
     ClientPermissions: [
         'SPEAK', 
         'CONNECT', 
         'STREAM', 
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     ownerOnly: false,
     examples: ["soundboard"],

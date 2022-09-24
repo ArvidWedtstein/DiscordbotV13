@@ -23,18 +23,18 @@ export const command: Command = {
     aliases: ["m", "musikk"],
     hidden: true,
     disabled: true,
-    UserPermissions: ["SEND_MESSAGES", "CONNECT"],
+    UserPermissions: ["SendMessages", "CONNECT"],
     ClientPermissions: [
         'SPEAK', 
         'CONNECT', 
         'STREAM', 
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     ownerOnly: false,
     examples: ["music"],

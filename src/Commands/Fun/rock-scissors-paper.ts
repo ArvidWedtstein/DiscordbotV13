@@ -13,8 +13,8 @@ export const command: Command = {
     details: "play a game of stone, scissors or paper!",
     aliases: ["paper", "scissors", "rps"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: true,
     examples: ["rps"],
     
@@ -25,14 +25,14 @@ export const command: Command = {
         const emojis = ['✊', '🤚', '✌️']
         
         let embed = new EmbedBuilder()
-        .setColor("BLURPLE")
+        .setColor("DarkNavy")
         .setTitle(`${language(guild, 'RPS_TITLE')}`)
        
-        let EmbedBuilder = await channel.send({ embeds: [embed] });
+        let embedmsg = await channel.send({ embeds: [embed] });
         
-        EmbedBuilder.react(emojis[0]);
-        EmbedBuilder.react(emojis[1]);
-        EmbedBuilder.react(emojis[2]);
+        embedmsg.react(emojis[0]);
+        embedmsg.react(emojis[1]);
+        embedmsg.react(emojis[2]);
         
         const getResult = (reaction: any, botChoice: any) => {
             if ((reaction === emojis[0] && botChoice === emojis[2]) ||
@@ -45,6 +45,8 @@ export const command: Command = {
                     return `${language(guild, 'RPS_LOOSE')}!`
                 }
         }
+
+        // todo:  messagecollector
         client.on('messageReactionAdd', async (reaction, user) => {
             if (reaction.message.partial) await reaction.message.fetch();
             if (reaction.partial) await reaction.fetch();
@@ -56,12 +58,12 @@ export const command: Command = {
 
             const result = getResult(reaction.emoji.name, botchoice)
             
-            let embed2 = new Discord.EmbedBuilder()
-                .setColor("DARKER_GREY")
+            let embed2 = new EmbedBuilder()
+                .setColor("DarkGrey")
                 .setTitle(`${language(guild, 'RPS_TITLE')}`)
-                .addField(result, `${reaction.emoji} vs ${botchoice}`)
-            let EmbedBuilder2 = EmbedBuilder.edit({ embeds: [embed2] });
-            EmbedBuilder.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                .addFields({ name: result, value: `${reaction.emoji} vs ${botchoice}` })
+            let EmbedBuilder2 = embedmsg.edit({ embeds: [embed2] });
+            embedmsg.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
             return
         });
         

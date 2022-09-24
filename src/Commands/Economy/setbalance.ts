@@ -11,15 +11,15 @@ export const command: Command = {
     details: "set the balance of a user",
     aliases: ["setmoney"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "ADMINISTRATOR", "MODERATE_MEMBERS"],
+    UserPermissions: ["SendMessages", "ADMINISTRATOR", "MODERATE_MEMBERS"],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     ownerOnly: false,
     examples: ["setbalance @user <amount>"],

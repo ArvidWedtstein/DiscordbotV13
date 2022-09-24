@@ -93,7 +93,7 @@ export const getColor = (async (guildId: any, userId: any) => {
     })
 
     let color: ColorResolvable = '#ff4300'
-    let color2: ColorResolvable = "AQUA";
+    let color2: ColorResolvable = "Aqua";
     if (result) {
         color2 = result.color
     } else {

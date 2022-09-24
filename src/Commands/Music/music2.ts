@@ -18,18 +18,18 @@ export const command: Command = {
     aliases: ["m2"],
     hidden: true,
     disabled: false,
-    UserPermissions: ["SEND_MESSAGES", "CONNECT"],
+    UserPermissions: ["SendMessages", "CONNECT"],
     ClientPermissions: [
         'SPEAK', 
         'CONNECT', 
         'STREAM', 
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     ownerOnly: false,
     examples: ["music"],
@@ -99,7 +99,7 @@ export const command: Command = {
             return [row, row2];
         }
         
-        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
 
         if (args[0] === 'play') {
             if (!args[1]) return temporaryMessage(channel, `You need to specify a url or search term!`, 30)

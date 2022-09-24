@@ -14,15 +14,15 @@ export const command: Command = {
     aliases: ["avstemmning"],
     group: "Guild",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages", "AddReactions"],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     ownerOnly: false,
     examples: ["poll <question> | time | choice1,choice2.."],
@@ -71,12 +71,12 @@ export const command: Command = {
             .setColor(client.config.botEmbedHex)
             .setDescription(description.join('\n'))
             .setFooter({ text: `Poll ID: ${pollId}` })
-        let EmbedBuilder = await message.channel.send({ embeds: [embed] });
+        let embedmsg = await message.channel.send({ embeds: [embed] });
 
         let answers: any = {}
         for (let i = 0; i < choices.length; i++) {
             if (alphabet[i]) {
-                EmbedBuilder.react(letterToEmoji(alphabet[i]))
+                embedmsg.react(letterToEmoji(alphabet[i]))
                 answers[alphabet[i]] = 0
             }
         }
@@ -140,7 +140,7 @@ export const command: Command = {
                 .setColor(client.config.botEmbedHex)
                 .setDescription(description.join('\n'))
                 .setFooter({ text: `Poll ID: ${pollId}` })
-            EmbedBuilder.edit({ embeds: [embedfinal] })
+            embedmsg.edit({ embeds: [embedfinal] })
         }, parseInt(time.trim()) * (1000 * 60))
         
     }

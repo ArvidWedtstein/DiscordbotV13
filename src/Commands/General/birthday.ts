@@ -13,8 +13,8 @@ export const command: Command = {
     details: "set your birthday to recieve xp on your birthday.",
     aliases: ["setbirthday", "addbirthday"],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["birthday <day>/<month>/<year>", "birthday 03/10/2004"],
     
@@ -27,9 +27,7 @@ export const command: Command = {
 
         const user = guild.members.cache.get(mentions?.users?.first()?.id || author.id)
 
-        if (mentions.users.first()) {
-            args.shift();
-        }
+        if (mentions.users.first()) args.shift();
         
         const joined = args.join(" ");
         const split = joined.trim().split("/");
@@ -66,13 +64,13 @@ export const command: Command = {
         const proresult = await profileSchema.updateMany({ userId }, { $set: { birthday } });
 
 
-        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
         
         let embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setAuthor({ 
                 name: `${user?.user.username}'s ${language(guild, 'BIRTHDAY_CHANGE')} ${birthday}`, 
-                iconURL: user?.user.displayAvatarURL({ dynamic: true})
+                iconURL: user?.user.displayAvatarURL()
             })
             .setImage('attachment://banner.jpg')
 

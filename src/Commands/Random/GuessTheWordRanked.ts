@@ -14,8 +14,8 @@ export const command: Command = {
     aliases: ["gtwr", "gtwranked"],
     group: 'Random',
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "EMBED_LINKS"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "EMBED_LINKS"],
+    UserPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
+    ClientPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
     ownerOnly: false,
     examples: ["guessthewordranked"],
     
@@ -68,7 +68,7 @@ export const command: Command = {
             return `#${index + 1} **${userGuild?.user.username}** with ${guessedWords} words solved!`
         })
 
-        const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        const attachment = new AttachmentBuilder('./img/banner.jpg');
         const embed = new EmbedBuilder()
             .setColor(client.config.botEmbedHex)
             .setTitle(`Guess-The-Word Ranked Top 10`)

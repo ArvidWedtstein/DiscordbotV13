@@ -17,8 +17,8 @@ export const command: Command = {
     aliases: ["msgleaderboard", "mlb"],
     group: "Random",
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["messageleaderboard"],
     

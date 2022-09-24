@@ -103,7 +103,7 @@ export const addXP = (async (guildId: any, userId: any, xpToAdd: number, message
                 `${insert(guild, 'LEVEL_YOU_NOW_NEED', getNeededXP(level))}.`
             ]
     
-            const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+            const attachment = new AttachmentBuilder('./img/banner.jpg');
     
             const embed = new EmbedBuilder()
                 .setDescription(description.join('\n'))

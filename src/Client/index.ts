@@ -223,6 +223,10 @@ class ExtendedClient extends Client {
             console.log('\n=== Uncaught Exception ==='.toUpperCase(),'\nException: ', err.stack ? err.stack : err)
         })
         process.on('uncaughtExceptionMonitor', (err, origin) => { }).on('multipleResolves', (type, promise, reason) => { });
+
+        this.on('shardError', error => {
+            console.error('A websocket connection encountered an error:', error);
+        });
     }
 }
 

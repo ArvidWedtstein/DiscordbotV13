@@ -14,7 +14,7 @@ export const command: Command = {
     aliases: ["testingembed"],
     hidden: true,
     UserPermissions: ["ADMINISTRATOR"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS", "EMBED_LINKS"],
+    ClientPermissions: ["SendMessages", "AddReactions", "EmbedLinks"],
     ownerOnly: true,
     examples: ["testembed"],
     
@@ -82,7 +82,7 @@ export const command: Command = {
         //     .setStyle('SUCCESS')
         // const row = new MessageActionRow()
         //     .addComponents(btn)
-        // const attachment = new AttachmentBuilder('./img/banner.jpg', 'banner.jpg');
+        // const attachment = new AttachmentBuilder('./img/banner.jpg');
         // const embed = new EmbedBuilder()
         //     .setColor(color)
         //     .setDescription(`jjj`)

@@ -14,8 +14,8 @@ export const command: Command = {
     aliases: ["ttt"],
     group: __dirname,
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["ttt @user"],
     

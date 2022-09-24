@@ -17,7 +17,7 @@ export const command: Command = {
     group: "Inventory",
     hidden: false,
     UserPermissions: ["READ_MESSAGE_HISTORY"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["giveitem @user item"],
     

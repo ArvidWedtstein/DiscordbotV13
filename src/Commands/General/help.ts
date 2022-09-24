@@ -14,8 +14,8 @@ export const command: Command = {
     description: "get some help",
     aliases: ["plzhelp", 'h'],
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES"],
-    ClientPermissions: ["SEND_MESSAGES", "ADD_REACTIONS"],
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
     examples: ["help <cmd>"],
     
@@ -180,7 +180,7 @@ export const command: Command = {
                     if (page === 0) {
                         await msg.edit({ embeds: [embed] })
                     } else {
-                        // let filteredCmds = await client.registry.commands.sweep(el => el.group.name !== categories[page - 1] && !member!.permissions.has(el!.UserPermissions || "SEND_MESSAGES"));
+                        // let filteredCmds = await client.registry.commands.sweep(el => el.group.name !== categories[page - 1] && !member!.permissions.has(el!.UserPermissions || "SendMessages"));
                         let filteredCmds = client.registry.commands.filter(el => el.group.name == categories[page - 1])
                         helpembed(`${categories[page - 1]}`, page, filteredCmds)
                     }
@@ -207,7 +207,7 @@ export const command: Command = {
                         await msg.edit({ embeds: [embed] });
                         return
                     } else {
-                        // let filteredCmds: any = client.registry.commands.sweep(el => el.group.name !== categories[page - 1] && !member!.permissions.has(el!.UserPermissions || "SEND_MESSAGES"));
+                        // let filteredCmds: any = client.registry.commands.sweep(el => el.group.name !== categories[page - 1] && !member!.permissions.has(el!.UserPermissions || "SendMessages"));
                         let filteredCmds = client.registry.commands.filter(el => el.group.name == categories[page - 1])
                         helpembed(`${categories[page - 1]}`, page, filteredCmds)
                     }

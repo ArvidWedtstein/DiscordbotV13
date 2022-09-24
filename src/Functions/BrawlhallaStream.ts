@@ -1,6 +1,6 @@
 import Client from '../Client';
 import axios from 'axios';
-import { Formatters, AttachmentBuilder, MessageButton, EmbedBuilder } from 'discord.js';
+import { Formatters, AttachmentBuilder, EmbedBuilder } from 'discord.js';
 import profileSchema from '../schemas/profileSchema';
 import moment from 'moment';
 import gradient from 'gradient-string';
@@ -196,7 +196,7 @@ export const BrawlhallaStream = (async (client: Client) => {
         .replaceAll('INSERT_STREAM_LENGTH', `${getStreamDuration(stream)}`);
 
       // Create new AttachmentBuilder for the border at the bottom of the embed.
-      const attachment = new AttachmentBuilder('./img/banner.gif', 'banner.gif');
+      const attachment = new AttachmentBuilder('./img/banner.gif');
       
       let embed = new EmbedBuilder()
         .setColor(client.config.botEmbedHex)

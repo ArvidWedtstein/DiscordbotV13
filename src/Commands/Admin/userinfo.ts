@@ -12,15 +12,15 @@ export const command: Command = {
     aliases: ["brukerinfo"],
     group: __dirname.toLowerCase(),
     hidden: false,
-    UserPermissions: ["SEND_MESSAGES", 'BAN_MEMBERS'],
+    UserPermissions: ["SendMessages", 'BAN_MEMBERS'],
     ClientPermissions: [
-        'SEND_MESSAGES',
-        'ADD_REACTIONS',
+        'SendMessages',
+        'AddReactions',
         'ATTACH_FILES',
-        'EMBED_LINKS',
+        'EmbedLinks',
         'MANAGE_MESSAGES',
         'READ_MESSAGE_HISTORY',
-        'VIEW_CHANNEL'
+        'ViewChannel'
     ],
     ownerOnly: false,
     examples: ["userinfo @user"],
