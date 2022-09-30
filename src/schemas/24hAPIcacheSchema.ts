@@ -21,9 +21,9 @@ const NasaAPICache = new Schema<APICache>({
     createdAt: {
         type: Date,
         default: Date.now(),
-        index: {
-            expireAfterSeconds: 86400
-        }
+        // index: {
+        //     expireAfterSeconds: 86400
+        // }
     }
 }, {
     timestamps: true,
