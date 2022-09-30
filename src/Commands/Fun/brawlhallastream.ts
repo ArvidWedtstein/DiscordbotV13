@@ -37,7 +37,7 @@ export const command: Command = {
         })
 
 
-        if (!results.brawlhalla) {
+        if (!results) {
             await new profileSchema({
                 guildId,
                 userId

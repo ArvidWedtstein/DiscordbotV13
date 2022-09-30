@@ -23,7 +23,7 @@ export const command: Command = {
         if (!guild) return;
         
         profileSchema.find({ guildId: { $eq: guild.id }, birthday: { $ne: "1/1", $exists: true } }).then(async users => {
-
+            console.log(users)
             // Sort birthdays
             let birthdays = users.sort((a, b) => {
                 let ab = a.birthday.split('/')

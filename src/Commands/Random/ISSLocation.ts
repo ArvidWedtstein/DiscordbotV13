@@ -7,6 +7,7 @@ import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
+import { ErrorEmbed } from 'Functions/ErrorEmbed';
 export const command: Command = {
     name: "isslocation",
     description: "check the iss location",
@@ -25,26 +26,34 @@ export const command: Command = {
         let { iss_position } = data;
         let { latitude, longitude } = iss_position;
 
-        const { data: Countrydata } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${process.env.GOOGLE_API_KEY}`)
-        let { results } = Countrydata;
-        let res = results[results.length-1]
-        let types: any = res.address_components[res.address_components.length-1].types;
-        
-        const attachment = new AttachmentBuilder('./img/iss.jpg') 
-        const attachment2 = new AttachmentBuilder('./img/banner.jpg');
-        const embed = new EmbedBuilder()
-            .setAuthor({ name: `International Space Station Location` })
-            .setThumbnail('attachment://iss.jpg')
-            .setImage('attachment://banner.jpg')
-            .addFields(
-                {name: "Latitude", value: `${latitude}`, inline: true}, 
-                {name: "Longitude", value: `${longitude}`, inline: true}, 
-                {name: "Country", value: `${types.some((x: any) => x == "country") ? `${res.address_components[0].long_name}` : "In the middle of nowhere"}`, inline: true},
-            )
-            .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
-            .setTimestamp(Date.now())
+        try {
+            // const { data: Countrydata } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${process.env.GOOGLE_API_KEY}`)
+            // let { results } = Countrydata;
+            // let res = results[results.length-1]
+            // let types: any = res.address_components[res.address_components.length-1].types;
+            
+            const attachment = new AttachmentBuilder('./img/iss.jpg') 
+            const attachment2 = new AttachmentBuilder('./img/banner.jpg');
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: `International Space Station Location` })
+                .setThumbnail('attachment://iss.jpg')
+                .setImage('attachment://banner.jpg')
+                .addFields(
+                    {name: "Latitude", value: `${latitude}`, inline: true}, 
+                    {name: "Longitude", value: `${longitude}`, inline: true}, 
+                    // {name: "Country", value: `${types.some((x: any) => x == "country") ? `${res.address_components[0].long_name}` : "In the middle of nowhere"}`, inline: true},
+                )
+                .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+                .setTimestamp(Date.now())
 
-        channel.send( {embeds: [embed], files: [attachment, attachment2] });
+            channel.send( {embeds: [embed], files: [attachment, attachment2] });
+        } catch (err) {
+            const errorembed = new EmbedBuilder()
+                .setTitle("Error")
+                .setDescription(`An error occured. Please contact staff`)
+            temporaryMessage(channel, errorembed, 10);
+            console.error(err)
+        }
 
         return
     }

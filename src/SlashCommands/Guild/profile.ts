@@ -9,19 +9,26 @@ export const slashCommand: SlashCommand = {
     name: "profile",
     description: "get the profile of a user",
     type: ApplicationCommandType.User,
-    permissions: ["Administrator"],
+    default_member_permissions: ["Administrator"],
+    name_localizations: {
+        'de': "profil",
+        'en-GB': "profile",
+        'en-US': "t",
+        'es-ES': "t",
+        'fr': "t"
+    },
     options: [
         {
             name: "user",
-            type: 1, // 6
+            type: 6,
             description: "user you want to get profile of",
             required: false
         }  
     ],
     testOnly: false,
     run: async (client: any, interaction) => {
-        if (!interaction.isCommand()) return 
-        //await interaction.deferReply({ ephemeral: true })
+        if (!interaction.isChatInputCommand()) return 
+
 
         if (!interaction.guild) return;
         const user = interaction.member;
@@ -108,5 +115,4 @@ export const slashCommand: SlashCommand = {
         await interaction.reply({ embeds: [embed] });
         
     }
-    
 }

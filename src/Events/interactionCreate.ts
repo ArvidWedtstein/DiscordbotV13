@@ -73,10 +73,10 @@ export const event: Event = {
 
             if (!commandName) return;
             const command = client.slashCommands.get(commandName);
-            if (command?.permissions) {
-                validatePermissions(command?.permissions);
+            if (command?.default_permission) {
+                validatePermissions(command?.default_permission);
                 
-                command?.permissions.forEach(async (perm) => {
+                command?.default_permission.forEach(async (perm) => {
                     if (!member.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'PERMISSION_ERROR')}`, 10);
                 })
             }
@@ -98,10 +98,10 @@ export const event: Event = {
             const { commandName, options, guild, channel } = interaction;
 
             const command = client.slashCommands.get(commandName);
-            if (command?.permissions) {
-                validatePermissions(command?.permissions);
+            if (command?.default_permission) {
+                validatePermissions(command?.default_permission);
                 
-                command?.permissions.forEach(async (perm) => {
+                command?.default_permission.forEach(async (perm) => {
                     if (!member.permissions.has(perm)) return temporaryMessage(channel, `${await language(guild, 'PERMISSION_ERROR')}`);
                 })
             }

@@ -96,7 +96,7 @@ export const getColor = (async (guildId: any, userId: any) => {
     let color2: ColorResolvable = "Aqua";
     if (result) {
         color2 = result.color
-    } else {
+    } else if (!result) {
         await new profileSchema({
             guildId,
             userId,

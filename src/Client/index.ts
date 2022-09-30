@@ -1,4 +1,4 @@
-import Discord, { Routes, Client, GatewayIntentBits, Constants, Collection, Partials, EmbedBuilder, ApplicationCommandOption, ApplicationCommandOptionType, ApplicationCommandType, ActivityType } from 'discord.js';
+import Discord, { Routes, Client, GatewayIntentBits, Constants, SlashCommandBuilder, Collection, Partials, ActivityType } from 'discord.js';
 import mongoose, { connect, mongo } from 'mongoose';
 import path from 'path';
 import { readdirSync } from 'fs';
@@ -153,12 +153,10 @@ class ExtendedClient extends Client {
                     this.slashCommands.set(slashCommand.name, slashCommand);
                     const cmd = Object.assign({}, slashCommand);
                     delete cmd.run
-                    delete cmd.permissions
                     delete cmd.type
                     delete cmd.testOnly
                     delete cmd.options
                     
-    
                     if (slashCommand.testOnly) {
                         testcmds.push(cmd);
                     } else if (slashCommand.testOnly == false) {

@@ -99,3 +99,8 @@ app.get('/', async (req, res) => {
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
 }); */
+
+const formatter = Intl.NumberFormat('en', { notation: 'compact' })
+
+
+console.log(formatter.format(110343))

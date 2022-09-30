@@ -5,7 +5,7 @@ export const slashCommand: SlashCommand = {
     name: "brawlhallastats",
     description: "get brawlhallastats",
     type: ApplicationCommandType.User,
-    permissions: ["SendMessages"],
+    default_permission: ["SendMessages"],
     testOnly: false,
     run: async (client, interaction) => {
         if (!interaction.isUserContextMenuCommand()) return

@@ -143,10 +143,8 @@ export const getLevel = (async (guildId: any, userId: any) => {
         userId
     })
 
-    let level = '';
-    if (result) {
-        level = result.level
-    } else {
+    let level = result.level;
+    if (!result) {
         await new profileSchema({
             guildId,
             userId,

@@ -20,8 +20,6 @@ export const event: Event = {
         ) return
 
         // Custom stian command. Just for fun.
-        console.log('x')
-        console.log(content)
         if (content.startsWith("-stian")) return message.channel.send("<:gifflar:844852887389863947>");
 
         const validatePermissions = (permissions: PermissionsString[]) => {

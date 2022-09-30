@@ -5,7 +5,7 @@ export const slashCommand: SlashCommand = {
     name: "modal",
     description: "modAL",
     type: ApplicationCommandType.ChatInput,
-    permissions: ["Administrator"],
+    default_permission: ["Administrator"],
     // options: [
     //     {
     //         name: "test",

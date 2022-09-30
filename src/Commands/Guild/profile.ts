@@ -20,7 +20,6 @@ export const command: Command = {
     ClientPermissions: ["SendMessages", "SendMessagesInThreads", "ViewChannel"],
     UserPermissions: ["SendMessages"],
     examples: ["-profile <username?>"],
-
     run: async(client, message, args) => {
         const { guild, mentions, author, channel } = message;
 

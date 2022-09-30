@@ -5,7 +5,7 @@ export const slashCommand: SlashCommand = {
     name: "getavatar",
     // description: "getavatar",
     type: ApplicationCommandType.User,
-    permissions: ["Administrator"],
+    default_permission: ["Administrator"],
     // options: [
     //     {
     //         name: "test",
