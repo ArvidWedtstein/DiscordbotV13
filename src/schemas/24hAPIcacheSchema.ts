@@ -4,8 +4,12 @@ const reqString = {
     type: String,
     required: true,
 }
-
-const NasaAPICache = new Schema({
+interface APICache {
+    userId: string;
+    data: Object;
+    createdAt: Date;
+}
+const NasaAPICache = new Schema<APICache>({
     userId: {
         type: String,
         required: false
