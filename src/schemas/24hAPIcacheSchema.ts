@@ -6,7 +6,6 @@ const reqString = {
 }
 
 const NasaAPICache = new Schema({
-    type: reqString,
     userId: {
         type: String,
         required: false
