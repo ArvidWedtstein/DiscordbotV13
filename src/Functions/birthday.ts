@@ -69,7 +69,8 @@ export default (client: Client) => {
           .setFooter({ text: `This birthday wish was brought to you by ${client.user?.username}` })
           .setTimestamp()
     
-        if (!channel || !channel.isTextBased()) return birthdayUser.send({ embeds: [embed], files: [attachment] });
+        if (!channel) return 
+        if (!channel.isTextBased()) return birthdayUser.send({ embeds: [embed], files: [attachment] });
         
         channel.send({ embeds: [embed], files: [attachment] }).then(async (message) => {
           await addXP(guildId, userId, 5000, message)
