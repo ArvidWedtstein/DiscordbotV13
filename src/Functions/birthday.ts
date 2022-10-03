@@ -80,8 +80,8 @@ export default (client: Client) => {
   })
   checkBirthday();
 
-  // Run checkForBirthday every 12 hours
-  setInterval(checkBirthday, 43200 * 1000);
+  // Run checkForBirthday every 24 hours
+  setInterval(checkBirthday, 86400 * 1000);
 }
 
 
