@@ -22,6 +22,9 @@ export const command: Command = {
             
         if (!guild) return;
         
+        const setting = await Settings(message, 'moderation');
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Birhtdays")}`, 10);
+        
         profileSchema.find({ guildId: { $eq: guild.id }, birthday: { $ne: "1/1", $exists: true } }).then(async users => {
             console.log(users)
             // Sort birthdays
