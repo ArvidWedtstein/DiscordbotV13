@@ -28,6 +28,7 @@ const settingsSchema = new Schema({
     },
     antijoin: falseBool,
     welcome: reqBool,
+    birthday: falseBool,
     iconcolor: {
         type: String,
         default: "purple",
