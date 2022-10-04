@@ -1,5 +1,6 @@
 import { Client, Message, AttachmentBuilder, EmbedBuilder } from "discord.js";
 import profileSchema from "../schemas/profileSchema";
+import settingsSchema from "../schemas/settingsSchema";
 import boticons from "./boticons";
 import icon from "./icon";
 import language from "./language";
@@ -18,10 +19,16 @@ export default (client: Client) => {
   const checkBirthday = (async () => {
     console.log(`${gradient.instagram(`Checking for birthdays`)}`);
 
+    let guildsBirthday = await settingsSchema.find({ birthday: { $eq: true } });
+    guildsBirthday = guildsBirthday.map((g) => { g.guildId });
+    
     let dformat = moment().format('DD/MM')
     // Find all users with birthdays on this day
     // let users = await profileSchema.find({ birthday: dformat })
-    let users = await profileSchema.find({ birthday: { $regex: dformat } })
+    let users = await profileSchema.find({ 
+        birthday: { $regex: dformat }, 
+        guildId: { $in: guildsBirthday } 
+    });
     
     // If there are no users with birthdays on this day
     if (users.length < 1) return;
