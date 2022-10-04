@@ -25,6 +25,9 @@ export const command: Command = {
         if (!guild) return;
         
 
+        const setting = await Settings(message, 'moderation');
+        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Birthdays")}`, 10);
+        
         const user = guild.members.cache.get(mentions?.users?.first()?.id || author.id)
 
         if (mentions.users.first()) args.shift();
