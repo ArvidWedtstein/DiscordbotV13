@@ -48,7 +48,8 @@ export const command: Command = {
             "emotes",
             "money",
             "antijoin",
-            "welcome"
+            "welcome",
+	    "birthday"
         ]
         let SettingsList = [`**1** ${sign} \`Home\``].concat(categories.map((x, i) => `**${i+2}** ${sign} \`${capitalizeFirstLetter(x)}\``))
 
