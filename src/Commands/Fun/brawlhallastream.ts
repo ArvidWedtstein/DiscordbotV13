@@ -37,12 +37,7 @@ export const command: Command = {
         })
 
 
-        if (!results) {
-            await new profileSchema({
-                guildId,
-                userId
-            }).save()
-        }
+        if (!results) return
 
         const btn = new ButtonBuilder() 
             .setCustomId('brawlhallabutton')

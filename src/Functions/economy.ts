@@ -8,7 +8,7 @@ const coinsCache: any = {}
 export const addCoins = (async (guildId: any, userId: any, coins: number) => {
     console.log(`${gradient.morning(`〔Economy Event〕`)}Add ${gradient.summer(`${userId}`)}: ${gradient.rainbow(`${coins}`)}`);
 
-    const result = await profileSchema.findOneAndUpdate({
+    let result = await profileSchema.findOneAndUpdate({
         guildId,
         userId
     }, {
@@ -22,7 +22,7 @@ export const addCoins = (async (guildId: any, userId: any, coins: number) => {
     })
     if (!result) {
         let coins = 0;
-        await new profileSchema({
+        result = await new profileSchema({
             guildId,
             userId,
             coins
@@ -97,11 +97,6 @@ export const getColor = (async (guildId: any, userId: any) => {
     if (result) {
         color2 = result.color
     } else if (!result) {
-        await new profileSchema({
-            guildId,
-            userId,
-            color
-        }).save()
         color2 = '#ff4300'
     }
 

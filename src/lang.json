@@ -943,6 +943,18 @@
             "norwegian": "La til brawlhallakoden i ditt inventar.",
             "french": "Ajout du code brawlhalla à votre inventaire!"
         },
+        "INVALID_BRAWLHALLA_CODE": {
+            "english": "Invalid Code",
+            "german": "Ungültiger Code",
+            "norwegian": "Ugyldig kode",
+            "french": "Invalid Code"
+        },
+        "CODE_ALREADY_EXISTS": {
+            "english": "That code already exists",
+            "german": "Dieser code gibt es bereits",
+            "norwegian": "Denne koden eksisterer allerede fra før",
+            "french": "That code already exists"
+        },
         "TEMPLATE": {
             "english": ".",
             "german": ".",

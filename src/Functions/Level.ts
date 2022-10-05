@@ -145,11 +145,7 @@ export const getLevel = (async (guildId: any, userId: any) => {
 
     let level = result.level;
     if (!result) {
-        await new profileSchema({
-            guildId,
-            userId,
-            level
-        }).save()
+        level = 0;
     }
 
     return level
@@ -165,11 +161,7 @@ export const getXP = (async (guildId: any, userId: any) => {
     if (result) {
         xp = result.xp
     } else {
-        await new profileSchema({
-            guildId,
-            userId,
-            xp
-        }).save()
+        xp = "0"
     }
 
     return xp

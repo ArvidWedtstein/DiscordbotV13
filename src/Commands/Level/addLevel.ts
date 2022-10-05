@@ -58,10 +58,6 @@ export const command: Command = {
         })
 
         if (!result) {
-            /* settingsSchema.create({
-                guildId,
-                levels: [[{name: `${levelname}`, level: `${level}`, role: (await role).id}]]
-            }) */
             result = new settingsSchema({
                 guildId,
                 levels: [{name: `${levelname}`, level: `${level}`, role: (role).id}]

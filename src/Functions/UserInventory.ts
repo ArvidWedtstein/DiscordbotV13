@@ -47,13 +47,6 @@ export const removeItem = (async (guildId: any, userId: any, itemname: any, item
         }).catch((err: any) => {
             console.log(err)
         })
-
-        if (!result) {
-            await new profileSchema({
-                guildId,
-                userId
-            }).save()
-        } 
     }
     return 
 })
@@ -79,13 +72,6 @@ export const giveItem = (async (guildId: any, userId2: any, itemname: any, amoun
         }).catch((err: any) => {
             console.log(err)
         })
-
-        if (!result) {
-            await new profileSchema({
-                guildId,
-                userId
-            }).save()
-        } 
     }
     
     // Add item to receivers inventory
@@ -103,13 +89,6 @@ export const giveItem = (async (guildId: any, userId2: any, itemname: any, amoun
         }).catch((err: any) => {
             console.log(err)
         })
-        if (!result) {
-            await new profileSchema({
-                guildId,
-                userId,
-                items: item
-            }).save()
-        } 
     }
     return 
 })
@@ -131,12 +110,6 @@ export const getItems = (async (guildId: any, userId: any) => {
     if (result) {
         items = result.items
     } else {
-        console.log('Inserting a document')
-        await new profileSchema({
-            guildId,
-            userId,
-            //items
-        }).save()
         items = ''
     }
     

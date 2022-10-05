@@ -34,18 +34,17 @@ export const command: Command = {
 
         let codeRegex = new RegExp(/[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}/g);
         let code = args[0];
-        if (!code || !codeRegex.test(code)) return ErrorEmbed(message, client, command, `Invalid Code | ABCDEF-GHIJKL {Name}`);
+        if (!code || !codeRegex.test(code)) return ErrorEmbed(message, client, command, `${language(guild, "INVALID_BRAWLHALLA_CODE")} | ABCDEF-GHIJKL {Name}`);
 
-        args.shift()
+        args.shift();
 
         if (args.join(' ').length < 1) return ErrorEmbed(message, client, command, `Name is not long enough`);
-
         const check = await profileSchema.findOne({
             userId: author.id,
             guildId: guild.id
         })
 
-        if (check.brawlhallacodes.find((x:any) => x.code === code)) return ErrorEmbed(message, client, command, `That code already exists`);
+        if (check.brawlhallacodes.find((x:any) => x.code === code)) return ErrorEmbed(message, client, command, `${language(guild, "CODE_ALREADY_EXISTS")}`);
         
         if(args[0] === "Esport") args[0] = "Esports"
         

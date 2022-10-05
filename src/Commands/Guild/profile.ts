@@ -42,7 +42,7 @@ export const command: Command = {
         let birthday = 'Unknown';
 
         // Get users profile
-        const results = await profileSchema.findOne({
+        let results = await profileSchema.findOne({
             userId,
             guildId
         })
@@ -54,10 +54,10 @@ export const command: Command = {
         //     deletedAt: new Date()
         // }).save()
         if (!results) {
-            new profileSchema({
+            results = new profileSchema({
                 userId,
                 guildId
-            })
+            }).save()
         }
 
 
