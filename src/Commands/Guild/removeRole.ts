@@ -1,11 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, SelectMenuBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
-import { lang } from 'moment';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
+
 export const command: Command = {
     name: "removerole",
     description: "remove a users role",
@@ -22,7 +22,7 @@ export const command: Command = {
         if (!guild?.available) return;
         const roles: any[] = [];
         const member: GuildMember|undefined = guild?.members.cache.find(m => m.id === mention?.id)
-        if (!member) return temporaryMessage(channel, language(guild, 'VALID_USER'), 10)
+        if (!member) return ErrorEmbed(message, client, command, language(guild, 'VALID_USER'));
         const guildRoles = await member?.roles.cache
             .sort((a, b) => b.position - a.position)
             .map(r => roles.push({label: r.name, description: r.id, value: r.id}))

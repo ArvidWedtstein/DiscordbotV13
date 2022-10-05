@@ -6,7 +6,8 @@ import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
 import moment from 'moment';
-import { blob } from 'stream/consumers';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
+
 export const command: Command = {
     name: "birthdays",
     description: "see upcoming birthdays",
@@ -20,12 +21,11 @@ export const command: Command = {
         const { guild, channel, author } = message
             
         if (!guild) return;
-        
+
         const setting = await Settings(message, 'moderation');
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Birhtdays")}`, 10);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Birhtdays")}`);
         
         profileSchema.find({ guildId: { $eq: guild.id }, birthday: { $ne: "1/1", $exists: true } }).then(async users => {
-            console.log(users)
             // Sort birthdays
             let birthdays = users.sort((a, b) => {
                 let ab = a.birthday.split('/')

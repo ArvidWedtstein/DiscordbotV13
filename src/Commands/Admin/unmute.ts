@@ -4,6 +4,7 @@ import language, { insert } from '../../Functions/language';
 import { Settings } from '../../Functions/settings';
 import { Command } from '../../Interfaces';
 import muteSchema from '../../schemas/muteSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "unmute",
@@ -29,10 +30,10 @@ export const command: Command = {
         if (!guild) return;
         const setting = await Settings(message, 'moderation');
 
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`, 10);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
         
         
-        if (args.length !== 1) return message.reply(`Please use the correct syntax: ${client.config.prefix}unmute <Target user\'s @ OR their ID>`)
+        if (args.length !== 1) return ErrorEmbed(message, client, command, `${language(guild, 'VALID_USER')}`); 
 
         let id = ''
 

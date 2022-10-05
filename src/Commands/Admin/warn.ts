@@ -1,12 +1,12 @@
 import settingsSchema from "../../schemas/settingsSchema";
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from "../../schemas/profileSchema";
+import { ErrorEmbed } from "../../Functions/ErrorEmbed";
 export const command: Command = {
     name: "warn",
     description: "warn a user",
@@ -33,12 +33,12 @@ export const command: Command = {
 
         if (!guild) return
         const setting = await Settings(message, 'moderation');
-        
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`, 10);
+
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
         
         const target = mentions.users.first()
 
-        if (!target || target.bot) return temporaryMessage(channel, 'Please specify someone to warn.', 10);
+        if (!target || target.bot) return ErrorEmbed(message, client, command, 'Please specify someone to warn.');
 
         
         args.shift()
@@ -80,23 +80,6 @@ export const command: Command = {
             return 
         })
 
-        // Old Update Profile. (Not used anymore) UpdateOne saves time since findOneAndUpdate returns the document.
-
-        // await profileSchema.findOneAndUpdate({
-        //     guildId,
-        //     userId
-        // }, {
-        //     $push: {
-        //         warns: warning
-        //     }
-        // }).catch((error) => {
-        //     embedLogg.setDescription(`Error while updating profile of user (${target.id})\n${error}`)
-        //     embedLogg.setFooter({ text: `Error occured at: `})
-        //     embedLogg.setTimestamp()
-        //     message.reply({ embeds: [embedLogg] })
-        //     console.log(`Error while updating profile of user (${target.id})\n`, error);
-        //     return 
-        // })
         target.send({ embeds: [embedLogg] })
     }
 }

@@ -4,6 +4,7 @@ import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import temporaryMessage from '../../Functions/temporary-message';
 import { Settings } from '../../Functions/settings';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "balance",
     aliases: ["bal"],
@@ -26,7 +27,8 @@ export const command: Command = {
         const userId = target.id
         const setting = await Settings(message, 'money');
         // const setting: boolean = true;
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
+
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Economy")}`);
 
         // Get coins and user defined color
         let coins = await getCoins(guildId, userId);

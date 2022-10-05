@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, EmbedBuilder, AttachmentBuilder } from 'discord.js';
@@ -12,6 +11,7 @@ import axios from 'axios';
 import brawlhallalegends from '../../brawlhallalegends.json';
 import { CustomCanvas, Icon } from '../../Functions/Canvas'
 import { readFile } from 'fs';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "brawlhallastats",
@@ -54,15 +54,14 @@ export const command: Command = {
             // guildId
         }).then(async(results) => {
             
-            
-            if (!results) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a profile. Please create one with -profile`, 50);
-            if (!results.steamId || results.steamId == undefined) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a steam id connected. Please connect your profile to steam with -connectsteam {steamid}`, 50);
+            if (!results) return ErrorEmbed(message, client, command, `${u ? `${u.username} does`: 'You do'} not have a profile. Please create one with -profile`); 
+            if (!results.steamId || results.steamId == undefined) return ErrorEmbed(message, client, command, `${u ? `${u.username} does`: 'You do'} not have a steam id connected. Please connect your profile to steam with -connectsteam {steamid}`); 
             let { steamId, brawlhallaId } = results;
             
             if (!brawlhallaId && steamId) {
                 try {
                     axios.get(`https://api.brawlhalla.com/search?steamid=${steamId}&api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
-                        if (!res.data.brawlhalla_id) return temporaryMessage(channel, `This user not have a brawlhalla id`, 50);
+                        if (!res.data.brawlhalla_id) return ErrorEmbed(message, client, command, `This user does not have a brawlhalla id`);
                         if (res.data.brawlhalla_id) {
                             results.brawlhallaId = res.data.brawlhalla_id;
                             brawlhallaId = res.data.brawlhalla_id;
@@ -75,7 +74,7 @@ export const command: Command = {
             }
 
 
-            if (!brawlhallaId) return temporaryMessage(channel, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id connected. `, 50);
+            if (!brawlhallaId) return ErrorEmbed(message, client, command, `${u ? `${u.username} does`: 'You do'} not have a brawlhalla id connected.`);
 
             function toCodeBlock(str: any) {
                 return `\`${str}\``
@@ -107,7 +106,7 @@ export const command: Command = {
 
 
             axios.get(`https://api.brawlhalla.com/player/${brawlhallaId}/stats?api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
-                if (!res.data) return temporaryMessage(channel, 'No results found', 50);
+                if (!res.data) return ErrorEmbed(message, client, command, `No results found`);
                 const { clan, xp, wins, games, level, legends } = res.data;
 
                 const sum = legends.reduce((accumulator: any, object: any) => {
@@ -128,7 +127,7 @@ export const command: Command = {
                 if (args[0]) {
                     let legend = legends.find((legend: any) => legend.legend_name_key == args[0].toLowerCase().trim());
 
-                    if (!legend) return temporaryMessage(channel, `No legend with that name found`, 50);
+                    if (!legend) return ErrorEmbed(message, client, command, `No legend with that name found`);
                     
                     description = description.concat([
                         `${legend ? `Stats for ${legend.legend_name_key}` : "**Legend with most:**"}`,

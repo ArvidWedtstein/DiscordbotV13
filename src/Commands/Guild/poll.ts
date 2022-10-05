@@ -1,11 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "poll",
@@ -46,9 +46,9 @@ export const command: Command = {
         let question = tokens2.join(delimiter); 
 
         // Check if question, choices and a time is specified
-        if (!question) return temporaryMessage(channel, `No question provided`, 10);
-        if (!choices) return temporaryMessage(channel, `No choices provided. Use 'poll <question> | time | choice1,choice2..'`, 10);
-        if (!time) return temporaryMessage(channel, `No time specified`, 10);
+        if (!question) return ErrorEmbed(message, client, command, `No question provided`);
+        if (!time) return ErrorEmbed(message, client, command, `No time specified`);
+        if (!choices) return ErrorEmbed(message, client, command, `No choices provided`);
 
         let alphabet = [...Array(26)].map((q,w)=>String.fromCharCode(w+97))
 
@@ -130,8 +130,7 @@ export const command: Command = {
             description.push(`\u200b`)
             description.push(`**Final Result**`)
 
-            await console.log(answers)
-            
+
 
             for (const [key, value] of Object.entries(answers)) {
                 description.push(`${letterToEmoji(key)} [${value} • ${percentage(value, sum(Object.values(answers)))}%]`)

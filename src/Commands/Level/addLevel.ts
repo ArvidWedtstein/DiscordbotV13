@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
@@ -8,6 +7,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
 import settingsSchema from '../../schemas/settingsSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "addlevel2",
@@ -31,7 +31,8 @@ export const command: Command = {
         let tokens = args.join(' ').split(delimiter).slice(start)
         let level = tokens.join(delimiter).trim(); 
              
-        if (level.slice(-1) != "0") return temporaryMessage(channel, `Level must be tenable (10,20,30...) | Syntax: *${command.examples}*`, 10)
+        if (level.slice(-1) != "0") return ErrorEmbed(message, client, command, `Level must be tenable (10,20,30...) | Syntax: *${command.examples}*`);
+
 
         let tokens2 = args.join(' ').split(delimiter).slice(0, start);
         let levelname = tokens2.join(delimiter).trim(); 

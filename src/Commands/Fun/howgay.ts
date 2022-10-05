@@ -1,10 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
+
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, EmojiIdentifierResolvable } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "howgay",
     description: "check the true gayness of your homie",
@@ -21,8 +22,8 @@ export const command: Command = {
             return res; //The maximum is inclusive and the minimum is inclusive 
         })
         const member = mentions.users.first()?.username || args[0];
-        if (!member) return temporaryMessage(channel, `Could not find any member`)
-        
+        if (!member) return ErrorEmbed(message, client, command, `${language(guild, `VALID_USER`)}`);
+
         const gay = await getRandomIntInclusive(0, 100);
 
         let messages = [
@@ -39,7 +40,7 @@ export const command: Command = {
                 .setColor('#ff00ff')
                 .setTitle('Gayness Meter')
                 .setDescription(`According to my ${randomMsg}, ${member}.\nis ${gay}% gay`)
-        let EmbedBuilder = await message.channel.send({embeds: [embed]}).then(embedMessage => {
+        let EmbedBuilder = await channel.send({embeds: [embed]}).then(embedMessage => {
             if (gay > 60) {
                 embedMessage.react(emoji)
             }

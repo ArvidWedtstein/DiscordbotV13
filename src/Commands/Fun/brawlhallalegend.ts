@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
@@ -12,6 +11,7 @@ import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed';
 import icon, { loadColors } from '../../Functions/icon';
 import moment from 'moment';
 import axios from 'axios';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "brawlhallalegend",
     description: "See description of a brawlhalla legend",
@@ -36,7 +36,7 @@ export const command: Command = {
 
         let legend = args.join(' ').toLowerCase();
 
-        if (!legend) return temporaryMessage(channel, 'Please provide a legend name', 10);
+        if (!legend) return ErrorEmbed(message, client, command, 'Please provide a legend name');
 
         function toCodeBlock(str: any) {
             return `\`${str}\``
@@ -61,7 +61,7 @@ export const command: Command = {
         let legends = brawlhallalegends
         const chosenlegend = legends.find((leg) => leg.legend_name_key == legend);
 
-        if (!chosenlegend) return temporaryMessage(channel, 'That legend does not exist 😐', 10);
+        if (!chosenlegend) return ErrorEmbed(message, client, command, 'That legend does not exist 😐');
 
 
         const pages: PageEmbedOptions[] = [

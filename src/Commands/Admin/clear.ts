@@ -4,6 +4,7 @@ import language, { insert } from '../../Functions/language';
 import { Settings } from '../../Functions/settings';
 import { Command } from '../../Interfaces';
 import settingsSchema from '../../schemas/settingsSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "clear",
@@ -28,19 +29,21 @@ export const command: Command = {
         if (!guild) return;
         const guildId = guild.id
         const setting = await Settings(message, 'moderation');
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
-        
-        if(!args[0]) return message.reply(`${language(guild, 'CLEAR_AMOUNT')}`);
-        if(isNaN(args[0])) return message.reply(`${language(guild, 'CLEAR_NaN')}`);
 
-        if(args[0] > 100) return message.reply(`${language(guild, 'CLEAR_LIMIT')}`);
-        if(args[0] < 1) return message.reply(`${language(guild, 'CLEAR_UNDERLIMIT')}`);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
+        
+        if(!args[0]) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_AMOUNT')}`); 
+        if(isNaN(args[0])) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_NaN')}`);
+
+        if(args[0] > 100) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_LIMIT')}`);
+        if(args[0] < 1) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_UNDERLIMIT')}`);
 
         await channel.messages.fetch({limit: args[0]}).then(messages =>{
             messages.forEach(async (msg) => {
                 msg.delete()
             })
         });
+        
         let result = await settingsSchema.findOne({
             guildId,
             serverlog: { $exists: true }

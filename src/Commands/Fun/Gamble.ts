@@ -1,13 +1,13 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
-import { PageEmbed } from 'Functions/PageEmbed'
+import { PageEmbed } from '../../Functions/PageEmbed'
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "gamble",
     description: "lets gamble!",
@@ -26,10 +26,11 @@ export const command: Command = {
         
         let gambleamount: any = args[0];
         
-        if (!gambleamount || Number.isNaN(gambleamount)) return temporaryMessage(channel, "Please provide a a valid amount to gamble for", 10)
 
-        if (gambleamount > 200) return temporaryMessage(channel, "You can only gamble for a maximum of 200 coins", 10)
-        if (gambleamount < 25) return temporaryMessage(channel, "The minimum can only gamble for is 25 coins", 10)
+        if (!gambleamount || Number.isNaN(gambleamount)) return ErrorEmbed(message, client, command, `${language(guild, "ECONOMY_VALID")}`);
+
+        if (gambleamount > 200) return ErrorEmbed(message, client, command, "You can only gamble for a maximum of 200 coins");
+        if (gambleamount < 25) return ErrorEmbed(message, client, command, "The minimum can only gamble for is 25 coins");
         function getRandomIntInclusive(min: number, max: number) {
             min = Math.ceil(min);
             max = Math.floor(max);

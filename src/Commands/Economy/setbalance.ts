@@ -1,10 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
+
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "setbalance",
     description: "set the balance of a user",
@@ -30,11 +31,11 @@ export const command: Command = {
         const mention = mentions.users.first()
 
         const setting = await Settings(message, 'moderation');
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Economy")}`); 
         
 
         const coins: any = args[1]
-        if (isNaN(coins) || !mention) return temporaryMessage(channel, `${language(guild, 'ECONOMY_VALID')}`, 10)
+        if (isNaN(coins) || !mention) return ErrorEmbed(message, client, command, `${language(guild, 'ECONOMY_VALID')}`);
         
         const guildId = guild?.id
         const userId = mention.id

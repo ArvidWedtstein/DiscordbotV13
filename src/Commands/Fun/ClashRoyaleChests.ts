@@ -9,6 +9,7 @@ import moment from 'moment';
 import axios from 'axios';
 import APIcacheSchema from '../../schemas/24hAPIcacheSchema';
 import profileSchema from '../../schemas/profileSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "clashroyalechests",
@@ -31,7 +32,7 @@ export const command: Command = {
             clashRoyaleId: { $exists: true, $ne: null }
         })
 
-        if (!res || !res.clashRoyaleId) return temporaryMessage(channel, `Your profile is not connected to clash royale.\nPlease connect with -connectclashroyale`, 50)
+        if (!res || !res.clashRoyaleId) return ErrorEmbed(message, client, command, `Your profile is not connected to clash royale.\nPlease connect with -connectclashroyale`); 
         let userId = encodeURIComponent(res.clashRoyaleId);
 
         let Royale = await APIcacheSchema.findOne({
@@ -80,7 +81,7 @@ export const command: Command = {
                 }
                 Royale = await newRoyale
             } catch (error) {
-                message.reply('Command is currently out of service due to IP Issues. Please try again later.')
+                ErrorEmbed(message, client, command, 'Command is currently out of service due to IP Issues. Please try again later.');
                 return console.error(`Error: ${error}`)
             }
         }

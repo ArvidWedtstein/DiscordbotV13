@@ -1,11 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import settingsSchema from '../../schemas/settingsSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "kick",
@@ -28,10 +28,11 @@ export const command: Command = {
         if (!guild) return;
         const guildId = guild.id;
         const setting = await Settings(message, 'moderation');
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`, 10);
+
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
         
         const target = mentions.users.first();
-        if (!target) return channel.send(`${author}, ${language(guild, 'USER_NOTFOUND')}`)
+        if (!target) return ErrorEmbed(message, client, command, `${author}, ${language(guild, 'USER_NOTFOUND')}`);
         
 
         let reason = args.slice(1).join(' ');

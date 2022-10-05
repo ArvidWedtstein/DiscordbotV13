@@ -1,11 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, User, GuildMember, GuildListMembersOptions } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "compare",
@@ -19,9 +19,10 @@ export const command: Command = {
     examples: ["compare @user"],
     
     run: async(client, message, args) => {
-        const { guild, member: Member, author: Author, mentions } = message;
-        if (!guild?.available) return;
-        if (!mentions.users.first()) return temporaryMessage(message.channel, `${await language(message.guild, 'BAN_NOUSERSPECIFIED')}`, 5);
+        const { guild, member: Member, author: Author, mentions, channel } = message;
+        if (!guild || !guild?.available) return;
+        if (!mentions.users.first()) return ErrorEmbed(message, client, command, `${language(guild, 'VALUD_USER')}`);
+
         let mention = mentions.users.first();
         let mention2: any = mentions.users.last();
 
@@ -74,6 +75,6 @@ export const command: Command = {
                 `, inline: true}
             )
             .setTimestamp()
-        message.channel.send({embeds: [embed]});
+        channel.send({embeds: [embed]});
     }
 }

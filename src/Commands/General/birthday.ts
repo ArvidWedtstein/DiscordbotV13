@@ -6,7 +6,8 @@ import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy'
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
-import { profile } from 'console';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
+
 export const command: Command = {
     name: "birthday",
     description: "set your birthday",
@@ -24,9 +25,9 @@ export const command: Command = {
 
         if (!guild) return;
         
-
+    
         const setting = await Settings(message, 'moderation');
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Birthdays")}`, 10);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Birthdays")}`);
         
         const user = guild.members.cache.get(mentions?.users?.first()?.id || author.id)
 
@@ -37,10 +38,10 @@ export const command: Command = {
         let [ day, month, year ]: any = split;
 
         
-        if (!day) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_DAY')}`, 10);
-        if (!month) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_MONTH')}`, 10);
-        if (!year) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_YEAR')}`, 10);
-        if (isNaN(day) || isNaN(month) || isNaN(year)) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_NaN')}`, 10);
+        if (!day) return ErrorEmbed(message, client, command, `${language(guild, 'BIRTHDAY_DAY')}`);
+        if (!month) return ErrorEmbed(message, client, command, `${language(guild, 'BIRTHDAY_MONTH')}`);
+        if (!year) return ErrorEmbed(message, client, command, `${language(guild, 'BIRTHDAY_YEAR')}`);
+        if (isNaN(day) || isNaN(month) || isNaN(year)) return ErrorEmbed(message, client, command, `${language(guild, 'BIRTHDAY_NaN')}`);
 
         day = parseInt(day);
         month = parseInt(month);
@@ -56,9 +57,7 @@ export const command: Command = {
         day = ifNumberIsLessThanTen(day);
         month = ifNumberIsLessThanTen(month);
  
-        if (day > 31 || day < 1) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_FORMAT')}`, 10);
-        if (month > 12 || month < 1) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_FORMAT')}`, 10);
-        if (year > new Date().getFullYear() || year < 1900) return temporaryMessage(channel, `${language(guild, 'BIRTHDAY_FORMAT')}`, 10);
+        if ((day > 31 || day < 1) || (month > 12 || month < 1) || (year > new Date().getFullYear() || year < 1900)) return ErrorEmbed(message, client, command, `${language(guild, 'BIRTHDAY_FORMAT')}`);
 
         const birthday = `${day}/${month}/${year}`;
 

@@ -1,10 +1,10 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, EmbedBuilder, Interaction } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "askformoney",
     description: "ask for money",
@@ -30,19 +30,16 @@ export const command: Command = {
         
         const guildId = guild?.id
         const setting = await Settings(message, 'money');
-        
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Economy")}`);
             
         let d = new Date();
 
         const target = mentions.users.first();
-        if (!target) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_VALIDUSER')}`, 10);
-        if (target == message.author) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_INVALIDUSER')}`, 10)
+        if (!target || target == message.author) return ErrorEmbed(message, client, command, `${await language(guild, 'VALID_USER')}`);
 
         const coinsToAsk: any = args[1];
 
-        if (isNaN(coinsToAsk)) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_VALID')}`, 10);
-        if (coinsToAsk < 0) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_VALID')}`, 10);
+        if (isNaN(coinsToAsk) || coinsToAsk < 0) return ErrorEmbed(message, client, command, `${language(guild, 'ECONOMY_VALID')}`); 
         const yes = '<:yes:807175712515162183>'
         const no = '<:no:807175696555573278>'
         let embed = new EmbedBuilder()
@@ -71,7 +68,7 @@ export const command: Command = {
 
                 if (reaction.emoji.name === 'yes') {
                     const coinsOwned = await getCoins(guildId, target.id)
-                    if (coinsOwned < coinsToAsk) return temporaryMessage(channel, `${await language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToAsk} ErlingCoins!`,10);
+                    if (coinsOwned < coinsToAsk) return ErrorEmbed(message, client, command, `${await language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToAsk} ErlingCoins!`); 
 
                     let embed = new EmbedBuilder()
                         .setColor('#10ff00')

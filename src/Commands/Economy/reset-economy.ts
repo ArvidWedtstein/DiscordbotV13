@@ -1,11 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import profileSchema from '../../schemas/profileSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
   name: "reseteconomy",
@@ -30,10 +30,10 @@ export const command: Command = {
     const guildId = guild?.id
 
     const setting = await Settings(message, 'money');
-    if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
+    if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Economy")}`); 
 
-    const confirmation = await message.channel.send(`${language(guild, 'ECONOMY_RESET')} (Y, N, yes, no)`)
-    const filter = (m: any) => m.author.id === message.author.id
+    const confirmation = await channel.send(`${language(guild, 'ECONOMY_RESET')} (Y, N, yes, no)`)
+    const filter = (m: any) => m.author.id === author.id
 
     const collector = confirmation.channel.createMessageCollector({
       filter, 
@@ -53,7 +53,7 @@ export const command: Command = {
   
     collector.on('end', (collected, reason) => {
       console.log(reason)
-      if (reason === 'time') return temporaryMessage(message.channel,  `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 5);
+      if (reason === 'time') return temporaryMessage(channel,  `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 5);
     });
   }
 }

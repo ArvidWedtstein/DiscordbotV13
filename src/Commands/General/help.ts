@@ -8,6 +8,7 @@ import icon from '../../Functions/icon';
 import boticons from '../../Functions/boticons';
 import emojiCharacters from '../../Functions/emojiCharacters';
 import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "help",
     description: "get some help",
@@ -35,7 +36,7 @@ export const command: Command = {
         if (args[0]) {
             let chosencmd = client.registry.commands.find((c: any) => c.name === args[0])
 
-            if (!chosencmd) return temporaryMessage(channel, `Command could not be found`, 5);
+            if (!chosencmd) return ErrorEmbed(message, client, command, `Command could not be found`);
             
             const { name, description, details, UserPermissions, aliases, group } = chosencmd;
 

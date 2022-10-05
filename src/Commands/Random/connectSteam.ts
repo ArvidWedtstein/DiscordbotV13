@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
@@ -9,6 +8,7 @@ import profileSchema from '../../schemas/profileSchema';
 import { addXP, getXP, getLevel } from '../../Functions/Level';
 import moment from 'moment';
 import axios from 'axios';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "connectsteam",
     description: "Connect your personal profile to steam",
@@ -23,12 +23,11 @@ export const command: Command = {
         if (!guild) return;
 
         let steamId = args[0];
-        if (!steamId) return temporaryMessage(channel, 'Please provide a steam id', 50);
-        // if (steamId.match(/^\d+$/)) return temporaryMessage(channel, 'Please provide a valid steam id', 50);
+        if (!steamId) return ErrorEmbed(message, client, command, `Please provide a steam id`);
         profileSchema.find({
             userId: author.id
         }).then(async(results) => {
-            if (results.length < 1) return temporaryMessage(channel, 'You do not have a profile. Please create one with -profile', 50);
+            if (results.length < 1) return ErrorEmbed(message, client, command, 'You do not have a profile. Please create one with -profile');
             
             results.forEach(async(result) => {
                 // if (result.steamId) return temporaryMessage(channel, 'You already have a steam id connected', 50);
@@ -39,7 +38,6 @@ export const command: Command = {
     
                         if (res.data.brawlhalla_id) {
                             result.brawlhallaId = res.data.brawlhalla_id;
-                            // return temporaryMessage(channel, `Successfully connected your profile to Brawlhalla`, 50);
                         }
                     });
                 } catch (e) {
@@ -48,7 +46,7 @@ export const command: Command = {
                 result.steamId = steamId;
                 result.save();
             });
-            return temporaryMessage(channel, 'Your steam id has been linked to your profile', 50);
+            return temporaryMessage(channel, 'Your steam id has been linked to your profile 😁', 50);
         })
     }
 }

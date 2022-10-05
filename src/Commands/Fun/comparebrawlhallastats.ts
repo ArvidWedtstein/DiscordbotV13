@@ -9,6 +9,7 @@ import moment from 'moment';
 import icon from '../../Functions/icon';
 import profileSchema from '../../schemas/profileSchema';
 import axios from 'axios';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "comparebrawlhallastats",
@@ -27,7 +28,7 @@ export const command: Command = {
         if (!guild) return
 
         let u = mentions.users.first();
-        if (!u) return temporaryMessage(channel, `Please mention a user to compare stats to`, 50);
+        if (!u) return ErrorEmbed(message, client, command, `Please mention a user to compare stats to`);
 
         let usr1 = author;
         let usr2 = u;
@@ -45,16 +46,16 @@ export const command: Command = {
         // Get the character name
         let character = args[0];
 
-        // TODO - Add functionallity to just compare the users stats if no character is specified
-        if (!character) return temporaryMessage(channel, `Please specify a brawlhalla character to compare your stats to`, 50);
+        // TODO: - Add functionallity to just compare the users stats if no character is specified
+        if (!character) return ErrorEmbed(message, client, command, `Please specify a brawlhalla character to compare your stats to`);
 
         const getProfile = (async(userId: any, guildId: any) => {
             let profile = await profileSchema.findOne({
                 userId,
                 guildId
             });
-            if (!profile) return temporaryMessage(channel, `${guild.members.cache.get(userId)?.user.username} does not have a profile. Please create one with -profile`, 50);
-            if (!profile.steamId) return temporaryMessage(channel, `${guild.members.cache.get(userId)?.user.username} does not have a steam id. Please connect with -connectsteam {steamid}`, 50);
+            if (!profile) return ErrorEmbed(message, client, command, `${guild.members.cache.get(userId)?.user.username} does not have a profile. Please create one with -profile`);
+            if (!profile.steamId) return ErrorEmbed(message, client, command, `${guild.members.cache.get(userId)?.user.username} does not have a steam id. Please connect with -connectsteam {steamid}`);
             
             return profile;
         })
@@ -66,15 +67,15 @@ export const command: Command = {
             if (!userProfile.brawlhallaId && userProfile.steamId) {
                 try {
                     axios.get(`https://api.brawlhalla.com/search?steamid=${userProfile.steamId}&api_key=${process.env.BRAWLHALLA_API_KEY}`).then(async(res) => {
-                        if (!res.data.brawlhalla_id) return temporaryMessage(channel, `${guild.members.cache.get(userProfile.userId)?.user.username} does not have a brawlhalla id`, 20);
-    
+                        if (!res.data.brawlhalla_id) return ErrorEmbed(message, client, command, `${guild.members.cache.get(userProfile.userId)?.user.username} does not have a brawlhalla id`); 
+
                         userProfile.brawlhallaId = res.data.brawlhalla_id;
                         userProfile.save();
                     });
                 } catch (err) {
                     console.log(err);
                 }
-                if (!userProfile.brawlhallaId) return temporaryMessage(channel, `${guild.members.cache.get(userProfile.userId)?.user.username} does not have a brawlhalla id`, 20);
+                if (!userProfile.brawlhallaId) return ErrorEmbed(message, client, command, `${guild.members.cache.get(userProfile.userId)?.user.username} does not have a brawlhalla id`);
                 return userProfile
             }
             return userProfile
@@ -91,7 +92,7 @@ export const command: Command = {
             const userStats: any = await axios.get(`https://api.brawlhalla.com/player/${userProfile.brawlhallaId}/stats?api_key=${process.env.BRAWLHALLA_API_KEY}`);
             let userLegend = userStats.data.legends.find((legend: any) => legend.legend_name_key === character.toLowerCase());
 
-            if (!userLegend) return temporaryMessage(channel, 'No legend with this name found', 20);
+            if (!userLegend) return ErrorEmbed(message, client, command, 'No legend with this name found');
 
             function toCodeBlock(str: any) {
                 return `\`${str}\``

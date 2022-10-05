@@ -1,12 +1,12 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import icon from '../../Functions/icon';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "createemoji",
@@ -22,10 +22,10 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, attachments } = message;
         if (!guild) return
-        if (!attachments.first()) return temporaryMessage(channel, 'You need to attach an image to set as emoji', 5)
+        if (!attachments.first()) return ErrorEmbed(message, client, command, `You need to attach an image to set as emoji`);
         const url = attachments.first()?.url;
         const name = attachments.first()?.name;
-        if (!name || !url) return temporaryMessage(channel, 'Invalid Image', 5)
+        if (!name || !url) return ErrorEmbed(message, client, command, `Invalid Image.`);
 
         // Create Emoji
         guild.emojis

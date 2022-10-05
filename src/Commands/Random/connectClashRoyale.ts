@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, EmbedBuilder } from 'discord.js';
@@ -9,6 +8,7 @@ import profileSchema from '../../schemas/profileSchema';
 import { addXP, getXP, getLevel } from '../../Functions/Level';
 import moment from 'moment';
 import axios from 'axios';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "connectclashroyale",
     description: "Connect your personal profile to clash royale",
@@ -34,10 +34,11 @@ export const command: Command = {
             userId: userId,
             guildId: guild.id
         }).then(async(results) => {
-            if (!results) return temporaryMessage(channel, 'You do not have a profile. Please create one with -profile', 15);
+
+            if (!results) return ErrorEmbed(message, client, command, 'You do not have a profile. Please create one with -profile');
             
             const regex = /(#{1})[0-9A-Z]{8}/g;
-            if (!args[0] || !regex.test(args[0])) return temporaryMessage(channel, 'Please provide a valid clash royale id', 15);
+            if (!args[0] || !regex.test(args[0])) return ErrorEmbed(message, client, command, 'Please provide a valid clash royale id');
             
             results.clashRoyaleId = args[0];
             results.save();

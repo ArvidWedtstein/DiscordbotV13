@@ -9,6 +9,7 @@ import profileSchema from '../../schemas/profileSchema';
 import { addXP, getXP, getLevel } from '../../Functions/Level';
 import moment from 'moment';
 import axios from 'axios';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "brawlhallastatstracker",
     description: "Connect your personal profile to brawlhalla",
@@ -27,9 +28,10 @@ export const command: Command = {
             userId: author.id,
             guildId: guild.id
         }).then(async(results) => {
-            if (!results) return temporaryMessage(channel, 'You do not have a profile. Please create one with -profile', 50);
+
+            if (!results) return ErrorEmbed(message, client, command, 'You do not have a profile. Please create one with -profile');
             let { brawlhallaId, steamId, brawlhallaStats } = results;
-            if (!brawlhallaId) return temporaryMessage(channel, 'You do not have a brawlhalla id. Please connect your profile to brawlhalla with -connectbrawlhalla {steam id}', 50);
+            if (!brawlhallaId) return ErrorEmbed(message, client, command, 'You do not have a brawlhalla id. Please connect your profile to brawlhalla with -connectbrawlhalla {steam id}');
             brawlhallaStats = !brawlhallaStats;
 
             results.save();

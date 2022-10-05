@@ -12,6 +12,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import { joinVoiceChannel } from '@discordjs/voice';
 import icon from '../../Functions/icon';
 import playlistSchema from '../../schemas/playlist-schema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 let songint = 0
 let music: any = {}
@@ -75,7 +76,8 @@ export const command: Command = {
             menu(message, music, server_queue, client)
         } else if (args[0] == 'play') {
             if (!voice_channel) {
-                return temporaryMessage(channel, `${language(guild, 'VOICE_CHANNEL')}.`, 30)
+                
+                return ErrorEmbed(message, client, command, `${language(guild, 'VOICE_CHANNEL')}.`);
             } else {
                 /*let result = await searcher.search(args.join(" "), { type: "video" })
                 const songInfo = await ytdl.getInfo(result.first.url)*/
@@ -88,7 +90,7 @@ export const command: Command = {
                     duration: songInfo.videoDetails.duration
                 }*/
                 
-                if (!args.length) return temporaryMessage(channel, 'You need to send the second argument', 30)
+                if (!args.length) return ErrorEmbed(message, client, command, 'You need to send the second argument');
         
                 // if (ytdl.validateURL(args[0])) {
                 //     const song_info = await ytdl.getInfo(args[0]);
@@ -138,8 +140,8 @@ export const command: Command = {
                     //songs.push(song)
 
                     try {
-                        if (!voice_channel.joinable) return temporaryMessage(channel, `Could not join voicechannel`, 10)
-                        if (voice_channel.full) return temporaryMessage(channel, `There is not enough room for both of us in this voicechannel 😐`, 10)
+                        if (!voice_channel.joinable) return ErrorEmbed(message, client, command, `Could not join voicechannel`);
+                        if (voice_channel.full) return ErrorEmbed(message, client, command, `There is not enough room for both of us in this voicechannel 😐`);
 
                         let ad: any = guild.voiceAdapterCreator
                         // Join Voice channel
@@ -156,7 +158,7 @@ export const command: Command = {
                     } catch (err) { 
                         queue.delete(guildId);
                         console.error(err);
-                        return temporaryMessage(channel, `${language(guild, 'MUSIC_CONNECTERROR')}`, 10);
+                        return ErrorEmbed(message, client, command, `${language(guild, 'MUSIC_CONNECTERROR')}`);
                     }
                 } else {
                     // If there already is a song in the quene
@@ -495,7 +497,7 @@ async function load_queue (message: Message, server_queue: any, client: any) {
         try {
             video_player(message, queue_constructor.songs[songint], client)
         } catch (err) { 
-            message.reply(`${language(guild, 'MUSIC_CONNECTERROR')}! ${music.cable}`);
+            ErrorEmbed(message, client, command, `${language(guild, 'MUSIC_CONNECTERROR')}! ${music.cable}`);
             console.error(err)
         }
     }

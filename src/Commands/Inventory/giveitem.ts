@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
@@ -9,6 +8,7 @@ import moment from 'moment';
 import icon from '../../Functions/icon';
 import items from '../../items.json'
 import { addItem, getItems, giveItem } from '../../Functions/UserInventory';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "giveitem",
     description: "give a item to a user",
@@ -27,16 +27,17 @@ export const command: Command = {
         if (!guild) return
         const guildId = guild.id;
         const user = guild.members.cache.find(m => m.id == mentions.users.first()?.id || m.id == author.id)
-        if (!user) return message.reply('No user found');
+        if (!user) return ErrorEmbed(message, client, command, `${language(guild, 'VALID_USER')}`);
+
         const userId = user.id  
         args.shift()
         const itemname = args[0].toLowerCase();
         const { id: authorId } = author;
         const amount: any = args[1];
-        if (isNaN(amount)) return temporaryMessage(channel, `${language(guild, 'CLEAR_NaN')}`, 10)
+        if (isNaN(amount)) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_NaN')}`);
 
         if (itemname in items) {
             giveItem(guildId, userId, itemname, amount, authorId) 
-        } else return message.reply(`${language(guild, 'ADDITEM_NOEXIST')} ${items}`);
+        } else return ErrorEmbed(message, client, command, `${language(guild, 'ADDITEM_NOEXIST')} ${items}`);
     }
 }

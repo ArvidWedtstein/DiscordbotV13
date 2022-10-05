@@ -118,20 +118,3 @@ https://discord.gg/4Km3YdSjKX
 <h6 align="center">The fun commands contains a variety of commands and games like Tic-Tac-Toe, Rock-Scissors-Papers, Dice, Blackjack, A Command to Compare yourself to other users and much more.</h6>
 
 
-
-<h2 align="left">TODO</h2>
-
-<!-- <blockquote>
-Implement Unit Testing - Test individual functions and classes in the functions folder
-Implement Integration Testing - Test multiple units together | For example: Test how well two functions work together.
-Implement End-To-End Testing - Runs the bot in a simulated environment and attempts to emulate the actual use and behaviour of the bot (Cypress??)
-Maybe implement Acceptance Testing - Tests the client or user's requirements
-Maybe implement System Testing - Tests that the bot works on actual servers (Other Servers/Guilds??)
-Maybe implement Smoke Testing - A smoke test runs the most important tests first to make sure the bot isn't on fire before proceeding with the rest of the tests
-
-
-</blockquote> -->
-
-
-https://discordjs.guide/creating-your-bot/command-handling.html#individual-command-files
-https://discordjs.guide/interactions/slash-commands.html#registering-slash-commands

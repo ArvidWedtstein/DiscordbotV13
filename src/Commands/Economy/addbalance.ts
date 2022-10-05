@@ -4,6 +4,7 @@ import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import temporaryMessage from '../../Functions/temporary-message';
 import { AttachmentBuilder, EmbedBuilder } from 'discord.js';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "addbalance",
@@ -25,15 +26,15 @@ export const command: Command = {
         const guildId = guild?.id
 
         const setting = await Settings(message, 'money');
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Economy")}`);
             
         const mention = mentions.users.first();
     
-        if (!mention) return temporaryMessage(channel, `${language(guild, 'VALID_USER')}`, 10)
+        if (!mention) return ErrorEmbed(message, client, command, `${language(guild, 'VALID_USER')}`);
 
         const coins: number = parseInt(args[1]);
         
-        if (isNaN(coins)) return temporaryMessage(channel, `${language(guild, 'ECONOMY_VALID')}`, 10)
+        if (isNaN(coins)) return ErrorEmbed(message, client, command, `${language(guild, 'ECONOMY_VALID')}`);
 
         const userId = mention.id
 

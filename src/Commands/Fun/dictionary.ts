@@ -1,11 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, APIEmbedField } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import axios from 'axios';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "dictionary",
     description: "check my dictionary",
@@ -20,7 +20,8 @@ export const command: Command = {
     run: async(client, message, args) => {
         const { guild, channel, author } = message;
 
-        if (!args[0]) return temporaryMessage(channel, `You need to provide a word`, 10);
+
+        if (!args[0]) return ErrorEmbed(message, client, command, `You need to provide a word`);
 
         axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${args[0]}`).then((res) => {
             res.data.forEach(async (word: any) => {
@@ -36,10 +37,7 @@ export const command: Command = {
                 channel.send({ embeds: [embed] });
             });
         }).catch((err) => {
-            const errorembed = new EmbedBuilder()
-                .setTitle(err.response.data.title)
-                .setDescription(`${err.response.data.message}\n\n${err.response.data.resolution}`)
-            temporaryMessage(channel, errorembed, 10);
+            return ErrorEmbed(message, client, command, [err.response.data.title, `${err.response.data.message}\n\n${err.response.data.resolution}`]);
         })
     }
 }

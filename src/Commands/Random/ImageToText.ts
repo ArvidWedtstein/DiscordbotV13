@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, GuildMember, AttachmentBuilder } from 'discord.js';
@@ -8,6 +7,7 @@ import temporaryMessage from '../../Functions/temporary-message';
 import moment from 'moment';
 import axios from 'axios';
 import { createWorker } from 'tesseract.js';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "imagetotext",
     description: "converts text in an image to text",
@@ -25,7 +25,7 @@ export const command: Command = {
         
         let image = attachments.first();
 
-        if (!image) return temporaryMessage(channel, `Please provide an image`, 10);
+        if (!image) return ErrorEmbed(message, client, command, `Please provide an image`);
 
         let languages = [
             { name: "english", value: "eng" },
@@ -39,7 +39,7 @@ export const command: Command = {
         let lang = languages[0].value;
         if (args[0]) {
             let chosenlang = languages.find((lang) => lang.name === args[0])
-            if (!chosenlang) return temporaryMessage(channel, `That language is not supported. Try one of these: ${languages.map(d => d.name).join(', ')}`, 10);
+            if (!chosenlang) return ErrorEmbed(message, client, command, `That language is not supported. Try one of these: ${languages.map(d => d.name).join(', ')}`);
             lang = chosenlang.value;
         }
 

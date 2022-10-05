@@ -171,11 +171,6 @@
             "german": "Bitte benutzen sie eine gültige Zahl",
             "norwegian": "Vennligst oppgi et gyldig nummer"
         },
-        "ECONOMY_VALIDUSER": {
-            "english": "Please specify someone to ask ErlingCoins for",
-            "german": "Bitte geben Sie jemanden an",
-            "norwegian": "Vennligst spesifiser noen å spørre ErlingCoins om"
-        },
         "ECONOMY_SETBAL": {
             "english": "has set",
             "german": "hat",
@@ -335,11 +330,6 @@
             "english": "You need to attach a meme.",
             "german": "Bitte legen sie ein photo dazu",
             "norwegian": "Vennligst legg til et bilde."
-        },
-        "ECONOMY_INVALIDUSER": {
-            "english": "You cannot ask yourself.",
-            "german": "Sie können sich nicht selbst fragen",
-            "norwegian": "Du kan ikke spørre deg selv."
         },
         "MUSIC_MENU": {
             "english": "Music Player",

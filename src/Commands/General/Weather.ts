@@ -28,7 +28,6 @@ export const command: Command = {
         if (!guild) return;
         let city = args[0];
 
-        // if (!city) return temporaryMessage(channel, "Please provide a city", 10)
         if (!city) return ErrorEmbed(message, client, command, "Please provide a city")
 
         function calculateWindDirection(degrees: number): string {

@@ -1,13 +1,12 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { ButtonStyle, Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Message, Interaction, AttachmentBuilder, ChannelType, PermissionsBitField, PermissionFlagsBits } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
-
 import settingsSchema from '../../schemas/settingsSchema';
-import { Channel } from 'diagnostics_channel';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
+
 
 export const command: Command = {
     name: "ticket",
@@ -25,7 +24,7 @@ export const command: Command = {
         const guildId = guild.id
 
         const setting = await Settings(message, 'ticket');
-        if (!setting) return temporaryMessage(chan, `${insert(guild, 'SETTING_OFF', "Ticket")}`)
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Ticket")}`);
 
         const getEmoji = (emojiName: string) => client.emojis.cache.find((emoji) => emoji.name === emojiName);
 

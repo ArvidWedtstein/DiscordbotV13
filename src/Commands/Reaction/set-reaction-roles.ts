@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } from 'discord.js';
@@ -9,6 +8,7 @@ import moment from 'moment';
 import icon from '../../Functions/icon';
 import { addToCache, fetchCache } from '../../Functions/ReactionRole';
 import reactionRoleSchema from '../../schemas/reactionRoleSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "setreactionroles",
@@ -31,7 +31,7 @@ export const command: Command = {
 
         if (message.deletable) message.delete();
 
-        if (!role) return temporaryMessage(channel, `No role specified`, 15);
+        if (!role) return ErrorEmbed(message, client, command, `No role specified`);
 
         if (role.startsWith('<@&')) {
             role = role.substring(3, role.length - 1);
@@ -41,7 +41,7 @@ export const command: Command = {
             return r.name === role || r.id === role
         }) || null
 
-        if (!newRole) return temporaryMessage(channel, `Could not find a role for "${role}"`, 10)
+        if (!newRole) return ErrorEmbed(message, client, command, `Could not find a role for "${role}"`);
 
         role = newRole
 

@@ -1,11 +1,11 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, ClientEvents, Constants, Collection, EmbedBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
 import settingsSchema from '../../schemas/settingsSchema';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 
 export const command: Command = {
     name: "simulateevent",
@@ -30,15 +30,15 @@ export const command: Command = {
         const guildId = guild.id
         const setting = await Settings(message, 'moderation');
 
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Moderation")}`, 10);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
         
         function instanceOfClientEvents(obj: any): obj is ClientEvents {
             return obj.emit !== undefined;
         }
 
         let event: any = args[0];
-        if (!event) return temporaryMessage(channel, `Please provide a event`, 10);
-        if (instanceOfClientEvents(event)) return temporaryMessage(channel, `Please provide a valid event`, 10);
+        if (!event) return ErrorEmbed(message, client, command, `Please provide a event`);
+        if (instanceOfClientEvents(event)) return ErrorEmbed(message, client, command, `Please provide a valid event`);
 
 
         client.emit(event)

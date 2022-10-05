@@ -1,10 +1,10 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language, { insert } from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import temporaryMessage from '../../Functions/temporary-message';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 export const command: Command = {
     name: "pay",
     description: "pay a user money",
@@ -31,21 +31,20 @@ export const command: Command = {
 
         // Check if economy is enabled
         const setting = await Settings(message, 'money');
-        if (!setting) return temporaryMessage(channel, `${insert(guild, 'SETTING_OFF', "Economy")}`, 10);
+        if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Economy")}`);
 
         // Get user
         const target = mentions.users.first();
 
-        if (!target) return temporaryMessage(channel, `${language(guild, 'VALID_USER')}`, 10);
-        if (target.id == author.id) return temporaryMessage(channel, `${language(guild, 'VALID_USER')}`, 10);
+        if (!target || target.id == author.id) return ErrorEmbed(message, client, command, `${language(guild, 'VALID_USER')}`); 
 
         // Check if specified amount is a number
         const coinsToGive: any = args[1];
-        if (isNaN(coinsToGive) || coinsToGive < 0) return temporaryMessage(channel, `${language(guild, 'ECONOMY_VALID')}`, 10);
+        if (isNaN(coinsToGive) || coinsToGive < 0) return ErrorEmbed(message, client, command, `${language(guild, 'ECONOMY_VALID')}`);
 
         // Check if user has enough coins
         const coinsOwned = await getCoins(guildId, member?.id)
-        if (coinsOwned < coinsToGive) return temporaryMessage(channel, `${language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToGive} ErlingCoins!`, 10);
+        if (coinsOwned < coinsToGive) return ErrorEmbed(message, client, command, `${language(guild, 'ECONOMY_PAYNOMONEY')} ${coinsToGive} ErlingCoins!`); 
 
         const confirmation = await channel.send(`${language(guild, 'ECONOMY_PAYVERIFICATION')} **${target.username}** ${coinsToGive}? (Y, Yes, N, No)`)
         const filter = (m: any) => m.author.id === author.id
@@ -59,9 +58,7 @@ export const command: Command = {
         collector.on('collect', async (m) => {
             const { channel, content } = m
             // Check if the answer is neither "y" or "yes"
-            if (content.toLowerCase() !== 'y' && content.toLowerCase() !== 'yes') {
-                return temporaryMessage(channel, `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 10)
-            }
+            if (content.toLowerCase() !== 'y' && content.toLowerCase() !== 'yes') return temporaryMessage(channel, `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 10)
             const remainingCoins = await addCoins(
                 guildId,
                 member?.id,
@@ -91,7 +88,7 @@ export const command: Command = {
     
         collector.on('end', (collected, reason) => {
             if (reason === 'time') {
-                temporaryMessage(channel,  `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 5);
+                temporaryMessage(channel, `${language(guild, 'ECONOMY_PAYCANCELLED')}`, 5);
             }
             return
         });
