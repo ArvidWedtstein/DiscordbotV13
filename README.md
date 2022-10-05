@@ -38,6 +38,12 @@ Download, and type `npm run dev` or `npm run start` in console, and hit enter
 - Clash Royale API
 - Twitch API
 - Metrologisk Institutt API
+- Open Weather Map API
+- Bring API
+- ISS Location API
+- Dictionary API
+- Meme API
+- Discord API
 ```
 
 ## Features

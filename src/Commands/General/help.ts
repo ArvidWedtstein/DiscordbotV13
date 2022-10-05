@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, SelectMenuOptionBuilder, MessageSelectOption, Interaction, SelectMenuBuilder } from 'discord.js';
@@ -95,7 +94,7 @@ export const command: Command = {
         })
 
         categories.map((f: any, i: any) => {
-            embed.addFields([{name: `__**${capitalizeFirstLetter(f)} - ${i + 1}**__`, value: `${language(guild, 'HELP_LIST')} ${f.name} commands`, inline: true}])
+            embed.addFields({name: `__**${capitalizeFirstLetter(f)} - ${i + 1}**__`, value: `${language(guild, 'HELP_LIST')} ${f.name} commands`, inline: true})
             
             let option = {
                 label: `${capitalizeFirstLetter(f)}`,
@@ -159,7 +158,7 @@ export const command: Command = {
     
                     if (content) {
                         content.forEach((command: any) => {
-                            embedMain.addFields([{name: '> ' + command.name, value: `${command.description}`, inline: true}])
+                            embedMain.addFields({name: '> ' + command.name, value: `${command.description}`, inline: true})
                         });
                     }
                 await msg.edit({ embeds: [embedMain] });
