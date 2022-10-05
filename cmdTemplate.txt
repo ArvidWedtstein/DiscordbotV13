@@ -1,0 +1,29 @@
+import { Command } from '../../Interfaces';
+import { Settings } from '../../Functions/settings';
+import language from '../../Functions/language';
+import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
+import temporaryMessage from '../../Functions/temporary-message';
+import { ErrorEmbed } from '../../Functions/ErrorEmbed';
+import moment from 'moment';
+import icon from '../../Functions/icon';
+import settingsSchema from '../../schemas/settingsSchema';
+
+export const command: Command = {
+    name: "",
+    description: "",
+    details: "",
+    aliases: [""],
+    group: "",
+    hidden: false,
+    UserPermissions: ["SendMessages"],
+    ClientPermissions: ["SendMessages", "AddReactions"],
+    ownerOnly: false,
+    examples: [""],
+    
+    run: async(client, message, args) => {
+        const { guild, channel, author, member, mentions, attachments } = message;
+        if (!guild) return
+        
+    
+    }
+}

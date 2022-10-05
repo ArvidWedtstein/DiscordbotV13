@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { Settings } from '../../Functions/settings';
-import * as gradient from 'gradient-string';
 import language from '../../Functions/language';
 import { addCoins, setCoins, getCoins, getColor } from '../../Functions/economy';
 import Discord, { Client, Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';

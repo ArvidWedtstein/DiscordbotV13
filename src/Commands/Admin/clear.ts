@@ -33,7 +33,7 @@ export const command: Command = {
         if (!setting) return ErrorEmbed(message, client, command, `${insert(guild, 'SETTING_OFF', "Moderation")}`);
         
         if(!args[0]) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_AMOUNT')}`); 
-        if(isNaN(args[0])) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_NaN')}`);
+        if(isNaN(args[0])) return ErrorEmbed(message, client, command, `${language(guild, 'NaN')}`);
 
         if(args[0] > 100) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_LIMIT')}`);
         if(args[0] < 1) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_UNDERLIMIT')}`);

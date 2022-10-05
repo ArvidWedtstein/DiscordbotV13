@@ -34,7 +34,7 @@ export const command: Command = {
         const itemname = args[0].toLowerCase();
         const { id: authorId } = author;
         const amount: any = args[1];
-        if (isNaN(amount)) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_NaN')}`);
+        if (isNaN(amount)) return ErrorEmbed(message, client, command, `${language(guild, 'NaN')}`);
 
         if (itemname in items) {
             giveItem(guildId, userId, itemname, amount, authorId) 

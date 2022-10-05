@@ -32,7 +32,7 @@ export const command: Command = {
         args.shift()
         const itemname = args[0].toLowerCase();
         const amount: any = args[1];
-        if (isNaN(amount)) return ErrorEmbed(message, client, command, `${language(guild, 'CLEAR_NaN')}`);
+        if (isNaN(amount)) return ErrorEmbed(message, client, command, `${language(guild, 'NaN')}`);
 
         let icon: any = '';
         if (attachments.first()) {

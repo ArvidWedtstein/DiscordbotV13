@@ -456,44 +456,10 @@
             "german": "Gelöst",
             "norwegian": "Løst"
         },
-        "TICKET_SOLVEDISSUE": {
-            "english": "Your issue has been solved by",
-            "german": "Dein problem wurde gelöst von",
-            "norwegian": "Ditt problem ble løst av"
-        },
-        "TICKET_UNSOLVEDISSUE": {
-            "english": "Your issue has been unsolved",
-            "german": "Dein problem wurde nicht gelöst",
-            "norwegian": "Ditt problem ble ikke løst"
-        },
         "TICKET_SOLVEDBY": {
             "english": "Solved by",
             "german": "Gelöst von",
             "norwegian": "Løst av"
-        },
-        "MEME_SUBMISSION": {
-            "english": "Thank you for your meme submission",
-            "german": "Vielen dank für ihre meme Einreichung",
-            "norwegian": "Tusen takk for din meme innsending",
-            "french": "Merci pour votre soumission de mème"
-        },
-        "EMOJI_STEAL": {
-            "english": "Please specify some emojis",
-            "german": "Bitte geben Sie emojis an",
-            "norwegian": "Vennligst oppgi noen emojier",
-            "french": "Veuillez spécifier des emojis"
-        },
-        "NEWS_CHANNELNAME": {
-            "english": "News",
-            "german": "Nachrichten",
-            "norwegian": "Nyheter",
-            "french": "Nouvelles"
-        },
-        "BAN_TITLE": {
-            "english": "You just got banned from",
-            "german": "Sie wurden gebannt von",
-            "norwegian": "Du ble bannet fra",
-            "french": "Vous venez d'être banni de"
         },
         "BAN_REASON": {
             "english": "Reason: {insert}",
@@ -507,7 +473,7 @@
             "norwegian": "vennligst oppgi antall meldinger",
             "french": "veuillez saisir le nombre de messages"
         },
-        "CLEAR_NaN": {
+        "NaN": {
             "english": "please enter a real number",
             "german": "bitte geben Sie eine zahl ein",
             "norwegian": "vennligst oppgi et tall",
@@ -525,35 +491,17 @@
             "norwegian": "du kan ikke slette mindre enn 1 melding",
             "french": "vous devez supprimer au moins un message"
         },
-        "MSGLOG_DOWNLOAD": {
-            "english": "message log for",
-            "german": "log von",
-            "norwegian": "meldingsloggen fra",
-            "french": "journal des messages pour"
-        },
         "MSGLOG_NOLOGFOUND": {
             "english": "No message log found for",
             "german": "keinen log gefunden von",
             "norwegian": "fant ingen logg fra",
             "french": "Aucun journal des messages trouvé pour"
         },
-        "MUTE_INFO": {
-            "english": "Mute info for",
-            "german": "Mute info für",
-            "norwegian": "Mute info for",
-            "french": "Désactiver les informations pour"
-        },
         "MUTE_CURRENT": {
             "english": "Currently muted",
             "german": "Zur zeit gemuted",
             "norwegian": "Muted for tiden",
             "french": "Actuellement coupé"
-        },
-        "MUTE_INDISCORD": {
-            "english": "Is in Discord",
-            "german": "Ist in Discord",
-            "norwegian": "Er i Discord",
-            "french": "est en discorde"
         },
         "MUTE_BY": {
             "english": "by",

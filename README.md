@@ -66,6 +66,7 @@ https://discord.gg/4Km3YdSjKX
 - Moderation commands
 - Birthday system
 - Dynamic Help command
+- Brawlhalla Reward Storing System
 ```
 
 ## Commands
@@ -118,3 +119,7 @@ https://discord.gg/4Km3YdSjKX
 <h6 align="center">The fun commands contains a variety of commands and games like Tic-Tac-Toe, Rock-Scissors-Papers, Dice, Blackjack, A Command to Compare yourself to other users and much more.</h6>
 
 
+
+<h4 align="center"><b>Brawlhalla Reward Storing System</b></h4>
+
+<h6 align="center">A complete system for storing your brawlhalla rewards, so you can use them later.</h6>
