@@ -3,6 +3,7 @@ import { Constants, Collection, ActionRowBuilder, ButtonBuilder, EmbedBuilder, C
 import { getItems, giveItem, addItem, removeItem } from '../../Functions/UserInventory';
 import language from '../../Functions/language';
 import itemlist from '../../items.json';
+import profileSchema from '../../schemas/profileSchema';
 
 export const command: Command = {
   name: "inventory",
@@ -50,6 +51,34 @@ export const command: Command = {
         itemtxt.push(`${client.emojis.cache.find((e: { id: any; }) => e.id === listofitems[name].emoji)} ${capitalizeFirstLetter(name)} (${(count[name]||0) + 1}x)`)
       }
     }
+
+    const groupData = (d: any) => {
+      let g = Object.entries(d.reduce((r: any, c: any) => (r[c.name]=[...r[c.name]||[], c],r), {}))
+      return g.reduce((r: any, c: any) => (
+          r.push({name: c[0], items: c[1]}), r), []);
+    } 
+
+    // Get the users profile from the database
+    let results = await profileSchema.findOne({
+      userId: author.id,
+      guildId: guild.id,
+      brawlhallacodes: { $exists: true, $ne: [] }
+    });
+
+    // If user has brawlhalla rewards
+    if (results && results.brawlhallacodes) {
+      // Get only the codes that are not already redeemed.
+      let codes = results.brawlhallacodes.filter((unfilteredcodes: any) => unfilteredcodes.redeemed == false);
+
+      let groupedCodes = groupData(codes);
+
+      groupedCodes.map((code: any, i: any) => {
+        let { name, items } = code;
+        itemtxt.push(`${capitalizeFirstLetter(name)} (${items.length}x)`)
+      });
+    }
+
+  
     itemtxt = [`**Item${itemtxt.length === 1 ? '' : 's'}**: `].concat(itemtxt)
     function emptyarray (arr: any) {
       return arr.length = 0
@@ -59,7 +88,7 @@ export const command: Command = {
 
     let embed = new EmbedBuilder()
       .setColor('#ff4300')
-      .setAuthor({name: `${target.username}'s ${await language(guild, 'INVENTORY_TITLE')}`, iconURL: target.displayAvatarURL()})
+      .setAuthor({name: `${target.username}'s ${language(guild, 'INVENTORY_TITLE')}`, iconURL: target.displayAvatarURL()})
       .setDescription(itemtxt.join('\n'))
       .setImage('attachment://banner.jpg')
       .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })
