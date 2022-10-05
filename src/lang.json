@@ -937,6 +937,12 @@
             "norwegian": "nåværende uke",
             "french": "cette semaine"
         },
+        "ADDED_BRAWLHALLA_CODE": {
+            "english": "Added your brawlhalla code!",
+            "german": "Ihr brawlhallacode wurde zu ihrem inventar hinzugefügt.",
+            "norwegian": "La til brawlhallakoden i ditt inventar.",
+            "french": "Ajout du code brawlhalla à votre inventaire!"
+        },
         "TEMPLATE": {
             "english": ".",
             "german": ".",
