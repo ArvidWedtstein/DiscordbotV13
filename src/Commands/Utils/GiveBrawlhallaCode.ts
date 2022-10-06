@@ -32,8 +32,8 @@ export const command: Command = {
         const { id: authorId } = author;
         args.shift()
         const itemname = args[0].toLowerCase();
-        const amount: any = args[1];
-        if (isNaN(amount)) return ErrorEmbed(message, client, command, `${language(guild, 'NaN')}`);
+        const amount = Number(args[1]);
+        if (isNaN(amount) || amount < 1) return ErrorEmbed(message, client, command, `${language(guild, 'NaN')}`);
 
 
         // Get the users profile from the database
