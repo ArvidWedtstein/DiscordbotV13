@@ -20,16 +20,20 @@ export async function setLanguage (guild: any, language: any) {
     guildLanguages[guild.id] = language.toLowerCase();
 }
 
-export function insert (guild: Guild, textId: string, insertValue: any) {
+export function insert (guild: Guild, textId: string, insertValue: any, amount?: number, itemname?: string) {
     if (!listoflang[textId]) {
         throw new Error(`Unknown text ID "${textId}"`)
     }
     const selectedLanguage = guildLanguages[guild.id];
 
-    return listoflang[textId][selectedLanguage].replace('{insert}', insertValue)
+    let localizedText = listoflang[textId][selectedLanguage];
+    localizedText.replace('{itemname}', itemname);
+    localizedText.replace('{amount}', amount);
+    localizedText.replace('{insert}', insertValue);
+    return localizedText
 }
 
-export default function (guild: any, textId: string) {
+export default function (guild: Guild, textId: string) {
     if (!listoflang[textId]) {
         throw new Error(`Unknown text ID "${textId}"`)
     }

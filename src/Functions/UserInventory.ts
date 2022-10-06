@@ -50,19 +50,19 @@ export const removeItem = (async (guildId: any, userId: any, itemname: any, item
     }
     return 
 })
-export const giveItem = (async (guildId: any, userId2: any, itemname: any, amount: any, authorId: any) => {
+export const giveItem = (async (guildId: any, userId: any, itemname: any, amount: any, senderId: any) => {
 
     const item = {
         name: itemname
     }
     
+    let items = Array(amount).fill(item)
     // Remove item from senders inventory
     for (let i = 0; i < amount; i++) {
-        let userId = authorId;
 
         const result = await profileSchema.findOneAndUpdate({
             guildId,
-            userId,
+            userId: senderId,
         }, {
             $pull: {
                 items: item
@@ -75,21 +75,21 @@ export const giveItem = (async (guildId: any, userId2: any, itemname: any, amoun
     }
     
     // Add item to receivers inventory
-    for (let i = 0; i < amount; i++) {
-        let userId = userId2;
-        const result = await profileSchema.findOneAndUpdate({
-            guildId,
-            userId,
-        }, {
-            $push: {
-                items: item
-            }
-        }, {
-            upsert: true,
-        }).catch((err: any) => {
-            console.log(err)
-        })
-    }
+    const result = await profileSchema.findOneAndUpdate({
+        guildId,
+        userId,
+    }, {
+        // $push: {
+        //     items: item
+        // }
+        $push: {
+            items: { $each: items }
+        }
+    }, {
+        upsert: true,
+    }).catch((err: any) => {
+        console.log(err)
+    })
     return 
 })
 export const getItems = (async (guildId: any, userId: any) => {

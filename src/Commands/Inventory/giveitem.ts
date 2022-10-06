@@ -19,7 +19,7 @@ export const command: Command = {
     UserPermissions: ["ReadMessageHistory"],
     ClientPermissions: ["SendMessages", "AddReactions"],
     ownerOnly: false,
-    examples: ["giveitem @user item"],
+    examples: ["giveitem <@user> <item> <amount>"],
     
     run: async(client, message, args) => {
         const { guild, channel, author, member, mentions, content, attachments } = message;
@@ -27,7 +27,7 @@ export const command: Command = {
         if (!guild) return
         const guildId = guild.id;
         const user = guild.members.cache.find(m => m.id == mentions.users.first()?.id || m.id == author.id)
-        if (!user) return ErrorEmbed(message, client, command, `${language(guild, 'VALID_USER')}`);
+        if (!user || user.user.bot) return ErrorEmbed(message, client, command, `${language(guild, 'VALID_USER')}`);
 
         const userId = user.id  
         args.shift()

@@ -424,7 +424,8 @@
         "INVENTORY_TITLE": {
             "english": "ℑ𝔫𝔳𝔢𝔫𝔱𝔬𝔯𝔶",
             "german": "ℑ𝔫𝔳𝔢𝔫𝔱𝔞𝔯",
-            "norwegian": "ℑ𝔫𝔳𝔢𝔫𝔱𝔞𝔯"
+            "norwegian": "ℑ𝔫𝔳𝔢𝔫𝔱𝔞𝔯",
+            "french": "𝕀𝕟𝕧𝕖𝕟𝕥𝕒𝕚𝕣𝕖"
         },
         "BIRTHDAY_USER": {
             "english": "has birthday today!",
@@ -682,6 +683,18 @@
             "german": "Dieses item existiert nicht. Probiere",
             "norwegian": "Dette itemet eksisterer ikke. Prøv",
             "french": "Cet élément n'existe pas. Essayer"
+        },
+        "INVENTORY_GIVEITEM": {
+            "english": "You have given {insert} {amount}x {itemname}",
+            "german": "Sie haben {insert} {amount} {itemname} gegeben",
+            "norwegian": "Du har gitt {insert} {amount}x {itemname}",
+            "french": "Vous avez donné {insert} {amount}x {itemname}"
+        },
+        "INVENTORY_GIFTRECIEVED": {
+            "english": "You have recieved a gift!",
+            "german": "Sie haben ein geschenk erhalten!",
+            "norwegian": "Du har mottatt et gave!",
+            "french": "Vous avez reçu un cadeau!"
         },
         "GIFFLAR_NOPERM": {
             "english": "You do not have permission to use this emoji",
