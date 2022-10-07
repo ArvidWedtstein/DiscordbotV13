@@ -10,6 +10,28 @@ import { ErrorEmbed } from '../../Functions/ErrorEmbed';
 import { PageEmbed, PageEmbedOptions } from '../../Functions/PageEmbed';
 import axios from 'axios';
 import moment from 'moment';
+
+enum BringStatus {
+    "CUSTOMS" = "Customs",
+    "COLLECTED" = "Collected",
+    "DELIVERED" = "Delivered",
+    "DELIVERED_SENDER" = "Delivered to sender",
+    "DELIVERY_CANCELLED" = "Delivery cancelled",
+    "DELIVERY_CHANGED" = "Date for Home delivery has been changed by customer.",
+    "DELIVERY_ORDERED" = "Home delivery has been ordered",
+    "DEVIATION" = "Deviation in production. Something wrong has happened and there is a probability for delay.",
+    "HANDED_IN" = "Package has been handed in to Bring.",
+    "INTERNATIONAL" = "Package has been sent from origin country or arrived at destination country.",
+    "IN_TRANSIT" = "Package is in transit",
+    "NOTIFICATION_SENT" = "Notification for this package has been sent by sms, push and/or mail.",
+    "PRE_NOTIFIED" = "EDI message for the package has been received by Bring.",
+    "READY_FOR_PICKUP" = "Package is ready for pickup",
+    "RETURN" = "The package has been returned to sender.",
+    "TRANSPORT_TO_RECIPIENT" = "Package has been loaded for delivery to the recipient.",
+    "TERMINAL" = "The package is now registered/arrived at inbound/outbound storage terminal",
+    "UNKNOWN" = "Unknown"
+}
+
 export const command: Command = {
     name: "packettracker",
     description: "Get info about a packet",
@@ -37,26 +59,6 @@ export const command: Command = {
         });
         
 
-        enum BringStatus {
-            "CUSTOMS" = "Customs",
-            "COLLECTED" = "Collected",
-            "DELIVERED" = "Delivered",
-            "DELIVERED_SENDER" = "Delivered to sender",
-            "DELIVERY_CANCELLED" = "Delivery cancelled",
-            "DELIVERY_CHANGED" = "Date for Home delivery has been changed by customer.",
-            "DELIVERY_ORDERED" = "Home delivery has been ordered",
-            "DEVIATION" = "Deviation in production. Something wrong has happened and there is a probability for delay.",
-            "HANDED_IN" = "Package has been handed in to Bring.",
-            "INTERNATIONAL" = "Package has been sent from origin country or arrived at destination country.",
-            "IN_TRANSIT" = "Package is in transit",
-            "NOTIFICATION_SENT" = "Notification for this package has been sent by sms, push and/or mail.",
-            "PRE_NOTIFIED" = "EDI message for the package has been received by Bring.",
-            "READY_FOR_PICKUP" = "Package is ready for pickup",
-            "RETURN" = "The package has been returned to sender.",
-            "TRANSPORT_TO_RECIPIENT" = "Package has been loaded for delivery to the recipient.",
-            "TERMINAL" = "The package is now registered/arrived at inbound/outbound storage terminal",
-            "UNKNOWN" = "Unknown"
-        }
 
         type BringStatusType = Partial<keyof typeof BringStatus>;
 
