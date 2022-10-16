@@ -289,7 +289,7 @@ export const command: Command = {
 }
 async function menu(message: Message, music: any, queue: any, client: any) {
     const { guild, author, channel } = message
-    
+    if (!guild) return
     const row = new ActionRowBuilder<ButtonBuilder>()
     const playbtn = new ButtonBuilder()
         .setCustomId('play')
@@ -401,6 +401,7 @@ async function video_player(message: Message, song: any, client: any) {
 }
 const save_queue = (async (message: Message, server_queue: any) => {
     const { guild, member, author } = message
+    if (!guild) return
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
     if (!server_queue.songs) {
         return message.reply(`${language(guild, 'MUSIC_NOSONGS')}.`);
@@ -525,7 +526,8 @@ async function playlist_songs (message: Message, server_queue: any) {
 }
 
 async function skip_song (message: Message, server_queue: any) {
-    const { guild, member } = message
+    const { guild, member } = message;
+    if (!guild) return
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
     if (!server_queue) return message.reply(`${language(guild, 'MUSIC_NOSONGS')}.`);
     
@@ -534,6 +536,7 @@ async function skip_song (message: Message, server_queue: any) {
 
 async function stop_song (message: Message, server_queue: any) {
     const { guild, member, author } = message;
+    if (!guild) return
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
     if (!server_queue || !server_queue.connection) return server_queue.connection.destroy();
     if (server_queue.connection) return server_queue.connection.destroy();
@@ -545,8 +548,8 @@ async function stop_song (message: Message, server_queue: any) {
 }
 async function pause_song (message: Message, server_queue: any) {
     const { guild, member, author } = message;
-
-    if (!server_queue) server_queue = queue.get(guild?.id);
+    if (!guild) return
+    if (!server_queue) server_queue = queue.get(guild.id);
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
     if (!server_queue) server_queue.connection.dispatcher.pause(true);
     if (server_queue.connection.dispatcher.paused) return message.reply(`${language(guild, 'MUSIC_ALREADYPAUSE')}.`);
@@ -557,7 +560,7 @@ async function pause_song (message: Message, server_queue: any) {
 
 async function resume_song (message: Message, server_queue: any) {
     const { guild, member } = message
-
+    if (!guild) return
     if (!server_queue)  server_queue = queue.get(guild?.id)
     
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
@@ -572,6 +575,7 @@ async function resume_song (message: Message, server_queue: any) {
 
 const volume = (message: Message, args: any, server_queue: any) => {
     const { guild, member } = message
+    if (!guild) return
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
 
     if (!server_queue.connection) return message.reply(`${language(guild, 'MUSIC_NOTPLAYING')}.`);
@@ -583,6 +587,7 @@ const volume = (message: Message, args: any, server_queue: any) => {
 }
 const loop_all = (message: Message, server_queue: any) => {
     const { guild, member } = message
+    if (!guild) return
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
     server_queue.loopall = !server_queue.loopall;
     server_queue.loopone = false;
@@ -595,6 +600,7 @@ const loop_all = (message: Message, server_queue: any) => {
 }
 const loop_one = (message: Message, server_queue: any) => {
     const { guild } = message
+    if (!guild) return
     if (!server_queue.connection) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
 
     server_queue.loopone = !server_queue.loopone;
@@ -608,6 +614,7 @@ const loop_one = (message: Message, server_queue: any) => {
 }
 const loop_off = (message: Message, server_queue: any) => {
     const { guild, member } = message
+    if (!guild) return
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
     server_queue.loopall = false;
     server_queue.loopone = false;
@@ -617,7 +624,7 @@ const loop_off = (message: Message, server_queue: any) => {
 
 const list_songs = (message: Message, server_queue: any) => {
     const { guild, member, channel, author } = message;
-
+    if (!guild) return
     if (!member?.voice.channel) return message.reply(`${language(guild, 'VOICE_CHANNEL')}.`);
     if (!server_queue) return message.reply(`${language(guild, 'MUSIC_NOSONGS')}.`);
 

@@ -21,6 +21,7 @@ export const command: Command = {
     
     run: async(client, message, args) => {
         const { guild, author, channel, member } = message
+        if (!guild) return;
         const guildId = guild?.id
         const userId = author.id;
 
