@@ -27,7 +27,7 @@ export const command: Command = {
         
         const word = args[0];
         if (!word) return channel.send("Please provide a word to solve");
-
+        let wordFound = false;
         function sameLetters(str1: string, str2: string) {
             if(str1.length !== str2.length) return false;
             
@@ -50,6 +50,7 @@ export const command: Command = {
 
         Object.keys(ArkDinos).map((dino) => dino.toUpperCase()).forEach((dino) => {
             if (sameLetters(dino, word)) {
+                wordFound = true
                 let embed = new EmbedBuilder()
                     .setColor(client.config.botEmbedHex)
                     .setTitle("Ark Dino Word Solver")
@@ -58,6 +59,8 @@ export const command: Command = {
                 return channel.send({ embeds: [embed] })
             }
         })
+
+        if (!wordFound) return channel.send("Could not find a word that matches the letters provided");
     }
 }
 

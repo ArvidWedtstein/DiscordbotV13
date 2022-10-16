@@ -51,7 +51,7 @@ export const command: Command = {
                 ],
                 footer: {"text": `Requested By ${author.tag}`, iconURL: author.displayAvatarURL()}
             })
-            let msgembed = channel.send({ embeds: [embed] });
+            channel.send({ embeds: [embed] });
             return
         }
 
