@@ -12,8 +12,10 @@ export const command: Command = {
     group: __dirname,
     run: async(client, message, args) => {
         const { guild, channel, mentions } = message
+
+        if (!guild) return;
         // message.delete()
-        const guildId = guild?.id
+        const guildId = guild.id
         const emoji: any = client.emojis.cache.get('801707111657504799')
         const getRandomIntInclusive = (async (min: number, max: number) => {
             min = Math.ceil(min);

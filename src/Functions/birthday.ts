@@ -67,6 +67,7 @@ export default (client: Client) => {
 
       setTimeout(async () => {
         if (!birthdayUser) return;
+        if (!guild) return;
         let embed = new EmbedBuilder()
           .setColor('#ff0000')
           .setTitle(`:champagne:${await language(guild, 'BIRTHDAY_ANNOUNCEMENT')}!:champagne:`)

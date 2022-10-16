@@ -13,7 +13,7 @@ export const command: Command = {
     name: "arkdinowordsolver",
     description: "arkdinowordsolver",
     details: "arkdinowordsolver",
-    aliases: ["arkdinowordsolver"],
+    aliases: ["arkdinowordsolver", "dino", "arkdino"],
     group: "Fun",
     hidden: false,
     UserPermissions: ["SendMessages"],
