@@ -220,7 +220,7 @@ enum ArkDinos {
     "Velonasaur" = "Velonasaur",
     "Voidwyrm" = "Voidwyrm",
     "Vulture" = "Vulture",
-    "Woolly Rhino" = "Woolly Rhino",
+    "WoollyRhino" = "WoollyRhino",
     "Wyvern" = "Wyvern",
     "Yeti" = "Yeti",
     "Yutyrannus" = "Yutyrannus"
