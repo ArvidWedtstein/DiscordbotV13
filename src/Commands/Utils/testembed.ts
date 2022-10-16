@@ -20,8 +20,8 @@ export const command: Command = {
     
     run: async(client, message, args) => {
         const { guild, channel, author } = message;
-
-        const guildId = guild?.id;
+        if (!guild) return
+        const guildId = guild.id;
         const userId = author.id
 
         // let color = await getColor(guildId, userId)

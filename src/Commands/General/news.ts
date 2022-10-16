@@ -11,7 +11,8 @@ export const command: Command = {
         console.log('news')
         // message.delete()
         const { guild } = message
-        const guildId = guild?.id
+        if (!guild) return
+        const guildId = guild.id
 
 
         // const targetChannel = message.mentions.channels.first();
