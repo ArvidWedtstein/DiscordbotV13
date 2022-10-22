@@ -155,7 +155,7 @@ enum ArkDinos {
     "Megatherium" = "Megatherium",
     "Mek" = "Mek",
     "Mesopithecus" = "Mesopithecus",
-    "Microraptor",
+    "Microraptor" = "Microraptor",
     "Moeder" = "Moeder",
     "Morellatops" = "Morellatops",
     "Mosasaurus" = "Mosasaurus",

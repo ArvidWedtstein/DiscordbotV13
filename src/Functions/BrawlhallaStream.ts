@@ -114,7 +114,7 @@ export const BrawlhallaStream = (async (client: Client) => {
     
     if (!checkStreamTime(stream)) return;
 
-    if (stream.id === lastStream.id) return console.log('Stream with same id found.');
+    if (stream.id === lastStream.id) return
 
     lastStream = stream;
 
