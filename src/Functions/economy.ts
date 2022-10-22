@@ -86,20 +86,17 @@ export const getCoins = (async (guildId: string, userId: any) => {
 })
 
 // This function gets the color a user has set in their profile
-export const getColor = (async (guildId: any, userId: any) => {
+export const getColor = (async (guildId: string, userId: string): Promise<ColorResolvable> => {
     const result = await profileSchema.findOne({
         guildId,
         userId
     })
 
-    let color: ColorResolvable = '#ff4300'
-    let color2: ColorResolvable = "Aqua";
-    if (result) {
-        color2 = result.color
-    } else if (!result) {
-        color2 = '#ff4300'
+    let color: ColorResolvable = "#ff4300";
+    if (result.color) {
+        color = `#${result.color}`
     }
 
-    return color2
+    return color
 })
 

@@ -25,11 +25,11 @@ export const command: Command = {
 
         if (!guild) return
         const u = mentions.users.first()?.id || author?.id
-        const user: any = guild?.members.cache.find(r => r.id === u);
+        const user = guild.members.cache.find(r => r.id === u);
 
         if (!user) return 
         const guildId = guild.id
-        const userId = user?.id  
+        const userId = user.id  
 
         // Get roles of user 
         let rolemap: any = user?.roles.cache
@@ -105,7 +105,6 @@ export const command: Command = {
         }
         // Calculate xp to next level with some random math
         let xptonextlevel = getNeededXP(userlevel)
-        let color = await getColor(guildId, userId);
 
         
         function getAge(dateString: string) {
@@ -147,11 +146,11 @@ export const command: Command = {
 
 
         // let a = new AttachmentBuilder(img, 'weather.jpg')
-
         const attachment = new AttachmentBuilder('./img/banner.jpg');
+    
         let embed = new EmbedBuilder()
-            .setColor(color)
-            .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL({ dynamic: true })}`})
+            .setColor(await getColor(guildId, userId)) 
+            .setAuthor({name: `${user.user.tag}'s Profile`, iconURL: `${user.displayAvatarURL()}`})
             .setDescription(description.join('\n'))
             .setImage('attachment://banner.jpg')
             .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL() })

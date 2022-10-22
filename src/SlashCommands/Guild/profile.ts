@@ -32,7 +32,8 @@ export const slashCommand: SlashCommand = {
 
         if (!interaction.guild) return;
         const user = interaction.member;
-        const userId = user?.user.id;
+        if (!user) return
+        const userId = user.user.id;
         const guildId = interaction.guild.id;
     
         let xptonextlevel: any = ''
