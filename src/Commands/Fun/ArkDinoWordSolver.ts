@@ -146,7 +146,7 @@ enum ArkDinos {
     "Maewing" = "Maewing",
     "Mammoth" = "Mammoth",
     "Manta" = "Manta",
-    "Mantis" = "Mantis",
+    "Manticore" = "Manticore",
     "Megachelon" = "Megachelon",
     "Megalania" = "Megalania",
     "Megaloceros" = "Megaloceros",
