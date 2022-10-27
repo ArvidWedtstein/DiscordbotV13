@@ -207,7 +207,7 @@ enum ArkDinos {
     "Terrorbird" = "Terrorbird",
     "Therezinosaurus" = "Therezinosaurus",
     "Therizinosaurus" = "Therizinosaurus",
-    "Thorny Dragon" = "Thorny Dragon",
+    "Thornydragon" = "Thornydragon",
     "Thylacoleo" = "Thylacoleo",
     "Titanoboa" = "Titanoboa",
     "Titanomyrma" = "Titanomyrma",
