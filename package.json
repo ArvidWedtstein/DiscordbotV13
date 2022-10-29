@@ -4,7 +4,6 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "postinstall": "tsc",
     "dev": "nodemon ./src/index.ts",
     "start": "node --trace-warnings dist/index.js",
     "startshard": "node dist/ShardManager.js",

@@ -134,7 +134,25 @@ Get latest npm version
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Deploying
+Deploying image to scaleway:
 
+1. build the docker image
+   ```sh
+   docker build -t memebot .
+   ```
+2. pull docker image 
+   ```sh
+   docker pull ubuntu:latest
+   ```
+3. tag the image
+    ```sh
+    docker tag memebot arvidwedtstein/memebot:latest
+    ```
+4. push the image to docker hub
+    ```sh
+    docker push arvidwedtstein/memebot:latest
+    ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -288,4 +306,6 @@ I would like to give credit to these packages / APIs that helped me with this pr
 [Discordjs-url]: https://discord.com/developers/docs/intro
 [MongoDB]: https://img.shields.io/badge/MongoDB-000000?style=for-the-badge&logo=mongodb&logoColor=white
 [MongoDB-url]: https://www.mongodb.com/
+
+<!-- DEPLOY: docker build . -t memebot -->
 
