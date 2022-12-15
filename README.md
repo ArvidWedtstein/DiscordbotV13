@@ -283,6 +283,7 @@ I would like to give credit to these packages / APIs that helped me with this pr
 * [Clash Royale API](https://developer.clashroyale.com/)
 * [Twitch API](https://dev.twitch.tv/docs/api/)
 * [MomentJS](https://momentjs.com/)
+* [Poke API](https://pokeapi.co/api/v2/pokemon/?offset=0&limit=151)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
