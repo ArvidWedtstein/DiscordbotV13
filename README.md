@@ -93,7 +93,6 @@ This project is mainly written in TypeScript, together with these frameworks and
 
 
 
-<!-- GETTING STARTED -->
 ## Getting Started
 
 
