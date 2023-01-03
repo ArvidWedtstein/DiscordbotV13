@@ -7,7 +7,6 @@
 [![MIT License][license-shield]][license-url]
 [![Version][version-shield]][version-url]
 
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/ArvidWedtstein/Memebot">
